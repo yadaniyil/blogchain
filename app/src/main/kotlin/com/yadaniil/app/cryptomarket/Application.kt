@@ -16,7 +16,9 @@ class Application : android.app.Application() {
         super.onCreate()
 
         //di
-        component = DaggerApplicationComponent.builder().applicationModule(ApplicationModule(this)).build()
+        component = DaggerApplicationComponent.builder()
+                .applicationModule(ApplicationModule(this))
+                .build()
 
         //Crashlytics
 //        val core = CrashlyticsCore.Builder()

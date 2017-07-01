@@ -25,6 +25,7 @@ def BUILD_TIME = 'BUILD_TIME'
 
 repositories {
 //    maven { url 'https://maven.fabric.io/public' }
+    jcenter()
 }
 
 android {

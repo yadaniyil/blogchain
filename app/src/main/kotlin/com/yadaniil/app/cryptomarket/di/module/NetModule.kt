@@ -1,21 +1,23 @@
 package com.yadaniil.app.cryptomarket.di.module
 
 import android.os.Environment
+import com.google.gson.FieldNamingPolicy
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import com.yadaniil.app.cryptomarket.data.api.RetrofitService
 import dagger.Module
 import dagger.Provides
-import okhttp3.OkHttpClient
-import javax.inject.Named
-import javax.inject.Singleton
-import javax.xml.datatype.DatatypeConstants.MINUTES
-import android.os.Environment.getDownloadCacheDirectory
 import okhttp3.Cache
-import java.util.concurrent.TimeUnit
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Retrofit
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.Retrofit
-import com.google.gson.Gson
-import com.google.gson.FieldNamingPolicy
-import com.google.gson.GsonBuilder
+import retrofit2.converter.scalars.ScalarsConverterFactory
+import java.util.concurrent.TimeUnit
+import javax.inject.Named
+import javax.inject.Singleton
 
 
 @Module
@@ -24,12 +26,16 @@ class NetModule {
     @Provides
     @Named("cached")
     fun provideOkHttpClient(): OkHttpClient {
+        val loggingInterceptor = HttpLoggingInterceptor()
+        loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+
         val cache = Cache(Environment.getDownloadCacheDirectory(), 10 * 1024 * 1024)
-        return OkHttpClient.Builder()
+        val clientBuilder = OkHttpClient.Builder()
                 .readTimeout(1, TimeUnit.MINUTES)
                 .writeTimeout(1, TimeUnit.MINUTES)
                 .cache(cache)
-                .build()
+        clientBuilder.interceptors().add(loggingInterceptor)
+        return clientBuilder.build()
     }
 
     @Singleton
@@ -46,7 +52,7 @@ class NetModule {
     @Singleton
     fun provideGson(): Gson {
         val gsonBuilder = GsonBuilder()
-        gsonBuilder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+        gsonBuilder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).setLenient()
         return gsonBuilder.create()
     }
 
@@ -55,19 +61,21 @@ class NetModule {
     fun provideRetrofit(gson: Gson, @Named("cached") client: OkHttpClient): Retrofit.Builder {
         return Retrofit.Builder()
                 .client(client)
+                .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
     }
 
-    /**
-     * Example service
-     */
-    /*@Provides
+    @Provides
     @Singleton
-    WordpressService provideService(Retrofit.Builder builder) {
-        return builder.baseUrl(BuildConfig.API_URL)
+    fun provideService(builder: Retrofit.Builder): RetrofitService {
+        return builder.baseUrl(COIN_MARKET_CAP_URL)
                 .build()
-                .create(WordpressService.class);
+                .create(RetrofitService::class.java)
     }
-    */
+
+    companion object {
+        val COIN_MARKET_CAP_URL = "https://api.coinmarketcap.com/v1/"
+    }
 }

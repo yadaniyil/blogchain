@@ -9,10 +9,11 @@ import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
+import com.yadaniil.app.cryptomarket.base.BaseActivity
 import org.jetbrains.anko.indeterminateProgressDialog
 
 
-class MainActivity : AppCompatActivity(), IMainView {
+class MainActivity : BaseActivity(), IMainView {
 
     @Inject
     lateinit var presenter : MainPresenter
@@ -20,9 +21,10 @@ class MainActivity : AppCompatActivity(), IMainView {
     private lateinit var progressDialog: ProgressDialog
     private lateinit var currenciesAdapter: CurrenciesAdapter
 
+    override fun getLayout() = R.layout.activity_main
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
         inject()
         setUpCurrenciesList()
         presenter.downloadAndSaveAllCurrencies()

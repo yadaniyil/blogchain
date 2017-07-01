@@ -18,13 +18,10 @@ import android.view.LayoutInflater
  * Created by danielyakovlev on 7/2/17.
  */
 
-class CurrenciesAdepter
-constructor(data: OrderedRealmCollection<CurrencyRealm>?, autoUpdate: Boolean)
-    : RealmRecyclerViewAdapter<CurrencyRealm, CurrenciesAdepter.CurrencyViewHolder>(data, autoUpdate) {
+class CurrenciesAdapter constructor(data: OrderedRealmCollection<CurrencyRealm>?, autoUpdate: Boolean)
+    : RealmRecyclerViewAdapter<CurrencyRealm, CurrenciesAdapter.CurrencyViewHolder>(data, autoUpdate) {
 
-    init {
-        setHasStableIds(true)
-    }
+    init { setHasStableIds(true) }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): CurrencyViewHolder {
         val itemView = LayoutInflater.from(parent?.context)

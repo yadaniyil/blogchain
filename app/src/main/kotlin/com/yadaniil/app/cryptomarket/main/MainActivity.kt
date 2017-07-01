@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity(), IMainView {
     lateinit var presenter : MainPresenter
 
     private lateinit var progressDialog: ProgressDialog
-    private lateinit var currenciesAdapter: CurrenciesAdepter
+    private lateinit var currenciesAdapter: CurrenciesAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity(), IMainView {
     }
 
     private fun setUpCurrenciesList() {
-        currenciesAdapter = CurrenciesAdepter(presenter.getRealmCurrencies(), true)
+        currenciesAdapter = CurrenciesAdapter(presenter.getRealmCurrencies(), true)
         currencies_recycler_view.layoutManager = LinearLayoutManager(this)
         currencies_recycler_view.adapter = currenciesAdapter
         currencies_recycler_view.setHasFixedSize(true)

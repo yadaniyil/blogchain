@@ -2,4 +2,9 @@
 <resources>
     <string name="app_name">Cryptomarket</string>
     <string name="loading">Загрузка…</string>
+    <string name="drawer_item_currencies">Валюты</string>
+    <string name="drawer_item_portfolio">Портфолио</string>
+    <string name="drawer_item_exchanges">Биржи</string>
+    <string name="drawer_item_settings">Настройки</string>
+    <string name="add_google_account">Добавить Google аккаунт</string>
 </resources>

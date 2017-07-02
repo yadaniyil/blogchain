@@ -2,10 +2,15 @@ package com.yadaniil.app.cryptomarket.base
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
 import com.mikepenz.materialdrawer.DrawerBuilder
+import com.mikepenz.materialdrawer.model.DividerDrawerItem
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
 import com.yadaniil.app.cryptomarket.R
-import org.jetbrains.anko.find
+import kotlinx.android.synthetic.main.activity_main.*
+import com.mikepenz.materialdrawer.AccountHeaderBuilder
+import com.mikepenz.materialdrawer.model.ProfileDrawerItem
+import org.jetbrains.anko.onClick
+import org.jetbrains.anko.toast
 
 
 abstract class BaseActivity : AppCompatActivity(), IBaseView {
@@ -14,14 +19,40 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
         super.onCreate(savedInstanceState)
         setContentView(getLayout())
 
-        val toolbar = find<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
+        setUpNavigationDrawer()
+    }
 
-        DrawerBuilder()
+    private fun setUpNavigationDrawer() {
+        val item1 = PrimaryDrawerItem().withIdentifier(1)
+                .withName(R.string.drawer_item_currencies).withIcon(R.drawable.icon_list_numbered)
+        val item2 = PrimaryDrawerItem().withIdentifier(2)
+                .withName(R.string.drawer_item_portfolio).withIcon(R.drawable.icon_portfolio)
+        val item3 = PrimaryDrawerItem().withIdentifier(3)
+                .withName(R.string.drawer_item_exchanges).withIcon(R.drawable.icon_exchanges)
+        val item4 = PrimaryDrawerItem().withIdentifier(4)
+                .withName(R.string.drawer_item_settings).withIcon(R.drawable.icon_settings)
+
+        val headerResult = AccountHeaderBuilder()
                 .withActivity(this)
-                .withToolbar(toolbar)
-                .addDrawerItems()
+                .withHeaderBackground(R.drawable.nav_bar_header_background)
+                .withSelectionListEnabledForSingleProfile(false)
+                .addProfiles(ProfileDrawerItem()
+                                .withName(R.string.add_google_account)
+                                .withIcon(resources.getDrawable(R.drawable.ic_account_circle_black_24dp)))
+                .withOnAccountHeaderListener({ view, profile, currentProfile ->
+                    toast("To add google account activity")
+                    true
+                })
                 .build()
+
+        val drawer = DrawerBuilder()
+                .withActivity(this)
+                .withAccountHeader(headerResult)
+                .withToolbar(toolbar)
+                .addDrawerItems(item1, item2, item3, DividerDrawerItem(), item4)
+                .build()
+        drawer.header.onClick { toast("To add google account activity") }
     }
 
     abstract fun getLayout(): Int

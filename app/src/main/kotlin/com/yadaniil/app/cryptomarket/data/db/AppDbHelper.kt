@@ -16,7 +16,7 @@ class AppDbHelper : DbHelper {
     init { Application.component?.inject(this) }
 
     override fun getAllCurrenciesFromDb(): RealmResults<CurrencyRealm> {
-        return realm.where(CurrencyRealm::class.java).findAll()
+        return realm.where(CurrencyRealm::class.java).findAllSorted("rank")
     }
 
     override fun saveCurrenciesToDb(currencies: List<CurrencyRealm>) {

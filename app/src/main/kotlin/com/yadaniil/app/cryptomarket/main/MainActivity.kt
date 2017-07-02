@@ -1,16 +1,13 @@
 package com.yadaniil.app.cryptomarket.main
 
-import android.app.ProgressDialog
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import com.yadaniil.app.cryptomarket.R
-import com.yadaniil.app.cryptomarket.Application
-import kotlinx.android.synthetic.main.activity_main.*
-import javax.inject.Inject
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
+import com.yadaniil.app.cryptomarket.Application
+import com.yadaniil.app.cryptomarket.R
 import com.yadaniil.app.cryptomarket.base.BaseActivity
-import org.jetbrains.anko.indeterminateProgressDialog
+import kotlinx.android.synthetic.main.activity_main.*
+import javax.inject.Inject
 
 
 class MainActivity : BaseActivity(), IMainView {
@@ -18,7 +15,6 @@ class MainActivity : BaseActivity(), IMainView {
     @Inject
     lateinit var presenter : MainPresenter
 
-    private lateinit var progressDialog: ProgressDialog
     private lateinit var currenciesAdapter: CurrenciesAdapter
 
     override fun getLayout() = R.layout.activity_main
@@ -50,10 +46,10 @@ class MainActivity : BaseActivity(), IMainView {
             .build().inject(this)
 
     override fun showLoading() {
-        progressDialog = indeterminateProgressDialog(message = R.string.loading)
+        smooth_progress_bar.progressiveStart()
     }
 
     override fun stopLoading() {
-        progressDialog.dismiss()
+        smooth_progress_bar.progressiveStop()
     }
 }

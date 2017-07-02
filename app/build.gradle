@@ -126,6 +126,8 @@ dependencies {
     compile('com.mikepenz:materialdrawer:5.9.3@aar') {
         transitive = true
     }
+    // Smooth progress bar (line)
+    compile 'com.github.castorflex.smoothprogressbar:library:1.1.0'
 }
 repositories {
     mavenCentral()

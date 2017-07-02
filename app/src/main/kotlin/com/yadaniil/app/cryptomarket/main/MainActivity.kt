@@ -3,6 +3,7 @@ package com.yadaniil.app.cryptomarket.main
 import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
+import android.view.Menu
 import com.yadaniil.app.cryptomarket.Application
 import com.yadaniil.app.cryptomarket.R
 import com.yadaniil.app.cryptomarket.base.BaseActivity
@@ -24,6 +25,11 @@ class MainActivity : BaseActivity(), IMainView {
         inject()
         setUpCurrenciesList()
         presenter.downloadAndSaveAllCurrencies()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_currencies_list, menu)
+        return super.onCreateOptionsMenu(menu)
     }
 
     private fun setUpCurrenciesList() {

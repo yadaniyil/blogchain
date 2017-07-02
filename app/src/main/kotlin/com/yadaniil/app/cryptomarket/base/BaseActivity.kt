@@ -31,6 +31,10 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
         val item3 = PrimaryDrawerItem().withIdentifier(3)
                 .withName(R.string.drawer_item_exchanges).withIcon(R.drawable.icon_exchanges)
         val item4 = PrimaryDrawerItem().withIdentifier(4)
+                .withName(R.string.drawer_item_ico).withIcon(R.drawable.icon_ico)
+        val item5 = PrimaryDrawerItem().withIdentifier(5)
+                .withName(R.string.drawer_item_mining).withIcon(R.drawable.icon_mining)
+        val item6 = PrimaryDrawerItem().withIdentifier(6)
                 .withName(R.string.drawer_item_settings).withIcon(R.drawable.icon_settings)
 
         val headerResult = AccountHeaderBuilder()
@@ -50,7 +54,7 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
                 .withActivity(this)
                 .withAccountHeader(headerResult)
                 .withToolbar(toolbar)
-                .addDrawerItems(item1, item2, item3, DividerDrawerItem(), item4)
+                .addDrawerItems(item1, item2, item3, item4, item5, DividerDrawerItem(), item6)
                 .build()
         drawer.header.onClick { toast("To add google account activity") }
     }

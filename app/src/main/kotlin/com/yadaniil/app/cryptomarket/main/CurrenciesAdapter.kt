@@ -1,6 +1,8 @@
 package com.yadaniil.app.cryptomarket.main
 
 import android.content.Context
+import android.content.res.Resources
+import android.graphics.drawable.Drawable
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +14,8 @@ import io.realm.RealmRecyclerViewAdapter
 import org.jetbrains.anko.find
 import android.view.LayoutInflater
 import android.widget.ImageView
-import com.yadaniil.app.cryptomarket.Application
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 import timber.log.Timber
 
 
@@ -39,15 +42,21 @@ class CurrenciesAdapter constructor(data: OrderedRealmCollection<CurrencyRealm>?
             name.text = currencyRealm?.name
             usdRate.text = currencyRealm?.priceUsd
             rank.text = currencyRealm?.rank.toString()
-            val resourceId = context.resources?.getIdentifier(
-                    currencyRealm?.symbol.toString().toLowerCase(),
-                    "drawable", context.packageName)
-            try {
-                icon.background = context.resources?.getDrawable(resourceId!!)
-            } catch (e: Exception) {
-                Timber.e(e.message)
-            }
+            loadIconToCurrencyItem(currencyRealm, holder)
+        }
+    }
 
+    private fun loadIconToCurrencyItem(currencyRealm: CurrencyRealm?, holder: CurrencyViewHolder?) {
+        val symbol = currencyRealm?.symbol
+        val resourceId = context.resources?.getIdentifier(
+                symbol.toString().toLowerCase(),
+                "drawable", context.packageName)
+        try {
+            val icon = context.resources?.getDrawable(resourceId!!)
+            holder?.icon?.background = icon
+        } catch (e: Exception) {
+            holder?.icon?.background = null
+            Timber.e(e.message)
         }
     }
 

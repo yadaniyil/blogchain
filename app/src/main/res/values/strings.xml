@@ -13,4 +13,6 @@
     <string name="drawer_item_settings">Settings</string>
     <string name="add_google_account">Add Google account</string>
     <string name="search">Search</string>
+    <string name="drawer_item_ico">ICO</string>
+    <string name="drawer_item_mining">Mining</string>
 </resources>

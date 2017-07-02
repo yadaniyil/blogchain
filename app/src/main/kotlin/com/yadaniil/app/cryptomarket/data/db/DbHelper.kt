@@ -1,6 +1,7 @@
 package com.yadaniil.app.cryptomarket.data.db
 
-import com.yadaniil.app.cryptomarket.data.db.models.CurrencyRealm
+import com.yadaniil.app.cryptomarket.data.db.models.CoinMarketCapCurrencyRealm
+import com.yadaniil.app.cryptomarket.data.db.models.CryptoCompareCurrencyRealm
 import io.realm.RealmResults
 
 /**
@@ -8,7 +9,10 @@ import io.realm.RealmResults
  */
 interface DbHelper {
 
-    fun getAllCurrenciesFromDb(): RealmResults<CurrencyRealm>
+    fun getAllCoinMarketCapCurrenciesFromDb(): RealmResults<CoinMarketCapCurrencyRealm>
+    fun saveCoinMarketCapCurrenciesToDb(currencies: List<CoinMarketCapCurrencyRealm>)
 
-    fun saveCurrenciesToDb(currencies: List<CurrencyRealm>)
+    fun getAllCryptoCompareCurrenciesFromDb(): RealmResults<CryptoCompareCurrencyRealm>
+    fun saveCryptoCompareCurrenciesToDb(currencies: List<CryptoCompareCurrencyRealm>)
+    fun saveCryptoCompareCurrencyIcon(currency: CryptoCompareCurrencyRealm, byteArray: ByteArray)
 }

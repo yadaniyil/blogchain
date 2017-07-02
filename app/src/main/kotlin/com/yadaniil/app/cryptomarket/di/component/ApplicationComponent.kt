@@ -5,7 +5,8 @@ import android.content.SharedPreferences
 import com.yadaniil.app.cryptomarket.Application
 import com.yadaniil.app.cryptomarket.data.Repository
 import com.yadaniil.app.cryptomarket.data.api.AppApiHelper
-import com.yadaniil.app.cryptomarket.data.api.RetrofitService
+import com.yadaniil.app.cryptomarket.data.api.CoinMarketCapService
+import com.yadaniil.app.cryptomarket.data.api.CryptoCompareService
 import com.yadaniil.app.cryptomarket.data.db.AppDbHelper
 import com.yadaniil.app.cryptomarket.data.prefs.SharedPrefs
 import com.yadaniil.app.cryptomarket.di.module.ApplicationModule
@@ -29,7 +30,8 @@ interface ApplicationComponent {
     fun context(): Context
     fun preferences(): SharedPreferences
     fun realm(): Realm
-    fun retrofitService(): RetrofitService
+    fun coinMarketCapService(): CoinMarketCapService
+    fun cryptoCompareService(): CryptoCompareService
     fun appApiHelper(): AppApiHelper
     fun appDbHelper(): AppDbHelper
     fun sharedPrefs(): SharedPrefs

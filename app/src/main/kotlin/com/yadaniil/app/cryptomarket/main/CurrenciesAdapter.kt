@@ -1,33 +1,42 @@
 package com.yadaniil.app.cryptomarket.main
 
 import android.content.Context
-import android.content.res.Resources
-import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.support.v7.widget.RecyclerView
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
+import com.squareup.picasso.Picasso
 import com.yadaniil.app.cryptomarket.R
-import com.yadaniil.app.cryptomarket.data.db.models.CurrencyRealm
+import com.yadaniil.app.cryptomarket.data.db.models.CryptoCompareCurrencyRealm
 import io.realm.OrderedRealmCollection
 import io.realm.RealmRecyclerViewAdapter
 import org.jetbrains.anko.find
-import android.view.LayoutInflater
-import android.widget.ImageView
+import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
+import java.io.ByteArrayInputStream
+import android.graphics.Bitmap
+import android.os.Handler
+import com.squareup.picasso.Callback
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import timber.log.Timber
+import java.io.ByteArrayOutputStream
 
 
 /**
  * Created by danielyakovlev on 7/2/17.
  */
 
-class CurrenciesAdapter constructor(data: OrderedRealmCollection<CurrencyRealm>?, autoUpdate: Boolean,
-                                    private var context: Context)
-    : RealmRecyclerViewAdapter<CurrencyRealm, CurrenciesAdapter.CurrencyViewHolder>(data, autoUpdate) {
+class CurrenciesAdapter constructor(data: OrderedRealmCollection<CryptoCompareCurrencyRealm>?, autoUpdate: Boolean,
+                                    private var context: Context, private var presenter: MainPresenter)
+    : RealmRecyclerViewAdapter<CryptoCompareCurrencyRealm, CurrenciesAdapter.CurrencyViewHolder>(data, autoUpdate) {
 
-    init { setHasStableIds(true) }
+    init {
+        setHasStableIds(true)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): CurrencyViewHolder {
         val itemView = LayoutInflater.from(parent?.context)
@@ -39,32 +48,47 @@ class CurrenciesAdapter constructor(data: OrderedRealmCollection<CurrencyRealm>?
         val currencyRealm = getItem(position)
         with(holder!!) {
             data = currencyRealm
-            name.text = currencyRealm?.name
-            usdRate.text = currencyRealm?.priceUsd
-            rank.text = currencyRealm?.rank.toString()
-            loadIconToCurrencyItem(currencyRealm, holder)
+            name.text = currencyRealm?.fullName
+            usdRate.text = currencyRealm?.totalCoinSupply
+            rank.text = currencyRealm?.sortOrder.toString()
+            if (currencyRealm?.iconBytes == null) {
+                downloadAndSaveIcon(icon, currencyRealm)
+            } else {
+                val bitmapIcon = BitmapFactory.decodeStream(ByteArrayInputStream(currencyRealm.iconBytes))
+                icon.setImageBitmap(bitmapIcon)
+            }
         }
     }
 
-    private fun loadIconToCurrencyItem(currencyRealm: CurrencyRealm?, holder: CurrencyViewHolder?) {
-        val symbol = currencyRealm?.symbol
-        val resourceId = context.resources?.getIdentifier(
-                symbol.toString().toLowerCase(),
-                "drawable", context.packageName)
-        try {
-            val icon = context.resources?.getDrawable(resourceId!!)
-            holder?.icon?.background = icon
-        } catch (e: Exception) {
-            holder?.icon?.background = null
-            Timber.e(e.message)
-        }
+    private fun downloadAndSaveIcon(icon: ImageView, currencyRealm: CryptoCompareCurrencyRealm?) {
+        Picasso.with(context)
+                .load(Uri.parse(CRYPTO_COMPARE_URL + currencyRealm?.imageUrl))
+                .into(icon, object : Callback {
+                    override fun onSuccess() {
+                        doAsync {
+                            val bitmap = (icon.drawable as BitmapDrawable).bitmap
+                            val stream = ByteArrayOutputStream()
+                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+                            val byteArray = stream.toByteArray()
+                            presenter.saveCryptoCompareCurrencyIcon(currencyRealm!!, byteArray)
+                        }
+                    }
+                    override fun onError() {
+                        Timber.e("Error downloading icon")
+                    }
+                })
     }
+
 
     class CurrencyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var name: TextView = view.find<TextView>(R.id.item_currency_name)
         var usdRate: TextView = view.find<TextView>(R.id.item_currency_usd_rate)
         var icon: ImageView = view.find<ImageView>(R.id.item_currency_icon)
         var rank: TextView = view.find<TextView>(R.id.item_currency_rank)
-        var data: CurrencyRealm? = null
+        var data: CryptoCompareCurrencyRealm? = null
+    }
+
+    companion object {
+        val CRYPTO_COMPARE_URL = "https://www.cryptocompare.com"
     }
 }

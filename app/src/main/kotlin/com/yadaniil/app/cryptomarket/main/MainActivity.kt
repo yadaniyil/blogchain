@@ -33,7 +33,8 @@ class MainActivity : BaseActivity(), IMainView {
     }
 
     private fun setUpCurrenciesList() {
-        currenciesAdapter = CurrenciesAdapter(presenter.getRealmCurrencies(), true, this)
+        currenciesAdapter = CurrenciesAdapter(presenter.getRealmCurrencies(), true,
+                this, presenter)
         currencies_recycler_view.layoutManager = LinearLayoutManager(this)
         currencies_recycler_view.adapter = currenciesAdapter
         currencies_recycler_view.setHasFixedSize(true)

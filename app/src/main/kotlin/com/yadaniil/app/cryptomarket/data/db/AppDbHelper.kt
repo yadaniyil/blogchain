@@ -1,7 +1,8 @@
 package com.yadaniil.app.cryptomarket.data.db
 
 import com.yadaniil.app.cryptomarket.Application
-import com.yadaniil.app.cryptomarket.data.db.models.CurrencyRealm
+import com.yadaniil.app.cryptomarket.data.db.models.CoinMarketCapCurrencyRealm
+import com.yadaniil.app.cryptomarket.data.db.models.CryptoCompareCurrencyRealm
 import io.realm.Realm
 import io.realm.RealmResults
 import javax.inject.Inject
@@ -13,13 +14,29 @@ class AppDbHelper : DbHelper {
 
     @Inject lateinit var realm: Realm
 
-    init { Application.component?.inject(this) }
-
-    override fun getAllCurrenciesFromDb(): RealmResults<CurrencyRealm> {
-        return realm.where(CurrencyRealm::class.java).findAllSorted("rank")
+    init {
+        Application.component?.inject(this)
     }
 
-    override fun saveCurrenciesToDb(currencies: List<CurrencyRealm>) {
-        realm.executeTransaction { realm -> realm.copyToRealmOrUpdate(currencies) }
+    override fun getAllCoinMarketCapCurrenciesFromDb(): RealmResults<CoinMarketCapCurrencyRealm> {
+        return realm.where(CoinMarketCapCurrencyRealm::class.java).findAllSorted("rank")
+    }
+
+    override fun saveCoinMarketCapCurrenciesToDb(currencies: List<CoinMarketCapCurrencyRealm>) {
+        realm.executeTransactionAsync { realm -> realm.copyToRealmOrUpdate(currencies) }
+    }
+
+    override fun getAllCryptoCompareCurrenciesFromDb(): RealmResults<CryptoCompareCurrencyRealm> {
+        return realm.where(CryptoCompareCurrencyRealm::class.java).findAllSortedAsync("sortOrder")
+    }
+
+    override fun saveCryptoCompareCurrenciesToDb(currencies: List<CryptoCompareCurrencyRealm>) {
+        realm.executeTransactionAsync { realm -> realm.copyToRealmOrUpdate(currencies) }
+    }
+
+    override fun saveCryptoCompareCurrencyIcon(currency: CryptoCompareCurrencyRealm, byteArray: ByteArray) {
+        realm.executeTransactionAsync {
+            currency.iconBytes = byteArray
+        }
     }
 }

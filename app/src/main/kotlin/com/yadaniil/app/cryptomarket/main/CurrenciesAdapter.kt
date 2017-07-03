@@ -1,6 +1,9 @@
 package com.yadaniil.app.cryptomarket.main
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -8,21 +11,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import com.yadaniil.app.cryptomarket.R
 import com.yadaniil.app.cryptomarket.data.db.models.CryptoCompareCurrencyRealm
 import io.realm.OrderedRealmCollection
 import io.realm.RealmRecyclerViewAdapter
-import org.jetbrains.anko.find
-import android.graphics.BitmapFactory
-import android.graphics.drawable.BitmapDrawable
-import java.io.ByteArrayInputStream
-import android.graphics.Bitmap
-import android.os.Handler
-import com.squareup.picasso.Callback
 import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
+import org.jetbrains.anko.find
 import timber.log.Timber
+import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 
 
@@ -48,9 +46,9 @@ class CurrenciesAdapter constructor(data: OrderedRealmCollection<CryptoCompareCu
         val currencyRealm = getItem(position)
         with(holder!!) {
             data = currencyRealm
-            name.text = currencyRealm?.fullName
+            fullName.text = currencyRealm?.fullName
             usdRate.text = currencyRealm?.totalCoinSupply
-            rank.text = currencyRealm?.sortOrder.toString()
+            sortOrder.text = currencyRealm?.sortOrder.toString()
             if (currencyRealm?.iconBytes == null) {
                 downloadAndSaveIcon(icon, currencyRealm)
             } else {
@@ -81,10 +79,10 @@ class CurrenciesAdapter constructor(data: OrderedRealmCollection<CryptoCompareCu
 
 
     class CurrencyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        var name: TextView = view.find<TextView>(R.id.item_currency_name)
+        var fullName: TextView = view.find<TextView>(R.id.item_currency_name)
         var usdRate: TextView = view.find<TextView>(R.id.item_currency_usd_rate)
         var icon: ImageView = view.find<ImageView>(R.id.item_currency_icon)
-        var rank: TextView = view.find<TextView>(R.id.item_currency_rank)
+        var sortOrder: TextView = view.find<TextView>(R.id.item_currency_rank)
         var data: CryptoCompareCurrencyRealm? = null
     }
 

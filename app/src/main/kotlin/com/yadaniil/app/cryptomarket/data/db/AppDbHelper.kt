@@ -19,7 +19,7 @@ class AppDbHelper : DbHelper {
     }
 
     override fun getAllCoinMarketCapCurrenciesFromDb(): RealmResults<CoinMarketCapCurrencyRealm> {
-        return realm.where(CoinMarketCapCurrencyRealm::class.java).findAllSorted("rank")
+        return realm.where(CoinMarketCapCurrencyRealm::class.java).findAllSorted("sortOrder")
     }
 
     override fun saveCoinMarketCapCurrenciesToDb(currencies: List<CoinMarketCapCurrencyRealm>) {

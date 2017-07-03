@@ -27,11 +27,11 @@ class Application : android.app.Application() {
 //
 //        Fabric.with(this, Crashlytics.Builder().core(core).build())
 //
-//        if (BuildConfig.DEBUG) {
-//            Timber.plant(Timber.DebugTree())
-//        } else {
-//            Timber.plant(CrashReportTree())
-//        }
+        if (BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree())
+        } else {
+            Timber.plant(CrashReportTree())
+        }
     }
 
     companion object {

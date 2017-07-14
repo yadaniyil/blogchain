@@ -18,25 +18,22 @@ class AppDbHelper : DbHelper {
         Application.component?.inject(this)
     }
 
-    override fun getAllCoinMarketCapCurrenciesFromDb(): RealmResults<CoinMarketCapCurrencyRealm> {
-        return realm.where(CoinMarketCapCurrencyRealm::class.java).findAllSorted("sortOrder")
-    }
+    override fun getAllCoinMarketCapCurrenciesFromDb(): RealmResults<CoinMarketCapCurrencyRealm> =
+            realm.where(CoinMarketCapCurrencyRealm::class.java).findAllSorted("sortOrder")
 
     override fun saveCoinMarketCapCurrenciesToDb(currencies: List<CoinMarketCapCurrencyRealm>) {
         realm.executeTransactionAsync { realm -> realm.copyToRealmOrUpdate(currencies) }
     }
 
-    override fun getAllCryptoCompareCurrenciesFromDb(): RealmResults<CryptoCompareCurrencyRealm> {
-        return realm.where(CryptoCompareCurrencyRealm::class.java).findAllSortedAsync("sortOrder")
-    }
+    override fun getAllCryptoCompareCurrenciesFromDb(): RealmResults<CryptoCompareCurrencyRealm> =
+            realm.where(CryptoCompareCurrencyRealm::class.java).findAllSortedAsync("sortOrder")
+
 
     override fun saveCryptoCompareCurrenciesToDb(currencies: List<CryptoCompareCurrencyRealm>) {
         realm.executeTransactionAsync { realm -> realm.copyToRealmOrUpdate(currencies) }
     }
 
     override fun saveCryptoCompareCurrencyIcon(currency: CryptoCompareCurrencyRealm, byteArray: ByteArray) {
-        realm.executeTransactionAsync {
-            currency.iconBytes = byteArray
-        }
+        realm.executeTransactionAsync { currency.iconBytes = byteArray }
     }
 }

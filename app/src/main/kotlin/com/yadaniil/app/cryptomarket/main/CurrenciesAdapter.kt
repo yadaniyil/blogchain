@@ -44,9 +44,10 @@ class CurrenciesAdapter constructor(data: OrderedRealmCollection<CryptoCompareCu
 
     override fun onBindViewHolder(holder: CurrencyViewHolder?, position: Int) {
         val currencyRealm = getItem(position)
-        with(holder!!) {
+        with(holder ?: return) {
             data = currencyRealm
-            fullName.text = currencyRealm?.fullName
+            symbol.text = currencyRealm?.coinName
+            name.text = currencyRealm?.name
             usdRate.text = currencyRealm?.totalCoinSupply
             sortOrder.text = currencyRealm?.sortOrder.toString()
             if (currencyRealm?.iconBytes == null) {
@@ -71,6 +72,7 @@ class CurrenciesAdapter constructor(data: OrderedRealmCollection<CryptoCompareCu
                             presenter.saveCryptoCompareCurrencyIcon(currencyRealm!!, byteArray)
                         }
                     }
+
                     override fun onError() {
                         Timber.e("Error downloading icon")
                     }
@@ -79,7 +81,8 @@ class CurrenciesAdapter constructor(data: OrderedRealmCollection<CryptoCompareCu
 
 
     class CurrencyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        var fullName: TextView = view.find<TextView>(R.id.item_currency_name)
+        var symbol: TextView = view.find<TextView>(R.id.item_currency_symbol)
+        var name: TextView = view.find<TextView>(R.id.item_currency_name)
         var usdRate: TextView = view.find<TextView>(R.id.item_currency_usd_rate)
         var icon: ImageView = view.find<ImageView>(R.id.item_currency_icon)
         var sortOrder: TextView = view.find<TextView>(R.id.item_currency_rank)

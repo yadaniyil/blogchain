@@ -3,4 +3,10 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="half_standard_dimen">8dp</dimen>
+    <dimen name="currency_item_height">85dp</dimen>
+    <dimen name="currency_item_icon_diameter">35dp</dimen>
+    <dimen name="quater_standard_dimen">4dp</dimen>
+    <dimen name="currency_item_name_text_size">10sp</dimen>
+    <dimen name="currency_item_symbol_text_size">12sp</dimen>
 </resources>

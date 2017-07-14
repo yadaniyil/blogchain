@@ -27,17 +27,15 @@ class Repository @Inject constructor(var appApiHelper: AppApiHelper,
     : CoinMarketCapService, CryptoCompareService, DbHelper, SharedPrefsHelper {
 
     // region Db
-    override fun getAllCoinMarketCapCurrenciesFromDb(): RealmResults<CoinMarketCapCurrencyRealm> {
-        return appDbHelper.getAllCoinMarketCapCurrenciesFromDb()
-    }
+    override fun getAllCoinMarketCapCurrenciesFromDb(): RealmResults<CoinMarketCapCurrencyRealm> =
+            appDbHelper.getAllCoinMarketCapCurrenciesFromDb()
 
     override fun saveCoinMarketCapCurrenciesToDb(currencies: List<CoinMarketCapCurrencyRealm>) {
         appDbHelper.saveCoinMarketCapCurrenciesToDb(currencies)
     }
 
-    override fun getAllCryptoCompareCurrenciesFromDb(): RealmResults<CryptoCompareCurrencyRealm> {
-        return appDbHelper.getAllCryptoCompareCurrenciesFromDb()
-    }
+    override fun getAllCryptoCompareCurrenciesFromDb(): RealmResults<CryptoCompareCurrencyRealm> =
+            appDbHelper.getAllCryptoCompareCurrenciesFromDb()
 
     override fun saveCryptoCompareCurrenciesToDb(currencies: List<CryptoCompareCurrencyRealm>) {
         appDbHelper.saveCryptoCompareCurrenciesToDb(currencies)
@@ -49,13 +47,12 @@ class Repository @Inject constructor(var appApiHelper: AppApiHelper,
     // endregion Db
 
     // region Api
-    override fun getAllCurrencies(convertToCurrency: String?, limit: String?): Observable<List<TickerResponse>> {
-        return appApiHelper.getAllCurrencies(convertToCurrency, limit)
-    }
+    override fun getAllCurrencies(convertToCurrency: String?, limit: String?): Observable<List<TickerResponse>> =
+            appApiHelper.getAllCurrencies(convertToCurrency, limit)
 
-    override fun getFullCurrenciesList(): Observable<CryptoCompareCurrenciesListResponse> {
-        return appApiHelper.getFullCurrenciesList()
-    }
+    override fun getFullCurrenciesList(): Observable<CryptoCompareCurrenciesListResponse> =
+            appApiHelper.getFullCurrenciesList()
+
     // endregion Api
 
 }

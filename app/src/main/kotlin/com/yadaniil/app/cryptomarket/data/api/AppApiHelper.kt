@@ -15,15 +15,16 @@ class AppApiHelper : CoinMarketCapService, CryptoCompareService {
     @Inject lateinit var coinMarketCapService: CoinMarketCapService
     @Inject lateinit var cryptoCompareService: CryptoCompareService
 
-    init { Application.component?.inject(this) }
+    init {
+        Application.component?.inject(this)
+    }
 
     override fun getAllCurrencies(convertToCurrency: String?, limit: String?)
-            : Observable<List<TickerResponse>> {
-        return coinMarketCapService.getAllCurrencies(convertToCurrency, limit)
-    }
+            : Observable<List<TickerResponse>> =
+            coinMarketCapService.getAllCurrencies(convertToCurrency, limit)
 
-    override fun getFullCurrenciesList(): Observable<CryptoCompareCurrenciesListResponse> {
-        return cryptoCompareService.getFullCurrenciesList()
-    }
+    override fun getFullCurrenciesList(): Observable<CryptoCompareCurrenciesListResponse> =
+            cryptoCompareService.getFullCurrenciesList()
+
 
 }

@@ -28,8 +28,9 @@ open class CryptoCompareCurrencyRealm(
         fun convertApiResponseToRealmList(response: CryptoCompareCurrenciesListResponse)
                 : List<CryptoCompareCurrencyRealm> {
             val currenciesRealmList: MutableList<CryptoCompareCurrencyRealm> = ArrayList()
-            response.data?.forEach {
-                val currency = it.value
+            val responseData = response.data ?: emptyMap()
+            for(data in responseData) {
+                val currency = data.value
                 currenciesRealmList.add(CryptoCompareCurrencyRealm(id = currency.id, url = currency.url,
                         imageUrl = currency.imageUrl, name = currency.name, coinName = currency.coinName,
                         fullName = currency.fullName, algorithm = currency.algorithm,

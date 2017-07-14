@@ -33,12 +33,12 @@ class MainPresenter @Inject constructor(private val view: IMainView) {
         repo.getFullCurrenciesList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .map { CryptoCompareCurrencyRealm.convertApiResponseToRealmList(it) }
                 .doOnSubscribe { view.showLoading() }
                 .doOnTerminate { view.stopLoading() }
                 .subscribe({
                     currenciesList ->
-                    repo.saveCryptoCompareCurrenciesToDb(
-                            CryptoCompareCurrencyRealm.convertApiResponseToRealmList(currenciesList))
+                    repo.saveCryptoCompareCurrenciesToDb(currenciesList)
                 }, {
                     error ->
                     Timber.e(error.message)

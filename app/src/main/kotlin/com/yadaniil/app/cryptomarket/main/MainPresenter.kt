@@ -35,15 +35,36 @@ class MainPresenter @Inject constructor(private val view: IMainView) {
                 .observeOn(AndroidSchedulers.mainThread())
                 .map { CryptoCompareCurrencyRealm.convertApiResponseToRealmList(it) }
                 .doOnSubscribe { view.showLoading() }
-                .doOnTerminate { view.stopLoading() }
                 .subscribe({
                     currenciesList ->
                     repo.saveCryptoCompareCurrenciesToDb(currenciesList)
+                    downloadAndSavePricesMultiFull()
                 }, {
                     error ->
                     Timber.e(error.message)
                 })
     }
+
+    private fun downloadAndSavePricesMultiFull() {
+        repo.getPriceMultiFull(buildFromSymbols(), buildToSymbols())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnComplete { view.stopLoading() }
+                .subscribe({
+
+                })
+    }
+
+    private fun buildFromSymbols(): String {
+        val currencies = repo.getAllCryptoCompareCurrenciesFromDb().subList(0, 10)
+        var symbols: String = ""
+        for(currency in currencies) {
+            symbols += currency.coinName + ","
+        }
+        return symbols
+    }
+
+    private fun buildToSymbols() = "BTC,USD"
 
     fun saveCryptoCompareCurrencyIcon(currencyRealm: CryptoCompareCurrencyRealm, byteArray: ByteArray)
             = repo.saveCryptoCompareCurrencyIcon(currencyRealm, byteArray)

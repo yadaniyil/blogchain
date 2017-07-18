@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--<cofullNamename="colorPrimary">#3F51B5</color>-->
-    <color name="colorPrimary">#006064</color>
-    <color name="colorPrimaryDark">#006064</color>
-    <color name="colorAccent">#ffab00</color>
+    <color name="colorPrimary">#283593</color>
+    <color name="colorPrimaryDark">#1A237E</color>
+    <color name="colorAccent">#2196F3</color>
+    <color name="gray_700">#616161</color>
 
 
     <color name="white">#FFFFFF</color>

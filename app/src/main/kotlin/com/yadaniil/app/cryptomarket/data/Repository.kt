@@ -2,8 +2,10 @@ package com.yadaniil.app.cryptomarket.data
 
 import com.yadaniil.app.cryptomarket.data.api.AppApiHelper
 import com.yadaniil.app.cryptomarket.data.api.CoinMarketCapService
+import com.yadaniil.app.cryptomarket.data.api.CryptoCompareMinService
 import com.yadaniil.app.cryptomarket.data.api.CryptoCompareService
 import com.yadaniil.app.cryptomarket.data.api.models.CryptoCompareCurrenciesListResponse
+import com.yadaniil.app.cryptomarket.data.api.models.CryptoComparePriceMultiFullResponse
 import com.yadaniil.app.cryptomarket.data.api.models.TickerResponse
 import com.yadaniil.app.cryptomarket.data.db.AppDbHelper
 import com.yadaniil.app.cryptomarket.data.db.DbHelper
@@ -24,7 +26,8 @@ import javax.inject.Singleton
 class Repository @Inject constructor(var appApiHelper: AppApiHelper,
                                      var appDbHelper: AppDbHelper,
                                      var sharedPrefs: SharedPrefs)
-    : CoinMarketCapService, CryptoCompareService, DbHelper, SharedPrefsHelper {
+    : CoinMarketCapService, CryptoCompareService, CryptoCompareMinService,
+        DbHelper, SharedPrefsHelper {
 
     // region Db
     override fun getAllCoinMarketCapCurrenciesFromDb(): RealmResults<CoinMarketCapCurrencyRealm> =
@@ -53,6 +56,11 @@ class Repository @Inject constructor(var appApiHelper: AppApiHelper,
     override fun getFullCurrenciesList(): Observable<CryptoCompareCurrenciesListResponse> =
             appApiHelper.getFullCurrenciesList()
 
+    override fun getPriceMultiFull(fromSymbols: String, toSymbols: String, exchangeName: String?,
+                                   appName: String?, serverSignRequests: Boolean?,
+                                   tryConversion: String?): Observable<CryptoComparePriceMultiFullResponse> =
+            appApiHelper.getPriceMultiFull(fromSymbols, toSymbols, exchangeName, appName,
+                    serverSignRequests, tryConversion)
     // endregion Api
 
 }

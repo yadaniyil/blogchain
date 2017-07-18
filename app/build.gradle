@@ -41,6 +41,7 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         buildConfigField STRING, BUILD_TIME, "\"${rootProject.ext.buildTime}\""
     }
+
     buildTypes {
         release {
             minifyEnabled true
@@ -128,7 +129,23 @@ dependencies {
     }
     // Smooth progress bar (line)
     compile 'com.github.castorflex.smoothprogressbar:library:1.1.0'
+
+    // FlowUp will analyze the app
+    compile 'io.flowup:android-sdk:1.0.0'
+    testCompile 'io.flowup:android-sdk-no-op:1.0.0'
+
+    // Moxy is MVP library
+    compile 'com.arello-mobile:moxy:1.5.3'
+    annotationProcessor 'com.arello-mobile:moxy-compiler:1.5.3'
+    compile 'com.arello-mobile:moxy-android:1.5.3'
+    compile 'com.arello-mobile:moxy-app-compat:1.5.3'
+    kapt 'com.arello-mobile:moxy-compiler:1.5.3'
 }
+
+kapt {
+    generateStubs = true
+}
+
 repositories {
     mavenCentral()
 }

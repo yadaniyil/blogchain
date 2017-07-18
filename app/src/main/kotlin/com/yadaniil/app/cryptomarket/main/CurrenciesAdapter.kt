@@ -15,6 +15,7 @@ import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import com.yadaniil.app.cryptomarket.R
 import com.yadaniil.app.cryptomarket.data.db.models.CryptoCompareCurrencyRealm
+import com.yadaniil.app.cryptomarket.utils.Endpoints
 import io.realm.OrderedRealmCollection
 import io.realm.RealmRecyclerViewAdapter
 import org.jetbrains.anko.doAsync
@@ -61,7 +62,7 @@ class CurrenciesAdapter constructor(data: OrderedRealmCollection<CryptoCompareCu
 
     private fun downloadAndSaveIcon(icon: ImageView, currencyRealm: CryptoCompareCurrencyRealm?) {
         Picasso.with(context)
-                .load(Uri.parse(CRYPTO_COMPARE_URL + currencyRealm?.imageUrl))
+                .load(Uri.parse(Endpoints.CRYPTO_COMPARE_URL + currencyRealm?.imageUrl))
                 .into(icon, object : Callback {
                     override fun onSuccess() {
                         doAsync {
@@ -89,7 +90,4 @@ class CurrenciesAdapter constructor(data: OrderedRealmCollection<CryptoCompareCu
         var data: CryptoCompareCurrencyRealm? = null
     }
 
-    companion object {
-        val CRYPTO_COMPARE_URL = "https://www.cryptocompare.com"
-    }
 }

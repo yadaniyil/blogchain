@@ -1,13 +1,14 @@
 package com.yadaniil.app.cryptomarket
 
-import com.yadaniil.app.cryptomarket.utils.timber.CrashReportTree
-import timber.log.Timber
 //import com.crashlytics.android.Crashlytics
 //import io.fabric.sdk.android.Fabric
 //import com.crashlytics.android.core.CrashlyticsCore
-import com.yadaniil.app.cryptomarket.di.module.ApplicationModule
 import com.yadaniil.app.cryptomarket.di.component.ApplicationComponent
 import com.yadaniil.app.cryptomarket.di.component.DaggerApplicationComponent
+import com.yadaniil.app.cryptomarket.di.module.ApplicationModule
+import com.yadaniil.app.cryptomarket.utils.timber.CrashReportTree
+import io.flowup.FlowUp
+import timber.log.Timber
 
 
 class Application : android.app.Application() {
@@ -26,7 +27,13 @@ class Application : android.app.Application() {
 //                .build()
 //
 //        Fabric.with(this, Crashlytics.Builder().core(core).build())
-//
+
+
+        FlowUp.Builder.with(this)
+                .apiKey("236ce14be59f4285b56b3eb1faf55dc1")
+                .forceReports(BuildConfig.DEBUG)
+                .start()
+
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         } else {

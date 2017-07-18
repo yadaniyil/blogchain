@@ -17,6 +17,7 @@
             android:label="@string/drawer_item_currencies"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+
         <activity android:name=".splash.SplashActivity"
             android:theme="@style/Splash">
             <intent-filter>

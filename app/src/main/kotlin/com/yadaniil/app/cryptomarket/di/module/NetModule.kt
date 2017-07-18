@@ -7,6 +7,8 @@ import com.google.gson.GsonBuilder
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import com.yadaniil.app.cryptomarket.data.api.CoinMarketCapService
 import com.yadaniil.app.cryptomarket.data.api.CryptoCompareService
+import com.yadaniil.app.cryptomarket.data.api.CryptoCompareMinService
+import com.yadaniil.app.cryptomarket.utils.Endpoints
 import dagger.Module
 import dagger.Provides
 import okhttp3.Cache
@@ -71,7 +73,7 @@ class NetModule {
     @Provides
     @Singleton
     fun provideCoinMarketCapService(builder: Retrofit.Builder): CoinMarketCapService {
-        return builder.baseUrl(COIN_MARKET_CAP_URL)
+        return builder.baseUrl(Endpoints.COIN_MARKET_CAP_URL)
                 .build()
                 .create(CoinMarketCapService::class.java)
     }
@@ -79,13 +81,18 @@ class NetModule {
     @Provides
     @Singleton
     fun provideCryptoCompareService(builder: Retrofit.Builder): CryptoCompareService {
-        return builder.baseUrl(CRYPTO_COMPARE_URL)
+        return builder.baseUrl(Endpoints.CRYPTO_COMPARE_URL)
                 .build()
                 .create(CryptoCompareService::class.java)
     }
 
-    companion object {
-        val COIN_MARKET_CAP_URL = "https://api.coinmarketcap.com/v1/"
-        val CRYPTO_COMPARE_URL = "https://www.cryptocompare.com/"
+    @Provides
+    @Singleton
+    fun provideCryptoCompareMinService(builder: Retrofit.Builder): CryptoCompareMinService {
+        return builder.baseUrl(Endpoints.CRYPTO_COMPARE_MIN_URL)
+                .build()
+                .create(CryptoCompareMinService::class.java)
     }
+
+
 }

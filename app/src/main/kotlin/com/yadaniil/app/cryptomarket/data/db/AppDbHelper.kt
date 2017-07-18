@@ -19,7 +19,7 @@ class AppDbHelper : DbHelper {
     }
 
     override fun getAllCoinMarketCapCurrenciesFromDb(): RealmResults<CoinMarketCapCurrencyRealm> =
-            realm.where(CoinMarketCapCurrencyRealm::class.java).findAllSorted("sortOrder")
+            realm.where(CoinMarketCapCurrencyRealm::class.java).findAllSortedAsync("sortOrder")
 
     override fun saveCoinMarketCapCurrenciesToDb(currencies: List<CoinMarketCapCurrencyRealm>) {
         realm.executeTransactionAsync { realm -> realm.copyToRealmOrUpdate(currencies) }

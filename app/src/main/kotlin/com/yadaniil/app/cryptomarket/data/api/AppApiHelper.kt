@@ -10,10 +10,11 @@ import javax.inject.Inject
 /**
  * Created by danielyakovlev on 7/1/17.
  */
-class AppApiHelper : CoinMarketCapService, CryptoCompareService {
+class AppApiHelper : CoinMarketCapService, CryptoCompareService, CryptoCompareMinService {
 
     @Inject lateinit var coinMarketCapService: CoinMarketCapService
     @Inject lateinit var cryptoCompareService: CryptoCompareService
+    @Inject lateinit var cryptoCompareMinService: CryptoCompareMinService
 
     init {
         Application.component?.inject(this)
@@ -26,5 +27,10 @@ class AppApiHelper : CoinMarketCapService, CryptoCompareService {
     override fun getFullCurrenciesList(): Observable<CryptoCompareCurrenciesListResponse> =
             cryptoCompareService.getFullCurrenciesList()
 
+    override fun getPriceMultiFull(fromSymbols: String, toSymbols: String,
+                                   exchangeName: String?, appName: String?,
+                                   serverSignRequests: Boolean?, tryConversion: String?) =
+            cryptoCompareMinService.getPriceMultiFull(fromSymbols, toSymbols, exchangeName, appName,
+                    serverSignRequests, tryConversion)
 
 }

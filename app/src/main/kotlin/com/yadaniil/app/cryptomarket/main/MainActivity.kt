@@ -3,6 +3,7 @@ package com.yadaniil.app.cryptomarket.main
 import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import com.yadaniil.app.cryptomarket.Application
 import com.yadaniil.app.cryptomarket.R
@@ -14,7 +15,7 @@ import javax.inject.Inject
 class MainActivity : BaseActivity(), IMainView {
 
     @Inject
-    lateinit var presenter : MainPresenter
+    lateinit var presenter: MainPresenter
 
     private lateinit var currenciesAdapter: CurrenciesAdapter
 
@@ -52,11 +53,8 @@ class MainActivity : BaseActivity(), IMainView {
             .mainModule(MainModule(this))
             .build().inject(this)
 
-    override fun showLoading() {
-        smooth_progress_bar.progressiveStart()
-    }
+    override fun showLoading() = smooth_progress_bar.progressiveStart()
 
-    override fun stopLoading() {
-        smooth_progress_bar.progressiveStop()
-    }
+    override fun stopLoading() = smooth_progress_bar.progressiveStop()
+
 }

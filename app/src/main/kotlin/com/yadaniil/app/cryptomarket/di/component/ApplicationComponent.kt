@@ -7,6 +7,7 @@ import com.yadaniil.app.cryptomarket.data.Repository
 import com.yadaniil.app.cryptomarket.data.api.AppApiHelper
 import com.yadaniil.app.cryptomarket.data.api.CoinMarketCapService
 import com.yadaniil.app.cryptomarket.data.api.CryptoCompareService
+import com.yadaniil.app.cryptomarket.data.api.CryptoCompareMinService
 import com.yadaniil.app.cryptomarket.data.db.AppDbHelper
 import com.yadaniil.app.cryptomarket.data.prefs.SharedPrefs
 import com.yadaniil.app.cryptomarket.di.module.ApplicationModule
@@ -32,6 +33,7 @@ interface ApplicationComponent {
     fun realm(): Realm
     fun coinMarketCapService(): CoinMarketCapService
     fun cryptoCompareService(): CryptoCompareService
+    fun cryptoCompareMinService(): CryptoCompareMinService
     fun appApiHelper(): AppApiHelper
     fun appDbHelper(): AppDbHelper
     fun sharedPrefs(): SharedPrefs

@@ -1,6 +1,8 @@
 package com.yadaniil.app.cryptomarket.main
 
-interface IMainView {
+import com.arellomobile.mvp.MvpView
+
+interface IMainView : MvpView {
     fun showLoading()
     fun stopLoading()
 

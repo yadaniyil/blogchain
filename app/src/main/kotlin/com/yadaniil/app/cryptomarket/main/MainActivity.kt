@@ -5,6 +5,7 @@ import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.Menu
+import com.arellomobile.mvp.presenter.InjectPresenter
 import com.yadaniil.app.cryptomarket.Application
 import com.yadaniil.app.cryptomarket.R
 import com.yadaniil.app.cryptomarket.base.BaseActivity
@@ -14,7 +15,7 @@ import javax.inject.Inject
 
 class MainActivity : BaseActivity(), IMainView {
 
-    @Inject
+    @InjectPresenter
     lateinit var presenter: MainPresenter
 
     private lateinit var currenciesAdapter: CurrenciesAdapter
@@ -23,7 +24,6 @@ class MainActivity : BaseActivity(), IMainView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        inject()
         setUpCurrenciesList()
         presenter.downloadAndSaveAllCurrencies()
     }
@@ -47,11 +47,6 @@ class MainActivity : BaseActivity(), IMainView {
         super.onDestroy()
         currencies_recycler_view.adapter = null
     }
-
-    private fun inject() = DaggerMainComponent.builder()
-            .applicationComponent(Application.component)
-            .mainModule(MainModule(this))
-            .build().inject(this)
 
     override fun showLoading() = smooth_progress_bar.progressiveStart()
 

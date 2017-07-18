@@ -16,6 +16,7 @@ import com.yadaniil.app.cryptomarket.di.module.DatabaseModule
 
 
 import com.yadaniil.app.cryptomarket.di.module.NetModule
+import com.yadaniil.app.cryptomarket.main.MainPresenter
 
 import dagger.Component
 import io.realm.Realm
@@ -26,6 +27,7 @@ import javax.inject.Singleton
 interface ApplicationComponent {
     fun inject(appDbHelper: AppDbHelper)
     fun inject(appApiHelper: AppApiHelper)
+    fun inject(mainPresenter: MainPresenter)
 
     fun app(): Application
     fun context(): Context

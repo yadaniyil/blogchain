@@ -2,6 +2,7 @@ package com.yadaniil.app.cryptomarket.base
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import com.arellomobile.mvp.MvpAppCompatActivity
 import com.mikepenz.materialdrawer.DrawerBuilder
 import com.mikepenz.materialdrawer.model.DividerDrawerItem
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
@@ -13,7 +14,7 @@ import org.jetbrains.anko.onClick
 import org.jetbrains.anko.toast
 
 
-abstract class BaseActivity : AppCompatActivity(), IBaseView {
+abstract class BaseActivity : MvpAppCompatActivity(), IBaseView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

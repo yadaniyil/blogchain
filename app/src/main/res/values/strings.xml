@@ -15,4 +15,7 @@
     <string name="search">Search</string>
     <string name="drawer_item_ico">ICO</string>
     <string name="drawer_item_mining">Mining</string>
+    <string name="hour_price_change">1h:</string>
+    <string name="day_price_change">24h:</string>
+    <string name="week_price_change">7d:</string>
 </resources>

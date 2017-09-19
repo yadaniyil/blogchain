@@ -50,12 +50,124 @@
 
     </RelativeLayout>
 
-
-    <TextView
-        android:id="@+id/item_currency_usd_rate"
+    <LinearLayout
         android:layout_width="0dp"
-        android:background="@color/colorAccent"
         android:layout_weight="20"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent"
+        android:padding="@dimen/half_standard_dimen">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/item_currency_price"
+                android:gravity="start"
+                android:textStyle="bold"
+                android:singleLine="true"
+                android:padding="@dimen/half_standard_dimen"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content" />
+
+            <TextView
+                android:id="@+id/item_currency_btc_price"
+                android:gravity="start"
+                android:singleLine="true"
+                android:textSize="@dimen/btc_price_text_size"
+                android:padding="@dimen/half_standard_dimen"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:gravity="end"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:gravity="start"
+                    android:singleLine="true"
+                    android:text="@string/hour_price_change"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content" />
+
+                <TextView
+                    android:id="@+id/item_currency_hour_change"
+                    android:gravity="start"
+                    android:textStyle="bold"
+                    android:singleLine="true"
+                    android:paddingStart="@dimen/half_standard_dimen"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:paddingLeft="@dimen/half_standard_dimen" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:gravity="end"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:gravity="start"
+                    android:singleLine="true"
+                    android:text="@string/day_price_change"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content" />
+
+                <TextView
+                    android:id="@+id/item_currency_day_change"
+                    android:gravity="start"
+                    android:singleLine="true"
+                    android:textStyle="bold"
+                    android:paddingStart="@dimen/half_standard_dimen"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:paddingLeft="@dimen/half_standard_dimen" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:gravity="end"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:gravity="start"
+                    android:singleLine="true"
+                    android:text="@string/week_price_change"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content" />
+
+                <TextView
+                    android:id="@+id/item_currency_week_change"
+                    android:gravity="start"
+                    android:singleLine="true"
+                    android:paddingStart="@dimen/half_standard_dimen"
+                    android:textStyle="bold"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:paddingLeft="@dimen/half_standard_dimen" />
+            </LinearLayout>
+
+
+
+
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
 
 </LinearLayout>

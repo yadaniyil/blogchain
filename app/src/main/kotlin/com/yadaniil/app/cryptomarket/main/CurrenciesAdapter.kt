@@ -15,6 +15,7 @@ import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import com.yadaniil.app.cryptomarket.R
 import com.yadaniil.app.cryptomarket.data.db.models.CoinMarketCapCurrencyRealm
+import com.yadaniil.app.cryptomarket.utils.AmountFormatter
 import com.yadaniil.app.cryptomarket.utils.CurrencyHelper
 import com.yadaniil.app.cryptomarket.utils.Endpoints
 import io.realm.RealmRecyclerViewAdapter
@@ -30,8 +31,8 @@ import java.io.ByteArrayOutputStream
  * Created by danielyakovlev on 7/2/17.
  */
 
-class CurrenciesAdapter (data: RealmResults<CoinMarketCapCurrencyRealm>, autoUpdate: Boolean,
-                         private var context: Context, private var presenter: MainPresenter)
+class CurrenciesAdapter(data: RealmResults<CoinMarketCapCurrencyRealm>, autoUpdate: Boolean,
+                        private var context: Context, private var presenter: MainPresenter)
     : RealmRecyclerViewAdapter<CoinMarketCapCurrencyRealm, CurrenciesAdapter.CurrencyViewHolder>(data, autoUpdate) {
 
     init {
@@ -50,7 +51,9 @@ class CurrenciesAdapter (data: RealmResults<CoinMarketCapCurrencyRealm>, autoUpd
             data = currencyRealm
             symbol.text = currencyRealm?.symbol
             name.text = currencyRealm?.name
-            usdRate.text = currencyRealm?.totalSupply
+            usdRate.text = AmountFormatter.format(currencyRealm?.priceUsd ?: "") + " USD"
+            btcRate.text = currencyRealm?.priceBtc + " BTC"
+            initRatesChange(this, currencyRealm)
             sortOrder.text = currencyRealm?.rank.toString()
             if (currencyRealm?.iconBytes == null) {
                 downloadAndSaveIcon(icon, currencyRealm)
@@ -58,6 +61,33 @@ class CurrenciesAdapter (data: RealmResults<CoinMarketCapCurrencyRealm>, autoUpd
                 val bitmapIcon = BitmapFactory.decodeStream(ByteArrayInputStream(currencyRealm.iconBytes))
                 icon.setImageBitmap(bitmapIcon)
             }
+        }
+    }
+
+    private fun initRatesChange(currencyViewHolder: CurrencyViewHolder,
+                                currencyRealm: CoinMarketCapCurrencyRealm?) {
+        with(currencyViewHolder) {
+            hourChange.text = currencyRealm?.percentChange1h + "%"
+            dayChange.text = currencyRealm?.percentChange24h + "%"
+            weekChange.text = currencyRealm?.percentChange7d + "%"
+            if (hourChange.text.startsWith("-"))
+                hourChange.setTextColor(context.resources.getColor(R.color.md_red_900))
+            else
+                hourChange.setTextColor(context.resources.getColor(R.color.md_green_900))
+
+            if (dayChange.text.startsWith("-"))
+                dayChange.setTextColor(context.resources.getColor(R.color.md_red_900))
+            else
+                dayChange.setTextColor(context.resources.getColor(R.color.md_green_900))
+
+            if (weekChange.text.startsWith("-"))
+                weekChange.setTextColor(context.resources.getColor(R.color.md_red_900))
+            else
+                weekChange.setTextColor(context.resources.getColor(R.color.md_green_900))
+
+            arrayOf(hourChange, dayChange, weekChange)
+                    .filterNot { it.text.startsWith("-") }
+                    .forEach { it.text = "+" + it.text }
         }
     }
 
@@ -87,7 +117,11 @@ class CurrenciesAdapter (data: RealmResults<CoinMarketCapCurrencyRealm>, autoUpd
     class CurrencyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var symbol: TextView = view.find(R.id.item_currency_symbol)
         var name: TextView = view.find(R.id.item_currency_name)
-        var usdRate: TextView = view.find(R.id.item_currency_usd_rate)
+        var usdRate: TextView = view.find(R.id.item_currency_price)
+        var btcRate: TextView = view.find(R.id.item_currency_btc_price)
+        var hourChange: TextView = view.find(R.id.item_currency_hour_change)
+        var dayChange: TextView = view.find(R.id.item_currency_day_change)
+        var weekChange: TextView = view.find(R.id.item_currency_week_change)
         var icon: ImageView = view.find(R.id.item_currency_icon)
         var sortOrder: TextView = view.find(R.id.item_currency_rank)
         var data: CoinMarketCapCurrencyRealm? = null

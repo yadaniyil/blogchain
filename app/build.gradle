@@ -36,6 +36,7 @@ android {
         applicationId "com.yadaniil.app.cryptomarket"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
+        multiDexEnabled true
         versionCode 1
         versionName "1.0.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -51,8 +52,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    sourceSets{
-	main.java.srcDirs += 'src/main/kotlin'
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
     }
     packagingOptions {
         exclude 'META-INF/rxjava.properties'
@@ -60,6 +61,7 @@ android {
 }
 
 dependencies {
+    implementation 'com.google.firebase:firebase-messaging:11.0.1'
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     //supportLib
@@ -88,7 +90,6 @@ dependencies {
     compile rootProject.ext.rxAndroid
     compile rootProject.ext.rxKotlin
 
-    
     //net
     compile rootProject.ext.retrofit
     compile rootProject.ext.okHttp
@@ -96,12 +97,9 @@ dependencies {
     compile rootProject.ext.rxJavaAdapter
     compile rootProject.ext.rxJava2Adapter
     compile rootProject.ext.gsonConverter
-    
 
-    
     //picasso
     compile rootProject.ext.picasso
-    
 
     //test
     testCompile 'junit:junit:4.12'
@@ -120,7 +118,7 @@ dependencies {
     // Retrofit logs
     compile 'com.squareup.okhttp3:logging-interceptor:3.6.0'
     // For retrofit ResponseBody
-    compile  'com.squareup.retrofit2:converter-scalars:2.2.0'
+    compile 'com.squareup.retrofit2:converter-scalars:2.2.0'
     // Adapters for realm
     compile 'io.realm:android-adapters:2.0.0'
     // Navigation drawer
@@ -140,6 +138,8 @@ dependencies {
     compile 'com.arello-mobile:moxy-android:1.5.3'
     compile 'com.arello-mobile:moxy-app-compat:1.5.3'
     kapt 'com.arello-mobile:moxy-compiler:1.5.3'
+
+    compile 'com.android.support:multidex:1.0.2'
 }
 
 kapt {
@@ -149,3 +149,5 @@ kapt {
 repositories {
     mavenCentral()
 }
+
+apply plugin: 'com.google.gms.google-services'

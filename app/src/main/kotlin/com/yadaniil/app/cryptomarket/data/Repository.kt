@@ -44,7 +44,7 @@ class Repository @Inject constructor(var appApiHelper: AppApiHelper,
         appDbHelper.saveCryptoCompareCurrenciesToDb(currencies)
     }
 
-    override fun saveCryptoCompareCurrencyIcon(currency: CryptoCompareCurrencyRealm, byteArray: ByteArray) {
+    override fun saveCryptoCompareCurrencyIcon(currency: CoinMarketCapCurrencyRealm, byteArray: ByteArray) {
         appDbHelper.saveCryptoCompareCurrencyIcon(currency, byteArray)
     }
     // endregion Db

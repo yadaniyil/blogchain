@@ -21,7 +21,8 @@ open class CoinMarketCapCurrencyRealm(
         var percentChange1h: String? = "",
         var percentChange24h: String? = "",
         var percentChange7d: String? = "",
-        var lastUpdated: Long = 0L
+        var lastUpdated: Long = 0L,
+        var iconBytes: ByteArray? = null
 ) : RealmObject() {
 
     companion object {

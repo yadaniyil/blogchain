@@ -3,6 +3,8 @@ package com.yadaniil.app.cryptomarket
 //import com.crashlytics.android.Crashlytics
 //import io.fabric.sdk.android.Fabric
 //import com.crashlytics.android.core.CrashlyticsCore
+import android.content.Context
+import android.support.multidex.MultiDex
 import com.yadaniil.app.cryptomarket.di.component.ApplicationComponent
 import com.yadaniil.app.cryptomarket.di.component.DaggerApplicationComponent
 import com.yadaniil.app.cryptomarket.di.module.ApplicationModule
@@ -12,6 +14,11 @@ import timber.log.Timber
 
 
 class Application : android.app.Application() {
+
+    override fun attachBaseContext(base: Context?) {
+        super.attachBaseContext(base)
+        MultiDex.install(this)
+    }
 
     override fun onCreate() {
         super.onCreate()
@@ -27,7 +34,6 @@ class Application : android.app.Application() {
 //                .build()
 //
 //        Fabric.with(this, Crashlytics.Builder().core(core).build())
-
 
         FlowUp.Builder.with(this)
                 .apiKey("236ce14be59f4285b56b3eb1faf55dc1")

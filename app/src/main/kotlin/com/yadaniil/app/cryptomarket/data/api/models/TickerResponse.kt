@@ -7,9 +7,9 @@ import com.google.gson.annotations.SerializedName
  */
 class TickerResponse(
         @SerializedName("id") val id: String,
-        @SerializedName("fullName") val name: String,
+        @SerializedName("name") val name: String,
         @SerializedName("symbol") val symbol: String,
-        @SerializedName("sortOrder") val rank: Int,
+        @SerializedName("rank") val rank: Int,
         @SerializedName("price_usd") val priceUsd: String,
         @SerializedName("price_btc") val priceBtc: String,
         @SerializedName("24h_volume_usd") val volume24hUsd: String,

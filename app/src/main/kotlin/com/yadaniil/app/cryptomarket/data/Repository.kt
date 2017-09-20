@@ -6,6 +6,7 @@ import com.yadaniil.app.cryptomarket.data.api.CryptoCompareMinService
 import com.yadaniil.app.cryptomarket.data.api.CryptoCompareService
 import com.yadaniil.app.cryptomarket.data.api.models.CryptoCompareCurrenciesListResponse
 import com.yadaniil.app.cryptomarket.data.api.models.CryptoComparePriceMultiFullResponse
+import com.yadaniil.app.cryptomarket.data.api.models.MinersResponse
 import com.yadaniil.app.cryptomarket.data.api.models.TickerResponse
 import com.yadaniil.app.cryptomarket.data.db.AppDbHelper
 import com.yadaniil.app.cryptomarket.data.db.DbHelper
@@ -23,8 +24,8 @@ import javax.inject.Singleton
  */
 
 @Singleton
-class Repository @Inject constructor(var appApiHelper: AppApiHelper,
-                                     var appDbHelper: AppDbHelper,
+class Repository @Inject constructor(private var appApiHelper: AppApiHelper,
+                                     private var appDbHelper: AppDbHelper,
                                      var sharedPrefs: SharedPrefs)
     : CoinMarketCapService, CryptoCompareService, CryptoCompareMinService,
         DbHelper, SharedPrefsHelper {
@@ -64,6 +65,8 @@ class Repository @Inject constructor(var appApiHelper: AppApiHelper,
                                    tryConversion: String?): Observable<CryptoComparePriceMultiFullResponse> =
             appApiHelper.getPriceMultiFull(fromSymbols, toSymbols, exchangeName, appName,
                     serverSignRequests, tryConversion)
+
+    override fun getMiners() = appApiHelper.getMiners()
     // endregion Api
 
 }

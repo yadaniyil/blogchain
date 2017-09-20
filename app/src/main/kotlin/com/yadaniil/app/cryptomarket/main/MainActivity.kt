@@ -12,6 +12,8 @@ import com.yadaniil.app.cryptomarket.base.BaseActivity
 import com.yadaniil.app.cryptomarket.data.db.models.CoinMarketCapCurrencyRealm
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_main.*
+import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
 
 
 class MainActivity : BaseActivity(), IMainView {
@@ -30,7 +32,15 @@ class MainActivity : BaseActivity(), IMainView {
         listDivider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         setUpCurrenciesList(presenter.getRealmCurrencies())
         initSearchView()
-        presenter.downloadAndSaveAllCurrencies()
+
+        initBackgroundRefresh()
+    }
+
+    private fun initBackgroundRefresh() {
+//        val scheduledExecutorService = Executors.newScheduledThreadPool(5)
+//        scheduledExecutorService.scheduleAtFixedRate({
+            presenter.downloadAndSaveAllCurrencies()
+//        }, 0, 5, TimeUnit.SECONDS)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

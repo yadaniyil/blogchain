@@ -2,6 +2,7 @@ package com.yadaniil.app.cryptomarket.data.api
 
 import com.yadaniil.app.cryptomarket.Application
 import com.yadaniil.app.cryptomarket.data.api.models.CryptoCompareCurrenciesListResponse
+import com.yadaniil.app.cryptomarket.data.api.models.MinersResponse
 import com.yadaniil.app.cryptomarket.data.api.models.TickerResponse
 import io.reactivex.Observable
 import okhttp3.ResponseBody
@@ -32,5 +33,7 @@ class AppApiHelper : CoinMarketCapService, CryptoCompareService, CryptoCompareMi
                                    serverSignRequests: Boolean?, tryConversion: String?) =
             cryptoCompareMinService.getPriceMultiFull(fromSymbols, toSymbols, exchangeName, appName,
                     serverSignRequests, tryConversion)
+
+    override fun getMiners(): Observable<MinersResponse> = cryptoCompareService.getMiners()
 
 }

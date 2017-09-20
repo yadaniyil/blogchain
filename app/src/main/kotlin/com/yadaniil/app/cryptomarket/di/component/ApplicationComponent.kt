@@ -17,6 +17,7 @@ import com.yadaniil.app.cryptomarket.di.module.DatabaseModule
 
 import com.yadaniil.app.cryptomarket.di.module.NetModule
 import com.yadaniil.app.cryptomarket.main.MainPresenter
+import com.yadaniil.app.cryptomarket.mining.fragments.miners.MinersPresenter
 
 import dagger.Component
 import io.realm.Realm
@@ -28,6 +29,7 @@ interface ApplicationComponent {
     fun inject(appDbHelper: AppDbHelper)
     fun inject(appApiHelper: AppApiHelper)
     fun inject(mainPresenter: MainPresenter)
+    fun inject(minersPresenter: MinersPresenter)
 
     fun app(): Application
     fun context(): Context

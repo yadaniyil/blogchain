@@ -1,0 +1,17 @@
+<tabs>
+    <tab
+        id="@+id/tab_miners"
+        icon="@drawable/ic_pick"
+        title="@string/miners" />
+
+    <tab
+        id="@+id/tab_calculator"
+        icon="@drawable/ic_calculator"
+        title="@string/calculator" />
+
+    <tab
+        id="@+id/tab_coins"
+        icon="@drawable/ic_coins"
+        title="@string/coins" />
+
+</tabs>

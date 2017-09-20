@@ -55,6 +55,7 @@ abstract class BaseActivity : MvpAppCompatActivity(), IBaseView {
                 .withActivity(this)
                 .withAccountHeader(headerResult)
                 .withToolbar(toolbar)
+                .withActionBarDrawerToggle(true)
                 .addDrawerItems(item1, item2, item3, item4, item5, DividerDrawerItem(), item6)
                 .build()
         drawer.header.onClick { toast("To add google account activity") }

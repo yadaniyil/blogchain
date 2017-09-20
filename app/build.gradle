@@ -140,6 +140,9 @@ dependencies {
     kapt 'com.arello-mobile:moxy-compiler:1.5.3'
 
     compile 'com.android.support:multidex:1.0.2'
+
+    // SearchView
+    compile 'com.miguelcatalan:materialsearchview:1.4.0'
 }
 
 kapt {

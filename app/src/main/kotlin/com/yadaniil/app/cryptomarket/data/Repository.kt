@@ -33,6 +33,9 @@ class Repository @Inject constructor(var appApiHelper: AppApiHelper,
     override fun getAllCoinMarketCapCurrenciesFromDb(): RealmResults<CoinMarketCapCurrencyRealm> =
             appDbHelper.getAllCoinMarketCapCurrenciesFromDb()
 
+    override fun getAllCoinMarketCapCurrenciesFromDbFiltered(text: String): RealmResults<CoinMarketCapCurrencyRealm> =
+            appDbHelper.getAllCoinMarketCapCurrenciesFromDbFiltered(text)
+
     override fun saveCoinMarketCapCurrenciesToDb(currencies: List<CoinMarketCapCurrencyRealm>) {
         appDbHelper.saveCoinMarketCapCurrenciesToDb(currencies)
     }

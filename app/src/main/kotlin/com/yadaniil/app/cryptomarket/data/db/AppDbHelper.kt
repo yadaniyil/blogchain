@@ -3,6 +3,7 @@ package com.yadaniil.app.cryptomarket.data.db
 import com.yadaniil.app.cryptomarket.Application
 import com.yadaniil.app.cryptomarket.data.db.models.CoinMarketCapCurrencyRealm
 import com.yadaniil.app.cryptomarket.data.db.models.CryptoCompareCurrencyRealm
+import io.realm.Case
 import io.realm.Realm
 import io.realm.RealmResults
 import javax.inject.Inject
@@ -20,6 +21,15 @@ class AppDbHelper : DbHelper {
 
     override fun getAllCoinMarketCapCurrenciesFromDb(): RealmResults<CoinMarketCapCurrencyRealm> =
             realm.where(CoinMarketCapCurrencyRealm::class.java).findAllSortedAsync("rank")
+
+    override fun getAllCoinMarketCapCurrenciesFromDbFiltered(text: String): RealmResults<CoinMarketCapCurrencyRealm> =
+            realm.where(CoinMarketCapCurrencyRealm::class.java)
+                    .beginGroup()
+                    .beginsWith("name", text, Case.INSENSITIVE)
+                    .or()
+                    .beginsWith("symbol", text, Case.INSENSITIVE)
+                    .endGroup()
+                    .findAllSortedAsync("rank")
 
     override fun saveCoinMarketCapCurrenciesToDb(currencies: List<CoinMarketCapCurrencyRealm>) {
         realm.executeTransactionAsync { realm -> realm.copyToRealmOrUpdate(currencies) }

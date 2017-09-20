@@ -182,6 +182,7 @@
     <orderEntry type="library" name="anko-common-0.9.1" level="project" />
     <orderEntry type="library" name="rxjava-2.0.7" level="project" />
     <orderEntry type="library" name="play-services-base-11.0.1" level="project" />
+    <orderEntry type="library" name="materialsearchview-1.4.0" level="project" />
     <orderEntry type="library" name="slf4j-api-1.7.21" level="project" />
     <orderEntry type="library" scope="TEST" name="espresso-core-2.2.2" level="project" />
     <orderEntry type="library" name="dagger-android-2.11" level="project" />

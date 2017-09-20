@@ -26,6 +26,9 @@ class MainPresenter : MvpPresenter<IMainView>() {
     fun getRealmCurrencies(): RealmResults<CoinMarketCapCurrencyRealm>
             = repo.getAllCoinMarketCapCurrenciesFromDb()
 
+    fun getRealmCurrenciesFiltered(text: String): RealmResults<CoinMarketCapCurrencyRealm>
+            = repo.getAllCoinMarketCapCurrenciesFromDbFiltered(text)
+
     fun downloadAndSaveAllCurrencies() {
         repo.getFullCurrenciesList()
                 .subscribeOn(Schedulers.io())
@@ -33,11 +36,9 @@ class MainPresenter : MvpPresenter<IMainView>() {
                 .map { CryptoCompareCurrencyRealm.convertApiResponseToRealmList(it) }
                 .doOnSubscribe { viewState.showLoading() }
                 .doOnComplete { downloadCMCList() }
-                .subscribe({
-                    currenciesList ->
+                .subscribe({ currenciesList ->
                     repo.saveCryptoCompareCurrenciesToDb(currenciesList)
-                }, {
-                    error ->
+                }, { error ->
                     Timber.e(error.message)
                 })
     }
@@ -48,11 +49,9 @@ class MainPresenter : MvpPresenter<IMainView>() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .map { CoinMarketCapCurrencyRealm.convertApiResponseToRealmList(it) }
                 .doOnComplete { viewState.stopLoading() }
-                .subscribe({
-                    currenciesList ->
+                .subscribe({ currenciesList ->
                     repo.saveCoinMarketCapCurrenciesToDb(currenciesList)
-                }, {
-                    error ->
+                }, { error ->
                     Timber.e(error.message)
                 })
     }

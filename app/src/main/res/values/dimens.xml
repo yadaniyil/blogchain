@@ -3,6 +3,7 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="standard_dimen">16dp</dimen>
     <dimen name="half_standard_dimen">8dp</dimen>
     <dimen name="currency_item_height">80dp</dimen>
     <dimen name="currency_item_icon_diameter">35dp</dimen>

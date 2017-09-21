@@ -143,6 +143,9 @@ dependencies {
 
     // SearchView
     compile 'com.miguelcatalan:materialsearchview:1.4.0'
+
+    // Filter
+    compile 'com.github.Yalantis:SearchFilter:v1.0.4'
 }
 
 kapt {

@@ -21,4 +21,22 @@
     <string name="miners">Miners</string>
     <string name="calculator">Calculator</string>
     <string name="coins">Coins</string>
+    <string name="all_selected">All selected</string>
+
+    <string-array name="miner_filters">
+        <item>All categories</item>
+        <item>ASIC</item>
+        <item>GPU</item>
+        <item>Refurbished GPU</item>
+        <item>Rig</item>
+        <item>Rig Bundle</item>
+        <item>USB</item>
+        <item>Chip</item>
+        <item>SHA256</item>
+        <item>Scrypt</item>
+        <item>Ethash</item>
+        <item>Equihash</item>
+        <item>X11</item>
+        <item>CryptoNight</item>
+    </string-array>
 </resources>

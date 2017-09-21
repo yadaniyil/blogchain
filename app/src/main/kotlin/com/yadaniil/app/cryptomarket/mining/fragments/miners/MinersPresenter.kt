@@ -4,7 +4,6 @@ import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.yadaniil.app.cryptomarket.Application
 import com.yadaniil.app.cryptomarket.data.Repository
-import com.yadaniil.app.cryptomarket.data.api.models.Miner
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
@@ -22,7 +21,6 @@ class MinersPresenter : MvpPresenter<MinersView>() {
     }
 
     @Inject lateinit var repo: Repository
-    private var downloadedMiners: List<Miner> = ArrayList()
 
     fun downloadMiners() {
         repo.getMiners()
@@ -30,13 +28,9 @@ class MinersPresenter : MvpPresenter<MinersView>() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .map { it.idToMiner.values }
                 .subscribe({ miners ->
-                    downloadedMiners = miners.toList()
                     viewState.showMiners(miners.toList())
                 }, { error ->
                     Timber.e(error.message)
                 })
     }
-
-    fun getAllMiners() = downloadedMiners
-
 }

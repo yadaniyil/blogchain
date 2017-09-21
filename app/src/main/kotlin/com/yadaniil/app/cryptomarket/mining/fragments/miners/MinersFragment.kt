@@ -41,7 +41,6 @@ class MinersFragment : MvpAppCompatFragment(), MinersView, MinerItemClickListene
         return rootView
     }
 
-
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         minerFilterColors = resources.getIntArray(R.array.miner_filter_colors)
@@ -49,13 +48,6 @@ class MinersFragment : MvpAppCompatFragment(), MinersView, MinerItemClickListene
         initToolbar()
         presenter.downloadMiners()
         showFilter()
-    }
-
-    private fun getFilterTags(): List<MinerFilterTag> {
-        val tags = ArrayList<MinerFilterTag>()
-        (0 until minerFilterNames.size).mapTo(tags) {
-            MinerFilterTag(minerFilterNames[it], minerFilterColors[it]) }
-        return tags
     }
 
     private fun initToolbar() {
@@ -87,6 +79,14 @@ class MinersFragment : MvpAppCompatFragment(), MinersView, MinerItemClickListene
         miners_list.addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
         miners_list.itemAnimator = FiltersListItemAnimator()
         minersAdapter.setData(miners)
+    }
+
+    // region Filtering
+    private fun getFilterTags(): List<MinerFilterTag> {
+        val tags = ArrayList<MinerFilterTag>()
+        (0 until minerFilterNames.size).mapTo(tags) {
+            MinerFilterTag(minerFilterNames[it], minerFilterColors[it]) }
+        return tags
     }
 
     private fun showFilter() {
@@ -131,6 +131,7 @@ class MinersFragment : MvpAppCompatFragment(), MinersView, MinerItemClickListene
         }
 
     }
+    // endregion Filtering
 
     companion object {
         fun newInstance() = MinersFragment()

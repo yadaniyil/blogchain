@@ -7,4 +7,5 @@ import com.yalantis.filter.model.FilterModel
  */
 class MinerFilterTag(private var text: String, private var color: Int) : FilterModel {
     override fun getText() = text
+    fun getColor() = color
 }

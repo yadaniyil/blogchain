@@ -8,6 +8,7 @@
 
     <LinearLayout
         android:layout_width="wrap_content"
+        android:layout_gravity="bottom"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
@@ -20,10 +21,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:id="@+id/hash_speed"
+            android:id="@+id/price"
             android:singleLine="true"
             android:paddingTop="@dimen/half_standard_dimen"
-            android:text="HashPerSec"/>
+            android:text="1200 USD"/>
 
     </LinearLayout>
 
@@ -61,6 +62,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="6dp"
+                android:textColor="@color/white"
                 android:text="Equip"
                 android:id="@+id/equipment_type"/>
 
@@ -68,8 +71,31 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Algorithm"
-                android:paddingStart="@dimen/standard_dimen"
+                android:padding="6dp"
+                android:textColor="@color/white"
+                android:layout_marginStart="@dimen/standard_dimen"
                 android:id="@+id/algorithm"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="@dimen/half_standard_dimen">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="15 Gh/s"
+                android:id="@+id/hash_speed"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1200 W"
+                android:layout_marginStart="@dimen/standard_dimen"
+                android:id="@+id/power"/>
 
         </LinearLayout>
 

@@ -19,6 +19,7 @@ import kotlinx.android.synthetic.main.fragment_miners.*
 import org.jetbrains.anko.find
 import kotlin.properties.Delegates
 import com.yalantis.filter.animator.FiltersListItemAnimator
+import org.jetbrains.anko.toast
 
 
 /**
@@ -99,14 +100,23 @@ class MinersFragment : MvpAppCompatFragment(), MinersView, MinerItemClickListene
 
     private val filterListener = object : FilterListener<MinerFilterTag> {
         override fun onFiltersSelected(filters: ArrayList<MinerFilterTag>) {
-
+            val newMiners = presenter.findMinersByTags(filters)
+            minersAdapter.setData(newMiners)
         }
         override fun onNothingSelected() {
-//            minersAdapter.setData(presenter.getAllMiners())
-//            minersAdapter.notifyDataSetChanged()
+            try {
+                minersAdapter.setData(presenter.downloadedMiners)
+                minersAdapter.notifyDataSetChanged()
+            } catch (e: IllegalStateException) {
+                activity.toast(R.string.unexpected_error)
+            }
+
         }
         override fun onFilterSelected(item: MinerFilterTag) {
-
+            if (item.getText() == minerFilterNames[0]) {
+                filter.deselectAll()
+                filter.collapse()
+            }
         }
         override fun onFilterDeselected(item: MinerFilterTag) {
 

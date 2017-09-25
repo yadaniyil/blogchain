@@ -24,6 +24,7 @@
     <string name="all_selected">All selected</string>
     <string name="usd">USD</string>
     <string name="btc">BTC</string>
+    <string name="unexpected_error">Ooooops</string>
 
     <string-array name="miner_filters">
         <item>All categories</item>

@@ -4,6 +4,7 @@ import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.yadaniil.app.cryptomarket.Application
 import com.yadaniil.app.cryptomarket.data.Repository
+import com.yadaniil.app.cryptomarket.data.api.models.Miner
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
@@ -21,6 +22,7 @@ class MinersPresenter : MvpPresenter<MinersView>() {
     }
 
     @Inject lateinit var repo: Repository
+    var downloadedMiners: MutableList<Miner> = ArrayList()
 
     fun downloadMiners() {
         repo.getMiners()
@@ -28,9 +30,21 @@ class MinersPresenter : MvpPresenter<MinersView>() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .map { it.idToMiner.values }
                 .subscribe({ miners ->
+                    downloadedMiners = miners.toMutableList()
                     viewState.showMiners(miners.toList())
                 }, { error ->
                     Timber.e(error.message)
                 })
+    }
+
+    fun findMinersByTags(filters: ArrayList<MinerFilterTag>): List<Miner> {
+        val filteredMiners: MutableList<Miner> = ArrayList()
+        for(miner in downloadedMiners) {
+            val foundedMiner = filters.find {
+                it.getText() == miner.equipmentType || it.getText() == miner.algorithm }
+            if(foundedMiner != null)
+                filteredMiners.add(miner)
+        }
+        return filteredMiners
     }
 }

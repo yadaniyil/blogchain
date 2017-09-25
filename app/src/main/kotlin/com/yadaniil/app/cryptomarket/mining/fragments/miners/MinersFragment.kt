@@ -108,7 +108,7 @@ class MinersFragment : MvpAppCompatFragment(), MinersView, MinerItemClickListene
                 minersAdapter.setData(presenter.downloadedMiners)
                 minersAdapter.notifyDataSetChanged()
             } catch (e: IllegalStateException) {
-                activity.toast(R.string.unexpected_error)
+                // This will toggle once in onCreate, so we don't show any error
             }
 
         }

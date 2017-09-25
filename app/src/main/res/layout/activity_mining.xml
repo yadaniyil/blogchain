@@ -14,6 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         app:bb_behavior="shy"
+        app:bb_inActiveTabColor="#CCCC"
+        app:bb_activeTabColor="#fff"
         android:layout_gravity="bottom"
         app:bb_tabXmlResource="@xml/bottombar_tabs" />
 

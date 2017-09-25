@@ -42,6 +42,7 @@ class MinersAdapter(context: Context, minerClickListener: MinerItemClickListener
         val currentMiner = miners!![position]
 
         holder.name.text = currentMiner.name
+        holder.company.text = currentMiner.company
         Picasso.with(context).load(
                 Uri.parse(Endpoints.CRYPTO_COMPARE_URL + currentMiner.logoUrl))
                 .into(holder.image)
@@ -123,6 +124,7 @@ class MinersAdapter(context: Context, minerClickListener: MinerItemClickListener
         val itemLayout: LinearLayout = v.find(R.id.miner_item_layout)
         val image: ImageView = v.find(R.id.miner_image)
         val name: TextView = v.find(R.id.name)
+        val company: TextView = v.find(R.id.company)
         val algorithm: TextView = v.find(R.id.algorithm)
         val equipmentType: TextView = v.find(R.id.equipment_type)
         val hashSpeed: TextView = v.find(R.id.hash_speed)

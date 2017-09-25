@@ -49,7 +49,6 @@
             android:id="@+id/company"
             android:paddingEnd="@dimen/half_standard_dimen"
             android:layout_alignParentRight="true"
-            android:text="Bitmain Tech"
             android:singleLine="true"
             android:layout_height="wrap_content" />
 

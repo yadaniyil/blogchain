@@ -37,10 +37,18 @@ class MainActivity : BaseActivity(), IMainView {
     }
 
     private fun initBackgroundRefresh() {
-//        val scheduledExecutorService = Executors.newScheduledThreadPool(5)
-//        scheduledExecutorService.scheduleAtFixedRate({
+        val scheduledExecutorService = Executors.newScheduledThreadPool(5)
+        scheduledExecutorService.scheduleAtFixedRate({
             presenter.downloadAndSaveAllCurrencies()
-//        }, 0, 5, TimeUnit.SECONDS)
+        }, 0, 40, TimeUnit.SECONDS)
+    }
+
+    override fun onBackPressed() {
+        if (search_view.isSearchOpen) {
+            search_view.closeSearch()
+        } else {
+            super.onBackPressed()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

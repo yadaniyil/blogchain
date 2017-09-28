@@ -1,13 +1,7 @@
 package com.yadaniil.app.cryptomarket.data
 
-import com.yadaniil.app.cryptomarket.data.api.AppApiHelper
-import com.yadaniil.app.cryptomarket.data.api.CoinMarketCapService
-import com.yadaniil.app.cryptomarket.data.api.CryptoCompareMinService
-import com.yadaniil.app.cryptomarket.data.api.CryptoCompareService
-import com.yadaniil.app.cryptomarket.data.api.models.CryptoCompareCurrenciesListResponse
-import com.yadaniil.app.cryptomarket.data.api.models.CryptoComparePriceMultiFullResponse
-import com.yadaniil.app.cryptomarket.data.api.models.MinersResponse
-import com.yadaniil.app.cryptomarket.data.api.models.TickerResponse
+import com.yadaniil.app.cryptomarket.data.api.*
+import com.yadaniil.app.cryptomarket.data.api.models.*
 import com.yadaniil.app.cryptomarket.data.db.AppDbHelper
 import com.yadaniil.app.cryptomarket.data.db.DbHelper
 import com.yadaniil.app.cryptomarket.data.db.models.CoinMarketCapCurrencyRealm
@@ -27,7 +21,7 @@ import javax.inject.Singleton
 class Repository @Inject constructor(private var appApiHelper: AppApiHelper,
                                      private var appDbHelper: AppDbHelper,
                                      var sharedPrefs: SharedPrefs)
-    : CoinMarketCapService, CryptoCompareService, CryptoCompareMinService,
+    : CoinMarketCapService, CryptoCompareService, CryptoCompareMinService, WhatToMineService,
         DbHelper, SharedPrefsHelper {
 
     // region Db
@@ -67,6 +61,10 @@ class Repository @Inject constructor(private var appApiHelper: AppApiHelper,
                     serverSignRequests, tryConversion)
 
     override fun getMiners() = appApiHelper.getMiners()
+
+    override fun getAllGpuMiningCoins(): Observable<MiningCoinsResponse> = appApiHelper.getAllGpuMiningCoins()
+
+    override fun getAllAsicMiningCoins(): Observable<MiningCoinsResponse> = appApiHelper.getAllAsicMiningCoins()
     // endregion Api
 
 }

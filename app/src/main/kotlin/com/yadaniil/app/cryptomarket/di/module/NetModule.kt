@@ -8,6 +8,7 @@ import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import com.yadaniil.app.cryptomarket.data.api.CoinMarketCapService
 import com.yadaniil.app.cryptomarket.data.api.CryptoCompareService
 import com.yadaniil.app.cryptomarket.data.api.CryptoCompareMinService
+import com.yadaniil.app.cryptomarket.data.api.WhatToMineService
 import com.yadaniil.app.cryptomarket.utils.Endpoints
 import dagger.Module
 import dagger.Provides
@@ -94,5 +95,12 @@ class NetModule {
                 .create(CryptoCompareMinService::class.java)
     }
 
+    @Provides
+    @Singleton
+    fun provideWhatToMineService(builder: Retrofit.Builder): WhatToMineService {
+        return builder.baseUrl(Endpoints.WHAT_TO_MINE_URL)
+                .build()
+                .create(WhatToMineService::class.java)
+    }
 
 }

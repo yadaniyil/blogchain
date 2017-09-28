@@ -2,7 +2,7 @@
     <tab
         id="@+id/tab_miners"
         icon="@drawable/ic_pick"
-        title="@string/miners"
+        title="@string/coins"
         barColorWhenSelected="#37474F"/>
         <!--inActiveColor="#827f93"-->
         <!--activeColor="#FFF"-->

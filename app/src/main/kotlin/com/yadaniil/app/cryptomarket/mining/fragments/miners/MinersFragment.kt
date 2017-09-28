@@ -19,7 +19,6 @@ import kotlinx.android.synthetic.main.fragment_miners.*
 import org.jetbrains.anko.find
 import kotlin.properties.Delegates
 import com.yalantis.filter.animator.FiltersListItemAnimator
-import org.jetbrains.anko.toast
 
 
 /**
@@ -49,6 +48,14 @@ class MinersFragment : MvpAppCompatFragment(), MinersView, MinerItemClickListene
         initToolbar()
         presenter.downloadMiners()
         showFilter()
+    }
+
+    private fun filterMiners(newText: String?) {
+        val filteredMiners:MutableList<Miner> = ArrayList()
+        presenter.downloadedMiners.forEach {
+            if(it.name.contains(newText ?: "", true))
+                filteredMiners.add(it) }
+        minersAdapter.setData(filteredMiners)
     }
 
     private fun initToolbar() {

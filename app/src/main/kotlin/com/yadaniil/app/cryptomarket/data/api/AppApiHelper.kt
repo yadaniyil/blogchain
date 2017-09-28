@@ -2,27 +2,27 @@ package com.yadaniil.app.cryptomarket.data.api
 
 import com.yadaniil.app.cryptomarket.Application
 import com.yadaniil.app.cryptomarket.data.api.models.CryptoCompareCurrenciesListResponse
+import com.yadaniil.app.cryptomarket.data.api.models.MiningCoinsResponse
 import com.yadaniil.app.cryptomarket.data.api.models.MinersResponse
-import com.yadaniil.app.cryptomarket.data.api.models.TickerResponse
 import io.reactivex.Observable
-import okhttp3.ResponseBody
 import javax.inject.Inject
 
 /**
  * Created by danielyakovlev on 7/1/17.
  */
-class AppApiHelper : CoinMarketCapService, CryptoCompareService, CryptoCompareMinService {
+class AppApiHelper : CoinMarketCapService, CryptoCompareService,
+        CryptoCompareMinService, WhatToMineService {
 
     @Inject lateinit var coinMarketCapService: CoinMarketCapService
     @Inject lateinit var cryptoCompareService: CryptoCompareService
     @Inject lateinit var cryptoCompareMinService: CryptoCompareMinService
+    @Inject lateinit var whatToMineService: WhatToMineService
 
     init {
         Application.component?.inject(this)
     }
 
-    override fun getAllCurrencies(convertToCurrency: String?, limit: String?)
-            : Observable<List<TickerResponse>> =
+    override fun getAllCurrencies(convertToCurrency: String?, limit: String?) =
             coinMarketCapService.getAllCurrencies(convertToCurrency, limit)
 
     override fun getFullCurrenciesList(): Observable<CryptoCompareCurrenciesListResponse> =
@@ -36,4 +36,7 @@ class AppApiHelper : CoinMarketCapService, CryptoCompareService, CryptoCompareMi
 
     override fun getMiners(): Observable<MinersResponse> = cryptoCompareService.getMiners()
 
+    override fun getAllGpuMiningCoins(): Observable<MiningCoinsResponse> = whatToMineService.getAllGpuMiningCoins()
+
+    override fun getAllAsicMiningCoins(): Observable<MiningCoinsResponse> = whatToMineService.getAllAsicMiningCoins()
 }

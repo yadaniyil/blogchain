@@ -30,14 +30,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#E4E6E3"
-        android:id="@+id/miners_frame_layout"
+        android:id="@+id/coins_frame_layout"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/container_height"
-            android:id="@+id/miners_list">
+            android:id="@+id/coins_list">
         </android.support.v7.widget.RecyclerView>
 
         <com.yalantis.filter.widget.Filter

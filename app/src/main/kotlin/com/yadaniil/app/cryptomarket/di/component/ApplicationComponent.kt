@@ -4,10 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.yadaniil.app.cryptomarket.Application
 import com.yadaniil.app.cryptomarket.data.Repository
-import com.yadaniil.app.cryptomarket.data.api.AppApiHelper
-import com.yadaniil.app.cryptomarket.data.api.CoinMarketCapService
-import com.yadaniil.app.cryptomarket.data.api.CryptoCompareService
-import com.yadaniil.app.cryptomarket.data.api.CryptoCompareMinService
+import com.yadaniil.app.cryptomarket.data.api.*
 import com.yadaniil.app.cryptomarket.data.db.AppDbHelper
 import com.yadaniil.app.cryptomarket.data.prefs.SharedPrefs
 import com.yadaniil.app.cryptomarket.di.module.ApplicationModule
@@ -17,6 +14,7 @@ import com.yadaniil.app.cryptomarket.di.module.DatabaseModule
 
 import com.yadaniil.app.cryptomarket.di.module.NetModule
 import com.yadaniil.app.cryptomarket.main.MainPresenter
+import com.yadaniil.app.cryptomarket.mining.fragments.coins.CoinsPresenter
 import com.yadaniil.app.cryptomarket.mining.fragments.miners.MinersPresenter
 
 import dagger.Component
@@ -30,6 +28,7 @@ interface ApplicationComponent {
     fun inject(appApiHelper: AppApiHelper)
     fun inject(mainPresenter: MainPresenter)
     fun inject(minersPresenter: MinersPresenter)
+    fun inject(coinsPresenter: CoinsPresenter)
 
     fun app(): Application
     fun context(): Context
@@ -38,6 +37,7 @@ interface ApplicationComponent {
     fun coinMarketCapService(): CoinMarketCapService
     fun cryptoCompareService(): CryptoCompareService
     fun cryptoCompareMinService(): CryptoCompareMinService
+    fun whatToMineService(): WhatToMineService
     fun appApiHelper(): AppApiHelper
     fun appDbHelper(): AppDbHelper
     fun sharedPrefs(): SharedPrefs

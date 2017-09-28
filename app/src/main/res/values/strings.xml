@@ -18,13 +18,13 @@
     <string name="hour_price_change">1h:</string>
     <string name="day_price_change">24h:</string>
     <string name="week_price_change">7d:</string>
-    <string name="miners">Miners</string>
     <string name="calculator">Calculator</string>
     <string name="coins">Coins</string>
     <string name="all_selected">All selected</string>
     <string name="usd">USD</string>
     <string name="btc">BTC</string>
     <string name="unexpected_error">Ooooops</string>
+    <string name="miners">Miners</string>
 
     <string-array name="miner_filters">
         <item>All categories</item>

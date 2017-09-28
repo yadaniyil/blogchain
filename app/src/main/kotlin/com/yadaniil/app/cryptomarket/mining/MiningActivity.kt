@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import com.yadaniil.app.cryptomarket.R
+import com.yadaniil.app.cryptomarket.mining.fragments.coins.CoinsFragment
 import com.yadaniil.app.cryptomarket.mining.fragments.miners.MinersFragment
 import kotlinx.android.synthetic.main.activity_mining.*
 
@@ -20,12 +21,12 @@ class MiningActivity : AppCompatActivity() {
     }
 
     private fun initBottomBar() {
-        bottomBar.setDefaultTabPosition(TAB_MINERS)
+        bottomBar.setDefaultTabPosition(TAB_COINS)
         bottomBar.setOnTabSelectListener { tabId ->
             when(tabId) {
                 R.id.tab_miners -> openFragment(MinersFragment.newInstance())
 //                R.id.tab_calculator -> openFragment(CalculatorFragment.newInstance())
-//                R.id.tab_coins -> openFragment(MiningCoinsFragment.newInstance())
+                R.id.tab_coins -> openFragment(CoinsFragment.newInstance())
             }
         }
     }

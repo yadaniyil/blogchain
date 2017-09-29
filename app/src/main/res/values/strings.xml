@@ -27,6 +27,9 @@
     <string name="miners">Miners</string>
     <string name="drawer_item_market_info">Market info</string>
     <string name="drawer_item_converter">Converter</string>
+    <string name="difficulty_item">Difficulty:</string>
+    <string name="profitability_item">Profitability:</string>
+    <string name="revenue24_item">Revenue24:</string>
 
     <string-array name="miner_filters">
         <item>All categories</item>

@@ -56,7 +56,8 @@ class CoinsFragment : MvpAppCompatFragment(), CoinsView, CoinItemClickListener {
     }
 
     override fun showCoins(coins: List<MiningCoin>) {
-        coinsAdapter = CoinsAdapter(activity, this)
+        coinsAdapter = CoinsAdapter(activity, this,
+                presenter.getAllCmcCurrencies(), presenter.getAllCcCurrencies())
         coins_list.layoutManager = LinearLayoutManager(activity)
         coins_list.adapter = coinsAdapter
         coins_list.setHasFixedSize(true)

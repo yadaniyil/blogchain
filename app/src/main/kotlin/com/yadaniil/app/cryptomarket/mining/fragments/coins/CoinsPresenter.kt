@@ -48,4 +48,7 @@ class CoinsPresenter : MvpPresenter<CoinsView>() {
 
         return coins
     }
+
+    fun getAllCmcCurrencies() = repo.getAllCoinMarketCapCurrenciesFromDb()
+    fun getAllCcCurrencies() = repo.getAllCryptoCompareCurrenciesFromDb()
 }

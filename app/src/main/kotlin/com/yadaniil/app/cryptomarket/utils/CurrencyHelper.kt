@@ -9,14 +9,18 @@ import com.yadaniil.app.cryptomarket.data.db.models.CryptoCompareCurrencyRealm
 
 object CurrencyHelper {
 
-    fun getImageLinkForCurrency(cmcCurrencyRealm: CoinMarketCapCurrencyRealm,
+    fun getImageLinkForCurrency(cmcCurrencyRealm: CoinMarketCapCurrencyRealm?,
                                 ccCurrencies: List<CryptoCompareCurrencyRealm>): String {
-        var symbolToSearch = cmcCurrencyRealm.symbol
-        when {
-            cmcCurrencyRealm.id == "bitcoin-cash" -> symbolToSearch = "BCH"
-            cmcCurrencyRealm.id == "iota" -> symbolToSearch = "IOT"
-            cmcCurrencyRealm.id == "bitconnect" -> symbolToSearch = "BCCOIN"
+        return if(cmcCurrencyRealm == null) {
+            ""
+        } else {
+            var symbolToSearch = cmcCurrencyRealm.symbol
+            when {
+                cmcCurrencyRealm.id == "bitcoin-cash" -> symbolToSearch = "BCH"
+                cmcCurrencyRealm.id == "iota" -> symbolToSearch = "IOT"
+                cmcCurrencyRealm.id == "bitconnect" -> symbolToSearch = "BCCOIN"
+            }
+            ccCurrencies.find { it.name == symbolToSearch }?.imageUrl ?: ""
         }
-        return ccCurrencies.find { it.name == symbolToSearch }?.imageUrl ?: ""
     }
 }

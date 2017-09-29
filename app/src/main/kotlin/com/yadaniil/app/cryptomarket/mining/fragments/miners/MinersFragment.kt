@@ -19,6 +19,7 @@ import kotlinx.android.synthetic.main.fragment_miners.*
 import org.jetbrains.anko.find
 import kotlin.properties.Delegates
 import com.yalantis.filter.animator.FiltersListItemAnimator
+import com.yadaniil.app.cryptomarket.utils.UiHelper
 
 
 /**
@@ -46,16 +47,9 @@ class MinersFragment : MvpAppCompatFragment(), MinersView, MinerItemClickListene
         minerFilterColors = resources.getIntArray(R.array.miner_filter_colors)
         minerFilterNames = resources.getStringArray(R.array.miner_filters)
         initToolbar()
+        UiHelper.changeStatusBarColor(activity, R.color.colorPrimary)
         presenter.downloadMiners()
         showFilter()
-    }
-
-    private fun filterMiners(newText: String?) {
-        val filteredMiners:MutableList<Miner> = ArrayList()
-        presenter.downloadedMiners.forEach {
-            if(it.name.contains(newText ?: "", true))
-                filteredMiners.add(it) }
-        minersAdapter.setData(filteredMiners)
     }
 
     private fun initToolbar() {

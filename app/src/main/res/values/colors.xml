@@ -28,4 +28,6 @@
     </array>
 
     <color name="divider">#b2b6c6</color>
+    <color name="colorTabCalculator">#b92b27</color>
+    <color name="colorTabCoins">#3b5999</color>
 </resources>

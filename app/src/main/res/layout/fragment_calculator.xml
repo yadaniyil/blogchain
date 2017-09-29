@@ -20,16 +20,10 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:title="@string/coins"
-                android:background="@color/colorTabCoins" />
+                android:title="@string/calculator"
+                android:background="@color/colorTabCalculator" />
         </FrameLayout>
 
     </android.support.design.widget.AppBarLayout>
-
-    <android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/coins_list">
-    </android.support.v7.widget.RecyclerView>
 
 </LinearLayout>

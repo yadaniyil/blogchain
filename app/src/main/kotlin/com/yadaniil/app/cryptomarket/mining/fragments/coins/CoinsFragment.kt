@@ -4,16 +4,12 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.view.LayoutInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.yadaniil.app.cryptomarket.R
 import com.yadaniil.app.cryptomarket.data.api.models.MiningCoin
-import com.yadaniil.app.cryptomarket.mining.fragments.miners.MinersFragment
+import com.yadaniil.app.cryptomarket.utils.UiHelper
 import com.yalantis.filter.animator.FiltersListItemAnimator
 import kotlinx.android.synthetic.main.fragment_coins.*
 import kotlin.properties.Delegates
@@ -38,6 +34,7 @@ class CoinsFragment : MvpAppCompatFragment(), CoinsView, CoinItemClickListener {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initToolbar()
+        UiHelper.changeStatusBarColor(activity, R.color.colorTabCoins)
         presenter.downloadMiningCoins()
     }
 

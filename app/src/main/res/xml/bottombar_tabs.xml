@@ -1,8 +1,8 @@
 <tabs>
     <tab
         id="@+id/tab_miners"
-        icon="@drawable/ic_pick"
-        title="@string/mining"
+        title="@string/miners"
+        icon="@drawable/ic_chip"
         barColorWhenSelected="@color/colorPrimary"/>
 
     <tab

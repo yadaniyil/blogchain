@@ -25,6 +25,8 @@
     <string name="btc">BTC</string>
     <string name="unexpected_error">Ooooops</string>
     <string name="miners">Miners</string>
+    <string name="drawer_item_market_info">Market info</string>
+    <string name="drawer_item_converter">Converter</string>
 
     <string-array name="miner_filters">
         <item>All categories</item>

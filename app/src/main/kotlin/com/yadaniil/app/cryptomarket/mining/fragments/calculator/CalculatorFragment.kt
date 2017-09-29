@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.yadaniil.app.cryptomarket.R
-import com.yadaniil.app.cryptomarket.mining.fragments.coins.CoinsFragment
 import com.yadaniil.app.cryptomarket.utils.UiHelper
 import kotlinx.android.synthetic.main.fragment_calculator.*
 

@@ -21,7 +21,7 @@ class MiningActivity : AppCompatActivity() {
     }
 
     private fun initBottomBar() {
-        bottomBar.setDefaultTabPosition(TAB_COINS)
+        bottomBar.setDefaultTabPosition(TAB_MINERS)
         bottomBar.setOnTabSelectListener { tabId ->
             when(tabId) {
                 R.id.tab_miners -> openFragment(MinersFragment.newInstance())
@@ -33,7 +33,7 @@ class MiningActivity : AppCompatActivity() {
 
     private fun openFragment(fragment: Fragment) {
         val ft = supportFragmentManager.beginTransaction()
-        ft.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+//        ft.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
         val fragmentByTag = supportFragmentManager.findFragmentByTag(fragment.javaClass.simpleName)
         if (fragmentByTag != null) {
             ft.replace(R.id.contentContainer, fragmentByTag, fragmentByTag.javaClass.simpleName)
@@ -42,10 +42,6 @@ class MiningActivity : AppCompatActivity() {
         }
         ft.commit()
     }
-
-
-
-
 
 
     companion object {

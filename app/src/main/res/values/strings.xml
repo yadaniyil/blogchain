@@ -30,6 +30,8 @@
     <string name="difficulty_item">Difficulty:</string>
     <string name="profitability_item">Profitability:</string>
     <string name="revenue24_item">Revenue24:</string>
+    <string name="information">Information</string>
+    <string name="filter">Filter</string>
 
     <string-array name="miner_filters">
         <item>All categories</item>

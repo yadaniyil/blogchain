@@ -66,6 +66,11 @@ class CoinsFragment : MvpAppCompatFragment(), CoinsView, CoinItemClickListener {
         coinsAdapter.setData(coins)
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater?.inflate(R.menu.menu_mining_coins, menu)
+    }
+
     override fun onClick(holder: CoinsAdapter.CoinViewHolder, coin: MiningCoin) {
 
     }

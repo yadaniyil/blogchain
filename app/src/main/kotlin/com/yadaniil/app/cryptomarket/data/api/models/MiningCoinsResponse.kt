@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName
  */
 
 
-class MiningCoinsResponse(@SerializedName("coins") val gpuCoins: Map<String, MiningCoin>)
+class MiningCoinsResponse(@SerializedName("coins") val miningCoins: Map<String, MiningCoin>)
 
 class MiningCoin(@SerializedName("id") val id: Int,
                  @SerializedName("tag") val tag: String,
@@ -32,5 +32,5 @@ class MiningCoin(@SerializedName("id") val id: Int,
                  @SerializedName("profitability24") val profitability24: Int,
                  @SerializedName("lagging") val isLagging: Boolean,
                  @SerializedName("timestamp") val timestamp: Long,
-                 var name: String
+                 var name: String, var equipmentType: String
 )

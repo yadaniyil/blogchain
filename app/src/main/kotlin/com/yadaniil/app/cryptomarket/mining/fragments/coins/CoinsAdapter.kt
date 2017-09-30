@@ -48,9 +48,10 @@ class CoinsAdapter(context: Context, coinClickListener: CoinItemClickListener,
 
         currentHolder.name.text = "${coin.name}(${coin.tag})"
         currentHolder.algorithm.text = coin.algorithm
-        currentHolder.difficulty.text = coin.difficulty
+        currentHolder.difficulty.text = if(coin.difficulty == "1") "?" else coin.difficulty
         currentHolder.revenue24.text = coin.btcRevenue24 + " BTC " + getPriceInUsd(coin, btcCmcCurrency)
         currentHolder.profitability.text = coin.profitability24.toString() + "%"
+        currentHolder.equipmentType.text = coin.equipmentType
 
         val iconLink = CurrencyHelper.getImageLinkForCurrency(cmcCurrency, ccCurrencies)
         if (iconLink.isNotEmpty())
@@ -93,5 +94,6 @@ class CoinsAdapter(context: Context, coinClickListener: CoinItemClickListener,
         val difficulty: TextView = v.find(R.id.item_coin_difficulty)
         val revenue24: TextView = v.find(R.id.item_coin_revenue24)
         val profitability: TextView = v.find(R.id.item_coin_profitability)
+        val equipmentType: TextView = v.find(R.id.item_coin_equipment_type)
     }
 }

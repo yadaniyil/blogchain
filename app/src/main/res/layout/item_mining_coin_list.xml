@@ -72,7 +72,6 @@
                 <TextView
                     android:id="@+id/item_coin_difficulty"
                     android:gravity="start"
-                    android:textStyle="bold"
                     android:singleLine="true"
                     android:paddingStart="@dimen/half_standard_dimen"
                     android:layout_height="wrap_content"
@@ -122,9 +121,19 @@
                     android:gravity="start"
                     android:singleLine="true"
                     android:paddingStart="@dimen/half_standard_dimen"
-                    android:textStyle="bold"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
+                    android:paddingLeft="@dimen/half_standard_dimen" />
+
+                <TextView
+                    android:id="@+id/item_coin_equipment_type"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:paddingStart="@dimen/half_standard_dimen"
+                    android:textStyle="bold"
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
                     android:paddingLeft="@dimen/half_standard_dimen" />
             </LinearLayout>
 

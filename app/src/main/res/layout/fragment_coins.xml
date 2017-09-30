@@ -22,9 +22,15 @@
                 android:layout_height="?attr/actionBarSize"
                 android:title="@string/coins"
                 android:background="@color/colorTabCoins" />
+
+            <com.miguelcatalan.materialsearchview.MaterialSearchView
+                android:id="@+id/search_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
         </FrameLayout>
 
     </android.support.design.widget.AppBarLayout>
+
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"

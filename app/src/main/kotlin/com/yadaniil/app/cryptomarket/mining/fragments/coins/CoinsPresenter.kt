@@ -26,7 +26,7 @@ class CoinsPresenter : MvpPresenter<CoinsView>() {
     }
 
     @Inject lateinit var repo: Repository
-    var downloadedCoins: MutableList<MiningCoin> = ArrayList()
+    private var downloadedCoins: MutableList<MiningCoin> = ArrayList()
 
     fun downloadMiningCoins() {
         val allCoinsZipRequest =  Observable.zip(repo.getAllGpuMiningCoins(), repo.getAllAsicMiningCoins(),
@@ -58,6 +58,11 @@ class CoinsPresenter : MvpPresenter<CoinsView>() {
         names.forEachIndexed { index, s -> coins[index].name = s; coins[index].equipmentType = equipmentType }
 
         return coins
+    }
+
+    fun getFilteredCoins(query: String): List<MiningCoin> {
+        return downloadedCoins.filter { it.tag.startsWith(query, true) ||
+                it.name.startsWith(query, true) }
     }
 
     fun getAllCmcCurrencies() = repo.getAllCoinMarketCapCurrenciesFromDb()

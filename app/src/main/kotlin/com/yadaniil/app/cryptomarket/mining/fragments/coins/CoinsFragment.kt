@@ -1,5 +1,6 @@
 package com.yadaniil.app.cryptomarket.mining.fragments.coins
 
+import android.graphics.Typeface
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
@@ -14,6 +15,8 @@ import com.yadaniil.app.cryptomarket.data.api.models.MiningCoin
 import com.yadaniil.app.cryptomarket.utils.UiHelper
 import com.yalantis.filter.animator.FiltersListItemAnimator
 import kotlinx.android.synthetic.main.fragment_coins.*
+import org.jetbrains.anko.textView
+import org.jetbrains.anko.verticalLayout
 import kotlin.properties.Delegates
 
 /**
@@ -56,10 +59,33 @@ class CoinsFragment : MvpAppCompatFragment(), CoinsView, CoinItemClickListener {
                 activity.onBackPressed()
                 true
             }
-//            R.id.action_info -> showMiningCoinsInfoAlert()
-//            R.id.action_filter -> showMiningCoinsFilter()
+            R.id.action_info -> {
+                showMiningCoinsInfoAlert()
+                super.onOptionsItemSelected(item)
+            }
+//            R.id.action=_filter -> showMiningCoinsFilter()
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun showMiningCoinsInfoAlert() {
+        val dialogView = activity.verticalLayout {
+            textView(R.string.gpu_caps) {
+                typeface = Typeface.DEFAULT_BOLD
+                textSize = 16f
+            }
+            textView(R.string.gpu_coins_info)
+
+            textView(R.string.asic_caps) {
+                typeface = Typeface.DEFAULT_BOLD
+                textSize = 16f
+            }
+            textView(R.string.asic_coins_info)
+        }
+
+//        activity.alert("Help information").show()
+//        val dialog = FilterDialogFragment()
+//        dialog.show(getFragmentManager(), "tag")
     }
 
     override fun showCoins(coins: List<MiningCoin>) {

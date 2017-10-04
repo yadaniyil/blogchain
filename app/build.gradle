@@ -30,7 +30,7 @@ repositories {
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion "25.0.3"
+    buildToolsVersion '26.0.2'
 
     defaultConfig {
         applicationId "com.yadaniil.app.cryptomarket"
@@ -38,7 +38,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         multiDexEnabled true
         versionCode 1
-        versionName "1.0.0"
+        versionName "0.0.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         buildConfigField STRING, BUILD_TIME, "\"${rootProject.ext.buildTime}\""
     }
@@ -146,6 +146,9 @@ dependencies {
 
     // Filter
     compile 'com.github.Yalantis:SearchFilter:v1.0.4'
+
+    // To avoid crash message
+    compile 'cat.ereza:customactivityoncrash:2.1.0'
 }
 
 kapt {

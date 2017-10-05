@@ -32,7 +32,6 @@ class MainActivity : BaseActivity(), IMainView {
         listDivider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         setUpCurrenciesList(presenter.getRealmCurrencies())
         initSearchView()
-
         initBackgroundRefresh()
     }
 
@@ -60,6 +59,7 @@ class MainActivity : BaseActivity(), IMainView {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if(item?.itemId == R.id.action_sort) {
+            // Showing sort order dialog
             val inflater = layoutInflater
             val customView = inflater.inflate(R.layout.dialog_currencies_sort, null)
             val builder = AlertDialog.Builder(this)
@@ -67,14 +67,14 @@ class MainActivity : BaseActivity(), IMainView {
             builder.setView(customView)
             builder.setPositiveButton(R.string.apply) { dialog, which -> sortCurrencies(which)  }
             builder.setNegativeButton(R.string.cancel) { dialog, which -> dialog.dismiss()  }
-            builder.setNeutralButton(R.string.reset) { dialog, which -> sortCurrencies(FILTER_MARKET_CAP)  }
+            builder.setNeutralButton(R.string.reset) { dialog, which -> sortCurrencies(CurrenciesAdapter.FILTER_MARKET_CAP)  }
             builder.show()
         }
         return super.onOptionsItemSelected(item)
     }
 
     private fun sortCurrencies(filter: Int) {
-
+        currenciesAdapter.sortCurrencies(filter)
     }
 
     private fun initSearchView() {
@@ -91,13 +91,13 @@ class MainActivity : BaseActivity(), IMainView {
     }
 
     private fun setUpCurrenciesList(realmCurrencies: RealmResults<CoinMarketCapCurrencyRealm>) {
-        currenciesAdapter = CurrenciesAdapter(realmCurrencies, true,
-                this, presenter)
+        currenciesAdapter = CurrenciesAdapter(this, presenter)
         currencies_recycler_view.layoutManager = LinearLayoutManager(this)
         currencies_recycler_view.adapter = currenciesAdapter
         currencies_recycler_view.setHasFixedSize(true)
         currencies_recycler_view.removeItemDecoration(listDivider)
         currencies_recycler_view.addItemDecoration(listDivider)
+        currenciesAdapter.setData(realmCurrencies)
     }
 
     override fun onDestroy() {
@@ -105,17 +105,7 @@ class MainActivity : BaseActivity(), IMainView {
         currencies_recycler_view.adapter = null
     }
 
-
-
     override fun showLoading() = smooth_progress_bar.progressiveStart()
     override fun stopLoading() = smooth_progress_bar.progressiveStop()
-
-    companion object {
-        val FILTER_MARKET_CAP = 0
-        val FILTER_COIN_PRICE= 1
-        val FILTER_ALPHABETICAL = 2
-        val FILTER_VOLUME_24H = 3
-        val FILTER_WINNERS_24H = 4
-        val FILTER_LOSERS_24H = 5
-    }
+    override fun updateList() = setUpCurrenciesList(presenter.getRealmCurrencies())
 }

@@ -51,6 +51,7 @@ class MainPresenter : MvpPresenter<IMainView>() {
                 .doOnComplete { viewState.stopLoading() }
                 .subscribe({ currenciesList ->
                     repo.saveCoinMarketCapCurrenciesToDb(currenciesList)
+                    viewState.updateList()
                 }, { error ->
                     Timber.e(error.message)
                 })

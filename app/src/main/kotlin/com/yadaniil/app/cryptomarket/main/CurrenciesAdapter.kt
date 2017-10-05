@@ -31,37 +31,71 @@ import java.io.ByteArrayOutputStream
  * Created by danielyakovlev on 7/2/17.
  */
 
-class CurrenciesAdapter(data: RealmResults<CoinMarketCapCurrencyRealm>, autoUpdate: Boolean,
-                        private var context: Context, private var presenter: MainPresenter)
-    : RealmRecyclerViewAdapter<CoinMarketCapCurrencyRealm, CurrenciesAdapter.CurrencyViewHolder>(data, autoUpdate) {
+class CurrenciesAdapter(var context: Context, var presenter: MainPresenter)
+    : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    init {
-        setHasStableIds(true)
-    }
+    private val currencies: MutableList<CoinMarketCapCurrencyRealm> = ArrayList()
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): CurrencyViewHolder {
-        val itemView = LayoutInflater.from(parent?.context)
-                .inflate(R.layout.item_currency, parent, false)
-        return CurrencyViewHolder(itemView)
-    }
-
-    override fun onBindViewHolder(holder: CurrencyViewHolder?, position: Int) {
-        val currencyRealm = getItem(position)
-        with(holder ?: return) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
+        val currencyRealm = currencies[position]
+        val currencyHolder = holder as CurrencyViewHolder
+        with(currencyHolder) {
             data = currencyRealm
-            symbol.text = currencyRealm?.symbol
-            name.text = currencyRealm?.name
+            symbol.text = currencyRealm.symbol
+            name.text = currencyRealm.name
             usdRate.text = AmountFormatter.format(currencyRealm?.priceUsd ?: "") + " USD"
             btcRate.text = currencyRealm?.priceBtc + " BTC"
             initRatesChange(this, currencyRealm)
-            sortOrder.text = currencyRealm?.rank.toString()
-            if (currencyRealm?.iconBytes == null) {
+            sortOrder.text = currencyRealm.rank.toString()
+            if (currencyRealm.iconBytes == null) {
                 downloadAndSaveIcon(icon, currencyRealm)
             } else {
                 val bitmapIcon = BitmapFactory.decodeStream(ByteArrayInputStream(currencyRealm.iconBytes))
                 icon.setImageBitmap(bitmapIcon)
             }
         }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder {
+        val itemView = LayoutInflater.from(parent?.context)
+                .inflate(R.layout.item_currency, parent, false)
+        return CurrencyViewHolder(itemView)
+    }
+
+    fun sortCurrencies(filter: Int) {
+
+    }
+
+    override fun getItemCount(): Int {
+        return currencies.size
+    }
+
+    fun setData(currencies: List<CoinMarketCapCurrencyRealm>) {
+        this.currencies.clear()
+        this.currencies.addAll(currencies)
+        notifyDataSetChanged()
+    }
+
+    private fun downloadAndSaveIcon(icon: ImageView, currencyRealm: CoinMarketCapCurrencyRealm?) {
+        val ccList = presenter.repo.getAllCryptoCompareCurrenciesFromDb()
+        Picasso.with(context)
+                .load(Uri.parse(Endpoints.CRYPTO_COMPARE_URL +
+                        CurrencyHelper.getImageLinkForCurrency(currencyRealm!!, ccList)))
+                .into(icon, object : Callback {
+                    override fun onSuccess() {
+                        doAsync {
+                            val bitmap = (icon.drawable as BitmapDrawable).bitmap
+                            val stream = ByteArrayOutputStream()
+                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+                            val byteArray = stream.toByteArray()
+                            presenter.saveCurrencyIcon(currencyRealm, byteArray)
+                        }
+                    }
+
+                    override fun onError() {
+                        Timber.e("Error downloading icon")
+                    }
+                })
     }
 
     private fun initRatesChange(currencyViewHolder: CurrencyViewHolder,
@@ -91,29 +125,6 @@ class CurrenciesAdapter(data: RealmResults<CoinMarketCapCurrencyRealm>, autoUpda
         }
     }
 
-    private fun downloadAndSaveIcon(icon: ImageView, currencyRealm: CoinMarketCapCurrencyRealm?) {
-        val ccList = presenter.repo.getAllCryptoCompareCurrenciesFromDb()
-        Picasso.with(context)
-                .load(Uri.parse(Endpoints.CRYPTO_COMPARE_URL +
-                        CurrencyHelper.getImageLinkForCurrency(currencyRealm!!, ccList)))
-                .into(icon, object : Callback {
-                    override fun onSuccess() {
-                        doAsync {
-                            val bitmap = (icon.drawable as BitmapDrawable).bitmap
-                            val stream = ByteArrayOutputStream()
-                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
-                            val byteArray = stream.toByteArray()
-                            presenter.saveCurrencyIcon(currencyRealm, byteArray)
-                        }
-                    }
-
-                    override fun onError() {
-                        Timber.e("Error downloading icon")
-                    }
-                })
-    }
-
-
     class CurrencyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var symbol: TextView = view.find(R.id.item_currency_symbol)
         var name: TextView = view.find(R.id.item_currency_name)
@@ -127,4 +138,12 @@ class CurrenciesAdapter(data: RealmResults<CoinMarketCapCurrencyRealm>, autoUpda
         var data: CoinMarketCapCurrencyRealm? = null
     }
 
+    companion object {
+        val FILTER_MARKET_CAP = 0
+        val FILTER_COIN_PRICE= 1
+        val FILTER_ALPHABETICAL = 2
+        val FILTER_VOLUME_24H = 3
+        val FILTER_WINNERS_24H = 4
+        val FILTER_LOSERS_24H = 5
+    }
 }

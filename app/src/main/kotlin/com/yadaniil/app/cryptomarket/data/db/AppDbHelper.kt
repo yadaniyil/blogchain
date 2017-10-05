@@ -32,7 +32,7 @@ class AppDbHelper : DbHelper {
                     .findAllSortedAsync("rank")
 
     override fun saveCoinMarketCapCurrenciesToDb(currencies: List<CoinMarketCapCurrencyRealm>) {
-        realm.executeTransactionAsync { realm -> realm.copyToRealmOrUpdate(currencies) }
+        realm.executeTransaction { realm -> realm.copyToRealmOrUpdate(currencies) }
     }
 
     override fun getAllCryptoCompareCurrenciesFromDb(): RealmResults<CryptoCompareCurrencyRealm> =

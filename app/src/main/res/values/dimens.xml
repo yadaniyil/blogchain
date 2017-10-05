@@ -11,4 +11,6 @@
     <dimen name="currency_item_name_text_size">10sp</dimen>
     <dimen name="currency_item_symbol_text_size">12sp</dimen>
     <dimen name="btc_price_text_size">10sp</dimen>
+    <dimen name="text_size_big">24sp</dimen>
+    <dimen name="text_size_normal">18sp</dimen>
 </resources>

@@ -1,10 +1,12 @@
 package com.yadaniil.app.cryptomarket.main
 
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.Menu
+import android.view.MenuItem
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.miguelcatalan.materialsearchview.MaterialSearchView
 import com.yadaniil.app.cryptomarket.R
@@ -12,8 +14,6 @@ import com.yadaniil.app.cryptomarket.base.BaseActivity
 import com.yadaniil.app.cryptomarket.data.db.models.CoinMarketCapCurrencyRealm
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_main.*
-import java.util.concurrent.Executors
-import java.util.concurrent.TimeUnit
 
 
 class MainActivity : BaseActivity(), IMainView {
@@ -58,6 +58,25 @@ class MainActivity : BaseActivity(), IMainView {
         return true
     }
 
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if(item?.itemId == R.id.action_sort) {
+            val inflater = layoutInflater
+            val customView = inflater.inflate(R.layout.dialog_currencies_sort, null)
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle(R.string.sort_order)
+            builder.setView(customView)
+            builder.setPositiveButton(R.string.apply) { dialog, which -> sortCurrencies(which)  }
+            builder.setNegativeButton(R.string.cancel) { dialog, which -> dialog.dismiss()  }
+            builder.setNeutralButton(R.string.reset) { dialog, which -> sortCurrencies(FILTER_MARKET_CAP)  }
+            builder.show()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun sortCurrencies(filter: Int) {
+
+    }
+
     private fun initSearchView() {
         search_view.setOnQueryTextListener(object : MaterialSearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -68,7 +87,6 @@ class MainActivity : BaseActivity(), IMainView {
                 setUpCurrenciesList(presenter.getRealmCurrenciesFiltered(newText ?: ""))
                 return true
             }
-
         })
     }
 
@@ -87,6 +105,17 @@ class MainActivity : BaseActivity(), IMainView {
         currencies_recycler_view.adapter = null
     }
 
+
+
     override fun showLoading() = smooth_progress_bar.progressiveStart()
     override fun stopLoading() = smooth_progress_bar.progressiveStop()
+
+    companion object {
+        val FILTER_MARKET_CAP = 0
+        val FILTER_COIN_PRICE= 1
+        val FILTER_ALPHABETICAL = 2
+        val FILTER_VOLUME_24H = 3
+        val FILTER_WINNERS_24H = 4
+        val FILTER_LOSERS_24H = 5
+    }
 }

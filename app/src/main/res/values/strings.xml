@@ -36,6 +36,17 @@
     <string name="gpu_coins_info" translatable="false">In list below presented profitability of coins in comparison to Ethereum (ETH has profitability 100%) All rewards are adapted for three RX480 cards</string>
     <string name="asic_coins_info" translatable="false">In list below presented profitability of coins in comparison to Bitcoin (BTC has profitability 100%) SHA-256 rewards are adapted for Antminer S9. For Scrypt using the same power usage of 1370W and hashrate calculated at 11W/MHS.</string>
     <string name="asic_caps" translatable="false">ASIC</string>
+    <string name="sort">Sort</string>
+    <string name="sort_order">Sort order</string>
+    <string name="market_cap">Market cap</string>
+    <string name="coin_price">Coin price</string>
+    <string name="alphabetical">Alphabetical</string>
+    <string name="volume_24h">Volume 24h</string>
+    <string name="winners_24h">Winners 24h</string>
+    <string name="losers_24h">Losers 24h</string>
+    <string name="apply">Apply</string>
+    <string name="cancel">Cancel</string>
+    <string name="reset">Reset</string>
 
     <string-array name="miner_filters" translatable="false">
         <item>All categories</item>

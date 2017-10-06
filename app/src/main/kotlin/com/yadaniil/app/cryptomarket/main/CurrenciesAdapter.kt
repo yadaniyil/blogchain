@@ -15,6 +15,7 @@ import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import com.yadaniil.app.cryptomarket.R
 import com.yadaniil.app.cryptomarket.data.db.models.CoinMarketCapCurrencyRealm
+import com.yadaniil.app.cryptomarket.data.db.models.CryptoCompareCurrencyRealm
 import com.yadaniil.app.cryptomarket.utils.AmountFormatter
 import com.yadaniil.app.cryptomarket.utils.CurrencyHelper
 import com.yadaniil.app.cryptomarket.utils.Endpoints
@@ -35,6 +36,11 @@ class CurrenciesAdapter(var context: Context, var presenter: MainPresenter)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var currencies: MutableList<CoinMarketCapCurrencyRealm> = ArrayList()
+    private var ccList: MutableList<CryptoCompareCurrencyRealm> = ArrayList()
+
+    init {
+        ccList = presenter.repo.getAllCryptoCompareCurrenciesFromDb()
+    }
 
     fun getCurrencies() = currencies
 
@@ -59,6 +65,7 @@ class CurrenciesAdapter(var context: Context, var presenter: MainPresenter)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder {
+
         val itemView = LayoutInflater.from(parent?.context)
                 .inflate(R.layout.item_currency, parent, false)
         return CurrencyViewHolder(itemView)
@@ -75,7 +82,6 @@ class CurrenciesAdapter(var context: Context, var presenter: MainPresenter)
     }
 
     private fun downloadAndSaveIcon(icon: ImageView, currencyRealm: CoinMarketCapCurrencyRealm?) {
-        val ccList = presenter.repo.getAllCryptoCompareCurrenciesFromDb()
         Picasso.with(context)
                 .load(Uri.parse(Endpoints.CRYPTO_COMPARE_URL +
                         CurrencyHelper.getImageLinkForCurrency(currencyRealm!!, ccList)))

@@ -82,24 +82,28 @@ class CurrenciesAdapter(var context: Context, var presenter: MainPresenter)
     }
 
     private fun downloadAndSaveIcon(icon: ImageView, currencyRealm: CoinMarketCapCurrencyRealm?) {
-        Picasso.with(context)
-                .load(Uri.parse(Endpoints.CRYPTO_COMPARE_URL +
-                        CurrencyHelper.getImageLinkForCurrency(currencyRealm!!, ccList)))
-                .into(icon, object : Callback {
-                    override fun onSuccess() {
-                        doAsync {
-                            val bitmap = (icon.drawable as BitmapDrawable).bitmap
-                            val stream = ByteArrayOutputStream()
-                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
-                            val byteArray = stream.toByteArray()
-                            presenter.saveCurrencyIcon(currencyRealm, byteArray)
+        val imageLink = CurrencyHelper.getImageLinkForCurrency(currencyRealm!!, ccList)
+        if(imageLink.isEmpty()) {
+            icon.setImageResource(R.drawable.icon_ico)
+        } else {
+            Picasso.with(context)
+                    .load(Uri.parse(Endpoints.CRYPTO_COMPARE_URL + imageLink))
+                    .into(icon, object : Callback {
+                        override fun onSuccess() {
+                            doAsync {
+                                val bitmap = (icon.drawable as BitmapDrawable).bitmap
+                                val stream = ByteArrayOutputStream()
+                                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+                                val byteArray = stream.toByteArray()
+                                presenter.saveCurrencyIcon(currencyRealm, byteArray)
+                            }
                         }
-                    }
 
-                    override fun onError() {
-                        Timber.e("Error downloading icon")
-                    }
-                })
+                        override fun onError() {
+                            Timber.e("Error downloading icon")
+                        }
+                    })
+        }
     }
 
     private fun initRatesChange(currencyViewHolder: CurrencyViewHolder,

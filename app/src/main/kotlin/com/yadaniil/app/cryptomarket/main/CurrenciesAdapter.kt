@@ -1,9 +1,7 @@
 package com.yadaniil.app.cryptomarket.main
 
 import android.content.Context
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -11,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import com.yadaniil.app.cryptomarket.R
@@ -19,25 +18,24 @@ import com.yadaniil.app.cryptomarket.data.db.models.CryptoCompareCurrencyRealm
 import com.yadaniil.app.cryptomarket.utils.AmountFormatter
 import com.yadaniil.app.cryptomarket.utils.CurrencyHelper
 import com.yadaniil.app.cryptomarket.utils.Endpoints
-import io.realm.RealmRecyclerViewAdapter
-import io.realm.RealmResults
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.find
 import org.jetbrains.anko.uiThread
 import timber.log.Timber
 import java.io.ByteArrayInputStream
-import java.io.ByteArrayOutputStream
 
 
 /**
  * Created by danielyakovlev on 7/2/17.
  */
 
-class CurrenciesAdapter(var context: Context, var presenter: MainPresenter)
-    : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class CurrenciesAdapter(var context: Context, presenter: MainPresenter)
+    : RecyclerView.Adapter<RecyclerView.ViewHolder>(), FastScrollRecyclerView.SectionedAdapter {
 
     private var currencies: MutableList<CoinMarketCapCurrencyRealm> = ArrayList()
     private var ccList: MutableList<CryptoCompareCurrencyRealm> = ArrayList()
+    var isFastScrolling: Boolean = false
+
 
     init {
         ccList = presenter.repo.getAllCryptoCompareCurrenciesFromDb()
@@ -56,15 +54,16 @@ class CurrenciesAdapter(var context: Context, var presenter: MainPresenter)
             btcRate.text = currencyRealm?.priceBtc + " BTC"
             initRatesChange(this, currencyRealm)
             sortOrder.text = currencyRealm.rank.toString()
+            Timber.e("is fast scrolling: " + isFastScrolling)
             if (currencyRealm.iconBytes == null) {
                 downloadAndSaveIcon(icon, currencyRealm)
             } else {
-                 doAsync {
-                     val bitmapIcon = BitmapFactory.decodeStream(ByteArrayInputStream(currencyRealm.iconBytes))
-                     uiThread {
-                         icon.setImageBitmap(bitmapIcon)
-                     }
-                 }
+                doAsync {
+                    val bitmapIcon = BitmapFactory.decodeStream(ByteArrayInputStream(currencyRealm.iconBytes))
+                    uiThread {
+                        icon.setImageBitmap(bitmapIcon)
+                    }
+                }
             }
         }
     }
@@ -88,7 +87,7 @@ class CurrenciesAdapter(var context: Context, var presenter: MainPresenter)
 
     private fun downloadAndSaveIcon(icon: ImageView, currencyRealm: CoinMarketCapCurrencyRealm?) {
         val imageLink = CurrencyHelper.getImageLinkForCurrency(currencyRealm!!, ccList)
-        if(imageLink.isEmpty()) {
+        if (imageLink.isEmpty()) {
             icon.setImageResource(R.drawable.icon_ico)
         } else {
             Picasso.with(context)
@@ -104,6 +103,7 @@ class CurrenciesAdapter(var context: Context, var presenter: MainPresenter)
 //                                presenter.saveCurrencyIcon(currencyRealm, byteArray)
 //                            }
                         }
+
                         override fun onError() {
                             Timber.e("Error downloading icon")
                         }
@@ -149,8 +149,11 @@ class CurrenciesAdapter(var context: Context, var presenter: MainPresenter)
                 weekChange.text = "?"
                 weekChange.setTextColor(context.resources.getColor(R.color.md_black_1000))
             }
-
         }
+    }
+
+    override fun getSectionName(position: Int): String {
+        return (position + 1).toString()
     }
 
     class CurrencyViewHolder(view: View) : RecyclerView.ViewHolder(view) {

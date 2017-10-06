@@ -8,11 +8,18 @@
     android:fitsSystemWindows="true"
     tools:context="com.yadaniil.app.cryptomarket.main.MainActivity">
 
-    <android.support.v7.widget.RecyclerView
+    <com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
         android:id="@+id/currencies_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/appBar"></android.support.v7.widget.RecyclerView>
+        android:layout_below="@+id/appBar"
+        app:fastScrollAutoHide="true"
+        app:fastScrollAutoHideDelay="1500"
+        app:fastScrollPopupTextSize="36sp"
+        app:fastScrollPopupBackgroundSize="58dp"
+        app:fastScrollPopupBgColor="@color/colorPrimary"
+        app:fastScrollPopupTextColor="@android:color/primary_text_dark"
+        app:fastScrollThumbColor="@color/colorPrimary" />
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appBar"

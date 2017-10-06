@@ -58,5 +58,8 @@
 ################### BottomBar
 -dontwarn com.roughike.bottombar.**
 
+################### Fast scroll
+-keep class com.simplecityapps.recyclerview_fastscroll.** { *; }
+
 -dontobfuscate
 -optimizations !code/simplification/arithmetic,!field/*,!class/merging/*,!code/allocation/variable

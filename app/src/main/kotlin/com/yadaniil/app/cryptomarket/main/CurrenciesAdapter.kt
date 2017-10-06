@@ -34,7 +34,9 @@ import java.io.ByteArrayOutputStream
 class CurrenciesAdapter(var context: Context, var presenter: MainPresenter)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private val currencies: MutableList<CoinMarketCapCurrencyRealm> = ArrayList()
+    private var currencies: MutableList<CoinMarketCapCurrencyRealm> = ArrayList()
+
+    fun getCurrencies() = currencies
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
         val currencyRealm = currencies[position]
@@ -60,10 +62,6 @@ class CurrenciesAdapter(var context: Context, var presenter: MainPresenter)
         val itemView = LayoutInflater.from(parent?.context)
                 .inflate(R.layout.item_currency, parent, false)
         return CurrencyViewHolder(itemView)
-    }
-
-    fun sortCurrencies(filter: Int) {
-
     }
 
     override fun getItemCount(): Int {
@@ -104,6 +102,7 @@ class CurrenciesAdapter(var context: Context, var presenter: MainPresenter)
             hourChange.text = currencyRealm?.percentChange1h + "%"
             dayChange.text = currencyRealm?.percentChange24h + "%"
             weekChange.text = currencyRealm?.percentChange7d + "%"
+
             if (hourChange.text.startsWith("-"))
                 hourChange.setTextColor(context.resources.getColor(R.color.md_red_900))
             else
@@ -122,6 +121,20 @@ class CurrenciesAdapter(var context: Context, var presenter: MainPresenter)
             arrayOf(hourChange, dayChange, weekChange)
                     .filterNot { it.text.startsWith("-") }
                     .forEach { it.text = "+" + it.text }
+
+            if (currencyRealm?.percentChange1h == null) {
+                hourChange.text = "?"
+                hourChange.setTextColor(context.resources.getColor(R.color.md_black_1000))
+            }
+            if (currencyRealm?.percentChange24h == null) {
+                dayChange.text = "?"
+                dayChange.setTextColor(context.resources.getColor(R.color.md_black_1000))
+            }
+            if (currencyRealm?.percentChange7d == null) {
+                weekChange.text = "?"
+                weekChange.setTextColor(context.resources.getColor(R.color.md_black_1000))
+            }
+
         }
     }
 
@@ -136,14 +149,5 @@ class CurrenciesAdapter(var context: Context, var presenter: MainPresenter)
         var icon: ImageView = view.find(R.id.item_currency_icon)
         var sortOrder: TextView = view.find(R.id.item_currency_rank)
         var data: CoinMarketCapCurrencyRealm? = null
-    }
-
-    companion object {
-        val FILTER_MARKET_CAP = 0
-        val FILTER_COIN_PRICE= 1
-        val FILTER_ALPHABETICAL = 2
-        val FILTER_VOLUME_24H = 3
-        val FILTER_WINNERS_24H = 4
-        val FILTER_LOSERS_24H = 5
     }
 }

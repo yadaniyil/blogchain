@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Cryptomarket</string>
+    <string name="app_name">Блогчейн</string>
     <string name="loading">Загрузка…</string>
     <string name="drawer_item_currencies">Валюты</string>
     <string name="drawer_item_portfolio">Портфолио</string>

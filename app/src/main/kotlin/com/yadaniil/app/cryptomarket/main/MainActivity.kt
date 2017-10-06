@@ -1,7 +1,6 @@
 package com.yadaniil.app.cryptomarket.main
 
 import android.os.Bundle
-import android.support.v7.app.AlertDialog
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -59,22 +58,10 @@ class MainActivity : BaseActivity(), IMainView {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if(item?.itemId == R.id.action_sort) {
-            // Showing sort order dialog
-            val inflater = layoutInflater
-            val customView = inflater.inflate(R.layout.dialog_currencies_sort, null)
-            val builder = AlertDialog.Builder(this)
-            builder.setTitle(R.string.sort_order)
-            builder.setView(customView)
-            builder.setPositiveButton(R.string.apply) { dialog, which -> sortCurrencies(which)  }
-            builder.setNegativeButton(R.string.cancel) { dialog, which -> dialog.dismiss()  }
-            builder.setNeutralButton(R.string.reset) { dialog, which -> sortCurrencies(CurrenciesAdapter.FILTER_MARKET_CAP)  }
-            builder.show()
+            CoinSorter.showCoinSortDialog(this, currenciesAdapter)
         }
-        return super.onOptionsItemSelected(item)
-    }
 
-    private fun sortCurrencies(filter: Int) {
-        currenciesAdapter.sortCurrencies(filter)
+        return super.onOptionsItemSelected(item)
     }
 
     private fun initSearchView() {

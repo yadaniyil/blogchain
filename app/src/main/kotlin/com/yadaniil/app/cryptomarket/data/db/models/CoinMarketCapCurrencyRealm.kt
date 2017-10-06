@@ -25,6 +25,8 @@ open class CoinMarketCapCurrencyRealm(
         var iconBytes: ByteArray? = null
 ) : RealmObject() {
 
+    fun getVolumeFormatted() = if (volume24hUsd == null) "0" else volume24hUsd
+
     companion object {
         fun convertApiResponseToRealmList(tickerResponse: List<TickerResponse>): List<CoinMarketCapCurrencyRealm> {
             val currenciesRealmList: MutableList<CoinMarketCapCurrencyRealm> = ArrayList()

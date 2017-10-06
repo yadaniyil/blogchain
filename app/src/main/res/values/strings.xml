@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Cryptomarket</string>
+    <string name="app_name">Blogchain</string>
     <string name="action_settings" translatable="false">Settings</string>
     <string name="menu_home" translatable="false">Ana Sayfa</string>
     <string name="menu_about" translatable="false">Hakkında</string>
@@ -47,6 +47,9 @@
     <string name="apply">Apply</string>
     <string name="cancel">Cancel</string>
     <string name="reset">Reset</string>
+    <string name="sort_by">Sort by</string>
+    <string name="descending">Descending</string>
+    <string name="ascending">Ascending</string>
 
     <string-array name="miner_filters" translatable="false">
         <item>All categories</item>

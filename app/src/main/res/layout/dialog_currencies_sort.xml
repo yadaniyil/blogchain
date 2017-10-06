@@ -5,7 +5,7 @@
     android:orientation="vertical" >
 
     <RadioGroup
-        android:id="@+id/radioGroup"
+        android:id="@+id/radioGroup_sort_by"
         android:layout_margin="@dimen/standard_dimen"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" >
@@ -28,6 +28,7 @@
         <RadioButton
             android:id="@+id/radio_alphabetical"
             android:layout_width="wrap_content"
+            android:tag="1"
             android:layout_height="wrap_content"
             android:textSize="@dimen/text_size_normal"
             android:text="@string/alphabetical" />
@@ -52,6 +53,40 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/text_size_normal"
             android:text="@string/losers_24h" />
+    </RadioGroup>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dialog_title_start_margin"
+        android:textSize="@dimen/text_size_title_material"
+        android:fontFamily="sans-serif-medium"
+        android:id="@+id/sort_order_label"
+        android:textColor="@color/md_black_1000"
+        android:text="@string/sort_order" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup_order"
+        android:layout_margin="@dimen/standard_dimen"
+        android:layout_width="wrap_content"
+        android:animateLayoutChanges="true"
+        android:layout_height="wrap_content" >
+
+        <RadioButton
+            android:id="@+id/radio_descending"
+            android:layout_width="wrap_content"
+            android:textSize="@dimen/text_size_normal"
+            android:checked="true"
+            android:layout_height="wrap_content"
+            android:text="@string/descending" />
+
+        <RadioButton
+            android:id="@+id/radio_ascending"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_normal"
+            android:text="@string/ascending" />
+
     </RadioGroup>
 
 </LinearLayout>

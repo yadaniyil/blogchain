@@ -23,6 +23,7 @@ import io.realm.RealmRecyclerViewAdapter
 import io.realm.RealmResults
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.find
+import org.jetbrains.anko.uiThread
 import timber.log.Timber
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
@@ -58,8 +59,12 @@ class CurrenciesAdapter(var context: Context, var presenter: MainPresenter)
             if (currencyRealm.iconBytes == null) {
                 downloadAndSaveIcon(icon, currencyRealm)
             } else {
-                val bitmapIcon = BitmapFactory.decodeStream(ByteArrayInputStream(currencyRealm.iconBytes))
-                icon.setImageBitmap(bitmapIcon)
+                 doAsync {
+                     val bitmapIcon = BitmapFactory.decodeStream(ByteArrayInputStream(currencyRealm.iconBytes))
+                     uiThread {
+                         icon.setImageBitmap(bitmapIcon)
+                     }
+                 }
             }
         }
     }
@@ -90,15 +95,15 @@ class CurrenciesAdapter(var context: Context, var presenter: MainPresenter)
                     .load(Uri.parse(Endpoints.CRYPTO_COMPARE_URL + imageLink))
                     .into(icon, object : Callback {
                         override fun onSuccess() {
-                            doAsync {
-                                val bitmap = (icon.drawable as BitmapDrawable).bitmap
-                                val stream = ByteArrayOutputStream()
-                                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
-                                val byteArray = stream.toByteArray()
-                                presenter.saveCurrencyIcon(currencyRealm, byteArray)
-                            }
+                            // TODO Fix saving icons and restoring them in list
+//                            doAsync {
+//                                val bitmap = (icon.drawable as BitmapDrawable).bitmap
+//                                val stream = ByteArrayOutputStream()
+//                                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+//                                val byteArray = stream.toByteArray()
+//                                presenter.saveCurrencyIcon(currencyRealm, byteArray)
+//                            }
                         }
-
                         override fun onError() {
                             Timber.e("Error downloading icon")
                         }

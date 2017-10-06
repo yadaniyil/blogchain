@@ -44,6 +44,6 @@ class AppDbHelper : DbHelper {
     }
 
     override fun saveCryptoCompareCurrencyIcon(currency: CoinMarketCapCurrencyRealm, byteArray: ByteArray) {
-        realm.executeTransactionAsync { currency.iconBytes = byteArray }
+        realm.executeTransaction { currency.iconBytes = byteArray }
     }
 }

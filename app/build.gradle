@@ -33,7 +33,7 @@ android {
     buildToolsVersion '26.0.2'
 
     defaultConfig {
-        applicationId "com.yadaniil.app.cryptomarket"
+        applicationId "com.yadaniil.app.blogchain"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         multiDexEnabled true
@@ -148,7 +148,7 @@ dependencies {
     compile 'com.github.Yalantis:SearchFilter:v1.0.4'
 
     // To avoid crash message
-    compile 'cat.ereza:customactivityoncrash:2.1.0'
+//    compile 'cat.ereza:customactivityoncrash:2.1.0'
 
     // Fast scroll
     compile 'com.simplecityapps:recyclerview-fastscroll:1.0.16'

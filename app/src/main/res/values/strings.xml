@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Blogchain</string>
-    <string name="action_settings" translatable="false">Settings</string>
+    <string name="action_settings">Settings</string>
     <string name="menu_home" translatable="false">Ana Sayfa</string>
     <string name="menu_about" translatable="false">Hakkında</string>
     <string name="menu_exit" translatable="false">Çıkış</string>
@@ -12,29 +12,29 @@
     <string name="drawer_item_exchanges">Exchanges</string>
     <string name="drawer_item_settings">Settings</string>
     <string name="add_google_account">Add Google account</string>
-    <string name="search" translatable="false">Search</string>
+    <string name="search">Search</string>
     <string name="drawer_item_ico" translatable="false">ICO</string>
-    <string name="drawer_item_mining" translatable="false">Mining</string>
-    <string name="hour_price_change" translatable="false">1h:</string>
-    <string name="day_price_change" translatable="false">24h:</string>
-    <string name="week_price_change" translatable="false">7d:</string>
-    <string name="calculator" translatable="false">Calculator</string>
-    <string name="coins" translatable="false">Coins</string>
-    <string name="all_selected" translatable="false">All selected</string>
+    <string name="drawer_item_mining">Mining</string>
+    <string name="hour_price_change">1h:</string>
+    <string name="day_price_change">24h:</string>
+    <string name="week_price_change">7d:</string>
+    <string name="calculator">Calculator</string>
+    <string name="coins">Coins</string>
+    <string name="all_selected">All selected</string>
     <string name="usd" translatable="false">USD</string>
     <string name="btc" translatable="false">BTC</string>
-    <string name="unexpected_error" translatable="false">Ooooops</string>
-    <string name="miners" translatable="false">Miners</string>
-    <string name="drawer_item_market_info" translatable="false">Market info</string>
-    <string name="drawer_item_converter" translatable="false">Converter</string>
-    <string name="difficulty_item" translatable="false">Difficulty:</string>
-    <string name="profitability_item" translatable="false">Profitability:</string>
-    <string name="revenue24_item" translatable="false">Revenue24:</string>
-    <string name="information" translatable="false">Information</string>
-    <string name="filter" translatable="false">Filter</string>
+    <string name="unexpected_error">Ooooops</string>
+    <string name="miners">Miners</string>
+    <string name="drawer_item_market_info">Market info</string>
+    <string name="drawer_item_converter">Converter</string>
+    <string name="difficulty_item">Difficulty:</string>
+    <string name="profitability_item">Profitability:</string>
+    <string name="revenue24_item">Revenue24h:</string>
+    <string name="information">Information</string>
+    <string name="filter">Filter</string>
     <string name="gpu_caps" translatable="false">GPU</string>
-    <string name="gpu_coins_info" translatable="false">In list below presented profitability of coins in comparison to Ethereum (ETH has profitability 100%) All rewards are adapted for three RX480 cards</string>
-    <string name="asic_coins_info" translatable="false">In list below presented profitability of coins in comparison to Bitcoin (BTC has profitability 100%) SHA-256 rewards are adapted for Antminer S9. For Scrypt using the same power usage of 1370W and hashrate calculated at 11W/MHS.</string>
+    <string name="gpu_coins_info">In list below presented profitability of coins in comparison to Ethereum (ETH has profitability 100%) All rewards are adapted for three Radeon RX480 cards</string>
+    <string name="asic_coins_info">In list below presented profitability of coins in comparison to Bitcoin (BTC has profitability 100%) SHA-256 rewards are adapted for Antminer S9. For Scrypt using the same power usage of 1370W and hashrate calculated at 11W/MHS.</string>
     <string name="asic_caps" translatable="false">ASIC</string>
     <string name="sort">Sort</string>
     <string name="sort_order">Sort order</string>

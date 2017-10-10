@@ -44,7 +44,9 @@ captures/
 .idea/gradle.xml
 .idea/dictionaries
 .idea/libraries
-
+crypto-market.iml
+gradle.properties
+.gradle
 # Keystore files
 *.jks
 keystorefiles

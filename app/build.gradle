@@ -11,10 +11,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
-
 apply plugin: 'kotlin-android-extensions'
-
-
 apply plugin: 'realm-android'
 
 
@@ -28,10 +25,21 @@ repositories {
     jcenter()
 }
 
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
 android {
+    signingConfigs {
+        config {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+        }
+    }
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion '26.0.2'
-
     defaultConfig {
         applicationId "com.yadaniil.app.blogchain"
         minSdkVersion rootProject.ext.minSdkVersion
@@ -42,15 +50,15 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         buildConfigField STRING, BUILD_TIME, "\"${rootProject.ext.buildTime}\""
     }
-
     buildTypes {
         release {
-//            signingConfig signingConfigs.release
             minifyEnabled true
             zipAlignEnabled true
             shrinkResources true
             debuggable false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
+            proguardFile '/Users/danielyakovlev/crypto-market/app/proguard-rules.pro'
         }
     }
     sourceSets {
@@ -63,7 +71,7 @@ android {
 
 dependencies {
     implementation 'com.google.firebase:firebase-messaging:11.0.1'
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
 
     //supportLib
     compile rootProject.ext.supportLib
@@ -76,14 +84,19 @@ dependencies {
     compile rootProject.ext.timber
 
     //crashlytics
-//    compile (rootProject.ext.crashlytics){
-//        transitive = true;
-//    }
+
+    //    compile (rootProject.ext.crashlytics){
+
+    //        transitive = true;
+
+    //    }
 
     //di
     compile rootProject.ext.dagger
     kapt rootProject.ext.daggerApt
+
     //compile rootProject.ext.daggerSupport
+
     //annotationProcessor rootProject.ext.daggerAnnotation
 
     //rx
@@ -112,20 +125,27 @@ dependencies {
 
     // anko
     compile 'org.jetbrains.anko:anko-sdk15:0.9.1'
+
     // Material EditText
     compile 'com.rengwuxian.materialedittext:library:2.1.4'
+
     // Bottom navigation
     compile 'com.roughike:bottom-bar:2.3.1'
+
     // Retrofit logs
     compile 'com.squareup.okhttp3:logging-interceptor:3.6.0'
+
     // For retrofit ResponseBody
     compile 'com.squareup.retrofit2:converter-scalars:2.2.0'
+
     // Adapters for realm
     compile 'io.realm:android-adapters:2.0.0'
+
     // Navigation drawer
     compile('com.mikepenz:materialdrawer:5.9.3@aar') {
         transitive = true
     }
+
     // Smooth progress bar (line)
     compile 'com.github.castorflex.smoothprogressbar:library:1.1.0'
 
@@ -139,7 +159,6 @@ dependencies {
     compile 'com.arello-mobile:moxy-android:1.5.3'
     compile 'com.arello-mobile:moxy-app-compat:1.5.3'
     kapt 'com.arello-mobile:moxy-compiler:1.5.3'
-
     compile 'com.android.support:multidex:1.0.2'
 
     // SearchView
@@ -149,7 +168,8 @@ dependencies {
     compile 'com.github.Yalantis:SearchFilter:v1.0.4'
 
     // To avoid crash message
-//    compile 'cat.ereza:customactivityoncrash:2.1.0'
+
+    //    compile 'cat.ereza:customactivityoncrash:2.1.0'
 
     // Fast scroll
     compile 'com.simplecityapps:recyclerview-fastscroll:1.0.16'

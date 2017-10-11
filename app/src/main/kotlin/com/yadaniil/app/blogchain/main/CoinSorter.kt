@@ -32,8 +32,13 @@ object CoinSorter {
         val sortOrderRadioGroup = customView.find<RadioGroup>(R.id.radioGroup_order)
         val sortOrderLabel = customView.find<TextView>(R.id.sort_order_label)
 
+        // This variables used to save picked sort items only after user
+        // presses Apply button
+        var localSortById = R.id.radio_marketcap
+        var localSortOrderId = R.id.radio_descending
+
         sortByRadioGroup.setOnCheckedChangeListener { dialog, checkedId ->
-            pickedSortById = checkedId
+            localSortById = checkedId
             if(checkedId == R.id.radio_winners || checkedId == R.id.radio_losers) {
                 sortOrderRadioGroup.visibility = View.GONE
                 sortOrderLabel.visibility = View.GONE
@@ -42,7 +47,8 @@ object CoinSorter {
                 sortOrderLabel.visibility = View.VISIBLE
             }
         }
-        sortOrderRadioGroup.setOnCheckedChangeListener { _, checkedId -> pickedSortOrderId = checkedId }
+        sortOrderRadioGroup.setOnCheckedChangeListener { _, checkedId -> localSortOrderId = checkedId }
+
         sortByRadioGroup.check(pickedSortById)
         sortOrderRadioGroup.check(pickedSortOrderId)
 
@@ -50,9 +56,13 @@ object CoinSorter {
         builder.setTitle(R.string.sort_by)
         builder.setView(customView)
 
-        builder.setPositiveButton(R.string.apply) { dialog, which -> sortCurrencies(adapter) }
+        builder.setPositiveButton(R.string.apply) { dialog, which ->
+            pickedSortById = localSortById
+            pickedSortOrderId = localSortOrderId
+            sortCurrencies(adapter) }
         builder.setNegativeButton(R.string.cancel) { dialog, which -> dialog.dismiss() }
         builder.setNeutralButton(R.string.reset) { dialog, which ->
+            pickedSortById =  R.id.radio_marketcap; pickedSortOrderId = R.id.radio_descending
             sortByRadioGroup.check(R.id.radio_marketcap)
             sortOrderRadioGroup.check(R.id.radio_descending)
             sortCurrencies(adapter)

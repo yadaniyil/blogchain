@@ -34,8 +34,6 @@ class CurrenciesAdapter(var context: Context, presenter: MainPresenter)
 
     private var currencies: MutableList<CoinMarketCapCurrencyRealm> = ArrayList()
     private var ccList: MutableList<CryptoCompareCurrencyRealm> = ArrayList()
-    var isFastScrolling: Boolean = false
-
 
     init {
         ccList = presenter.repo.getAllCryptoCompareCurrenciesFromDb()
@@ -54,7 +52,6 @@ class CurrenciesAdapter(var context: Context, presenter: MainPresenter)
             btcRate.text = currencyRealm?.priceBtc + " BTC"
             initRatesChange(this, currencyRealm)
             sortOrder.text = currencyRealm.rank.toString()
-            Timber.e("is fast scrolling: " + isFastScrolling)
             if (currencyRealm.iconBytes == null) {
                 downloadAndSaveIcon(icon, currencyRealm)
             } else {

@@ -32,13 +32,6 @@
             android:windowSoftInputMode="adjustPan"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
-        
-        
-	<!--&lt;!&ndash;TODO:put your fabric api key here&ndash;&gt;-->
-        <!--<meta-data-->
-            <!--andrfullNamename="io.fabric.ApiKey"-->
-            <!--android:value=""  />-->
-
 
     </application>
 

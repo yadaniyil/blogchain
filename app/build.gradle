@@ -1,12 +1,12 @@
-//buildscript {
-//    repositories {
-//        maven { url 'https://maven.fabric.io/public' }
-//    }
-//
-//    dependencies {
-//        classpath 'io.fabric.tools:gradle:1.+'
-//    }
-//}
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.+'
+    }
+}
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
@@ -18,10 +18,10 @@ apply plugin: 'realm-android'
 def STRING = 'String'
 def BUILD_TIME = 'BUILD_TIME'
 
-//apply plugin: 'io.fabric'
+apply plugin: 'io.fabric'
 
 repositories {
-//    maven { url 'https://maven.fabric.io/public' }
+    maven { url 'https://maven.fabric.io/public' }
     jcenter()
 }
 
@@ -82,14 +82,6 @@ dependencies {
 
     //timber
     compile rootProject.ext.timber
-
-    //crashlytics
-
-    //    compile (rootProject.ext.crashlytics){
-
-    //        transitive = true;
-
-    //    }
 
     //di
     compile rootProject.ext.dagger
@@ -173,6 +165,11 @@ dependencies {
 
     // Fast scroll
     compile 'com.simplecityapps:recyclerview-fastscroll:1.0.16'
+
+    // crashlytics
+    compile('com.crashlytics.sdk.android:crashlytics:2.7.0@aar') {
+        transitive = true
+    }
 }
 
 kapt {

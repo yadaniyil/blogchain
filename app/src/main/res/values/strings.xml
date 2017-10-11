@@ -51,7 +51,7 @@
     <string name="descending">Descending</string>
     <string name="ascending">Ascending</string>
 
-    <string-array name="miner_filters" translatable="false">
+    <string-array name="miner_filters">
         <item>All categories</item>
         <item>ASIC</item>
         <item>GPU</item>

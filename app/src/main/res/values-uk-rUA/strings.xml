@@ -37,8 +37,25 @@
     <string name="cancel">Відміна</string>
     <string name="reset">Скинути</string>
     <string name="sort_by">Сортувати за</string>
-    <string name="descending">Зменшенням</string>
-    <string name="ascending">Збільшенням</string>
+    <string name="descending">За зменшенням</string>
+    <string name="ascending">За збільшенням</string>
     <string name="gpu_coins_info">У списку нижче представлена профітність монет у порівнянні з Ефіріумом (у ETH профітність 100%). Весь прибуток вказан від майнінгу на трьох картах Radeon RX480</string>
     <string name="asic_coins_info">У списку нижче представлена профітність монет e порівнянні з Біткоїном (у BTC профітність 100%). SHA-256 прибуток вказан від майнінгу на Antminer S9. Для Scrypt використовуючи стільки ж електрики 1370W і хешрейт підрахований для 11W/MHS.</string>
+
+    <string-array name="miner_filters">
+        <item>Усі категорії</item>
+        <item>ASIC</item>
+        <item>GPU</item>
+        <item>Refurbished GPU</item>
+        <item>Rig</item>
+        <item>Rig Bundle</item>
+        <item>USB</item>
+        <item>Chip</item>
+        <item>SHA256</item>
+        <item>Scrypt</item>
+        <item>Ethash</item>
+        <item>Equihash</item>
+        <item>X11</item>
+        <item>CryptoNight</item>
+    </string-array>
 </resources>

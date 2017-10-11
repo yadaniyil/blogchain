@@ -67,4 +67,10 @@ class Repository @Inject constructor(private var appApiHelper: AppApiHelper,
     override fun getAllAsicMiningCoins(): Observable<MiningCoinsResponse> = appApiHelper.getAllAsicMiningCoins()
     // endregion Api
 
+    // region SharedPrefs
+    override fun getLastShowChangelogVersion() = sharedPrefs.getLastShowChangelogVersion()
+
+    override fun setLastShowChangelogVersion(versionCode: Int)
+            = sharedPrefs.setLastShowChangelogVersion(versionCode)
+    // endregion SharedPrefs
 }

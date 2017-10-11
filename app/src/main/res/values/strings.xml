@@ -50,6 +50,8 @@
     <string name="sort_by">Sort by</string>
     <string name="descending">Descending</string>
     <string name="ascending">Ascending</string>
+    <string name="ok" translatable="false">OK</string>
+    <string name="whats_new">What\'s new?</string>
 
     <string-array name="miner_filters">
         <item>All categories</item>

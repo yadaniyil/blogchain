@@ -22,24 +22,16 @@ class MainActivity : BaseActivity(), IMainView {
     lateinit var presenter: MainPresenter
 
     private lateinit var listDivider: RecyclerView.ItemDecoration
-
     private lateinit var currenciesAdapter: CurrenciesAdapter
 
-    override fun getLayout() = R.layout.activity_main
-
+    // region Activity
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         listDivider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         setUpCurrenciesList(presenter.getRealmCurrencies())
         initSearchView()
         initBackgroundRefresh()
-    }
-
-    private fun initBackgroundRefresh() {
-//        val scheduledExecutorService = Executors.newScheduledThreadPool(5)
-//        scheduledExecutorService.scheduleAtFixedRate({
-            presenter.downloadAndSaveAllCurrencies()
-//        }, 0, 40, TimeUnit.SECONDS)
+        presenter.showChangelogDialog()
     }
 
     override fun onBackPressed() {
@@ -58,11 +50,24 @@ class MainActivity : BaseActivity(), IMainView {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if(item?.itemId == R.id.action_sort) {
+        if (item?.itemId == R.id.action_sort) {
             CoinSorter.showCoinSortDialog(this, currenciesAdapter)
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        currencies_recycler_view.adapter = null
+    }
+    // endregion Activity
+
+    private fun initBackgroundRefresh() {
+//        val scheduledExecutorService = Executors.newScheduledThreadPool(5)
+//        scheduledExecutorService.scheduleAtFixedRate({
+        presenter.downloadAndSaveAllCurrencies()
+//        }, 0, 40, TimeUnit.SECONDS)
     }
 
     private fun initSearchView() {
@@ -91,12 +96,19 @@ class MainActivity : BaseActivity(), IMainView {
         currenciesAdapter.setData(realmCurrencies)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        currencies_recycler_view.adapter = null
-    }
-
+    // region View
+    override fun getLayout() = R.layout.activity_main
     override fun showLoading() = smooth_progress_bar.progressiveStart()
     override fun stopLoading() = smooth_progress_bar.progressiveStop()
     override fun updateList() = setUpCurrenciesList(presenter.getRealmCurrencies())
+    override fun showChangelogDialog() {
+        val fm = supportFragmentManager
+        val ft = fm.beginTransaction()
+        val prev = fm.findFragmentByTag("changelogdialog")
+        if (prev != null) {
+            ft.remove(prev)
+        }
+        ChangelogDialog().show(ft, "changelogdialog")
+    }
 }
+// endregion View

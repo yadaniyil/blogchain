@@ -27,6 +27,7 @@ import javax.inject.Singleton
 interface ApplicationComponent {
     fun inject(appDbHelper: AppDbHelper)
     fun inject(appApiHelper: AppApiHelper)
+    fun inject(sharedPrefs: SharedPrefs)
     fun inject(mainPresenter: MainPresenter)
     fun inject(minersPresenter: MinersPresenter)
     fun inject(coinsPresenter: CoinsPresenter)

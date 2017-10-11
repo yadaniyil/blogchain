@@ -6,4 +6,5 @@ interface IMainView : MvpView {
     fun showLoading()
     fun stopLoading()
     fun updateList()
+    fun showChangelogDialog()
 }

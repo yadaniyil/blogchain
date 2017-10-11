@@ -160,7 +160,6 @@ dependencies {
     compile 'com.github.Yalantis:SearchFilter:v1.0.4'
 
     // To avoid crash message
-
     //    compile 'cat.ereza:customactivityoncrash:2.1.0'
 
     // Fast scroll
@@ -170,6 +169,9 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.7.0@aar') {
         transitive = true
     }
+
+    // Changelog lib
+    compile 'com.github.gabrielemariotti.changeloglib:changelog:2.1.0'
 }
 
 kapt {

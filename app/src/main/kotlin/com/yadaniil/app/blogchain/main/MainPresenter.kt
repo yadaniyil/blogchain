@@ -3,6 +3,7 @@ package com.yadaniil.app.blogchain.main
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.yadaniil.app.blogchain.Application
+import com.yadaniil.app.blogchain.BuildConfig
 import com.yadaniil.app.blogchain.data.Repository
 import com.yadaniil.app.blogchain.data.db.models.CoinMarketCapCurrencyRealm
 import com.yadaniil.app.blogchain.data.db.models.CryptoCompareCurrencyRealm
@@ -55,6 +56,13 @@ class MainPresenter : MvpPresenter<IMainView>() {
                 }, { error ->
                     Timber.e(error.message)
                 })
+    }
+
+    fun showChangelogDialog() {
+        if(repo.getLastShowChangelogVersion() != BuildConfig.VERSION_CODE) {
+            viewState.showChangelogDialog()
+            repo.setLastShowChangelogVersion(BuildConfig.VERSION_CODE)
+        }
     }
 
 //    private fun downloadAndSavePricesMultiFull() {

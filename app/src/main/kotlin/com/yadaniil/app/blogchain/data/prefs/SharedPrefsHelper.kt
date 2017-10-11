@@ -5,4 +5,7 @@ package com.yadaniil.app.blogchain.data.prefs
  */
 interface SharedPrefsHelper {
 
+    fun getLastShowChangelogVersion(): Int
+    fun setLastShowChangelogVersion(versionCode: Int)
+
 }

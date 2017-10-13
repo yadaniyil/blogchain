@@ -63,7 +63,7 @@ abstract class BaseActivity : MvpAppCompatActivity(), IBaseView {
                 .withActionBarDrawerToggle(true)
                 .addDrawerItems(item1, item2, item3, item4, item5, item6, DividerDrawerItem(), item7)
                 .build()
-        drawer.header.onClick { toast("To add google account activity") }
+//        drawer.header.onClick { toast("To add google account activity") }
     }
 
     abstract fun getLayout(): Int

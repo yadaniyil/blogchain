@@ -8,18 +8,77 @@
     android:fitsSystemWindows="true"
     tools:context="com.yadaniil.blogchain.main.MainActivity">
 
-    <com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
-        android:id="@+id/currencies_recycler_view"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/appBar"
-        app:fastScrollAutoHide="true"
-        app:fastScrollAutoHideDelay="1500"
-        app:fastScrollPopupTextSize="36sp"
-        app:fastScrollPopupBackgroundSize="58dp"
-        app:fastScrollPopupBgColor="@color/colorPrimary"
-        app:fastScrollPopupTextColor="@android:color/primary_text_dark"
-        app:fastScrollThumbColor="@color/colorPrimary" />
+        android:orientation="vertical">
+
+        <com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
+            android:id="@+id/currencies_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:fastScrollAutoHide="true"
+            app:fastScrollAutoHideDelay="1500"
+            app:fastScrollPopupTextSize="36sp"
+            app:fastScrollPopupBackgroundSize="58dp"
+            app:fastScrollPopupBgColor="@color/colorPrimary"
+            app:fastScrollPopupTextColor="@android:color/primary_text_dark"
+            app:fastScrollThumbColor="@color/colorPrimary" />
+
+        <LinearLayout
+            android:id="@+id/no_tx_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/double_dimen"
+            android:layout_marginEnd="@dimen/double_dimen"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/double_dimen">
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/progress_bar"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/downloading_label"
+                android:layout_marginTop="@dimen/standard_dimen"
+                android:text="@string/downloading_blockchain" />
+
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:visibility="gone"
+                android:id="@+id/error_image"
+                android:src="@drawable/ic_no_connectivity"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:id="@+id/error_message"
+                android:layout_marginTop="@dimen/double_dimen"
+                android:textSize="@dimen/text_size_normal"
+                android:text="@string/something_went_wrong"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/retry"
+                android:textColor="@color/colorAccent"
+                android:id="@+id/retry_button"
+                android:visibility="gone"
+                android:layout_marginTop="@dimen/standard_dimen"
+                android:background="@null"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appBar"

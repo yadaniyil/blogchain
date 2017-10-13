@@ -20,6 +20,7 @@ import org.jetbrains.anko.find
 import kotlin.properties.Delegates
 import com.yalantis.filter.animator.FiltersListItemAnimator
 import com.yadaniil.blogchain.utils.UiHelper
+import timber.log.Timber
 
 
 /**
@@ -102,7 +103,12 @@ class MinersFragment : MvpAppCompatFragment(), MinersView, MinerItemClickListene
     private val filterListener = object : FilterListener<MinerFilterTag> {
         override fun onFiltersSelected(filters: ArrayList<MinerFilterTag>) {
             val newMiners = presenter.findMinersByTags(filters)
-            minersAdapter.setData(newMiners)
+            try {
+                minersAdapter.setData(newMiners)
+            } catch (e: IllegalStateException) {
+                Timber.e(e.message)
+            }
+
         }
         override fun onNothingSelected() {
             try {

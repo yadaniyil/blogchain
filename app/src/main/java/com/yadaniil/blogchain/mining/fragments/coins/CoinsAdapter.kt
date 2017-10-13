@@ -49,7 +49,7 @@ class CoinsAdapter(context: Context, coinClickListener: CoinItemClickListener,
         currentHolder.name.text = "${coin.name}(${coin.tag})"
         currentHolder.algorithm.text = coin.algorithm
         currentHolder.difficulty.text = if(coin.difficulty == "1") "?" else coin.difficulty
-        currentHolder.revenue24.text = coin.btcRevenue24 + " BTC " + getPriceInUsd(coin, btcCmcCurrency)
+        currentHolder.revenue24.text = getPriceInUsd(coin, btcCmcCurrency)
         currentHolder.profitability.text = coin.profitability24.toString() + "%"
         currentHolder.equipmentType.text = coin.equipmentType
 
@@ -66,8 +66,8 @@ class CoinsAdapter(context: Context, coinClickListener: CoinItemClickListener,
     }
 
     private fun getPriceInUsd(coin: MiningCoin, btc: CoinMarketCapCurrencyRealm?): String {
-        return "($${AmountFormatter.format(BigDecimal(coin.btcRevenue24)
-                .multiply(BigDecimal(btc?.priceUsd)))})"
+        return "$${AmountFormatter.format(BigDecimal(coin.btcRevenue24)
+                .multiply(BigDecimal(btc?.priceUsd)))}"
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder {

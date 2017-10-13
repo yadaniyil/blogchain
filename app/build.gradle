@@ -1,13 +1,3 @@
-buildscript {
-    repositories {
-        maven { url 'https://maven.fabric.io/public' }
-    }
-
-    dependencies {
-        classpath 'io.fabric.tools:gradle:1.+'
-    }
-}
-
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
@@ -41,7 +31,7 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion '26.0.2'
     defaultConfig {
-        applicationId "com.yadaniil.app.blogchain"
+        applicationId "com.yadaniil.blogchain"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         multiDexEnabled true
@@ -58,7 +48,6 @@ android {
             debuggable false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.config
-            proguardFile '/Users/danielyakovlev/crypto-market/app/proguard-rules.pro'
         }
     }
     sourceSets {
@@ -182,4 +171,4 @@ repositories {
     mavenCentral()
 }
 
-apply plugin: 'com.google.gms.google-services'
+//apply plugin: 'com.google.gms.google-services'

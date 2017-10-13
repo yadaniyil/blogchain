@@ -1,9 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#37474F</color>
+    <!--<color name="colorPrimary">#283593</color>-->
+    <!--<color name="colorPrimaryDark">#1A237E</color>-->
+    <color name="colorPrimaryDark">#263238</color>
+    <color name="colorAccent">#2196F3</color>
+    <color name="gray_700">#616161</color>
+    <color name="green_600">#43A047</color>
 
 
     <color name="white">#FFFFFF</color>
+
+    <array name="miner_filter_colors">
+        <item name="all" type="color">#827f93</item>
+        <item name="sha256" type="color">#c467f4</item>
+        <item name="scrypt" type="color">#3b9aee</item>
+        <item name="x11" type="color">#9bc53d</item>
+        <item name="ethash" type="color">#f4a261</item>
+        <item name="equihash" type="color">#1ed2bb</item>
+        <item name="asic" type="color">#778da9</item>
+        <item name="gpu" type="color">#20bf55</item>
+        <item name="usb" type="color">#9f9fed</item>
+        <item name="rig" type="color">#fc6177</item>
+        <item name="chip" type="color">#bcbcbc</item>
+        <item name="refurbished" type="color">#d10177</item>
+        <item name="other" type="color">#9fff3d</item>
+        <item name="cryptonight" type="color">#000</item>
+    </array>
+
+    <color name="divider">#b2b6c6</color>
+    <color name="colorTabCalculator">#b92b27</color>
+    <color name="colorTabCoins">#3b5999</color>
 </resources>

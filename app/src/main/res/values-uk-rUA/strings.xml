@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Блогчейн</string>
+    <string name="loading">Завантаження...</string>
+    <string name="drawer_item_currencies">Валюти</string>
+    <string name="drawer_item_exchanges">Біржі</string>
+    <string name="drawer_item_portfolio">Портфоліо</string>
+    <string name="drawer_item_settings">Налаштування</string>
+    <string name="add_google_account">Додати Google аккаунт</string>
+    <string name="search">Пошук</string>
+    <string name="action_settings">Налаштування</string>
+    <string name="drawer_item_mining">Майнінг</string>
+    <string name="hour_price_change">1г:</string>
+    <string name="day_price_change">24г:</string>
+    <string name="week_price_change">7д:</string>
+    <string name="calculator">Калькулятор</string>
+    <string name="coins">Монети</string>
+    <string name="all_selected">Обрати все</string>
+    <string name="unexpected_error">Упс</string>
+    <string name="miners">Майнери</string>
+    <string name="drawer_item_market_info">Інформація про маркет</string>
+    <string name="drawer_item_converter">Конвертер</string>
+    <string name="difficulty_item">Складність:</string>
+    <string name="profitability_item">Профітність:</string>
+    <string name="revenue24_item">Заробіток24г:</string>
+    <string name="information">Інформація</string>
+    <string name="filter">Фільтр</string>
+    <string name="sort">Сортувати</string>
+    <string name="sort_order">Порядок сортування</string>
+    <string name="market_cap">Капіталізація</string>
+    <string name="coin_price">Ціна монети</string>
+    <string name="alphabetical">По алфавіту</string>
+    <string name="volume_24h">Обсяг торгів</string>
+    <string name="winners_24h">Переможці 24г</string>
+    <string name="losers_24h">Переможені 24г</string>
+    <string name="apply">Застосувати</string>
+    <string name="cancel">Відміна</string>
+    <string name="reset">Скинути</string>
+    <string name="sort_by">Сортувати за</string>
+    <string name="descending">За зменшенням</string>
+    <string name="ascending">За збільшенням</string>
+    <string name="gpu_coins_info">У списку нижче представлена профітність монет у порівнянні з Ефіріумом (у ETH профітність 100%). Весь прибуток вказан від майнінгу на трьох картах Radeon RX480</string>
+    <string name="asic_coins_info">У списку нижче представлена профітність монет e порівнянні з Біткоїном (у BTC профітність 100%). SHA-256 прибуток вказан від майнінгу на Antminer S9. Для Scrypt використовуючи стільки ж електрики 1370W і хешрейт підрахований для 11W/MHS.</string>
+
+    <string-array name="miner_filters">
+        <item>Усі категорії</item>
+        <item>ASIC</item>
+        <item>GPU</item>
+        <item>Refurbished GPU</item>
+        <item>Rig</item>
+        <item>Rig Bundle</item>
+        <item>USB</item>
+        <item>Chip</item>
+        <item>SHA256</item>
+        <item>Scrypt</item>
+        <item>Ethash</item>
+        <item>Equihash</item>
+        <item>X11</item>
+        <item>CryptoNight</item>
+    </string-array>
+    <string name="whats_new">Щось нове?</string>
+</resources>

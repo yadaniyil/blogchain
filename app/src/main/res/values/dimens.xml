@@ -3,4 +3,17 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="standard_dimen">16dp</dimen>
+    <dimen name="double_dimen">32dp</dimen>
+    <dimen name="half_standard_dimen">8dp</dimen>
+    <dimen name="currency_item_height">80dp</dimen>
+    <dimen name="currency_item_icon_diameter">35dp</dimen>
+    <dimen name="quater_standard_dimen">4dp</dimen>
+    <dimen name="currency_item_name_text_size">10sp</dimen>
+    <dimen name="currency_item_symbol_text_size">12sp</dimen>
+    <dimen name="btc_price_text_size">10sp</dimen>
+    <dimen name="text_size_big">24sp</dimen>
+    <dimen name="text_size_normal">18sp</dimen>
+    <dimen name="dialog_title_start_margin">24dp</dimen>
+    <dimen name="text_size_title_material">20sp</dimen>
 </resources>

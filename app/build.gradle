@@ -1,44 +1,49 @@
-//buildscript {
-//    repositories {
-//        maven { url 'https://maven.fabric.io/public' }
-//    }
-//
-//    dependencies {
-//        classpath 'io.fabric.tools:gradle:1.+'
-//    }
-//}
-
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
-
 apply plugin: 'kotlin-android-extensions'
-
-
 apply plugin: 'realm-android'
 
 
 def STRING = 'String'
 def BUILD_TIME = 'BUILD_TIME'
 
-//apply plugin: 'io.fabric'
+apply plugin: 'io.fabric'
 
 repositories {
-//    maven { url 'https://maven.fabric.io/public' }
+    maven { url 'https://maven.fabric.io/public' }
+    jcenter()
 }
 
-android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion "25.0.3"
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
+def fabricPropertiesFile = rootProject.file("fabric.properties")
+def fabricProperties = new Properties()
+fabricProperties.load(new FileInputStream(fabricPropertiesFile))
+
+android {
+    signingConfigs {
+        config {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+        }
+    }
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion '26.0.2'
     defaultConfig {
-        applicationId "com.yadaniil.app.cryptomarket"
+        applicationId "com.yadaniil.blogchain"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
+        multiDexEnabled true
         versionCode 1
-        versionName "1.0.0"
+        versionName "0.1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         buildConfigField STRING, BUILD_TIME, "\"${rootProject.ext.buildTime}\""
+        manifestPlaceholders = [ fabricApiKey:fabricProperties['apiKey']]
     }
     buildTypes {
         release {
@@ -47,10 +52,11 @@ android {
             shrinkResources true
             debuggable false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
     }
-    sourceSets{
-	main.java.srcDirs += 'src/main/kotlin'
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
     }
     packagingOptions {
         exclude 'META-INF/rxjava.properties'
@@ -58,7 +64,8 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.google.firebase:firebase-messaging:11.0.1'
+    compile fileTree(include: ['*.jar'], dir: 'libs')
 
     //supportLib
     compile rootProject.ext.supportLib
@@ -70,15 +77,12 @@ dependencies {
     //timber
     compile rootProject.ext.timber
 
-    //crashlytics
-//    compile (rootProject.ext.crashlytics){
-//        transitive = true;
-//    }
-
     //di
     compile rootProject.ext.dagger
     kapt rootProject.ext.daggerApt
+
     //compile rootProject.ext.daggerSupport
+
     //annotationProcessor rootProject.ext.daggerAnnotation
 
     //rx
@@ -86,7 +90,6 @@ dependencies {
     compile rootProject.ext.rxAndroid
     compile rootProject.ext.rxKotlin
 
-    
     //net
     compile rootProject.ext.retrofit
     compile rootProject.ext.okHttp
@@ -94,12 +97,9 @@ dependencies {
     compile rootProject.ext.rxJavaAdapter
     compile rootProject.ext.rxJava2Adapter
     compile rootProject.ext.gsonConverter
-    
 
-    
     //picasso
     compile rootProject.ext.picasso
-    
 
     //test
     testCompile 'junit:junit:4.12'
@@ -111,17 +111,69 @@ dependencies {
 
     // anko
     compile 'org.jetbrains.anko:anko-sdk15:0.9.1'
+
     // Material EditText
     compile 'com.rengwuxian.materialedittext:library:2.1.4'
+
     // Bottom navigation
     compile 'com.roughike:bottom-bar:2.3.1'
+
     // Retrofit logs
     compile 'com.squareup.okhttp3:logging-interceptor:3.6.0'
-    // For retrofit @Body string: String
-    compile  'com.squareup.retrofit2:converter-scalars:2.2.0'
+
+    // For retrofit ResponseBody
+    compile 'com.squareup.retrofit2:converter-scalars:2.2.0'
+
     // Adapters for realm
     compile 'io.realm:android-adapters:2.0.0'
+
+    // Navigation drawer
+    compile('com.mikepenz:materialdrawer:5.9.3@aar') {
+        transitive = true
+    }
+
+    // Smooth progress bar (line)
+    compile 'com.github.castorflex.smoothprogressbar:library:1.1.0'
+
+    // FlowUp will analyze the app
+    compile 'io.flowup:android-sdk:1.0.0'
+    testCompile 'io.flowup:android-sdk-no-op:1.0.0'
+
+    // Moxy is MVP library
+    compile 'com.arello-mobile:moxy:1.5.3'
+    annotationProcessor 'com.arello-mobile:moxy-compiler:1.5.3'
+    compile 'com.arello-mobile:moxy-android:1.5.3'
+    compile 'com.arello-mobile:moxy-app-compat:1.5.3'
+    kapt 'com.arello-mobile:moxy-compiler:1.5.3'
+    compile 'com.android.support:multidex:1.0.2'
+
+    // SearchView
+    compile 'com.miguelcatalan:materialsearchview:1.4.0'
+
+    // Filter
+    compile 'com.github.Yalantis:SearchFilter:v1.0.4'
+
+    // To avoid crash message
+    //    compile 'cat.ereza:customactivityoncrash:2.1.0'
+
+    // Fast scroll
+    compile 'com.simplecityapps:recyclerview-fastscroll:1.0.16'
+
+    // crashlytics
+    compile('com.crashlytics.sdk.android:crashlytics:2.7.0@aar') {
+        transitive = true
+    }
+
+    // Changelog lib
+    compile 'com.github.gabrielemariotti.changeloglib:changelog:2.1.0'
 }
+
+kapt {
+    generateStubs = true
+}
+
 repositories {
     mavenCentral()
 }
+
+//apply plugin: 'com.google.gms.google-services'

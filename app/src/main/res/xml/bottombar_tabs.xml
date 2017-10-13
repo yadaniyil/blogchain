@@ -1,0 +1,19 @@
+<tabs>
+    <tab
+        id="@+id/tab_miners"
+        title="@string/miners"
+        icon="@drawable/ic_chip"
+        barColorWhenSelected="@color/colorPrimary"/>
+
+    <tab
+        id="@+id/tab_calculator"
+        icon="@drawable/ic_calculator"
+        title="@string/calculator"
+        barColorWhenSelected="@color/colorTabCalculator"/>
+
+    <tab
+        id="@+id/tab_coins"
+        icon="@drawable/ic_coins"
+        title="@string/coins"
+        barColorWhenSelected="@color/colorTabCoins"/>
+</tabs>

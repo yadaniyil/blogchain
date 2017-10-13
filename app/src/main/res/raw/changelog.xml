@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<changelog bulletedList="true">
+
+    <changelogversion versionName="0.1.0" changeDate="Oct 11,2017">
+        <changelogtext><![CDATA[<b><font color=#43A047>New!</font></b> Sorting of currencies]]></changelogtext>
+        <changelogtext><![CDATA[<b><font color=#43A047>New!</font></b> Side slider for fast scrolling though currencies]]></changelogtext>
+        <changelogtext><![CDATA[<b><font color=#43A047>New!</font></b> Russian and Ukrainian languages]]></changelogtext>
+        <changelogtext> Currencies list performance improvements</changelogtext>
+    </changelogversion>
+
+</changelog>

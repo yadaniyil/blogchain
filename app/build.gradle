@@ -19,6 +19,10 @@ def keystorePropertiesFile = rootProject.file("keystore.properties")
 def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
+def fabricPropertiesFile = rootProject.file("fabric.properties")
+def fabricProperties = new Properties()
+fabricProperties.load(new FileInputStream(fabricPropertiesFile))
+
 android {
     signingConfigs {
         config {
@@ -39,6 +43,7 @@ android {
         versionName "0.1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         buildConfigField STRING, BUILD_TIME, "\"${rootProject.ext.buildTime}\""
+        manifestPlaceholders = [ fabricApiKey:fabricProperties['apiKey']]
     }
     buildTypes {
         release {

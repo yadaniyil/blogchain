@@ -36,8 +36,7 @@
 
         <meta-data
             android:name="io.fabric.ApiKey"
-            android:value="younevergonnagetit"
-            />
+            android:value="${fabricApiKey}" />
 
     </application>
 

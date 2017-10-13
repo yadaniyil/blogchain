@@ -28,11 +28,13 @@ class MinersPresenter : MvpPresenter<MinersView>() {
         repo.getMiners()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe { viewState.showLoading() }
                 .map { it.idToMiner.values }
                 .subscribe({ miners ->
                     downloadedMiners = miners.toMutableList()
                     viewState.showMiners(miners.toList())
                 }, { error ->
+                    viewState.showError()
                     Timber.e(error.message)
                 })
     }

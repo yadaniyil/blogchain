@@ -6,6 +6,7 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.*
 import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
@@ -20,6 +21,8 @@ import org.jetbrains.anko.find
 import kotlin.properties.Delegates
 import com.yalantis.filter.animator.FiltersListItemAnimator
 import com.yadaniil.blogchain.utils.UiHelper
+import kotlinx.android.synthetic.main.no_items_layout.*
+import org.jetbrains.anko.onClick
 import timber.log.Timber
 
 
@@ -36,6 +39,7 @@ class MinersFragment : MvpAppCompatFragment(), MinersView, MinerItemClickListene
     private lateinit var minerFilterColors: IntArray
     private lateinit var minerFilterNames: Array<String>
 
+    // region Fragment
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val rootView = inflater?.inflate(R.layout.fragment_miners, container, false)
@@ -48,16 +52,11 @@ class MinersFragment : MvpAppCompatFragment(), MinersView, MinerItemClickListene
         minerFilterColors = resources.getIntArray(R.array.miner_filter_colors)
         minerFilterNames = resources.getStringArray(R.array.miner_filters)
         initToolbar()
+        retry_button.onClick { presenter.downloadMiners() }
         UiHelper.changeStatusBarColor(activity, R.color.colorPrimary)
+        showMiners(emptyList())
         presenter.downloadMiners()
         showFilter()
-    }
-
-    private fun initToolbar() {
-        toolbar.title = getString(R.string.miners)
-        (activity as AppCompatActivity).setSupportActionBar(toolbar)
-        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        (activity as AppCompatActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -69,19 +68,19 @@ class MinersFragment : MvpAppCompatFragment(), MinersView, MinerItemClickListene
             else -> super.onOptionsItemSelected(item)
         }
     }
+    // endregion Fragment
+
+
+
+    private fun initToolbar() {
+        toolbar.title = getString(R.string.miners)
+        (activity as AppCompatActivity).setSupportActionBar(toolbar)
+        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        (activity as AppCompatActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
+    }
 
     override fun onClick(holder: MinersAdapter.MinerViewHolder, tx: Miner) {
 
-    }
-
-    override fun showMiners(miners: List<Miner>) {
-        minersAdapter = MinersAdapter(activity, this, getFilterTags())
-        miners_list.layoutManager = LinearLayoutManager(activity)
-        miners_list.adapter = minersAdapter
-        miners_list.setHasFixedSize(true)
-        miners_list.addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
-        miners_list.itemAnimator = FiltersListItemAnimator()
-        minersAdapter.setData(miners)
     }
 
     // region Filtering
@@ -149,6 +148,49 @@ class MinersFragment : MvpAppCompatFragment(), MinersView, MinerItemClickListene
 
     }
     // endregion Filtering
+
+    // region View
+    override fun showError() {
+        downloading_label.visibility = View.GONE
+        progress_bar.visibility = View.GONE
+
+        error_image.visibility = View.VISIBLE
+        error_message.visibility = View.VISIBLE
+        retry_button.visibility = View.VISIBLE
+    }
+
+    override fun showLoading() {
+        downloading_label.visibility = View.VISIBLE
+        progress_bar.visibility = View.VISIBLE
+
+        error_image.visibility = View.GONE
+        error_message.visibility = View.GONE
+        retry_button.visibility = View.GONE
+    }
+
+    override fun showMiners(miners: List<Miner>) {
+        minersAdapter = MinersAdapter(activity, this, getFilterTags())
+        miners_list.layoutManager = LinearLayoutManager(activity)
+        miners_list.adapter = minersAdapter
+        miners_list.setHasFixedSize(true)
+        miners_list.addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
+        miners_list.itemAnimator = FiltersListItemAnimator()
+        minersAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+            override fun onChanged() {
+                if(minersAdapter.itemCount > 0) {
+                    miners_list.visibility = View.VISIBLE
+                    activity.find<Filter<MinerFilterTag>>(R.id.filter).visibility = View.VISIBLE
+                    no_items_layout.visibility = View.GONE
+                } else {
+                    miners_list.visibility = View.GONE
+                    activity.find<Filter<MinerFilterTag>>(R.id.filter).visibility = View.INVISIBLE
+                    no_items_layout.visibility = View.VISIBLE
+                }
+            }
+        })
+        minersAdapter.setData(miners)
+    }
+    // endregion View
 
     companion object {
         fun newInstance() = MinersFragment()

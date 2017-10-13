@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog bulletedList="true">
 
-    <changelogversion versionName="0.1.0" changeDate="11 октябррря, 2017">
+    <changelogversion versionName="0.1.1" changeDate="13 октябррря, 2017">
         <changelogtext><![CDATA[<b><font color=#43A047>New!</font></b> Сортировка валют]]></changelogtext>
         <changelogtext><![CDATA[<b><font color=#43A047>New!</font></b> Боковой слайдер для быстрого скроллинга по валютам]]></changelogtext>
         <changelogtext><![CDATA[<b><font color=#43A047>New!</font></b> Русский и Украинский языки]]></changelogtext>

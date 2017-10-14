@@ -16,8 +16,9 @@ import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_main.*
 import com.crashlytics.android.Crashlytics
 import io.fabric.sdk.android.Fabric
-
-
+import kotlinx.android.synthetic.main.no_items_filtered_layout.*
+import kotlinx.android.synthetic.main.no_items_layout.*
+import org.jetbrains.anko.onClick
 
 
 class MainActivity : BaseActivity(), IMainView {
@@ -36,6 +37,7 @@ class MainActivity : BaseActivity(), IMainView {
         setUpCurrenciesList(presenter.getRealmCurrencies())
         initSearchView()
         initBackgroundRefresh()
+        initRetryRefreshButton()
         presenter.showChangelogDialog()
     }
 
@@ -88,6 +90,12 @@ class MainActivity : BaseActivity(), IMainView {
         })
     }
 
+    private fun initRetryRefreshButton() {
+        retry_button.onClick {
+            presenter.downloadAndSaveAllCurrencies()
+        }
+    }
+
     private fun setUpCurrenciesList(realmCurrencies: RealmResults<CoinMarketCapCurrencyRealm>) {
         currenciesAdapter = CurrenciesAdapter(this, presenter)
         currencies_recycler_view.layoutManager = LinearLayoutManager(this)
@@ -98,13 +106,32 @@ class MainActivity : BaseActivity(), IMainView {
         currencies_recycler_view.drawingCacheQuality = View.DRAWING_CACHE_QUALITY_HIGH
         currencies_recycler_view.removeItemDecoration(listDivider)
         currencies_recycler_view.addItemDecoration(listDivider)
+        currenciesAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+            override fun onChanged() {
+                if (currenciesAdapter.itemCount > 0) {
+                    no_items_layout.visibility = View.GONE
+                    currencies_recycler_view.visibility = View.VISIBLE
+                    no_items_filtered_layout.visibility = View.GONE
+                } else {
+                    if(search_view.isSearchOpen) {
+                        no_items_layout.visibility = View.GONE
+                        currencies_recycler_view.visibility = View.GONE
+                        no_items_filtered_layout.visibility = View.VISIBLE
+                    } else {
+                        no_items_filtered_layout.visibility = View.GONE
+                        no_items_layout.visibility = View.VISIBLE
+                        currencies_recycler_view.visibility = View.GONE
+                    }
+                }
+            }
+        })
         currenciesAdapter.setData(realmCurrencies)
     }
 
     // region View
     override fun getLayout() = R.layout.activity_main
-    override fun showLoading() = smooth_progress_bar.progressiveStart()
-    override fun stopLoading() = smooth_progress_bar.progressiveStop()
+    override fun showToolbarLoading() = smooth_progress_bar.progressiveStart()
+    override fun stopToolbarLoading() = smooth_progress_bar.progressiveStop()
     override fun updateList() = setUpCurrenciesList(presenter.getRealmCurrencies())
     override fun showChangelogDialog() {
         val fm = supportFragmentManager
@@ -115,5 +142,23 @@ class MainActivity : BaseActivity(), IMainView {
         }
         ChangelogDialog().show(ft, "changelogdialog")
     }
+    override fun showLoadingError() {
+        downloading_label.visibility = View.GONE
+        progress_bar.visibility = View.GONE
+
+        error_image.visibility = View.VISIBLE
+        error_message.visibility = View.VISIBLE
+        retry_button.visibility = View.VISIBLE
+    }
+
+    override fun showLoading() {
+        downloading_label.visibility = View.VISIBLE
+        progress_bar.visibility = View.VISIBLE
+
+        error_image.visibility = View.GONE
+        error_message.visibility = View.GONE
+        retry_button.visibility = View.GONE
+    }
+    // endregion View
 }
-// endregion View
+

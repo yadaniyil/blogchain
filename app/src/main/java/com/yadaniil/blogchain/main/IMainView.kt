@@ -3,8 +3,10 @@ package com.yadaniil.blogchain.main
 import com.arellomobile.mvp.MvpView
 
 interface IMainView : MvpView {
-    fun showLoading()
-    fun stopLoading()
+    fun showToolbarLoading()
+    fun stopToolbarLoading()
     fun updateList()
     fun showChangelogDialog()
+    fun showLoadingError()
+    fun showLoading()
 }

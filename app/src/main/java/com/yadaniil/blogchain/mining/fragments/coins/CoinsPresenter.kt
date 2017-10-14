@@ -41,10 +41,12 @@ class CoinsPresenter : MvpPresenter<CoinsView>() {
         allCoinsZipRequest
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe { viewState.showLoading() }
                 .subscribe({ allCoins ->
                     Timber.e("All coins size: " + allCoins.size)
                     viewState.showCoins(allCoins)
                 }, { error ->
+                    viewState.showError()
                     Timber.e(error.message)
                 })
     }

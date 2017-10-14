@@ -10,4 +10,6 @@ import com.yadaniil.blogchain.data.api.models.MiningCoin
 
 interface CoinsView : MvpView {
     fun showCoins(coins: List<MiningCoin>)
+    fun showLoading()
+    fun showError()
 }

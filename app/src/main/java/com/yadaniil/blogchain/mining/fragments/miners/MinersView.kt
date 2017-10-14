@@ -9,4 +9,6 @@ import com.yadaniil.blogchain.data.api.models.Miner
 interface MinersView : MvpView {
 
     fun showMiners(miners: List<Miner>)
+    fun showError()
+    fun showLoading()
 }

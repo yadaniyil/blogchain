@@ -38,7 +38,7 @@
     <string name="sort_by">Сортировать по</string>
     <string name="descending">По убыванию</string>
     <string name="ascending">По возрастанию</string>
-    <string name="search">Поиск</string>
+    <string name="search">Поиск…</string>
     <string name="gpu_coins_info">В списке ниже представлена профитность монет по сравнению с Эфириумом (у ETH профитность 100%). Вся прибыть указана от майнинга на трёх картах Radeon RX480</string>
     <string name="asic_coins_info">В списке ниже представлена профитность монет по сравнению с Биткоином (у BTC профитность 100%). SHA-256 прибыль указана от майнинга на Antminer S9. Для Scrypt используя столько же электричества 1370W и хешрейт подсчитан для 11W/MHS.</string>
 
@@ -59,4 +59,8 @@
         <item>CryptoNight</item>
     </string-array>
     <string name="whats_new">Что-то новенькое?</string>
+    <string name="downloading_blockchain">Скачиваю блокчейн</string>
+    <string name="something_went_wrong">Упс. Что-то пошло не так</string>
+    <string name="retry">Попробовать еще</string>
+    <string name="there_is_nothing_with_such_filter">Нет ничего подходящего под такой фильтр</string>
 </resources>

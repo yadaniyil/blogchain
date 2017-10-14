@@ -8,18 +8,30 @@
     android:fitsSystemWindows="true"
     tools:context="com.yadaniil.blogchain.main.MainActivity">
 
-    <com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
-        android:id="@+id/currencies_recycler_view"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/appBar"
-        app:fastScrollAutoHide="true"
-        app:fastScrollAutoHideDelay="1500"
-        app:fastScrollPopupTextSize="36sp"
-        app:fastScrollPopupBackgroundSize="58dp"
-        app:fastScrollPopupBgColor="@color/colorPrimary"
-        app:fastScrollPopupTextColor="@android:color/primary_text_dark"
-        app:fastScrollThumbColor="@color/colorPrimary" />
+        android:orientation="vertical">
+
+        <com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
+            android:id="@+id/currencies_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:fastScrollAutoHide="true"
+            app:fastScrollAutoHideDelay="1500"
+            app:fastScrollPopupTextSize="36sp"
+            app:fastScrollPopupBackgroundSize="58dp"
+            app:fastScrollPopupBgColor="@color/colorPrimary"
+            app:fastScrollPopupTextColor="@android:color/primary_text_dark"
+            app:fastScrollThumbColor="@color/colorPrimary" />
+
+        <include layout="@layout/no_items_layout"/>
+        <include layout="@layout/no_items_filtered_layout"/>
+
+    </LinearLayout>
+
+
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appBar"
@@ -41,6 +53,8 @@
             <com.miguelcatalan.materialsearchview.MaterialSearchView
                 android:id="@+id/search_view"
                 android:layout_width="match_parent"
+                android:hint="@string/search"
+                android:textColorHint="@color/gray_700"
                 android:layout_height="wrap_content" />
 
         </FrameLayout>

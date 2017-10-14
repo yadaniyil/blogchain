@@ -35,11 +35,13 @@ class MainPresenter : MvpPresenter<IMainView>() {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map { CryptoCompareCurrencyRealm.convertApiResponseToRealmList(it) }
-                .doOnSubscribe { viewState.showLoading() }
+                .doOnSubscribe { viewState.showToolbarLoading(); viewState.showLoading() }
                 .doOnComplete { downloadCMCList() }
                 .subscribe({ currenciesList ->
                     repo.saveCryptoCompareCurrenciesToDb(currenciesList)
                 }, { error ->
+                    viewState.showLoadingError()
+                    viewState.stopToolbarLoading()
                     Timber.e(error.message)
                 })
     }
@@ -49,11 +51,13 @@ class MainPresenter : MvpPresenter<IMainView>() {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map { CoinMarketCapCurrencyRealm.convertApiResponseToRealmList(it) }
-                .doOnComplete { viewState.stopLoading() }
+                .doOnComplete { viewState.stopToolbarLoading() }
                 .subscribe({ currenciesList ->
                     repo.saveCoinMarketCapCurrenciesToDb(currenciesList)
                     viewState.updateList()
                 }, { error ->
+                    viewState.showLoadingError()
+                    viewState.stopToolbarLoading()
                     Timber.e(error.message)
                 })
     }
@@ -69,7 +73,7 @@ class MainPresenter : MvpPresenter<IMainView>() {
 //        repo.getPriceMultiFull(buildFromSymbols(), buildToSymbols())
 //                .subscribeOn(Schedulers.io())
 //                .observeOn(AndroidSchedulers.mainThread())
-//                .doOnComplete { viewState.stopLoading() }
+//                .doOnComplete { viewState.stopToolbarLoading() }
 //                .subscribe({
 //
 //                })

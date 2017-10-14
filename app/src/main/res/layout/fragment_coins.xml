@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <android.support.design.widget.AppBarLayout
@@ -25,6 +24,8 @@
 
             <com.miguelcatalan.materialsearchview.MaterialSearchView
                 android:id="@+id/search_view"
+                android:hint="@string/search"
+                android:textColorHint="@color/gray_700"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </FrameLayout>
@@ -37,5 +38,8 @@
         android:layout_height="match_parent"
         android:id="@+id/coins_list">
     </android.support.v7.widget.RecyclerView>
+
+    <include layout="@layout/no_items_layout"/>
+    <include layout="@layout/no_items_filtered_layout"/>
 
 </LinearLayout>

@@ -59,4 +59,7 @@
         <item>CryptoNight</item>
     </string-array>
     <string name="whats_new">Что-то новенькое?</string>
+    <string name="downloading_blockchain">Скачиваю блокчейн</string>
+    <string name="something_went_wrong">Упс. Что-то пошло не так</string>
+    <string name="retry">Попробовать еще</string>
 </resources>

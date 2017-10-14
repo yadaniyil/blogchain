@@ -16,6 +16,7 @@ import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_main.*
 import com.crashlytics.android.Crashlytics
 import io.fabric.sdk.android.Fabric
+import kotlinx.android.synthetic.main.no_items_filtered_layout.*
 import kotlinx.android.synthetic.main.no_items_layout.*
 import org.jetbrains.anko.onClick
 
@@ -110,9 +111,17 @@ class MainActivity : BaseActivity(), IMainView {
                 if (currenciesAdapter.itemCount > 0) {
                     no_items_layout.visibility = View.GONE
                     currencies_recycler_view.visibility = View.VISIBLE
+                    no_items_filtered_layout.visibility = View.GONE
                 } else {
-                    no_items_layout.visibility = View.VISIBLE
-                    currencies_recycler_view.visibility = View.GONE
+                    if(search_view.isSearchOpen) {
+                        no_items_layout.visibility = View.GONE
+                        currencies_recycler_view.visibility = View.GONE
+                        no_items_filtered_layout.visibility = View.VISIBLE
+                    } else {
+                        no_items_filtered_layout.visibility = View.GONE
+                        no_items_layout.visibility = View.VISIBLE
+                        currencies_recycler_view.visibility = View.GONE
+                    }
                 }
             }
         })

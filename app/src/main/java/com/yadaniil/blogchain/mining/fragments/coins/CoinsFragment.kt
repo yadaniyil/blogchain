@@ -14,6 +14,7 @@ import com.yadaniil.blogchain.data.api.models.MiningCoin
 import com.yadaniil.blogchain.utils.UiHelper
 import com.yalantis.filter.animator.FiltersListItemAnimator
 import kotlinx.android.synthetic.main.fragment_coins.*
+import kotlinx.android.synthetic.main.no_items_filtered_layout.*
 import kotlinx.android.synthetic.main.no_items_layout.*
 import org.jetbrains.anko.onClick
 import kotlin.properties.Delegates
@@ -132,9 +133,17 @@ class CoinsFragment : MvpAppCompatFragment(), CoinsView, CoinItemClickListener {
                 if(coinsAdapter.itemCount > 0) {
                     coins_list.visibility = View.VISIBLE
                     no_items_layout.visibility = View.GONE
+                    no_items_filtered_layout.visibility = View.GONE
                 } else {
-                    coins_list.visibility = View.GONE
-                    no_items_layout.visibility = View.VISIBLE
+                    if(search_view.isSearchOpen) {
+                        no_items_layout.visibility = View.GONE
+                        coins_list.visibility = View.GONE
+                        no_items_filtered_layout.visibility = View.VISIBLE
+                    } else {
+                        no_items_filtered_layout.visibility = View.GONE
+                        no_items_layout.visibility = View.VISIBLE
+                        coins_list.visibility = View.GONE
+                    }
                 }
             }
         })

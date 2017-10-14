@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Блогчейн</string>
-    <string name="loading">Завантаження...</string>
+    <string name="loading">Завантаження…</string>
     <string name="drawer_item_currencies">Валюти</string>
     <string name="drawer_item_exchanges">Біржі</string>
     <string name="drawer_item_portfolio">Портфоліо</string>
     <string name="drawer_item_settings">Налаштування</string>
     <string name="add_google_account">Додати Google аккаунт</string>
-    <string name="search">Пошук</string>
+    <string name="search">Пошук…</string>
     <string name="action_settings">Налаштування</string>
     <string name="drawer_item_mining">Майнінг</string>
     <string name="hour_price_change">1г:</string>
@@ -62,4 +62,5 @@
     <string name="something_went_wrong">Упс. Щось пішло не так</string>
     <string name="retry">Спробувати ще</string>
     <string name="downloading_blockchain">Завантажую блокчейн</string>
+    <string name="there_is_nothing_with_such_filter">Немає нічого підходящого під такий фільтр</string>
 </resources>

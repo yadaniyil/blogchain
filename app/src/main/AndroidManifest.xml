@@ -17,7 +17,7 @@
             android:name="com.yadaniil.blogchain.main.MainActivity"
             android:label="@string/drawer_item_currencies"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity
             android:name="com.yadaniil.blogchain.splash.SplashActivity"
@@ -34,7 +34,7 @@
             android:name="com.yadaniil.blogchain.mining.MiningActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan"/>
 
         <meta-data
             android:name="io.fabric.ApiKey"

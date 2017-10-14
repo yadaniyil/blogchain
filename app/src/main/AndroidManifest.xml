@@ -16,10 +16,12 @@
         <activity
             android:name="com.yadaniil.blogchain.main.MainActivity"
             android:label="@string/drawer_item_currencies"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <activity
             android:name="com.yadaniil.blogchain.splash.SplashActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -79,6 +79,7 @@
     <string name="week">Week</string>
     <string name="month">Month</string>
     <string name="year">Year</string>
+    <string name="error">Error</string>
 
     <string-array name="miner_filters">
         <item>All categories</item>

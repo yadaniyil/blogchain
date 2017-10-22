@@ -21,6 +21,7 @@ import kotlinx.android.synthetic.main.fragment_calculator.*
 import kotlinx.android.synthetic.main.no_items_layout.*
 import kotlinx.android.synthetic.main.profit_table.*
 import org.jetbrains.anko.onClick
+import org.jetbrains.anko.toast
 import java.math.BigDecimal
 
 /**
@@ -138,6 +139,7 @@ class CalculatorFragment : MvpAppCompatFragment(), CalculatorView {
     override fun showTableError() {
         table_loading_progress_bar.visibility = View.GONE
         calculated_table.visibility = View.GONE
+        activity.toast(R.string.error)
     }
 
     override fun showTable(coin: MiningCoinResponse) {
@@ -145,13 +147,13 @@ class CalculatorFragment : MvpAppCompatFragment(), CalculatorView {
         calculated_table.visibility = View.VISIBLE
         val isProfitNegative = coin.profit.startsWith("-")
 
-        val dayReward = BigDecimal(coin.estimatedRewards)
+        val dayReward = BigDecimal(coin.estimatedRewards.replace(",", ""))
         // Substring is used to remove dollar sign
-        val dayRewardsDollar = BigDecimal(coin.revenueDollar.substring(1))
-        val dayCost = BigDecimal(coin.cost.substring(1))
+        val dayRewardsDollar = BigDecimal(coin.revenueDollar.substring(1).replace(",", ""))
+        val dayCost = BigDecimal(coin.cost.substring(1).replace(",", ""))
         val dayProfit = when {
-            coin.profit.startsWith("$") -> BigDecimal(coin.profit.substring(1))
-            coin.profit.startsWith("-") -> BigDecimal(coin.profit.substring(2))
+            coin.profit.startsWith("$") -> BigDecimal(coin.profit.substring(1).replace(",", ""))
+            coin.profit.startsWith("-") -> BigDecimal(coin.profit.substring(2).replace(",", ""))
             else -> BigDecimal.ZERO
         }
 

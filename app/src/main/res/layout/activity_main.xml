@@ -56,7 +56,6 @@
                 android:hint="@string/search"
                 android:textColorHint="@color/gray_700"
                 android:layout_height="wrap_content" />
-
         </FrameLayout>
 
         <fr.castorflex.android.smoothprogressbar.SmoothProgressBar xmlns:android="http://schemas.android.com/apk/res/android"
@@ -66,13 +65,13 @@
             android:layout_height="3dp"
             android:indeterminate="true"
             app:spb_color="@color/colorAccent"
-            app:spb_mirror_mode="false"
+            app:spb_mirror_mode="true"
             app:spb_progressiveStart_activated="false"
-            app:spb_progressiveStart_speed="1.5"
-            app:spb_progressiveStop_speed="3.4"
-            app:spb_reversed="false"
-            app:spb_sections_count="4"
-            app:spb_speed="2.0"
+            app:spb_progressiveStart_speed="4.0"
+            app:spb_progressiveStop_speed="4.0"
+            app:spb_reversed="true"
+            app:spb_sections_count="2"
+            app:spb_speed="4.0"
             app:spb_stroke_separator_length="4dp"
             app:spb_stroke_width="4dp" />
 

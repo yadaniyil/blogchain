@@ -132,17 +132,17 @@ class MainActivity : BaseActivity(), IMainView {
             override fun onChanged() {
                 if (currenciesAdapter.itemCount > 0) {
                     no_items_layout.visibility = View.GONE
-                    currencies_recycler_view.visibility = View.VISIBLE
+                    swipe_refresh.visibility = View.VISIBLE
                     no_items_filtered_layout.visibility = View.GONE
                 } else {
                     if(search_view.isSearchOpen) {
                         no_items_layout.visibility = View.GONE
-                        currencies_recycler_view.visibility = View.GONE
+                        swipe_refresh.visibility = View.GONE
                         no_items_filtered_layout.visibility = View.VISIBLE
                     } else {
                         no_items_filtered_layout.visibility = View.GONE
                         no_items_layout.visibility = View.VISIBLE
-                        currencies_recycler_view.visibility = View.GONE
+                        swipe_refresh.visibility = View.GONE
                     }
                 }
             }

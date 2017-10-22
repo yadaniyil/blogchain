@@ -38,6 +38,7 @@ class MainActivity : BaseActivity(), IMainView {
         initSearchView()
         initBackgroundRefresh()
         initRetryRefreshButton()
+        initSwipeRefresh()
         presenter.showChangelogDialog()
     }
 
@@ -92,6 +93,13 @@ class MainActivity : BaseActivity(), IMainView {
 
     private fun initRetryRefreshButton() {
         retry_button.onClick {
+            presenter.downloadAndSaveAllCurrencies()
+        }
+    }
+
+    private fun initSwipeRefresh() {
+        swipe_refresh.setColorSchemeColors(resources.getColor(R.color.colorAccent))
+        swipe_refresh.setOnRefreshListener {
             presenter.downloadAndSaveAllCurrencies()
         }
     }
@@ -158,6 +166,11 @@ class MainActivity : BaseActivity(), IMainView {
         error_image.visibility = View.GONE
         error_message.visibility = View.GONE
         retry_button.visibility = View.GONE
+    }
+
+    override fun hideSwipeRefreshLoading() {
+        if(swipe_refresh.isRefreshing)
+            swipe_refresh.isRefreshing = false
     }
     // endregion View
 }

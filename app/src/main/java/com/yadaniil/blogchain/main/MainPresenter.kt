@@ -35,7 +35,8 @@ class MainPresenter : MvpPresenter<IMainView>() {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map { CryptoCompareCurrencyRealm.convertApiResponseToRealmList(it) }
-                .doOnSubscribe { viewState.showToolbarLoading(); viewState.showLoading() }
+                .doOnSubscribe { viewState.showToolbarLoading()
+                    viewState.showLoading(); viewState.hideSwipeRefreshLoading() }
                 .doOnComplete { downloadCMCList() }
                 .subscribe({ currenciesList ->
                     repo.saveCryptoCompareCurrenciesToDb(currenciesList)

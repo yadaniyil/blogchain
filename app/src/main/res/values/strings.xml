@@ -74,13 +74,13 @@
     <string name="cost">Cost</string>
     <string name="profit">Profit</string>
     <string name="estimated_rewards">Estimated rewards</string>
-    <string name="hour">Hour</string>
+    <string name="hour">Hour</string>к
     <string name="day">Day</string>
     <string name="week">Week</string>
     <string name="month">Month</string>
     <string name="year">Year</string>
     <string name="error">Error</string>
-    <string name="percent_sign">%</string>
+    <string name="percent_sign" translatable="false">%</string>
     <string name="dollars_for_kwh">$/kWh</string>
     <string name="poll_fee">Poll fee</string>
     <string name="remove_options">Remove options</string>

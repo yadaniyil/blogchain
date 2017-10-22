@@ -15,7 +15,7 @@
     <string name="week_price_change">7д:</string>
     <string name="calculator">Калькулятор</string>
     <string name="coins">Монети</string>
-    <string name="all_selected">Обрати все</string>
+    <string name="all_selected">Обрано усе</string>
     <string name="unexpected_error">Упс</string>
     <string name="miners">Майнери</string>
     <string name="drawer_item_market_info">Інформація про маркет</string>
@@ -70,4 +70,21 @@
     <string name="watt">Ват</string>
     <string name="power_example">Наприклад, 800</string>
     <string name="power">Потужність</string>
+    <string name="dollars_for_kwh">$/кВт⋅г</string>
+    <string name="poll_fee">Комісія пулу</string>
+    <string name="remove_options">Видалити опції</string>
+    <string name="add_more_options">Додати опції</string>
+    <string name="calculate">Підрахувати</string>
+    <string name="per">За</string>
+    <string name="rev_dot">Зар.</string>
+    <string name="rev_dollars">Зар. $</string>
+    <string name="cost">Витрати</string>
+    <string name="profit">Профіт</string>
+    <string name="estimated_rewards">Приблизний заробіток</string>
+    <string name="hour">Год.</string>
+    <string name="day">День</string>
+    <string name="week">Неділя</string>
+    <string name="month">Місяць</string>
+    <string name="year">Рік</string>
+    <string name="error">Помилка</string>
 </resources>

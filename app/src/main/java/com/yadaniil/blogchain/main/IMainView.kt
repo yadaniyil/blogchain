@@ -9,4 +9,5 @@ interface IMainView : MvpView {
     fun showChangelogDialog()
     fun showLoadingError()
     fun showLoading()
+    fun hideSwipeRefreshLoading()
 }

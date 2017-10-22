@@ -14,7 +14,7 @@
     <string name="week_price_change">7д:</string>
     <string name="calculator">Калькулятор</string>
     <string name="coins">Монеты</string>
-    <string name="all_selected">Выбрать все</string>
+    <string name="all_selected">Выбрано всё</string>
     <string name="unexpected_error">Упс</string>
     <string name="miners">Майнеры</string>
     <string name="drawer_item_market_info">Информация о маркете</string>
@@ -63,4 +63,28 @@
     <string name="something_went_wrong">Упс. Что-то пошло не так</string>
     <string name="retry">Попробовать еще</string>
     <string name="there_is_nothing_with_such_filter">Нет ничего подходящего под такой фильтр</string>
+    <string name="coin">Монета</string>
+    <string name="select_coin">Выберите монету</string>
+    <string name="hashrate">Хешрейт</string>
+    <string name="hashrate_example">Например, 1400</string>
+    <string name="power">Мощность</string>
+    <string name="power_example">Например, 800</string>
+    <string name="watt">Ватт</string>
+    <string name="add_more_options">Добавить опции</string>
+    <string name="calculate">Посчитать</string>
+    <string name="per">За</string>
+    <string name="rev_dot">Зар.</string>
+    <string name="rev_dollars">Зар. $</string>
+    <string name="cost">Траты</string>
+    <string name="profit">Профит</string>
+    <string name="estimated_rewards">Приблизительный заработок</string>
+    <string name="hour">Час</string>
+    <string name="day">День</string>
+    <string name="week">Неделя</string>
+    <string name="month">Месяц</string>
+    <string name="year">Год</string>
+    <string name="error">Ошибка</string>
+    <string name="poll_fee">Комиссия пула</string>
+    <string name="dollars_for_kwh">$/кВт⋅ч</string>
+    <string name="remove_options">Удалить опции</string>
 </resources>

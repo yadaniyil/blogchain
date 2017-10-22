@@ -23,4 +23,13 @@ object CurrencyHelper {
             ccCurrencies.find { it.name == symbolToSearch }?.imageUrl ?: ""
         }
     }
+
+    fun getImageLinkForCurrency(symbol: String,
+                                ccCurrencies: List<CryptoCompareCurrencyRealm>): String {
+        return if(symbol.isNullOrBlank()) {
+            ""
+        } else {
+            ccCurrencies.find { it.name == symbol }?.imageUrl ?: ""
+        }
+    }
 }

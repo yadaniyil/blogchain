@@ -15,6 +15,8 @@ import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_main.*
 import com.crashlytics.android.Crashlytics
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.MobileAds
 import io.fabric.sdk.android.Fabric
 import kotlinx.android.synthetic.main.no_items_filtered_layout.*
 import kotlinx.android.synthetic.main.no_items_layout.*
@@ -26,6 +28,8 @@ class MainActivity : BaseActivity(), IMainView {
     @InjectPresenter
     lateinit var presenter: MainPresenter
 
+    private var sortMenuItem: MenuItem? = null
+
     private lateinit var listDivider: RecyclerView.ItemDecoration
     private lateinit var currenciesAdapter: CurrenciesAdapter
 
@@ -33,11 +37,14 @@ class MainActivity : BaseActivity(), IMainView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Fabric.with(this, Crashlytics())
+        MobileAds.initialize(this, "ca-app-pub-4946735304037594~5659173642")
+        initAdMob()
         listDivider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         setUpCurrenciesList(presenter.getRealmCurrencies())
         initSearchView()
         initBackgroundRefresh()
         initRetryRefreshButton()
+        initSwipeRefresh()
         presenter.showChangelogDialog()
     }
 
@@ -51,14 +58,16 @@ class MainActivity : BaseActivity(), IMainView {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_currencies_list, menu)
-        val item = menu?.findItem(R.id.action_search)
-        search_view.setMenuItem(item)
+        sortMenuItem = menu?.findItem(R.id.action_sort)
+        val searchItem = menu?.findItem(R.id.action_search)
+        search_view.setMenuItem(searchItem)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if (item?.itemId == R.id.action_sort) {
-            CoinSorter.showCoinSortDialog(this, currenciesAdapter)
+            CoinSorter.showCoinSortDialog(this, currenciesAdapter,
+                    {colorSortButtonToWhite()}, {colorSortButtonToAccent()})
         }
 
         return super.onOptionsItemSelected(item)
@@ -69,6 +78,12 @@ class MainActivity : BaseActivity(), IMainView {
         currencies_recycler_view.adapter = null
     }
     // endregion Activity
+
+    private fun initAdMob() {
+        val builder = AdRequest.Builder()
+                .addTestDevice("6D52FC8438981F070E41819319BD9543").build()
+        adView.loadAd(builder)
+    }
 
     private fun initBackgroundRefresh() {
 //        val scheduledExecutorService = Executors.newScheduledThreadPool(5)
@@ -92,6 +107,13 @@ class MainActivity : BaseActivity(), IMainView {
 
     private fun initRetryRefreshButton() {
         retry_button.onClick {
+            presenter.downloadAndSaveAllCurrencies()
+        }
+    }
+
+    private fun initSwipeRefresh() {
+        swipe_refresh.setColorSchemeColors(resources.getColor(R.color.colorAccent))
+        swipe_refresh.setOnRefreshListener {
             presenter.downloadAndSaveAllCurrencies()
         }
     }
@@ -126,6 +148,18 @@ class MainActivity : BaseActivity(), IMainView {
             }
         })
         currenciesAdapter.setData(realmCurrencies)
+
+        CoinSorter.sortCurrencies(currenciesAdapter)
+    }
+
+    private fun colorSortButtonToWhite() {
+        if(sortMenuItem != null)
+            sortMenuItem?.icon = resources.getDrawable(R.drawable.ic_sort_white_24dp)
+    }
+
+    private fun colorSortButtonToAccent() {
+        if(sortMenuItem != null)
+            sortMenuItem?.icon = resources.getDrawable(R.drawable.ic_sort_accent_24dp)
     }
 
     // region View
@@ -158,6 +192,11 @@ class MainActivity : BaseActivity(), IMainView {
         error_image.visibility = View.GONE
         error_message.visibility = View.GONE
         retry_button.visibility = View.GONE
+    }
+
+    override fun hideSwipeRefreshLoading() {
+        if(swipe_refresh.isRefreshing)
+            swipe_refresh.isRefreshing = false
     }
     // endregion View
 }

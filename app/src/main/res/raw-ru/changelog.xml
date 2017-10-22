@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog bulletedList="true">
 
+    <changelogversion versionName="0.2.0" changeDate="22 октябррря, 2017">
+        <changelogtext><![CDATA[<b><font color=#43A047>New!</font></b> Калькулятор майнинга!]]></changelogtext>
+        <changelogtext><![CDATA[<b><font color=#43A047>New!</font></b> Обновление списка валют свайпом сверху]]></changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="0.1.2" changeDate="13 октябррря, 2017">
         <changelogtext><![CDATA[<b><font color=#43A047>New!</font></b> Теперь ты можешь видеть когда что-то грузится или произошла ошибка]]></changelogtext>
     </changelogversion>

@@ -56,6 +56,35 @@
     <string name="something_went_wrong">Ops. Something went wrong</string>
     <string name="retry">Retry</string>
     <string name="there_is_nothing_with_such_filter">There is nothing with such filter</string>
+    <string name="coin">Coin</string>
+    <string name="powered_by_whattomine.com" translatable="false">Powered by whattomine.com</string>
+    <string name="select_coin">Select coin</string>
+    <string name="hashrate">Hashrate</string>
+    <string name="hashrate_example">E.g. 1400</string>
+    <string name="mhs" translatable="false">Mh/s</string>
+    <string name="ghs" translatable="false">Gh/s</string>
+    <string name="power">Power</string>
+    <string name="power_example">E.g. 800</string>
+    <string name="watt">Watt</string>
+    <string name="add_more_options">Add more options</string>
+    <string name="calculate">Calculate</string>
+    <string name="per">Per</string>
+    <string name="rev_dot">Rev.</string>
+    <string name="rev_dollars">Rev. $</string>
+    <string name="cost">Cost</string>
+    <string name="profit">Profit</string>
+    <string name="estimated_rewards">Estimated rewards</string>
+    <string name="hour">Hour</string>к
+    <string name="day">Day</string>
+    <string name="week">Week</string>
+    <string name="month">Month</string>
+    <string name="year">Year</string>
+    <string name="error">Error</string>
+    <string name="percent_sign" translatable="false">%</string>
+    <string name="dollars_for_kwh">$/kWh</string>
+    <string name="poll_fee">Poll fee</string>
+    <string name="remove_options">Remove options</string>
+    <string name="banner_currencies_list" translatable="false">ca-app-pub-4946735304037594/6033211182</string>
 
     <string-array name="miner_filters">
         <item>All categories</item>

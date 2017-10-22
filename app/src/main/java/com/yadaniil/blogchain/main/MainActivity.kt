@@ -1,6 +1,5 @@
 package com.yadaniil.blogchain.main
 
-import android.graphics.PorterDuff
 import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
@@ -16,6 +15,8 @@ import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_main.*
 import com.crashlytics.android.Crashlytics
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.MobileAds
 import io.fabric.sdk.android.Fabric
 import kotlinx.android.synthetic.main.no_items_filtered_layout.*
 import kotlinx.android.synthetic.main.no_items_layout.*
@@ -36,6 +37,8 @@ class MainActivity : BaseActivity(), IMainView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Fabric.with(this, Crashlytics())
+        MobileAds.initialize(this, "ca-app-pub-4946735304037594~5659173642")
+        initAdMob()
         listDivider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         setUpCurrenciesList(presenter.getRealmCurrencies())
         initSearchView()
@@ -75,6 +78,12 @@ class MainActivity : BaseActivity(), IMainView {
         currencies_recycler_view.adapter = null
     }
     // endregion Activity
+
+    private fun initAdMob() {
+        val builder = AdRequest.Builder()
+                .addTestDevice("6D52FC8438981F070E41819319BD9543").build()
+        adView.loadAd(builder)
+    }
 
     private fun initBackgroundRefresh() {
 //        val scheduledExecutorService = Executors.newScheduledThreadPool(5)

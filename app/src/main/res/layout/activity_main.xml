@@ -24,6 +24,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:fastScrollAutoHide="true"
+                android:paddingBottom="@dimen/quadra_dimen"
+                android:clipToPadding="false"
                 app:fastScrollAutoHideDelay="1500"
                 app:fastScrollPopupTextSize="36sp"
                 app:fastScrollPopupBackgroundSize="58dp"
@@ -83,5 +85,16 @@
             app:spb_stroke_width="4dp" />
 
     </android.support.design.widget.AppBarLayout>
+
+    <com.google.android.gms.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        ads:adSize="BANNER"
+        ads:adUnitId="@string/banner_currencies_list">
+    </com.google.android.gms.ads.AdView>
 
 </RelativeLayout>

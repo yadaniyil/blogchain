@@ -1,5 +1,6 @@
 package com.yadaniil.blogchain.main
 
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
@@ -25,6 +26,8 @@ class MainActivity : BaseActivity(), IMainView {
 
     @InjectPresenter
     lateinit var presenter: MainPresenter
+
+    private var sortMenuItem: MenuItem? = null
 
     private lateinit var listDivider: RecyclerView.ItemDecoration
     private lateinit var currenciesAdapter: CurrenciesAdapter
@@ -52,14 +55,16 @@ class MainActivity : BaseActivity(), IMainView {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_currencies_list, menu)
-        val item = menu?.findItem(R.id.action_search)
-        search_view.setMenuItem(item)
+        sortMenuItem = menu?.findItem(R.id.action_sort)
+        val searchItem = menu?.findItem(R.id.action_search)
+        search_view.setMenuItem(searchItem)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if (item?.itemId == R.id.action_sort) {
-            CoinSorter.showCoinSortDialog(this, currenciesAdapter)
+            CoinSorter.showCoinSortDialog(this, currenciesAdapter,
+                    {colorSortButtonToWhite()}, {colorSortButtonToAccent()})
         }
 
         return super.onOptionsItemSelected(item)
@@ -134,6 +139,16 @@ class MainActivity : BaseActivity(), IMainView {
             }
         })
         currenciesAdapter.setData(realmCurrencies)
+    }
+
+    private fun colorSortButtonToWhite() {
+        if(sortMenuItem != null)
+            sortMenuItem?.icon = resources.getDrawable(R.drawable.ic_sort_white_24dp)
+    }
+
+    private fun colorSortButtonToAccent() {
+        if(sortMenuItem != null)
+            sortMenuItem?.icon = resources.getDrawable(R.drawable.ic_sort_accent_24dp)
     }
 
     // region View

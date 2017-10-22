@@ -2,6 +2,7 @@ package com.yadaniil.blogchain.main
 
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.view.MenuItem
 import android.view.View
 import android.widget.RadioGroup
 import android.widget.TextView
@@ -25,7 +26,9 @@ object CoinSorter {
     private var pickedSortById = R.id.radio_marketcap
     private var pickedSortOrderId = R.id.radio_descending
 
-    fun showCoinSortDialog(activity: AppCompatActivity, adapter: CurrenciesAdapter) {
+    fun showCoinSortDialog(activity: AppCompatActivity, adapter: CurrenciesAdapter,
+                           colorSortMenuItemInWhite: () -> Unit,
+                           colorSortMenuItemInAccent: () -> Unit) {
         val inflater = activity.layoutInflater
         val customView = inflater.inflate(R.layout.dialog_currencies_sort, null)
         val sortByRadioGroup = customView.find<RadioGroup>(R.id.radioGroup_sort_by)
@@ -59,12 +62,16 @@ object CoinSorter {
         builder.setPositiveButton(R.string.apply) { dialog, which ->
             pickedSortById = localSortById
             pickedSortOrderId = localSortOrderId
+            if(pickedSortById == R.id.radio_marketcap && pickedSortOrderId == R.id.radio_descending)
+                colorSortMenuItemInWhite()
+            else colorSortMenuItemInAccent()
             sortCurrencies(adapter) }
         builder.setNegativeButton(R.string.cancel) { dialog, which -> dialog.dismiss() }
         builder.setNeutralButton(R.string.reset) { dialog, which ->
-            pickedSortById =  R.id.radio_marketcap; pickedSortOrderId = R.id.radio_descending
+            pickedSortById = R.id.radio_marketcap; pickedSortOrderId = R.id.radio_descending
             sortByRadioGroup.check(R.id.radio_marketcap)
             sortOrderRadioGroup.check(R.id.radio_descending)
+            colorSortMenuItemInWhite()
             sortCurrencies(adapter)
         }
 

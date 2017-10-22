@@ -66,7 +66,7 @@
     <string name="power">Power</string>
     <string name="power_example">E.g. 800</string>
     <string name="watt">Watt</string>
-    <string name="show_more_options">Show more options</string>
+    <string name="add_more_options">Add more options</string>
     <string name="calculate">Calculate</string>
     <string name="per">Per</string>
     <string name="rev_dot">Rev.</string>
@@ -80,6 +80,10 @@
     <string name="month">Month</string>
     <string name="year">Year</string>
     <string name="error">Error</string>
+    <string name="percent_sign">%</string>
+    <string name="dollars_for_kwh">$/kWh</string>
+    <string name="poll_fee">Poll fee</string>
+    <string name="remove_options">Remove options</string>
 
     <string-array name="miner_filters">
         <item>All categories</item>

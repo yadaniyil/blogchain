@@ -83,11 +83,12 @@ class CalculatorPresenter : MvpPresenter<CalculatorView>() {
     private fun getSymbolFromFullName(fullCoinName: String) =
             fullCoinName.substring(fullCoinName.indexOf("(") + 1, fullCoinName.indexOf(")"))
 
-    fun calculateTable(coinFullName: String, hashrate: String, power: String) {
+    fun calculateTable(coinFullName: String, hashrate: String, power: String,
+                       cost: String, poolFeePercent: String) {
         val symbol = getSymbolFromFullName(coinFullName)
         val coinId = downloadedCoins.find { it.tag == symbol }?.id ?: ""
 
-        repo.getCoinById(coinId.toString(), hashrate, power)
+        repo.getCoinById(coinId.toString(), hashrate, power, poolFeePercent, cost)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe { viewState.showTableLoading() }

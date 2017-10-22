@@ -1,5 +1,6 @@
 package com.yadaniil.blogchain.mining.fragments.calculator
 
+import android.animation.LayoutTransition
 import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -46,6 +47,15 @@ class CalculatorFragment : MvpAppCompatFragment(), CalculatorView {
         presenter.downloadMiningCoins()
         retry_button.onClick { presenter.downloadMiningCoins() }
         initDisabledCalculateButton()
+        initMoreOptionsButton()
+        poll_fee_edit_text.textChangedListener {
+            afterTextChanged { s ->
+                if(!s.isNullOrBlank() && BigDecimal(s.toString()) > BigDecimal(100)) {
+                    poll_fee_edit_text.setText("100")
+                    poll_fee_edit_text.setSelection(poll_fee_edit_text.text.length)
+                }
+            }
+        }
         hashrate_edit_text.textChangedListener {
             afterTextChanged { s ->
                 if(s.isNullOrBlank()) {
@@ -99,8 +109,12 @@ class CalculatorFragment : MvpAppCompatFragment(), CalculatorView {
         calculate_button.enabled = true
         calculate_button.backgroundColor = activity.resources.getColor(R.color.colorTabCalculator)
         calculate_button.onClick {
-            presenter.calculateTable(mining_coin_spinner.selectedItem.toString(),
-                    hashrate_edit_text.text.toString(), power_edit_text.text.toString())
+            presenter.calculateTable(
+                    mining_coin_spinner.selectedItem.toString(),
+                    hashrate_edit_text.text.toString(),
+                    power_edit_text.text.toString(),
+                    cost_edit_text.text.toString(),
+                    poll_fee_edit_text.text.toString())
         }
     }
 
@@ -125,6 +139,21 @@ class CalculatorFragment : MvpAppCompatFragment(), CalculatorView {
     private fun changeHashrateExponent() {
         val exponent = presenter.getHashrateExponentForCoin(mining_coin_spinner.selectedItem.toString())
         hashrate_exponent_value.text = exponent
+    }
+
+    private fun initMoreOptionsButton() {
+        more_options_layout.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
+        show_more_options.onClick {
+            if(more_options_layout.visibility == View.GONE) {
+                more_options_layout.visibility = View.VISIBLE
+                show_more_options.text = getString(R.string.remove_options)
+            } else {
+                more_options_layout.visibility = View.GONE
+                show_more_options.text = getString(R.string.add_more_options)
+                cost_edit_text.setText("0.1")
+                poll_fee_edit_text.text.clear()
+            }
+        }
     }
 
     override fun showLoading() {

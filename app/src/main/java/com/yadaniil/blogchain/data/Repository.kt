@@ -65,6 +65,12 @@ class Repository @Inject constructor(private var appApiHelper: AppApiHelper,
     override fun getAllGpuMiningCoins(): Observable<MiningCoinsResponse> = appApiHelper.getAllGpuMiningCoins()
 
     override fun getAllAsicMiningCoins(): Observable<MiningCoinsResponse> = appApiHelper.getAllAsicMiningCoins()
+
+    override fun getCoinById(coinId: String, userHashrate: String?, power: String?,
+                             poolFeePercent: String?, electricityCost: String?,
+                             hardwareCost: String?): Observable<MiningCoinResponse> {
+        return appApiHelper.getCoinById(coinId, userHashrate, power, poolFeePercent, electricityCost, hardwareCost)
+    }
     // endregion Api
 
     // region SharedPrefs

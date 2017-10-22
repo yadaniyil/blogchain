@@ -63,4 +63,11 @@
     <string name="retry">Спробувати ще</string>
     <string name="downloading_blockchain">Завантажую блокчейн</string>
     <string name="there_is_nothing_with_such_filter">Немає нічого підходящого під такий фільтр</string>
+    <string name="coin">Монета</string>
+    <string name="select_coin">Виберіть монету</string>
+    <string name="hashrate">Хешрейт</string>
+    <string name="hashrate_example">Наприклад, 1400</string>
+    <string name="watt">Ват</string>
+    <string name="power_example">Наприклад, 800</string>
+    <string name="power">Потужність</string>
 </resources>

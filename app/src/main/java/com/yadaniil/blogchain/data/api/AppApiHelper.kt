@@ -1,10 +1,10 @@
 package com.yadaniil.blogchain.data.api
 
 import com.yadaniil.blogchain.Application
-import com.yadaniil.blogchain.data.api.models.CryptoCompareCurrenciesListResponse
-import com.yadaniil.blogchain.data.api.models.MiningCoinsResponse
-import com.yadaniil.blogchain.data.api.models.MinersResponse
+import com.yadaniil.blogchain.data.api.models.*
 import io.reactivex.Observable
+import retrofit2.http.Path
+import retrofit2.http.Query
 import javax.inject.Inject
 
 /**
@@ -39,4 +39,11 @@ class AppApiHelper : CoinMarketCapService, CryptoCompareService,
     override fun getAllGpuMiningCoins(): Observable<MiningCoinsResponse> = whatToMineService.getAllGpuMiningCoins()
 
     override fun getAllAsicMiningCoins(): Observable<MiningCoinsResponse> = whatToMineService.getAllAsicMiningCoins()
+
+    override fun getCoinById(coinId: String, userHashrate: String?, power: String?,
+                             poolFeePercent: String?, electricityCost: String?,
+                             hardwareCost: String?): Observable<MiningCoinResponse> {
+        return whatToMineService.getCoinById(coinId, userHashrate, power, poolFeePercent, electricityCost, hardwareCost)
+    }
+
 }

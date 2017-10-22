@@ -27,13 +27,13 @@
             android:singleLine="true"
             android:text="@string/per"/>
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textStyle="bold"
-            android:singleLine="true"
-            android:text="@string/rev_dot"/>
+        <!--<TextView-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:textStyle="bold"-->
+            <!--android:singleLine="true"-->
+            <!--android:text="@string/rev_dot"/>-->
 
         <TextView
             android:layout_width="0dp"
@@ -80,12 +80,12 @@
             android:textStyle="bold"
             android:text="@string/hour"/>
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:singleLine="true"
-            android:id="@+id/hour_rewards"/>
+        <!--<TextView-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:singleLine="true"-->
+            <!--android:id="@+id/hour_rewards"/>-->
 
         <TextView
             android:layout_width="0dp"
@@ -130,12 +130,12 @@
             android:singleLine="true"
             android:text="@string/day"/>
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:singleLine="true"
-            android:id="@+id/day_rewards"/>
+        <!--<TextView-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:singleLine="true"-->
+            <!--android:id="@+id/day_rewards"/>-->
 
         <TextView
             android:layout_width="0dp"
@@ -179,12 +179,12 @@
             android:textStyle="bold"
             android:text="@string/week"/>
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:singleLine="true"
-            android:id="@+id/week_rewards"/>
+        <!--<TextView-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:singleLine="true"-->
+            <!--android:id="@+id/week_rewards"/>-->
 
         <TextView
             android:layout_width="0dp"
@@ -228,12 +228,12 @@
             android:singleLine="true"
             android:text="@string/month"/>
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:singleLine="true"
-            android:id="@+id/month_rewards"/>
+        <!--<TextView-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:singleLine="true"-->
+            <!--android:id="@+id/month_rewards"/>-->
 
         <TextView
             android:layout_width="0dp"
@@ -276,12 +276,12 @@
             android:textStyle="bold"
             android:text="@string/year"/>
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:singleLine="true"
-            android:id="@+id/year_rewards"/>
+        <!--<TextView-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:singleLine="true"-->
+            <!--android:id="@+id/year_rewards"/>-->
 
         <TextView
             android:layout_width="0dp"

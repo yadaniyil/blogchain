@@ -139,6 +139,8 @@ class MainActivity : BaseActivity(), IMainView {
             }
         })
         currenciesAdapter.setData(realmCurrencies)
+
+        CoinSorter.sortCurrencies(currenciesAdapter)
     }
 
     private fun colorSortButtonToWhite() {

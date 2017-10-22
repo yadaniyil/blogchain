@@ -78,7 +78,7 @@ object CoinSorter {
         builder.show()
     }
 
-    private fun sortCurrencies(adapter: CurrenciesAdapter) {
+    fun sortCurrencies(adapter: CurrenciesAdapter) {
         val currencies: List<CoinMarketCapCurrencyRealm> = adapter.getCurrencies()
         val isDescending = pickedSortOrderId == R.id.radio_descending
         val sortedCurrencies = when (pickedSortById) {

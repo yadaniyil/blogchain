@@ -19,5 +19,7 @@ class Endpoints {
 
         const val WHAT_TO_MINE_GPU_COINS_ENDPOINT = "coins.json"
         const val WHAT_TO_MINE_ASIC_COINS_ENDPOINT = "asic.json"
+
+        const val NICEHASH_ICON = "https://pbs.twimg.com/profile_images/773196197595058176/ePnJvJXe.jpg"
     }
 }

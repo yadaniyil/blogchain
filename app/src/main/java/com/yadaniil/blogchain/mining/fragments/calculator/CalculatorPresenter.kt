@@ -64,12 +64,27 @@ class CalculatorPresenter : MvpPresenter<CalculatorView>() {
     }
 
     fun getLinkForCoinImage(name: String): String {
-        val symbol = name.substring(name.indexOf("(") + 1, name.indexOf(")"))
+        val symbol = getSymbolFromFullName(name)
         return CurrencyHelper.getImageLinkForCurrency(symbol, repo.getAllCryptoCompareCurrenciesFromDb())
     }
 
+    fun getHashrateExponentForCoin(fullCoinName: String): String {
+        val symbol = getSymbolFromFullName(fullCoinName)
+        val nethash = downloadedCoins.find { it.tag == symbol }?.nethash ?: ""
+        return calculateHashrateExponent(nethash)
+    }
+
+    fun calculateHashrateExponent(nethash: String) = when {
+        nethash.length > 15 -> "Gh/s"
+        nethash.length in 10..15 -> "Mh/s"
+        else -> "h/s"
+    }
+
+    private fun getSymbolFromFullName(fullCoinName: String) =
+            fullCoinName.substring(fullCoinName.indexOf("(") + 1, fullCoinName.indexOf(")"))
+
     fun calculateTable(coinFullName: String, hashrate: String, power: String) {
-        val symbol = coinFullName.substring(coinFullName.indexOf("(") + 1, coinFullName.indexOf(")"))
+        val symbol = getSymbolFromFullName(coinFullName)
         val coinId = downloadedCoins.find { it.tag == symbol }?.id ?: ""
 
         repo.getCoinById(coinId.toString(), hashrate, power)

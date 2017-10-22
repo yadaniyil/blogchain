@@ -78,16 +78,8 @@ class CalculatorFragment : MvpAppCompatFragment(), CalculatorView {
         mining_coin_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(p0: AdapterView<*>?) {}
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                val imageLink = presenter.getLinkForCoinImage(mining_coin_spinner.selectedItem.toString())
-                if (imageLink.isBlank()) {
-                    Picasso.with(context)
-                            .load(Uri.parse("https://pbs.twimg.com/profile_images/773196197595058176/ePnJvJXe.jpg"))
-                            .into(coin_icon)
-                } else {
-                    Picasso.with(context)
-                            .load(Uri.parse(Endpoints.CRYPTO_COMPARE_URL + imageLink))
-                            .into(coin_icon)
-                }
+                showCoinIcon()
+                changeHashrateExponent()
             }
         }
         mining_coin_spinner.adapter = adapter
@@ -96,6 +88,24 @@ class CalculatorFragment : MvpAppCompatFragment(), CalculatorView {
             presenter.calculateTable(mining_coin_spinner.selectedItem.toString(),
                     hashrate_edit_text.text.toString(), power_edit_text.text.toString())
         }
+    }
+
+    private fun showCoinIcon() {
+        val imageLink = presenter.getLinkForCoinImage(mining_coin_spinner.selectedItem.toString())
+        if (imageLink.isBlank()) {
+            Picasso.with(context)
+                    .load(Uri.parse(Endpoints.NICEHASH_ICON))
+                    .into(coin_icon)
+        } else {
+            Picasso.with(context)
+                    .load(Uri.parse(Endpoints.CRYPTO_COMPARE_URL + imageLink))
+                    .into(coin_icon)
+        }
+    }
+
+    private fun changeHashrateExponent() {
+        val exponent = presenter.getHashrateExponentForCoin(mining_coin_spinner.selectedItem.toString())
+        hashrate_exponent_value.text = exponent
     }
 
     override fun showLoading() {

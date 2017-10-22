@@ -20,8 +20,7 @@ import com.yadaniil.blogchain.utils.UiHelper
 import kotlinx.android.synthetic.main.fragment_calculator.*
 import kotlinx.android.synthetic.main.no_items_layout.*
 import kotlinx.android.synthetic.main.profit_table.*
-import org.jetbrains.anko.onClick
-import org.jetbrains.anko.toast
+import org.jetbrains.anko.*
 import java.math.BigDecimal
 
 /**
@@ -46,6 +45,16 @@ class CalculatorFragment : MvpAppCompatFragment(), CalculatorView {
         UiHelper.changeStatusBarColor(activity, R.color.colorTabCalculator)
         presenter.downloadMiningCoins()
         retry_button.onClick { presenter.downloadMiningCoins() }
+        initDisabledCalculateButton()
+        hashrate_edit_text.textChangedListener {
+            afterTextChanged { s ->
+                if(s.isNullOrBlank()) {
+                    initDisabledCalculateButton()
+                } else {
+                    initActiveCalculateButton()
+                }
+            }
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -84,11 +93,20 @@ class CalculatorFragment : MvpAppCompatFragment(), CalculatorView {
             }
         }
         mining_coin_spinner.adapter = adapter
+    }
 
+    private fun initActiveCalculateButton() {
+        calculate_button.enabled = true
+        calculate_button.backgroundColor = activity.resources.getColor(R.color.colorTabCalculator)
         calculate_button.onClick {
             presenter.calculateTable(mining_coin_spinner.selectedItem.toString(),
                     hashrate_edit_text.text.toString(), power_edit_text.text.toString())
         }
+    }
+
+    private fun initDisabledCalculateButton() {
+        calculate_button.backgroundColor = activity.resources.getColor(R.color.colorPrimary)
+        calculate_button.enabled = false
     }
 
     private fun showCoinIcon() {

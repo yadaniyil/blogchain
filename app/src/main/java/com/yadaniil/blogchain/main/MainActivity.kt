@@ -15,12 +15,15 @@ import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_main.*
 import com.crashlytics.android.Crashlytics
+import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
 import io.fabric.sdk.android.Fabric
 import kotlinx.android.synthetic.main.no_items_filtered_layout.*
 import kotlinx.android.synthetic.main.no_items_layout.*
 import org.jetbrains.anko.onClick
+import com.google.android.gms.ads.InterstitialAd
+import timber.log.Timber
 
 
 class MainActivity : BaseActivity(), IMainView {
@@ -32,13 +35,15 @@ class MainActivity : BaseActivity(), IMainView {
 
     private lateinit var listDivider: RecyclerView.ItemDecoration
     private lateinit var currenciesAdapter: CurrenciesAdapter
+    private lateinit var interstitialAd: InterstitialAd
 
     // region Activity
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Fabric.with(this, Crashlytics())
 
-        initAdMob()
+        initAdMobBanner()
+        initAdMobInterstitial()
         listDivider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         setUpCurrenciesList(presenter.getRealmCurrencies())
         initSearchView()
@@ -79,12 +84,33 @@ class MainActivity : BaseActivity(), IMainView {
     }
     // endregion Activity
 
-    private fun initAdMob() {
+    private fun initAdMobBanner() {
         MobileAds.initialize(this, getString(R.string.admob_app_id))
         val builder = AdRequest.Builder()
-                .addTestDevice("6D52FC8438981F070E41819319BD9543")
+                .addTestDevice(getString(R.string.admob_test_device))
                 .build()
         adView.loadAd(builder)
+    }
+
+    private fun initAdMobInterstitial() {
+        interstitialAd = InterstitialAd(this)
+        interstitialAd.adUnitId = getString(R.string.dont_touch_interstitial)
+        val builder = AdRequest.Builder()
+                .addTestDevice(getString(R.string.admob_test_device))
+                .build()
+        interstitialAd.adListener = object : AdListener() {
+            override fun onAdClosed() {
+                interstitialAd.loadAd(builder)
+            }
+        }
+        interstitialAd.loadAd(builder)
+    }
+
+    override fun showInterstitialAd() {
+        if(interstitialAd.isLoaded)
+            interstitialAd.show()
+        else
+            Timber.e("The interstitial wasn't loaded yet.")
     }
 
     private fun initBackgroundRefresh() {

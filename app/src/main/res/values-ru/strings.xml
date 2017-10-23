@@ -87,4 +87,5 @@
     <string name="poll_fee">Комиссия пула</string>
     <string name="dollars_for_kwh">$/кВт⋅ч</string>
     <string name="remove_options">Удалить опции</string>
+    <string name="drawer_item_ad">Не трогай!</string>
 </resources>

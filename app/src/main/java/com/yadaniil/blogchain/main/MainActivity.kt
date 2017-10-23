@@ -37,7 +37,7 @@ class MainActivity : BaseActivity(), IMainView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Fabric.with(this, Crashlytics())
-        MobileAds.initialize(this, "ca-app-pub-4946735304037594~5659173642")
+
         initAdMob()
         listDivider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         setUpCurrenciesList(presenter.getRealmCurrencies())
@@ -80,8 +80,10 @@ class MainActivity : BaseActivity(), IMainView {
     // endregion Activity
 
     private fun initAdMob() {
+        MobileAds.initialize(this, getString(R.string.admob_app_id))
         val builder = AdRequest.Builder()
-                .addTestDevice("6D52FC8438981F070E41819319BD9543").build()
+                .addTestDevice("6D52FC8438981F070E41819319BD9543")
+                .build()
         adView.loadAd(builder)
     }
 

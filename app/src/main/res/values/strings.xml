@@ -85,6 +85,7 @@
     <string name="poll_fee">Poll fee</string>
     <string name="remove_options">Remove options</string>
     <string name="banner_currencies_list" translatable="false">ca-app-pub-4946735304037594/6033211182</string>
+    <string name="admob_app_id" translatable="false">ca-app-pub-4946735304037594~5659173642</string>
 
     <string-array name="miner_filters">
         <item>All categories</item>

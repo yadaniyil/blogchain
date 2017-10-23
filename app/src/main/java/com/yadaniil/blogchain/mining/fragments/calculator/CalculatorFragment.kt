@@ -12,6 +12,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
+import com.google.android.gms.ads.AdRequest
 import com.squareup.picasso.Picasso
 import com.yadaniil.blogchain.R
 import com.yadaniil.blogchain.data.api.models.MiningCoin
@@ -44,6 +45,7 @@ class CalculatorFragment : MvpAppCompatFragment(), CalculatorView {
         super.onViewCreated(view, savedInstanceState)
         initToolbar()
         UiHelper.changeStatusBarColor(activity, R.color.colorTabCalculator)
+        initAdMobBanner()
         presenter.downloadMiningCoins()
         retry_button.onClick { presenter.downloadMiningCoins() }
         initDisabledCalculateButton()
@@ -77,6 +79,13 @@ class CalculatorFragment : MvpAppCompatFragment(), CalculatorView {
         }
     }
     // endregion Fragment
+
+    private fun initAdMobBanner() {
+        val builder = AdRequest.Builder()
+                .addTestDevice(getString(R.string.admob_test_device))
+                .build()
+        adView.loadAd(builder)
+    }
 
     private fun initToolbar() {
         toolbar.title = getString(R.string.calculator)

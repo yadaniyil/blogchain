@@ -18,4 +18,6 @@
     <dimen name="text_size_small">12sp</dimen>
     <dimen name="dialog_title_start_margin">24dp</dimen>
     <dimen name="text_size_title_material">20sp</dimen>
+    <dimen name="bottom_bar_height">60dp</dimen>
+    <dimen name="bottom_bar_with_ad_height">110dp</dimen>
 </resources>

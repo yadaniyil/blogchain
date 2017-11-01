@@ -10,7 +10,7 @@ import javax.inject.Inject
 class SharedPrefs : SharedPrefsHelper {
 
     // region Keys
-    val LAST_SHOW_CHANGELOG_VERSION = "last_show_changelog_version"
+    private val LAST_SHOW_CHANGELOG_VERSION = "last_show_changelog_version"
     // endregion Keys
 
     @Inject
@@ -24,7 +24,6 @@ class SharedPrefs : SharedPrefsHelper {
     override fun getLastShowChangelogVersion() = getIntByKey(LAST_SHOW_CHANGELOG_VERSION)
     override fun setLastShowChangelogVersion(versionCode: Int)
             = saveInt(LAST_SHOW_CHANGELOG_VERSION, versionCode)
-
 
     // region General helping methods
     private fun saveString(key: String, value: String) = sharedPrefs.edit().putString(key, value).apply()

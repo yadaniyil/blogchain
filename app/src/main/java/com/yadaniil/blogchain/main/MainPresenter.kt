@@ -16,7 +16,7 @@ import javax.inject.Inject
 // CMC - CoinMarketCap
 
 @InjectViewState
-class MainPresenter : MvpPresenter<IMainView>() {
+class MainPresenter : MvpPresenter<MainView>() {
 
     @Inject lateinit var repo: Repository
 
@@ -33,8 +33,8 @@ class MainPresenter : MvpPresenter<IMainView>() {
     fun downloadAndSaveAllCurrencies() {
         repo.getFullCurrenciesList()
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
                 .map { CryptoCompareCurrencyRealm.convertApiResponseToRealmList(it) }
+                .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe { viewState.showToolbarLoading()
                     viewState.showLoading(); viewState.hideSwipeRefreshLoading() }
                 .doOnComplete { downloadCMCList() }
@@ -50,8 +50,8 @@ class MainPresenter : MvpPresenter<IMainView>() {
     private fun downloadCMCList() {
         repo.getAllCurrencies()
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
                 .map { CoinMarketCapCurrencyRealm.convertApiResponseToRealmList(it) }
+                .observeOn(AndroidSchedulers.mainThread())
                 .doOnComplete { viewState.stopToolbarLoading() }
                 .subscribe({ currenciesList ->
                     repo.saveCoinMarketCapCurrenciesToDb(currenciesList)
@@ -68,6 +68,11 @@ class MainPresenter : MvpPresenter<IMainView>() {
             viewState.showChangelogDialog()
             repo.setLastShowChangelogVersion(BuildConfig.VERSION_CODE)
         }
+    }
+
+    fun addCurrencyToFavourite(currency: CoinMarketCapCurrencyRealm) {
+        repo.addCurrencyToFavourite(currency)
+        viewState.onCurrencyAddedToFavourite(currency)
     }
 
 //    private fun downloadAndSavePricesMultiFull() {

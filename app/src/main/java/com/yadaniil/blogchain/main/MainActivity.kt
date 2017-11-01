@@ -23,10 +23,13 @@ import kotlinx.android.synthetic.main.no_items_filtered_layout.*
 import kotlinx.android.synthetic.main.no_items_layout.*
 import org.jetbrains.anko.onClick
 import com.google.android.gms.ads.InterstitialAd
+import com.yadaniil.blogchain.base.CurrencyClickListener
+import com.yadaniil.blogchain.utils.CurrencyListHelper
+import org.jetbrains.anko.toast
 import timber.log.Timber
 
 
-class MainActivity : BaseActivity(), IMainView {
+class MainActivity : BaseActivity(), MainView, CurrencyClickListener{
 
     @InjectPresenter
     lateinit var presenter: MainPresenter
@@ -147,7 +150,7 @@ class MainActivity : BaseActivity(), IMainView {
     }
 
     private fun setUpCurrenciesList(realmCurrencies: RealmResults<CoinMarketCapCurrencyRealm>) {
-        currenciesAdapter = CurrenciesAdapter(this, presenter)
+        currenciesAdapter = CurrenciesAdapter(this, presenter, this)
         currencies_recycler_view.layoutManager = LinearLayoutManager(this)
         currencies_recycler_view.adapter = currenciesAdapter
         currencies_recycler_view.setHasFixedSize(true)
@@ -226,6 +229,13 @@ class MainActivity : BaseActivity(), IMainView {
         if(swipe_refresh.isRefreshing)
             swipe_refresh.isRefreshing = false
     }
+
+    override fun onClick(holder: CurrencyListHelper.CurrencyViewHolder, currencyRealm: CoinMarketCapCurrencyRealm) {
+        presenter.addCurrencyToFavourite(currencyRealm)
+    }
+
+    override fun onCurrencyAddedToFavourite(currency: CoinMarketCapCurrencyRealm) =
+            toast("${currency.symbol} ${getString(R.string.is_now_in_watchlist)}")
     // endregion View
 }
 

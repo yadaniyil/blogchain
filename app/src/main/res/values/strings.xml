@@ -90,6 +90,9 @@
     <string name="dont_touch_interstitial" translatable="false">ca-app-pub-4946735304037594/7916551764</string>
     <string name="admob_test_device" translatable="false">6D52FC8438981F070E41819319BD9543</string>
     <string name="banner_mining_calculator" translatable="false">ca-app-pub-4946735304037594/9843521732</string>
+    <string name="drawer_item_watchlist">Watchlist</string>
+    <string name="banner_watchlist_list" translatable="false">ca-app-pub-4946735304037594/3483288631</string>
+    <string name="is_now_in_watchlist">is now in watchlist</string>
 
     <string-array name="miner_filters">
         <item>All categories</item>

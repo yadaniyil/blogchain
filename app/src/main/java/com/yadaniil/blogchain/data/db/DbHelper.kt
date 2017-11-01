@@ -16,4 +16,7 @@ interface DbHelper {
     fun getAllCryptoCompareCurrenciesFromDb(): RealmResults<CryptoCompareCurrencyRealm>
     fun saveCryptoCompareCurrenciesToDb(currencies: List<CryptoCompareCurrencyRealm>)
     fun saveCryptoCompareCurrencyIcon(currency: CoinMarketCapCurrencyRealm, byteArray: ByteArray)
+
+    fun addCurrencyToFavourite(currency: CoinMarketCapCurrencyRealm)
+    fun getAllFavouriteCurrencies(): RealmResults<CoinMarketCapCurrencyRealm>
 }

@@ -17,6 +17,7 @@ import com.yadaniil.blogchain.main.MainPresenter
 import com.yadaniil.blogchain.mining.fragments.calculator.CalculatorPresenter
 import com.yadaniil.blogchain.mining.fragments.coins.CoinsPresenter
 import com.yadaniil.blogchain.mining.fragments.miners.MinersPresenter
+import com.yadaniil.blogchain.watchlist.WatchlistPresenter
 
 import dagger.Component
 import io.realm.Realm
@@ -32,6 +33,7 @@ interface ApplicationComponent {
     fun inject(minersPresenter: MinersPresenter)
     fun inject(coinsPresenter: CoinsPresenter)
     fun inject(calculatorPresenter: CalculatorPresenter)
+    fun inject(watchlistPresenter: WatchlistPresenter)
 
     fun app(): Application
     fun context(): Context

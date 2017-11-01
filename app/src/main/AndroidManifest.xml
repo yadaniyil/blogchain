@@ -45,6 +45,12 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan"/>
 
+        <activity
+            android:name="com.yadaniil.blogchain.watchlist.WatchlistActivity"
+            android:label="@string/drawer_item_watchlist"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
     </application>
 
 </manifest>

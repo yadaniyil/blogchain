@@ -4,6 +4,7 @@
     android:layout_height="@dimen/currency_item_height"
     android:background="@color/white"
     android:orientation="horizontal"
+    android:id="@+id/item_root_layout"
     android:paddingEnd="@dimen/half_standard_dimen"
     android:paddingLeft="@dimen/half_standard_dimen"
     android:paddingStart="@dimen/half_standard_dimen">

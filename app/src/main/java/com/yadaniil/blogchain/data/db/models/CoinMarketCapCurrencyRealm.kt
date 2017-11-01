@@ -2,6 +2,7 @@ package com.yadaniil.blogchain.data.db.models
 
 import com.yadaniil.blogchain.data.api.models.TickerResponse
 import io.realm.RealmObject
+import io.realm.annotations.Ignore
 import io.realm.annotations.PrimaryKey
 
 /**
@@ -22,7 +23,8 @@ open class CoinMarketCapCurrencyRealm(
         var percentChange24h: String? = "",
         var percentChange7d: String? = "",
         var lastUpdated: Long = 0L,
-        var iconBytes: ByteArray? = null
+        var iconBytes: ByteArray? = null,
+        var isFavourite: Boolean = false
 ) : RealmObject() {
 
     fun getVolumeFormatted() = if (volume24hUsd == null) "0" else volume24hUsd

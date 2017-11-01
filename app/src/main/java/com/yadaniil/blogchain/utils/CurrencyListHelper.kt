@@ -27,8 +27,11 @@ import timber.log.Timber
 object CurrencyListHelper {
 
     fun bind(currencyHolder: CurrencyViewHolder, currencyRealm: CoinMarketCapCurrencyRealm,
-             ccList: MutableList<CryptoCompareCurrencyRealm>, context: Context, onClick: CurrencyClickListener) {
+             ccList: MutableList<CryptoCompareCurrencyRealm>, context: Context,
+             onClick: CurrencyClickListener, removeRank: Boolean) {
         with(currencyHolder) {
+            if(removeRank) rank.visibility = View.GONE else rank.text = currencyRealm.rank.toString()
+
             data = currencyRealm
             symbol.text = currencyRealm.symbol
             name.text = currencyRealm.name
@@ -36,7 +39,7 @@ object CurrencyListHelper {
             btcRate.text = currencyRealm?.priceBtc + " BTC"
             itemRootLayout.onClick { onClick.onClick(currencyHolder, currencyRealm) }
             initRatesChange(this, currencyRealm, context)
-            sortOrder.text = currencyRealm.rank.toString()
+
             if (currencyRealm.iconBytes == null) {
                 downloadAndSaveIcon(icon, currencyRealm, ccList, context)
             } else {
@@ -129,7 +132,7 @@ object CurrencyListHelper {
         var dayChange: TextView = view.find(R.id.item_currency_day_change)
         var weekChange: TextView = view.find(R.id.item_currency_week_change)
         var icon: ImageView = view.find(R.id.item_currency_icon)
-        var sortOrder: TextView = view.find(R.id.item_currency_rank)
+        var rank: TextView = view.find(R.id.item_currency_rank)
         var data: CoinMarketCapCurrencyRealm? = null
     }
 

@@ -32,7 +32,7 @@ class WatchlistAdapter(data: RealmResults<CoinMarketCapCurrencyRealm>, autoUpdat
 
     override fun onBindViewHolder(holder: CurrencyListHelper.CurrencyViewHolder?, position: Int) {
         val currencyRealm = getItem(position)
-        CurrencyListHelper.bind(holder!!, currencyRealm!!, ccList, context, onClick)
+        CurrencyListHelper.bind(holder!!, currencyRealm!!, ccList, context, onClick, true)
     }
 
 

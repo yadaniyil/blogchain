@@ -131,7 +131,7 @@ class MainActivity : BaseActivity(), MainView, CurrencyClickListener {
         currencies_recycler_view.layoutManager = LinearLayoutManager(this)
         currencies_recycler_view.adapter = currenciesAdapter
         currencies_recycler_view.setHasFixedSize(true)
-        currencies_recycler_view.setItemViewCacheSize(20)
+        currencies_recycler_view.setItemViewCacheSize(100)
         currencies_recycler_view.isDrawingCacheEnabled = true
         currencies_recycler_view.drawingCacheQuality = View.DRAWING_CACHE_QUALITY_HIGH
         currencies_recycler_view.removeItemDecoration(listDivider)

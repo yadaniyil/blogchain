@@ -41,14 +41,14 @@
         <activity
             android:name="com.yadaniil.blogchain.mining.MiningActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/GrayActivity"
+            android:theme="@style/GreyActivity"
             android:windowSoftInputMode="adjustPan"/>
 
         <activity
             android:name="com.yadaniil.blogchain.watchlist.WatchlistActivity"
             android:label="@string/drawer_item_watchlist"
             android:screenOrientation="portrait"
-            android:theme="@style/DarkBlueActivity"/>
+            android:theme="@style/GreyActivity"/>
 
         <activity
             android:name="com.yadaniil.blogchain.findcoin.FindCoinActivity"

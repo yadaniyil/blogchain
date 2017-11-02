@@ -45,7 +45,7 @@ class AppDbHelper : DbHelper {
             }
         }
 
-        realm.executeTransaction { realm -> realm.copyToRealmOrUpdate(currencies) }
+        realm.executeTransactionAsync { realm -> realm.copyToRealmOrUpdate(currencies) }
     }
 
     override fun getAllCryptoCompareCurrenciesFromDb(): RealmResults<CryptoCompareCurrencyRealm> =
@@ -56,7 +56,7 @@ class AppDbHelper : DbHelper {
     }
 
     override fun saveCryptoCompareCurrencyIcon(currency: CoinMarketCapCurrencyRealm, byteArray: ByteArray) {
-        realm.executeTransaction { currency.iconBytes = byteArray }
+        realm.executeTransactionAsync { currency.iconBytes = byteArray }
     }
 
     override fun addCurrencyToFavourite(currency: CoinMarketCapCurrencyRealm) {

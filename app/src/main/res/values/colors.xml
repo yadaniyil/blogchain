@@ -39,5 +39,6 @@
     <!--Dark colors for primary colors-->
     <color name="indigo_900">#1A237E</color>
     <color name="teal_900">#004D40</color>
+    <color name="teal_a700">#00BFA5</color>
     <color name="purple_900">#4A148C</color>
 </resources>

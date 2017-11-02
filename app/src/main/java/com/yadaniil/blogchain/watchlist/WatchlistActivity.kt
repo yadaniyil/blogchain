@@ -92,6 +92,7 @@ class WatchlistActivity : BaseActivity(), WatchlistView, CurrencyClickListener {
                 presenter.getCcRealmCurrencies(), this)
         watchlist_recycler_view.layoutManager = LinearLayoutManager(this)
         watchlist_recycler_view.adapter = watchlistAdapter
+        watchlist_recycler_view.itemAnimator = null
         watchlist_recycler_view.setHasFixedSize(true)
         watchlist_recycler_view.removeItemDecoration(listDivider)
         watchlist_recycler_view.addItemDecoration(listDivider)

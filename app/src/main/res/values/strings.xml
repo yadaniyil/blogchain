@@ -97,6 +97,7 @@
     <string name="drawer_item_home">Home</string>
     <string name="not_so_fast">Not so fast</string>
     <string name="dashboard">Dashboard</string>
+    <string name="all_coins">All coins</string>
 
     <string-array name="miner_filters">
         <item>All categories</item>

@@ -40,6 +40,12 @@ abstract class BaseActivity : MvpAppCompatActivity(), BaseView {
             Handler().postDelayed({ Navigator.toHomeActivity(this) }, 500)
         }
 
+        val allCoins = BaseHelper.primaryItem(BaseHelper.DRAWER_ITEM_ALL_COINS_ID,
+                R.string.all_coins, R.drawable.ic_format_list_numbered_24dp) {
+            BaseHelper.selectedDrawerItem = BaseHelper.DRAWER_ITEM_ALL_COINS_ID
+            Handler().postDelayed({ Navigator.toAllCoinsActivity(this) }, 500)
+        }
+
         val marketInfo = BaseHelper.primaryItem(BaseHelper.DRAWER_ITEM_MARKET_INFO_ID,
                 R.string.drawer_item_market_info, R.drawable.icon_market_info, enabled = false) {}
 
@@ -94,7 +100,7 @@ abstract class BaseActivity : MvpAppCompatActivity(), BaseView {
                 .withToolbar(toolbar)
                 .withSelectedItem(BaseHelper.selectedDrawerItem)
                 .withActionBarDrawerToggle(true)
-                .addDrawerItems(home, marketInfo, converter, watchlist, portfolio, exchanges, ico, mining,
+                .addDrawerItems(home, allCoins, watchlist, portfolio, converter, exchanges, ico, mining, marketInfo,
                         DividerDrawerItem(), settings, ad)
                 .build()
 //        drawer.header.onClick { toast("To add google account activity") }

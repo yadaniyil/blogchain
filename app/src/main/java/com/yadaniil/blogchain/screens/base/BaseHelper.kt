@@ -21,6 +21,7 @@ object BaseHelper {
     val DRAWER_ITEM_MINING_ID: Long = 8
     val DRAWER_ITEM_SETTINGS_ID: Long = 9
     val DRAWER_ITEM_AD_ID: Long = 10
+    val DRAWER_ITEM_ALL_COINS_ID: Long = 11
 
     fun primaryItem(id: Long, @StringRes name: Int, @DrawableRes icon: Int, enabled: Boolean = true,
                     onClick: () -> Unit ): PrimaryDrawerItem {

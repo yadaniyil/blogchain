@@ -1,6 +1,8 @@
 package com.yadaniil.blogchain.mining.fragments.calculator
 
 import android.animation.LayoutTransition
+import android.graphics.Color
+import android.graphics.PorterDuff
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -46,7 +48,6 @@ class CalculatorFragment : MvpAppCompatFragment(), CalculatorView {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initToolbar()
-//        UiHelper.changeStatusBarColor(activity, R.color.colorTabCalculator)
         initAdMobBanner()
         presenter.downloadMiningCoins()
         retry_button.onClick { presenter.downloadMiningCoins() }
@@ -119,7 +120,7 @@ class CalculatorFragment : MvpAppCompatFragment(), CalculatorView {
 
     private fun initActiveCalculateButton() {
         calculate_button.enabled = true
-        calculate_button.backgroundColor = activity.resources.getColor(R.color.colorTabCalculator)
+        calculate_button.background.colorFilter = null
         calculate_button.onClick {
             presenter.calculateTable(
                     mining_coin_spinner.selectedItem.toString(),
@@ -131,8 +132,8 @@ class CalculatorFragment : MvpAppCompatFragment(), CalculatorView {
     }
 
     private fun initDisabledCalculateButton() {
-        calculate_button.backgroundColor = activity.resources.getColor(R.color.colorPrimary)
         calculate_button.enabled = false
+        calculate_button.background.setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_IN)
     }
 
     private fun showCoinIcon() {

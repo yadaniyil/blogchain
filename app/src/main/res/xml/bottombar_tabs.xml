@@ -9,11 +9,11 @@
         id="@+id/tab_calculator"
         icon="@drawable/ic_calculator"
         title="@string/calculator"
-        barColorWhenSelected="@color/colorTabCalculator"/>
+        barColorWhenSelected="@color/colorPrimary"/>
 
     <tab
         id="@+id/tab_coins"
         icon="@drawable/ic_coins"
         title="@string/coins"
-        barColorWhenSelected="@color/colorTabCoins"/>
+        barColorWhenSelected="@color/colorPrimary"/>
 </tabs>

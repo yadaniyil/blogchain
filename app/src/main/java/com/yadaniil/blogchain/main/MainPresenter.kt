@@ -8,6 +8,7 @@ import com.yadaniil.blogchain.data.Repository
 import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
 import com.yadaniil.blogchain.data.db.models.CryptoCompareCurrencyRealm
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.rxkotlin.toFlowable
 import io.reactivex.schedulers.Schedulers
 import io.realm.RealmResults
 import timber.log.Timber
@@ -55,6 +56,7 @@ class MainPresenter : MvpPresenter<MainView>() {
                 .doOnComplete { viewState.stopToolbarLoading() }
                 .subscribe({ currenciesList ->
                     repo.saveCoinMarketCapCurrenciesToDb(currenciesList)
+                    repo.getAllCoinMarketCapCurrenciesFromDb()
                     viewState.updateList()
                 }, { error ->
                     viewState.showLoadingError()

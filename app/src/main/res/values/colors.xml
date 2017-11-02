@@ -30,5 +30,14 @@
 
     <color name="divider">#b2b6c6</color>
     <color name="colorTabCalculator">#b92b27</color>
-    <color name="colorTabCoins">#3b5999</color>
+    <color name="colorBlue">#3F51B5</color>
+    <color name="colorBlueDark">#3949AB</color>
+
+
+    <color name="cyan_200">#18FFFF</color>
+
+    <!--Dark colors for primary colors-->
+    <color name="indigo_900">#1A237E</color>
+    <color name="teal_900">#004D40</color>
+    <color name="purple_900">#4A148C</color>
 </resources>

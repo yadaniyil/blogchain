@@ -40,7 +40,6 @@ class WatchlistActivity : BaseActivity(), WatchlistView, CurrencyClickListener {
         super.onCreate(savedInstanceState)
         listDivider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         initAdMobBanner()
-        initToolbar()
         initSwipeRefresh()
         initFab()
         setUpWatchlist(presenter.getRealmCurrenciesFavourite())
@@ -73,13 +72,6 @@ class WatchlistActivity : BaseActivity(), WatchlistView, CurrencyClickListener {
                 PICK_FAVOURITE_COIN_REQUEST_CODE) }
     }
 
-    private fun initToolbar() {
-//        toolbar.title = getString(R.string.drawer_item_watchlist)
-//        setSupportActionBar(toolbar)
-//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-//        supportActionBar?.setDisplayShowHomeEnabled(true)
-    }
-
     private fun initAdMobBanner() {
         MobileAds.initialize(this, getString(R.string.admob_app_id))
         val builder = AdRequest.Builder()
@@ -103,6 +95,18 @@ class WatchlistActivity : BaseActivity(), WatchlistView, CurrencyClickListener {
         watchlist_recycler_view.setHasFixedSize(true)
         watchlist_recycler_view.removeItemDecoration(listDivider)
         watchlist_recycler_view.addItemDecoration(listDivider)
+
+
+        watchlist_recycler_view.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (dy > 0) {
+                    fab.hide()
+                } else if (dy < 0) {
+                    fab.show()
+                }
+            }
+        })
     }
     // endregion Init
 

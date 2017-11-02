@@ -45,7 +45,7 @@ class CoinsFragment : MvpAppCompatFragment(), CoinsView, CoinItemClickListener {
         listDivider = DividerItemDecoration(activity, DividerItemDecoration.VERTICAL)
         initToolbar()
         initSearchView()
-        UiHelper.changeStatusBarColor(activity, R.color.colorTabCoins)
+//        UiHelper.changeStatusBarColor(activity, R.color.colorTabCoins)
         showCoins(emptyList())
         retry_button.onClick { presenter.downloadMiningCoins() }
         presenter.downloadMiningCoins()

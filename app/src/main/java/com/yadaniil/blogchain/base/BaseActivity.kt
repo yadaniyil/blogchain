@@ -35,7 +35,10 @@ abstract class BaseActivity : MvpAppCompatActivity(), BaseView {
 
     private fun setUpNavigationDrawer() {
         val home = BaseHelper.primaryItem(BaseHelper.DRAWER_ITEM_HOME_ID,
-                R.string.drawer_item_home, R.drawable.icon_home) {}
+                R.string.drawer_item_home, R.drawable.icon_home) {
+            BaseHelper.selectedDrawerItem = BaseHelper.DRAWER_ITEM_HOME_ID
+            Handler().postDelayed({ Navigator.toHomeActivity(this) }, 500)
+        }
 
         val marketInfo = BaseHelper.primaryItem(BaseHelper.DRAWER_ITEM_MARKET_INFO_ID,
                 R.string.drawer_item_market_info, R.drawable.icon_market_info, enabled = false) {}

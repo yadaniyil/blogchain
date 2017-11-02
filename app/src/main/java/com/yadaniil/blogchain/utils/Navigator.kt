@@ -1,6 +1,7 @@
 package com.yadaniil.blogchain.utils
 
 import android.support.v7.app.AppCompatActivity
+import com.yadaniil.blogchain.home.HomeActivity
 import com.yadaniil.blogchain.mining.MiningActivity
 import com.yadaniil.blogchain.watchlist.WatchlistActivity
 import org.jetbrains.anko.*
@@ -18,6 +19,11 @@ object Navigator {
 
     fun toWatchlistActivity(activity: AppCompatActivity) {
         activity.startActivity<WatchlistActivity>()
+        activity.finish()
+    }
+
+    fun toHomeActivity(activity: AppCompatActivity) {
+        activity.startActivity<HomeActivity>()
         activity.finish()
     }
 

@@ -19,12 +19,19 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/watchlist_recycler_view"
+            <com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
+                android:id="@+id/currencies_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                app:fastScrollAutoHide="true"
                 android:paddingBottom="@dimen/quadra_dimen"
-                android:clipToPadding="false"/>
+                android:clipToPadding="false"
+                app:fastScrollAutoHideDelay="1500"
+                app:fastScrollPopupTextSize="36sp"
+                app:fastScrollPopupBackgroundSize="58dp"
+                app:fastScrollPopupBgColor="@color/colorPrimary"
+                app:fastScrollPopupTextColor="@android:color/primary_text_dark"
+                app:fastScrollThumbColor="@color/colorPrimary" />
 
         </android.support.v4.widget.SwipeRefreshLayout>
 
@@ -66,7 +73,7 @@
             android:layout_width="match_parent"
             android:layout_height="3dp"
             android:indeterminate="true"
-            app:spb_color="?attr/colorAccent"
+            app:spb_color="@color/colorAccent"
             app:spb_mirror_mode="true"
             app:spb_progressiveStart_activated="false"
             app:spb_progressiveStart_speed="4.0"
@@ -87,20 +94,7 @@
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
         ads:adSize="BANNER"
-        ads:adUnitId="@string/banner_watchlist_list">
+        ads:adUnitId="@string/banner_currencies_list">
     </com.google.android.gms.ads.AdView>
-
-    <android.support.design.widget.FloatingActionButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:fabSize="normal"
-        app:backgroundTint="?attr/colorPrimary"
-        android:id="@+id/fab"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_above="@id/adView"
-        android:src="@drawable/ic_plus_white_24dp"
-        android:layout_marginEnd="@dimen/standard_dimen"
-        android:layout_marginBottom="@dimen/fab_bottom_margin_with_ad"/>
 
 </RelativeLayout>

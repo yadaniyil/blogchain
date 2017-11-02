@@ -1,9 +1,9 @@
 package com.yadaniil.blogchain.utils
 
 import android.support.v7.app.AppCompatActivity
-import com.yadaniil.blogchain.home.HomeActivity
-import com.yadaniil.blogchain.mining.MiningActivity
-import com.yadaniil.blogchain.watchlist.WatchlistActivity
+import com.yadaniil.blogchain.screens.home.HomeActivity
+import com.yadaniil.blogchain.screens.mining.MiningActivity
+import com.yadaniil.blogchain.screens.watchlist.WatchlistActivity
 import org.jetbrains.anko.*
 
 /**

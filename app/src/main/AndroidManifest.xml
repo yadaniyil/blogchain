@@ -23,12 +23,12 @@
             android:value="${fabricApiKey}" />
 
         <activity
-            android:name="com.yadaniil.blogchain.main.MainActivity"
+            android:name="com.yadaniil.blogchain.screens.coins.AllCoinsActivity"
             android:label="@string/drawer_item_currencies"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name="com.yadaniil.blogchain.splash.SplashActivity"
+            android:name="com.yadaniil.blogchain.screens.splash.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Splash">
             <intent-filter>
@@ -39,23 +39,23 @@
         </activity>
 
         <activity
-            android:name="com.yadaniil.blogchain.mining.MiningActivity"
+            android:name="com.yadaniil.blogchain.screens.mining.MiningActivity"
             android:screenOrientation="portrait"
             android:theme="@style/GreyActivity"
             android:windowSoftInputMode="adjustPan"/>
 
         <activity
-            android:name="com.yadaniil.blogchain.watchlist.WatchlistActivity"
+            android:name="com.yadaniil.blogchain.screens.watchlist.WatchlistActivity"
             android:label="@string/drawer_item_watchlist"
             android:screenOrientation="portrait"
             android:theme="@style/GreyActivity"/>
 
         <activity
-            android:name="com.yadaniil.blogchain.findcoin.FindCoinActivity"
+            android:name="com.yadaniil.blogchain.screens.findcoin.FindCoinActivity"
             android:label="@string/pick_favourite_coin"
             android:screenOrientation="portrait" />
 
-        <activity android:name=".home.HomeActivity"
+        <activity android:name="com.yadaniil.blogchain.screens.home.HomeActivity"
             android:label="@string/dashboard"
             android:screenOrientation="portrait" />
 

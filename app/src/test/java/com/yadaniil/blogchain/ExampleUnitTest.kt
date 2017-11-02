@@ -1,6 +1,6 @@
 package com.yadaniil.blogchain
 
-import com.yadaniil.blogchain.mining.fragments.calculator.CalculatorPresenter
+import com.yadaniil.blogchain.screens.mining.fragments.calculator.CalculatorPresenter
 import org.junit.Test
 
 import org.junit.Assert.*

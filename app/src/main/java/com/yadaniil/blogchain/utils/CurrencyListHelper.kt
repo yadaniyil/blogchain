@@ -11,10 +11,10 @@ import android.widget.TextView
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import com.yadaniil.blogchain.R
-import com.yadaniil.blogchain.base.CurrencyClickListener
+import com.yadaniil.blogchain.screens.base.CurrencyClickListener
 import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
 import com.yadaniil.blogchain.data.db.models.CryptoCompareCurrencyRealm
-import com.yadaniil.blogchain.findcoin.FindCoinAdapter
+import com.yadaniil.blogchain.screens.findcoin.FindCoinAdapter
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.find
 import org.jetbrains.anko.onClick

@@ -2,6 +2,7 @@ package com.yadaniil.blogchain.mining.fragments.miners
 
 import android.content.Context
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
@@ -34,6 +35,7 @@ class MinersFragment : MvpAppCompatFragment(), MinersView, MinerItemClickListene
 
     @InjectPresenter lateinit var presenter: MinersPresenter
     private var minersAdapter by Delegates.notNull<MinersAdapter>()
+    private lateinit var drawerAction: () -> Unit
 
     private lateinit var filter: Filter<MinerFilterTag>
     private lateinit var minerFilterColors: IntArray
@@ -62,7 +64,7 @@ class MinersFragment : MvpAppCompatFragment(), MinersView, MinerItemClickListene
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         return when (item?.itemId) {
             android.R.id.home -> {
-                activity.onBackPressed()
+                drawerAction()
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -70,12 +72,11 @@ class MinersFragment : MvpAppCompatFragment(), MinersView, MinerItemClickListene
     }
     // endregion Fragment
 
-
-
     private fun initToolbar() {
         toolbar.title = getString(R.string.miners)
         (activity as AppCompatActivity).setSupportActionBar(toolbar)
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        (activity as AppCompatActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp)
         (activity as AppCompatActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
     }
 
@@ -193,6 +194,10 @@ class MinersFragment : MvpAppCompatFragment(), MinersView, MinerItemClickListene
     // endregion View
 
     companion object {
-        fun newInstance() = MinersFragment()
+        fun newInstance(openAndCloseDrawerAction: () -> Unit): Fragment {
+            val fragment = MinersFragment()
+            fragment.drawerAction = openAndCloseDrawerAction
+            return fragment
+        }
     }
 }

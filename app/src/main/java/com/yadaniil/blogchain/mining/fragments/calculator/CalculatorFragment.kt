@@ -3,6 +3,7 @@ package com.yadaniil.blogchain.mining.fragments.calculator
 import android.animation.LayoutTransition
 import android.net.Uri
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -32,6 +33,7 @@ import java.math.BigDecimal
 class CalculatorFragment : MvpAppCompatFragment(), CalculatorView {
 
     @InjectPresenter lateinit var presenter: CalculatorPresenter
+    private lateinit var drawerAction: () -> Unit
 
     // region Fragment
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
@@ -44,7 +46,7 @@ class CalculatorFragment : MvpAppCompatFragment(), CalculatorView {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initToolbar()
-        UiHelper.changeStatusBarColor(activity, R.color.colorTabCalculator)
+//        UiHelper.changeStatusBarColor(activity, R.color.colorTabCalculator)
         initAdMobBanner()
         presenter.downloadMiningCoins()
         retry_button.onClick { presenter.downloadMiningCoins() }
@@ -72,7 +74,7 @@ class CalculatorFragment : MvpAppCompatFragment(), CalculatorView {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         return when (item?.itemId) {
             android.R.id.home -> {
-                activity.onBackPressed()
+                drawerAction()
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -91,6 +93,7 @@ class CalculatorFragment : MvpAppCompatFragment(), CalculatorView {
         toolbar.title = getString(R.string.calculator)
         (activity as AppCompatActivity).setSupportActionBar(toolbar)
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        (activity as AppCompatActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp)
         (activity as AppCompatActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
     }
 
@@ -256,7 +259,12 @@ class CalculatorFragment : MvpAppCompatFragment(), CalculatorView {
     // endregion View
 
     companion object {
-        fun newInstance() = CalculatorFragment()
+        fun newInstance(openAndCloseDrawerAction: () -> Unit): Fragment {
+            val fragment = CalculatorFragment()
+            fragment.drawerAction = openAndCloseDrawerAction
+            return fragment
+        }
+
         val HOURS_IN_DAY = BigDecimal(24)
         val DAYS_IN_WEEK = BigDecimal(7)
         val DAYS_IN_MONTH = BigDecimal(30)

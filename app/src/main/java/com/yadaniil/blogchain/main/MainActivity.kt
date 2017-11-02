@@ -38,7 +38,6 @@ class MainActivity : BaseActivity(), MainView, CurrencyClickListener {
 
     private lateinit var listDivider: RecyclerView.ItemDecoration
     private lateinit var currenciesAdapter: CurrenciesAdapter
-    private lateinit var interstitialAd: InterstitialAd
 
     // region Activity
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,7 +45,6 @@ class MainActivity : BaseActivity(), MainView, CurrencyClickListener {
         Fabric.with(this, Crashlytics())
 
         initAdMobBanner()
-        initAdMobInterstitial()
         listDivider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         setUpCurrenciesList(presenter.getRealmCurrencies())
         initSearchView()
@@ -93,27 +91,6 @@ class MainActivity : BaseActivity(), MainView, CurrencyClickListener {
                 .addTestDevice(getString(R.string.admob_test_device))
                 .build()
         adView.loadAd(builder)
-    }
-
-    private fun initAdMobInterstitial() {
-        interstitialAd = InterstitialAd(this)
-        interstitialAd.adUnitId = getString(R.string.dont_touch_interstitial)
-        val builder = AdRequest.Builder()
-                .addTestDevice(getString(R.string.admob_test_device))
-                .build()
-        interstitialAd.adListener = object : AdListener() {
-            override fun onAdClosed() {
-                interstitialAd.loadAd(builder)
-            }
-        }
-        interstitialAd.loadAd(builder)
-    }
-
-    override fun showInterstitialAd() {
-        if(interstitialAd.isLoaded)
-            interstitialAd.show()
-        else
-            Timber.e("The interstitial wasn't loaded yet.")
     }
 
     private fun initBackgroundRefresh() {
@@ -231,7 +208,7 @@ class MainActivity : BaseActivity(), MainView, CurrencyClickListener {
     }
 
     override fun onClick(holder: CurrencyListHelper.CurrencyViewHolder, currencyRealm: CoinMarketCapCurrencyRealm) {
-        presenter.addCurrencyToFavourite(currencyRealm)
+
     }
 
     override fun onCurrencyAddedToFavourite(currency: CoinMarketCapCurrencyRealm) =

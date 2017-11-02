@@ -11,6 +11,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
 import com.yadaniil.blogchain.R
+import com.yadaniil.blogchain.base.BaseActivity
 import com.yadaniil.blogchain.base.CurrencyClickListener
 import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
 import com.yadaniil.blogchain.findcoin.FindCoinActivity
@@ -25,7 +26,7 @@ import org.jetbrains.anko.toast
  * Created by danielyakovlev on 10/31/17.
  */
 
-class WatchlistActivity : MvpAppCompatActivity(), WatchlistView, CurrencyClickListener {
+class WatchlistActivity : BaseActivity(), WatchlistView, CurrencyClickListener {
 
     @InjectPresenter
     lateinit var presenter: WatchlistPresenter
@@ -37,7 +38,6 @@ class WatchlistActivity : MvpAppCompatActivity(), WatchlistView, CurrencyClickLi
     // region Activity
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_watchlist)
         listDivider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         initAdMobBanner()
         initToolbar()
@@ -74,10 +74,10 @@ class WatchlistActivity : MvpAppCompatActivity(), WatchlistView, CurrencyClickLi
     }
 
     private fun initToolbar() {
-        toolbar.title = getString(R.string.drawer_item_watchlist)
-        setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
+//        toolbar.title = getString(R.string.drawer_item_watchlist)
+//        setSupportActionBar(toolbar)
+//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+//        supportActionBar?.setDisplayShowHomeEnabled(true)
     }
 
     private fun initAdMobBanner() {
@@ -121,5 +121,6 @@ class WatchlistActivity : MvpAppCompatActivity(), WatchlistView, CurrencyClickLi
 
     }
 
+    override fun getLayout() = R.layout.activity_watchlist
     // endregion View
 }

@@ -2,19 +2,27 @@ package com.yadaniil.blogchain.base
 
 import android.os.Bundle
 import com.arellomobile.mvp.MvpAppCompatActivity
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.InterstitialAd
 import com.mikepenz.materialdrawer.DrawerBuilder
 import com.mikepenz.materialdrawer.model.DividerDrawerItem
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
 import com.yadaniil.blogchain.R
 import kotlinx.android.synthetic.main.activity_main.*
 import com.mikepenz.materialdrawer.AccountHeaderBuilder
+import com.mikepenz.materialdrawer.Drawer
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem
 import com.yadaniil.blogchain.mining.MiningActivity
 import com.yadaniil.blogchain.watchlist.WatchlistActivity
 import org.jetbrains.anko.startActivity
+import timber.log.Timber
 
 
 abstract class BaseActivity : MvpAppCompatActivity(), BaseView {
+
+    private lateinit var interstitialAd: InterstitialAd
+    lateinit var drawer: Drawer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,6 +30,8 @@ abstract class BaseActivity : MvpAppCompatActivity(), BaseView {
 
         setSupportActionBar(toolbar)
         setUpNavigationDrawer()
+        initAdMobInterstitial()
+
     }
 
     private fun setUpNavigationDrawer() {
@@ -68,7 +78,7 @@ abstract class BaseActivity : MvpAppCompatActivity(), BaseView {
                 })
                 .build()
 
-        val drawer = DrawerBuilder()
+        drawer = DrawerBuilder()
                 .withActivity(this)
                 .withAccountHeader(headerResult)
                 .withToolbar(toolbar)
@@ -80,8 +90,27 @@ abstract class BaseActivity : MvpAppCompatActivity(), BaseView {
 //        drawer.header.onClick { toast("To add google account activity") }
     }
 
-    abstract fun showInterstitialAd()
+    private fun showInterstitialAd() {
+        if(interstitialAd.isLoaded)
+            interstitialAd.show()
+        else
+            Timber.e("The interstitial wasn't loaded yet.")
+    }
 
     abstract fun getLayout(): Int
+
+    private fun initAdMobInterstitial() {
+        interstitialAd = InterstitialAd(this)
+        interstitialAd.adUnitId = getString(R.string.dont_touch_interstitial)
+        val builder = AdRequest.Builder()
+                .addTestDevice(getString(R.string.admob_test_device))
+                .build()
+        interstitialAd.adListener = object : AdListener() {
+            override fun onAdClosed() {
+                interstitialAd.loadAd(builder)
+            }
+        }
+        interstitialAd.loadAd(builder)
+    }
 }
 

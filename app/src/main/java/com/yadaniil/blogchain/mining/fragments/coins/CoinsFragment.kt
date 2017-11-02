@@ -1,6 +1,7 @@
 package com.yadaniil.blogchain.mining.fragments.coins
 
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
@@ -29,6 +30,7 @@ class CoinsFragment : MvpAppCompatFragment(), CoinsView, CoinItemClickListener {
     @InjectPresenter lateinit var presenter: CoinsPresenter
     private var coinsAdapter by Delegates.notNull<CoinsAdapter>()
     private lateinit var listDivider: RecyclerView.ItemDecoration
+    private lateinit var drawerAction: () -> Unit
 
     // region Fragment
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
@@ -52,7 +54,7 @@ class CoinsFragment : MvpAppCompatFragment(), CoinsView, CoinItemClickListener {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         return when (item?.itemId) {
             android.R.id.home -> {
-                activity.onBackPressed()
+                drawerAction()
                 true
             }
             R.id.action_info -> {
@@ -76,6 +78,7 @@ class CoinsFragment : MvpAppCompatFragment(), CoinsView, CoinItemClickListener {
         toolbar.title = getString(R.string.coins)
         (activity as AppCompatActivity).setSupportActionBar(toolbar)
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        (activity as AppCompatActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp)
         (activity as AppCompatActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
     }
 
@@ -151,6 +154,10 @@ class CoinsFragment : MvpAppCompatFragment(), CoinsView, CoinItemClickListener {
     }
 
     companion object {
-        fun newInstance() = CoinsFragment()
+        fun newInstance(openAndCloseDrawerAction: () -> Unit): Fragment {
+            val fragment = CoinsFragment()
+            fragment.drawerAction = openAndCloseDrawerAction
+            return fragment
+        }
     }
 }

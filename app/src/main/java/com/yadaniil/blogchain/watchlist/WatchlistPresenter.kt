@@ -40,16 +40,16 @@ class WatchlistPresenter : MvpPresenter<WatchlistView>() {
     }
 
     fun downloadAndSaveAllCurrencies() {
-        repo.getFullCurrenciesList()
+        repo.getAllCurrencies()
                 .subscribeOn(Schedulers.io())
-                .map { CryptoCompareCurrencyRealm.convertApiResponseToRealmList(it) }
+                .map { CoinMarketCapCurrencyRealm.convertApiResponseToRealmList(it) }
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe {
                     viewState.showToolbarLoading()
                     viewState.hideSwipeRefreshLoading() }
                 .doOnComplete { viewState.stopToolbarLoading() }
                 .subscribe({ currenciesList ->
-                    repo.saveCryptoCompareCurrenciesToDb(currenciesList)
+                    repo.saveCoinMarketCapCurrenciesToDb(currenciesList)
                 }, { error ->
                     viewState.showLoadingError()
                     viewState.stopToolbarLoading()

@@ -1,6 +1,7 @@
 package com.yadaniil.blogchain.base
 
 import android.os.Bundle
+import android.os.Handler
 import com.arellomobile.mvp.MvpAppCompatActivity
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
@@ -41,7 +42,9 @@ abstract class BaseActivity : MvpAppCompatActivity(), BaseView {
 
         val item3 = PrimaryDrawerItem().withIdentifier(3).withName(R.string.drawer_item_watchlist)
                 .withIcon(R.drawable.ic_eye_24dp).withSelectable(false)
-                .withOnDrawerItemClickListener { _, _, _-> Navigator.toWatchlistActivity(this); false }
+                .withOnDrawerItemClickListener { _, _, _->
+                    Handler().postDelayed({Navigator.toWatchlistActivity(this)}, 500)
+                    false }
 
         val item4 = PrimaryDrawerItem().withIdentifier(4).withEnabled(false)
                 .withName(R.string.drawer_item_portfolio).withIcon(R.drawable.icon_portfolio).withSelectable(false)
@@ -54,7 +57,9 @@ abstract class BaseActivity : MvpAppCompatActivity(), BaseView {
 
         val item7 = PrimaryDrawerItem().withIdentifier(7)
                 .withName(R.string.drawer_item_mining).withIcon(R.drawable.icon_mining).withSelectable(false)
-                .withOnDrawerItemClickListener { _, _, _-> Navigator.toMiningActivity(this); false }
+                .withOnDrawerItemClickListener { _, _, _->
+                    Handler().postDelayed({Navigator.toMiningActivity(this)}, 500)
+                    false }
 
         val item8 = PrimaryDrawerItem().withIdentifier(8).withEnabled(false)
                 .withName(R.string.drawer_item_settings).withIcon(R.drawable.icon_settings).withSelectable(false)

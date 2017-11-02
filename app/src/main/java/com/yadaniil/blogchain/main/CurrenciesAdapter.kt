@@ -31,7 +31,7 @@ class CurrenciesAdapter(var context: Context, presenter: MainPresenter, val onCl
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
         val currencyRealm = currencies[position]
         val currencyHolder = holder as CurrencyListHelper.CurrencyViewHolder
-        CurrencyListHelper.bind(currencyHolder, currencyRealm, ccList, context, onClick, false)
+        CurrencyListHelper.bindCurrency(currencyHolder, currencyRealm, ccList, context, onClick, false)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder {

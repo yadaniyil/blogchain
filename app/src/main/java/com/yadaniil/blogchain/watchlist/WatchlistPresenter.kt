@@ -28,8 +28,16 @@ class WatchlistPresenter : MvpPresenter<WatchlistView>() {
     fun getRealmCurrenciesFavourite(): RealmResults<CoinMarketCapCurrencyRealm>
             = repo.getAllFavouriteCurrencies()
 
+    fun getAllRealmCurrencies(): RealmResults<CoinMarketCapCurrencyRealm>
+            = repo.getAllCoinMarketCapCurrenciesFromDb()
+
     fun getCcRealmCurrencies(): RealmResults<CryptoCompareCurrencyRealm>
             = repo.getAllCryptoCompareCurrenciesFromDb()
+
+    fun addCoinToFavourite(symbol: String?) {
+        val coin = repo.getCMCCurrencyFromDb(symbol ?: "")
+        repo.addCurrencyToFavourite(coin)
+    }
 
     fun downloadAndSaveAllCurrencies() {
         repo.getFullCurrenciesList()

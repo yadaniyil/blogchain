@@ -48,8 +48,12 @@
         <activity
             android:name="com.yadaniil.blogchain.watchlist.WatchlistActivity"
             android:label="@string/drawer_item_watchlist"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name="com.yadaniil.blogchain.findcoin.FindCoinActivity"
+            android:label="@string/pick_favourite_coin"
+            android:screenOrientation="portrait" />
 
     </application>
 

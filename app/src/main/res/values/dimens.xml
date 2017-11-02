@@ -20,4 +20,5 @@
     <dimen name="text_size_title_material">20sp</dimen>
     <dimen name="bottom_bar_height">60dp</dimen>
     <dimen name="bottom_bar_with_ad_height">110dp</dimen>
+    <dimen name="fab_bottom_margin_with_ad">56dp</dimen>
 </resources>

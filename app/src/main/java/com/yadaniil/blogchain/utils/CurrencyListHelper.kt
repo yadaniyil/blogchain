@@ -14,6 +14,7 @@ import com.yadaniil.blogchain.R
 import com.yadaniil.blogchain.base.CurrencyClickListener
 import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
 import com.yadaniil.blogchain.data.db.models.CryptoCompareCurrencyRealm
+import com.yadaniil.blogchain.findcoin.FindCoinAdapter
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.find
 import org.jetbrains.anko.onClick
@@ -26,9 +27,10 @@ import timber.log.Timber
 
 object CurrencyListHelper {
 
-    fun bind(currencyHolder: CurrencyViewHolder, currencyRealm: CoinMarketCapCurrencyRealm,
-             ccList: MutableList<CryptoCompareCurrencyRealm>, context: Context,
-             onClick: CurrencyClickListener, removeRank: Boolean) {
+    // region Currency
+    fun bindCurrency(currencyHolder: CurrencyViewHolder, currencyRealm: CoinMarketCapCurrencyRealm,
+                     ccList: MutableList<CryptoCompareCurrencyRealm>, context: Context,
+                     onClick: CurrencyClickListener, removeRank: Boolean) {
         with(currencyHolder) {
             if(removeRank) rank.visibility = View.GONE else rank.text = currencyRealm.rank.toString()
 
@@ -135,5 +137,21 @@ object CurrencyListHelper {
         var rank: TextView = view.find(R.id.item_currency_rank)
         var data: CoinMarketCapCurrencyRealm? = null
     }
+    // endregion Currency
+
+
+    // region Simple string item
+    class StringViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        var itemRootLayout: LinearLayout = view.find(R.id.simple_item_root)
+        var text: TextView = view.find(R.id.item_text)
+    }
+
+    fun bindSimpleItem(holder: StringViewHolder, currency: CoinMarketCapCurrencyRealm?,
+                       onClick: FindCoinAdapter.SimpleItemClickListener) {
+        val text = "${currency?.name} (${currency?.symbol})"
+        holder.text.text = text
+        holder.itemRootLayout.onClick { onClick.onClick(holder, currency!!) }
+    }
+    // endregion Simple string item
 
 }

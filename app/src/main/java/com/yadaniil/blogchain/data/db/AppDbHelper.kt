@@ -22,12 +22,16 @@ class AppDbHelper : DbHelper {
     override fun getAllCoinMarketCapCurrenciesFromDb(): RealmResults<CoinMarketCapCurrencyRealm> =
             realm.where(CoinMarketCapCurrencyRealm::class.java).findAllSortedAsync("rank")
 
+    override fun getCMCCurrencyFromDb(symbol: String): CoinMarketCapCurrencyRealm =
+            realm.where(CoinMarketCapCurrencyRealm::class.java)
+                    .equalTo("symbol", symbol, Case.INSENSITIVE).findFirst()
+
     override fun getAllCoinMarketCapCurrenciesFromDbFiltered(text: String): RealmResults<CoinMarketCapCurrencyRealm> =
             realm.where(CoinMarketCapCurrencyRealm::class.java)
                     .beginGroup()
-                    .beginsWith("name", text, Case.INSENSITIVE)
+                    .contains("name", text, Case.INSENSITIVE)
                     .or()
-                    .beginsWith("symbol", text, Case.INSENSITIVE)
+                    .contains("symbol", text, Case.INSENSITIVE)
                     .endGroup()
                     .findAllSortedAsync("rank")
 

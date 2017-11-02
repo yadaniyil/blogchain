@@ -48,6 +48,8 @@ class Repository @Inject constructor(private var appApiHelper: AppApiHelper,
 
     override fun getAllFavouriteCurrencies(): RealmResults<CoinMarketCapCurrencyRealm> =
             appDbHelper.getAllFavouriteCurrencies()
+
+    override fun getCMCCurrencyFromDb(symbol: String) = appDbHelper.getCMCCurrencyFromDb(symbol)
     // endregion Db
 
     // region Api

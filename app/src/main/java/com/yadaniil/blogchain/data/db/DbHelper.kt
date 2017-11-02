@@ -12,6 +12,7 @@ interface DbHelper {
     fun getAllCoinMarketCapCurrenciesFromDb(): RealmResults<CoinMarketCapCurrencyRealm>
     fun getAllCoinMarketCapCurrenciesFromDbFiltered(text: String): RealmResults<CoinMarketCapCurrencyRealm>
     fun saveCoinMarketCapCurrenciesToDb(currencies: List<CoinMarketCapCurrencyRealm>)
+    fun getCMCCurrencyFromDb(symbol: String): CoinMarketCapCurrencyRealm
 
     fun getAllCryptoCompareCurrenciesFromDb(): RealmResults<CryptoCompareCurrencyRealm>
     fun saveCryptoCompareCurrenciesToDb(currencies: List<CryptoCompareCurrencyRealm>)

@@ -29,7 +29,7 @@ import org.jetbrains.anko.toast
 import timber.log.Timber
 
 
-class MainActivity : BaseActivity(), MainView, CurrencyClickListener{
+class MainActivity : BaseActivity(), MainView, CurrencyClickListener {
 
     @InjectPresenter
     lateinit var presenter: MainPresenter

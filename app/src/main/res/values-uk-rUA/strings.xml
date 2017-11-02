@@ -90,4 +90,7 @@
     <string name="drawer_item_ad">Не чіпай!</string>
     <string name="drawer_item_watchlist">Улюблені</string>
     <string name="is_now_in_watchlist">тепер в улюблених</string>
+    <string name="pick_favourite_coin">Вибери улюблену монету</string>
+    <string name="drawer_item_home">Додому</string>
+    <string name="not_so_fast">Не так швидко</string>
 </resources>

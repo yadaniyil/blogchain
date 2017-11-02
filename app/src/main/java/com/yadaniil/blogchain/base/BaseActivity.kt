@@ -8,13 +8,13 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.InterstitialAd
 import com.mikepenz.materialdrawer.DrawerBuilder
 import com.mikepenz.materialdrawer.model.DividerDrawerItem
-import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
 import com.yadaniil.blogchain.R
 import kotlinx.android.synthetic.main.activity_main.*
 import com.mikepenz.materialdrawer.AccountHeaderBuilder
 import com.mikepenz.materialdrawer.Drawer
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem
 import com.yadaniil.blogchain.utils.Navigator
+import org.jetbrains.anko.toast
 import timber.log.Timber
 
 
@@ -100,8 +100,11 @@ abstract class BaseActivity : MvpAppCompatActivity(), BaseView {
     private fun showInterstitialAd() {
         if (interstitialAd.isLoaded)
             interstitialAd.show()
-        else
+        else {
             Timber.e("The interstitial wasn't loaded yet.")
+            toast(R.string.not_so_fast)
+        }
+
     }
 
     abstract fun getLayout(): Int

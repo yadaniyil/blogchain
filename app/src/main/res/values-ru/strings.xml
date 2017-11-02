@@ -90,4 +90,7 @@
     <string name="drawer_item_ad">Не трогай!</string>
     <string name="drawer_item_watchlist">Любимые</string>
     <string name="is_now_in_watchlist">теперь в любимых</string>
+    <string name="pick_favourite_coin">Выбери любимую монету</string>
+    <string name="drawer_item_home">Домой</string>
+    <string name="not_so_fast">Не так быстро</string>
 </resources>

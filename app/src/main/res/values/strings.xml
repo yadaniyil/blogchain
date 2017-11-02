@@ -95,6 +95,7 @@
     <string name="is_now_in_watchlist">is now in watchlist</string>
     <string name="pick_favourite_coin">Pick favourite coin</string>
     <string name="drawer_item_home">Home</string>
+    <string name="not_so_fast">Not so fast</string>
 
     <string-array name="miner_filters">
         <item>All categories</item>

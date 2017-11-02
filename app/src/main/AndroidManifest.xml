@@ -24,7 +24,7 @@
 
         <activity
             android:name="com.yadaniil.blogchain.screens.coins.AllCoinsActivity"
-            android:label="@string/drawer_item_currencies"
+            android:label="@string/drawer_item_all_coins"
             android:screenOrientation="portrait" />
 
         <activity

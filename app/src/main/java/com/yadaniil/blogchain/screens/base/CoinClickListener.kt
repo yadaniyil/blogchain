@@ -7,7 +7,6 @@ import com.yadaniil.blogchain.utils.CurrencyListHelper
  * Created by danielyakovlev on 11/1/17.
  */
 
-interface CurrencyClickListener {
-
+interface CoinClickListener {
     fun onClick(holder: CurrencyListHelper.CurrencyViewHolder, currencyRealm: CoinMarketCapCurrencyRealm)
 }

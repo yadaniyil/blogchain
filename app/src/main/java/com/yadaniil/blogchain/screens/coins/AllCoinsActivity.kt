@@ -21,13 +21,13 @@ import io.fabric.sdk.android.Fabric
 import kotlinx.android.synthetic.main.no_items_filtered_layout.*
 import kotlinx.android.synthetic.main.no_items_layout.*
 import org.jetbrains.anko.onClick
-import com.yadaniil.blogchain.screens.base.CurrencyClickListener
-import com.yadaniil.blogchain.screens.home.ChangelogDialog
+import com.yadaniil.blogchain.screens.base.CoinClickListener
+import com.yadaniil.blogchain.screens.base.CoinLongClickListener
 import com.yadaniil.blogchain.utils.CurrencyListHelper
 import org.jetbrains.anko.toast
 
 
-class AllCoinsActivity : BaseActivity(), AllCoinsView, CurrencyClickListener {
+class AllCoinsActivity : BaseActivity(), AllCoinsView, CoinClickListener, CoinLongClickListener {
 
     @InjectPresenter
     lateinit var presenter: AllCoinsPresenter
@@ -124,7 +124,7 @@ class AllCoinsActivity : BaseActivity(), AllCoinsView, CurrencyClickListener {
     }
 
     private fun setUpCurrenciesList(realmCurrencies: RealmResults<CoinMarketCapCurrencyRealm>) {
-        currenciesAdapter = AllCoinsAdapter(this, presenter, this)
+        currenciesAdapter = AllCoinsAdapter(this, presenter, this, this)
         currencies_recycler_view.layoutManager = LinearLayoutManager(this)
         currencies_recycler_view.adapter = currenciesAdapter
         currencies_recycler_view.setHasFixedSize(true)
@@ -196,6 +196,10 @@ class AllCoinsActivity : BaseActivity(), AllCoinsView, CurrencyClickListener {
     }
 
     override fun onClick(holder: CurrencyListHelper.CurrencyViewHolder, currencyRealm: CoinMarketCapCurrencyRealm) {
+
+    }
+
+    override fun onLongClick(holder: CurrencyListHelper.CurrencyViewHolder, currencyRealm: CoinMarketCapCurrencyRealm) {
 
     }
 

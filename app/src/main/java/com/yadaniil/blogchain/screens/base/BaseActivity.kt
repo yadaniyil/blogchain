@@ -35,7 +35,7 @@ abstract class BaseActivity : MvpAppCompatActivity(), BaseView {
 
     private fun setUpNavigationDrawer() {
         val home = BaseHelper.primaryItem(BaseHelper.DRAWER_ITEM_HOME_ID,
-                R.string.drawer_item_home, R.drawable.icon_home) {
+                R.string.dashboard, R.drawable.icon_home) {
             BaseHelper.selectedDrawerItem = BaseHelper.DRAWER_ITEM_HOME_ID
             Handler().postDelayed({ Navigator.toHomeActivity(this) }, 500)
         }
@@ -103,7 +103,7 @@ abstract class BaseActivity : MvpAppCompatActivity(), BaseView {
                 .addDrawerItems(home, allCoins, watchlist, portfolio, converter, exchanges, ico, mining, marketInfo,
                         DividerDrawerItem(), settings, ad)
                 .build()
-//        drawer.header.onClick { toast("To add google account activity") }
+//        drawer.header.onLongClick { toast("To add google account activity") }
     }
 
     private fun showInterstitialAd() {

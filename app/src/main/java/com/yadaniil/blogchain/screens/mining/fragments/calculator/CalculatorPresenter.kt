@@ -65,7 +65,7 @@ class CalculatorPresenter : MvpPresenter<CalculatorView>() {
 
     fun getLinkForCoinImage(name: String): String {
         val symbol = getSymbolFromFullName(name)
-        return CurrencyHelper.getImageLinkForCurrency(symbol, repo.getAllCryptoCompareCurrenciesFromDb())
+        return CurrencyHelper.getImageLinkForCurrency(symbol, repo.getAllCryptoCompareCoinsFromDb())
     }
 
     fun getHashrateExponentForCoin(fullCoinName: String): String {

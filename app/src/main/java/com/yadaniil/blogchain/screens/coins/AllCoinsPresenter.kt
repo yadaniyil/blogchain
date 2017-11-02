@@ -3,7 +3,6 @@ package com.yadaniil.blogchain.screens.coins
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.yadaniil.blogchain.Application
-import com.yadaniil.blogchain.BuildConfig
 import com.yadaniil.blogchain.data.Repository
 import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
 import com.yadaniil.blogchain.data.db.models.CryptoCompareCurrencyRealm
@@ -25,10 +24,10 @@ class AllCoinsPresenter : MvpPresenter<AllCoinsView>() {
     }
 
     fun getRealmCurrencies(): RealmResults<CoinMarketCapCurrencyRealm>
-            = repo.getAllCoinMarketCapCurrenciesFromDb()
+            = repo.getAllCoinMarketCapCoinsFromDb()
 
     fun getRealmCurrenciesFiltered(text: String): RealmResults<CoinMarketCapCurrencyRealm>
-            = repo.getAllCoinMarketCapCurrenciesFromDbFiltered(text)
+            = repo.getAllCoinMarketCapCoinsFromDbFiltered(text)
 
     fun downloadAndSaveAllCurrencies() {
         repo.getFullCurrenciesList()
@@ -39,7 +38,7 @@ class AllCoinsPresenter : MvpPresenter<AllCoinsView>() {
                     viewState.showLoading(); viewState.hideSwipeRefreshLoading() }
                 .doOnComplete { downloadCMCList() }
                 .subscribe({ currenciesList ->
-                    repo.saveCryptoCompareCurrenciesToDb(currenciesList)
+                    repo.saveCryptoCompareCoinsToDb(currenciesList)
                 }, { error ->
                     viewState.showLoadingError()
                     viewState.stopToolbarLoading()
@@ -54,8 +53,8 @@ class AllCoinsPresenter : MvpPresenter<AllCoinsView>() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnComplete { viewState.stopToolbarLoading() }
                 .subscribe({ currenciesList ->
-                    repo.saveCoinMarketCapCurrenciesToDb(currenciesList)
-                    repo.getAllCoinMarketCapCurrenciesFromDb()
+                    repo.saveCoinMarketCapCoinsToDb(currenciesList)
+                    repo.getAllCoinMarketCapCoinsFromDb()
                     viewState.updateList()
                 }, { error ->
                     viewState.showLoadingError()
@@ -65,7 +64,7 @@ class AllCoinsPresenter : MvpPresenter<AllCoinsView>() {
     }
 
     fun addCurrencyToFavourite(currency: CoinMarketCapCurrencyRealm) {
-        repo.addCurrencyToFavourite(currency)
+        repo.addCoinToFavourite(currency)
         viewState.onCurrencyAddedToFavourite(currency)
     }
 
@@ -80,7 +79,7 @@ class AllCoinsPresenter : MvpPresenter<AllCoinsView>() {
 //    }
 
 //    private fun buildFromSymbols(): String {
-//        val currencies = repo.getAllCryptoCompareCurrenciesFromDb().subList(0, 10)
+//        val currencies = repo.getAllCryptoCompareCoinsFromDb().subList(0, 10)
 //        var symbols: String = ""
 //        for(currency in currencies) {
 //            symbols += currency.coinName + ","
@@ -91,6 +90,6 @@ class AllCoinsPresenter : MvpPresenter<AllCoinsView>() {
 //    private fun buildToSymbols() = "BTC,USD"
 
     fun saveCurrencyIcon(currencyRealm: CoinMarketCapCurrencyRealm, byteArray: ByteArray)
-            = repo.saveCryptoCompareCurrencyIcon(currencyRealm, byteArray)
+            = repo.saveCryptoCompareCoinIcon(currencyRealm, byteArray)
 
 }

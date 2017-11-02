@@ -11,12 +11,14 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
 import com.yadaniil.blogchain.R
 import com.yadaniil.blogchain.screens.base.BaseActivity
-import com.yadaniil.blogchain.screens.base.CurrencyClickListener
+import com.yadaniil.blogchain.screens.base.CoinClickListener
 import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
+import com.yadaniil.blogchain.screens.base.CoinLongClickListener
 import com.yadaniil.blogchain.screens.findcoin.FindCoinActivity
 import com.yadaniil.blogchain.utils.CurrencyListHelper
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_watchlist.*
+import org.jetbrains.anko.alert
 import org.jetbrains.anko.onClick
 import org.jetbrains.anko.toast
 
@@ -25,7 +27,7 @@ import org.jetbrains.anko.toast
  * Created by danielyakovlev on 10/31/17.
  */
 
-class WatchlistActivity : BaseActivity(), WatchlistView, CurrencyClickListener {
+class WatchlistActivity : BaseActivity(), WatchlistView, CoinClickListener, CoinLongClickListener {
 
     @InjectPresenter
     lateinit var presenter: WatchlistPresenter
@@ -59,6 +61,7 @@ class WatchlistActivity : BaseActivity(), WatchlistView, CurrencyClickListener {
         if (requestCode == PICK_FAVOURITE_COIN_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 presenter.addCoinToFavourite(data?.extras?.getString(FindCoinActivity.PICKED_COIN_SYMBOL))
+                presenter.downloadAndSaveAllCurrencies()
             }
         }
     }
@@ -88,7 +91,7 @@ class WatchlistActivity : BaseActivity(), WatchlistView, CurrencyClickListener {
 
     private fun setUpWatchlist(realmCurrencies: RealmResults<CoinMarketCapCurrencyRealm>) {
         watchlistAdapter = WatchlistAdapter(realmCurrencies, true, this,
-                presenter.getCcRealmCurrencies(), this)
+                presenter.getCcRealmCurrencies(), this, this)
         watchlist_recycler_view.layoutManager = LinearLayoutManager(this)
         watchlist_recycler_view.adapter = watchlistAdapter
         watchlist_recycler_view.itemAnimator = null
@@ -122,7 +125,16 @@ class WatchlistActivity : BaseActivity(), WatchlistView, CurrencyClickListener {
     }
 
     override fun onClick(holder: CurrencyListHelper.CurrencyViewHolder, currencyRealm: CoinMarketCapCurrencyRealm) {
+        // To coin activity
+    }
 
+    override fun onLongClick(holder: CurrencyListHelper.CurrencyViewHolder, currencyRealm: CoinMarketCapCurrencyRealm) {
+        alert {
+            title(R.string.remove_from_favourite_question)
+            message("${currencyRealm.name} (${currencyRealm.symbol})")
+            yesButton { presenter.removeCoinFromFavourites(currencyRealm) }
+            cancelButton()
+        }.show()
     }
 
     override fun getLayout() = R.layout.activity_watchlist

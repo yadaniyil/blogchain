@@ -25,31 +25,34 @@ class Repository @Inject constructor(private var appApiHelper: AppApiHelper,
         DbHelper, SharedPrefsHelper {
 
     // region Db
-    override fun getAllCoinMarketCapCurrenciesFromDb(): RealmResults<CoinMarketCapCurrencyRealm> =
-            appDbHelper.getAllCoinMarketCapCurrenciesFromDb()
+    override fun getAllCoinMarketCapCoinsFromDb(): RealmResults<CoinMarketCapCurrencyRealm> =
+            appDbHelper.getAllCoinMarketCapCoinsFromDb()
 
-    override fun getAllCoinMarketCapCurrenciesFromDbFiltered(text: String): RealmResults<CoinMarketCapCurrencyRealm> =
-            appDbHelper.getAllCoinMarketCapCurrenciesFromDbFiltered(text)
+    override fun getAllCoinMarketCapCoinsFromDbFiltered(text: String): RealmResults<CoinMarketCapCurrencyRealm> =
+            appDbHelper.getAllCoinMarketCapCoinsFromDbFiltered(text)
 
-    override fun saveCoinMarketCapCurrenciesToDb(currencies: List<CoinMarketCapCurrencyRealm>) =
-        appDbHelper.saveCoinMarketCapCurrenciesToDb(currencies)
+    override fun saveCoinMarketCapCoinsToDb(coins: List<CoinMarketCapCurrencyRealm>) =
+        appDbHelper.saveCoinMarketCapCoinsToDb(coins)
 
-    override fun getAllCryptoCompareCurrenciesFromDb(): RealmResults<CryptoCompareCurrencyRealm> =
-            appDbHelper.getAllCryptoCompareCurrenciesFromDb()
+    override fun getAllCryptoCompareCoinsFromDb(): RealmResults<CryptoCompareCurrencyRealm> =
+            appDbHelper.getAllCryptoCompareCoinsFromDb()
 
-    override fun saveCryptoCompareCurrenciesToDb(currencies: List<CryptoCompareCurrencyRealm>) =
-        appDbHelper.saveCryptoCompareCurrenciesToDb(currencies)
+    override fun saveCryptoCompareCoinsToDb(coins: List<CryptoCompareCurrencyRealm>) =
+        appDbHelper.saveCryptoCompareCoinsToDb(coins)
 
-    override fun saveCryptoCompareCurrencyIcon(currency: CoinMarketCapCurrencyRealm, byteArray: ByteArray) =
-        appDbHelper.saveCryptoCompareCurrencyIcon(currency, byteArray)
+    override fun saveCryptoCompareCoinIcon(coin: CoinMarketCapCurrencyRealm, byteArray: ByteArray) =
+        appDbHelper.saveCryptoCompareCoinIcon(coin, byteArray)
 
-    override fun addCurrencyToFavourite(currency: CoinMarketCapCurrencyRealm) =
-            appDbHelper.addCurrencyToFavourite(currency)
+    override fun addCoinToFavourite(coin: CoinMarketCapCurrencyRealm) =
+            appDbHelper.addCoinToFavourite(coin)
 
-    override fun getAllFavouriteCurrencies(): RealmResults<CoinMarketCapCurrencyRealm> =
-            appDbHelper.getAllFavouriteCurrencies()
+    override fun removeCoinFromFavourites(coin: CoinMarketCapCurrencyRealm) =
+            appDbHelper.removeCoinFromFavourites(coin)
 
-    override fun getCMCCurrencyFromDb(symbol: String) = appDbHelper.getCMCCurrencyFromDb(symbol)
+    override fun getAllFavouriteCoins(): RealmResults<CoinMarketCapCurrencyRealm> =
+            appDbHelper.getAllFavouriteCoins()
+
+    override fun getCMCCoinFromDb(symbol: String) = appDbHelper.getCMCCoinFromDb(symbol)
     // endregion Db
 
     // region Api

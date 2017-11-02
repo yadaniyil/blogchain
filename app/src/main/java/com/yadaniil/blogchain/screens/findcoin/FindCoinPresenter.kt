@@ -22,9 +22,9 @@ class FindCoinPresenter : MvpPresenter<FindCoinView>() {
     }
 
     fun getAllRealmCurrencies(): RealmResults<CoinMarketCapCurrencyRealm>
-            = repo.getAllCoinMarketCapCurrenciesFromDb()
+            = repo.getAllCoinMarketCapCoinsFromDb()
 
     fun getRealmCurrenciesFiltered(text: String): RealmResults<CoinMarketCapCurrencyRealm>
-            = repo.getAllCoinMarketCapCurrenciesFromDbFiltered(text)
+            = repo.getAllCoinMarketCapCoinsFromDbFiltered(text)
 
 }

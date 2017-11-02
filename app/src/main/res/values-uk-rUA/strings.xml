@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Блогчейн</string>
     <string name="loading">Завантаження…</string>
-    <string name="drawer_item_currencies">Валюти</string>
+    <string name="drawer_item_all_coins">Валюти</string>
     <string name="drawer_item_exchanges">Біржі</string>
     <string name="drawer_item_portfolio">Портфоліо</string>
     <string name="drawer_item_settings">Налаштування</string>
@@ -93,4 +93,6 @@
     <string name="pick_favourite_coin">Вибери улюблену монету</string>
     <string name="drawer_item_home">Додому</string>
     <string name="not_so_fast">Не так швидко</string>
+    <string name="dashboard">Головна</string>
+    <string name="all_coins">Усі монети</string>
 </resources>

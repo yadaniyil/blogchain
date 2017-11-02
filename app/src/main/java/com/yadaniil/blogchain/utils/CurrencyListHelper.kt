@@ -11,14 +11,12 @@ import android.widget.TextView
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import com.yadaniil.blogchain.R
-import com.yadaniil.blogchain.screens.base.CurrencyClickListener
+import com.yadaniil.blogchain.screens.base.CoinClickListener
 import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
 import com.yadaniil.blogchain.data.db.models.CryptoCompareCurrencyRealm
+import com.yadaniil.blogchain.screens.base.CoinLongClickListener
 import com.yadaniil.blogchain.screens.findcoin.FindCoinAdapter
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.find
-import org.jetbrains.anko.onClick
-import org.jetbrains.anko.uiThread
+import org.jetbrains.anko.*
 import timber.log.Timber
 
 /**
@@ -30,7 +28,7 @@ object CurrencyListHelper {
     // region Currency
     fun bindCurrency(currencyHolder: CurrencyViewHolder, currencyRealm: CoinMarketCapCurrencyRealm,
                      ccList: MutableList<CryptoCompareCurrencyRealm>, context: Context,
-                     onClick: CurrencyClickListener, removeRank: Boolean) {
+                     onClick: CoinClickListener, onLongClick: CoinLongClickListener, removeRank: Boolean) {
         with(currencyHolder) {
             if(removeRank) rank.visibility = View.GONE else rank.text = currencyRealm.rank.toString()
 
@@ -40,6 +38,7 @@ object CurrencyListHelper {
             usdRate.text = AmountFormatter.format(currencyRealm?.priceUsd ?: "") + " USD"
             btcRate.text = currencyRealm?.priceBtc + " BTC"
             itemRootLayout.onClick { onClick.onClick(currencyHolder, currencyRealm) }
+            itemRootLayout.onLongClick { onLongClick.onLongClick(currencyHolder, currencyRealm); true }
             initRatesChange(this, currencyRealm, context)
 
             if (currencyRealm.iconBytes == null) {

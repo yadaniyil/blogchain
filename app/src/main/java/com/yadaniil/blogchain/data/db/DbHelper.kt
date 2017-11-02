@@ -9,15 +9,16 @@ import io.realm.RealmResults
  */
 interface DbHelper {
 
-    fun getAllCoinMarketCapCurrenciesFromDb(): RealmResults<CoinMarketCapCurrencyRealm>
-    fun getAllCoinMarketCapCurrenciesFromDbFiltered(text: String): RealmResults<CoinMarketCapCurrencyRealm>
-    fun saveCoinMarketCapCurrenciesToDb(currencies: List<CoinMarketCapCurrencyRealm>)
-    fun getCMCCurrencyFromDb(symbol: String): CoinMarketCapCurrencyRealm
+    fun getAllCoinMarketCapCoinsFromDb(): RealmResults<CoinMarketCapCurrencyRealm>
+    fun getAllCoinMarketCapCoinsFromDbFiltered(text: String): RealmResults<CoinMarketCapCurrencyRealm>
+    fun saveCoinMarketCapCoinsToDb(coins: List<CoinMarketCapCurrencyRealm>)
+    fun getCMCCoinFromDb(symbol: String): CoinMarketCapCurrencyRealm
 
-    fun getAllCryptoCompareCurrenciesFromDb(): RealmResults<CryptoCompareCurrencyRealm>
-    fun saveCryptoCompareCurrenciesToDb(currencies: List<CryptoCompareCurrencyRealm>)
-    fun saveCryptoCompareCurrencyIcon(currency: CoinMarketCapCurrencyRealm, byteArray: ByteArray)
+    fun getAllCryptoCompareCoinsFromDb(): RealmResults<CryptoCompareCurrencyRealm>
+    fun saveCryptoCompareCoinsToDb(coins: List<CryptoCompareCurrencyRealm>)
+    fun saveCryptoCompareCoinIcon(coin: CoinMarketCapCurrencyRealm, byteArray: ByteArray)
 
-    fun addCurrencyToFavourite(currency: CoinMarketCapCurrencyRealm)
-    fun getAllFavouriteCurrencies(): RealmResults<CoinMarketCapCurrencyRealm>
+    fun addCoinToFavourite(coin: CoinMarketCapCurrencyRealm)
+    fun removeCoinFromFavourites(coin: CoinMarketCapCurrencyRealm)
+    fun getAllFavouriteCoins(): RealmResults<CoinMarketCapCurrencyRealm>
 }

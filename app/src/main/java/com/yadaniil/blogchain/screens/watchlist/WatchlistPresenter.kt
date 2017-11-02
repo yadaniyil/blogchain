@@ -26,17 +26,17 @@ class WatchlistPresenter : MvpPresenter<WatchlistView>() {
     }
 
     fun getRealmCurrenciesFavourite(): RealmResults<CoinMarketCapCurrencyRealm>
-            = repo.getAllFavouriteCurrencies()
+            = repo.getAllFavouriteCoins()
 
     fun getAllRealmCurrencies(): RealmResults<CoinMarketCapCurrencyRealm>
-            = repo.getAllCoinMarketCapCurrenciesFromDb()
+            = repo.getAllCoinMarketCapCoinsFromDb()
 
     fun getCcRealmCurrencies(): RealmResults<CryptoCompareCurrencyRealm>
-            = repo.getAllCryptoCompareCurrenciesFromDb()
+            = repo.getAllCryptoCompareCoinsFromDb()
 
     fun addCoinToFavourite(symbol: String?) {
-        val coin = repo.getCMCCurrencyFromDb(symbol ?: "")
-        repo.addCurrencyToFavourite(coin)
+        val coin = repo.getCMCCoinFromDb(symbol ?: "")
+        repo.addCoinToFavourite(coin)
     }
 
     fun downloadAndSaveAllCurrencies() {
@@ -49,11 +49,15 @@ class WatchlistPresenter : MvpPresenter<WatchlistView>() {
                     viewState.hideSwipeRefreshLoading() }
                 .doOnComplete { viewState.stopToolbarLoading() }
                 .subscribe({ currenciesList ->
-                    repo.saveCoinMarketCapCurrenciesToDb(currenciesList)
+                    repo.saveCoinMarketCapCoinsToDb(currenciesList)
                 }, { error ->
                     viewState.showLoadingError()
                     viewState.stopToolbarLoading()
                     Timber.e(error.message)
                 })
+    }
+
+    fun removeCoinFromFavourites(currencyRealm: CoinMarketCapCurrencyRealm) {
+        repo.removeCoinFromFavourites(currencyRealm)
     }
 }

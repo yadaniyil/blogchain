@@ -19,14 +19,14 @@ class AppDbHelper : DbHelper {
         Application.component?.inject(this)
     }
 
-    override fun getAllCoinMarketCapCurrenciesFromDb(): RealmResults<CoinMarketCapCurrencyRealm> =
+    override fun getAllCoinMarketCapCoinsFromDb(): RealmResults<CoinMarketCapCurrencyRealm> =
             realm.where(CoinMarketCapCurrencyRealm::class.java).findAllSortedAsync("rank")
 
-    override fun getCMCCurrencyFromDb(symbol: String): CoinMarketCapCurrencyRealm =
+    override fun getCMCCoinFromDb(symbol: String): CoinMarketCapCurrencyRealm =
             realm.where(CoinMarketCapCurrencyRealm::class.java)
                     .equalTo("symbol", symbol, Case.INSENSITIVE).findFirst()
 
-    override fun getAllCoinMarketCapCurrenciesFromDbFiltered(text: String): RealmResults<CoinMarketCapCurrencyRealm> =
+    override fun getAllCoinMarketCapCoinsFromDbFiltered(text: String): RealmResults<CoinMarketCapCurrencyRealm> =
             realm.where(CoinMarketCapCurrencyRealm::class.java)
                     .beginGroup()
                     .contains("name", text, Case.INSENSITIVE)
@@ -35,9 +35,9 @@ class AppDbHelper : DbHelper {
                     .endGroup()
                     .findAllSortedAsync("rank")
 
-    override fun saveCoinMarketCapCurrenciesToDb(currencies: List<CoinMarketCapCurrencyRealm>) {
+    override fun saveCoinMarketCapCoinsToDb(coins: List<CoinMarketCapCurrencyRealm>) {
         // For saving isFavourite currency
-        for(currency in currencies) {
+        for(currency in coins) {
             val oldCopy = realm.where(CoinMarketCapCurrencyRealm::class.java)
                     .equalTo("id", currency.id).findFirst()
             if (oldCopy != null) {
@@ -45,25 +45,29 @@ class AppDbHelper : DbHelper {
             }
         }
 
-        realm.executeTransactionAsync { realm -> realm.copyToRealmOrUpdate(currencies) }
+        realm.executeTransactionAsync { realm -> realm.copyToRealmOrUpdate(coins) }
     }
 
-    override fun getAllCryptoCompareCurrenciesFromDb(): RealmResults<CryptoCompareCurrencyRealm> =
+    override fun getAllCryptoCompareCoinsFromDb(): RealmResults<CryptoCompareCurrencyRealm> =
             realm.where(CryptoCompareCurrencyRealm::class.java).findAllSortedAsync("sortOrder")
 
-    override fun saveCryptoCompareCurrenciesToDb(currencies: List<CryptoCompareCurrencyRealm>) {
-        realm.executeTransactionAsync { realm -> realm.copyToRealmOrUpdate(currencies) }
+    override fun saveCryptoCompareCoinsToDb(coins: List<CryptoCompareCurrencyRealm>) {
+        realm.executeTransactionAsync { realm -> realm.copyToRealmOrUpdate(coins) }
     }
 
-    override fun saveCryptoCompareCurrencyIcon(currency: CoinMarketCapCurrencyRealm, byteArray: ByteArray) {
-        realm.executeTransactionAsync { currency.iconBytes = byteArray }
+    override fun saveCryptoCompareCoinIcon(coin: CoinMarketCapCurrencyRealm, byteArray: ByteArray) {
+        realm.executeTransactionAsync { coin.iconBytes = byteArray }
     }
 
-    override fun addCurrencyToFavourite(currency: CoinMarketCapCurrencyRealm) {
-        realm.executeTransaction { currency.isFavourite = true }
+    override fun addCoinToFavourite(coin: CoinMarketCapCurrencyRealm) {
+        realm.executeTransaction { coin.isFavourite = true }
     }
 
-    override fun getAllFavouriteCurrencies(): RealmResults<CoinMarketCapCurrencyRealm> =
+    override fun removeCoinFromFavourites(coin: CoinMarketCapCurrencyRealm) {
+        realm.executeTransaction { coin.isFavourite = false }
+    }
+
+    override fun getAllFavouriteCoins(): RealmResults<CoinMarketCapCurrencyRealm> =
             realm.where(CoinMarketCapCurrencyRealm::class.java)
                     .equalTo("isFavourite", true).findAllAsync()
 

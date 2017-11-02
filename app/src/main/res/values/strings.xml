@@ -94,6 +94,7 @@
     <string name="banner_watchlist_list" translatable="false">ca-app-pub-4946735304037594/3483288631</string>
     <string name="is_now_in_watchlist">is now in watchlist</string>
     <string name="pick_favourite_coin">Pick favourite coin</string>
+    <string name="drawer_item_home">Home</string>
 
     <string-array name="miner_filters">
         <item>All categories</item>

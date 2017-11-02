@@ -34,49 +34,53 @@ abstract class BaseActivity : MvpAppCompatActivity(), BaseView {
     }
 
     private fun setUpNavigationDrawer() {
-        val item1 = PrimaryDrawerItem().withIdentifier(1).withEnabled(false)
-                .withName(R.string.drawer_item_market_info).withIcon(R.drawable.icon_market_info).withSelectable(false)
+        val home = BaseHelper.primaryItem(BaseHelper.DRAWER_ITEM_HOME_ID,
+                R.string.drawer_item_home, R.drawable.icon_home) {}
 
-        val item2 = PrimaryDrawerItem().withIdentifier(2).withEnabled(false)
-                .withName(R.string.drawer_item_converter).withIcon(R.drawable.icon_converter).withSelectable(false)
+        val marketInfo = BaseHelper.primaryItem(BaseHelper.DRAWER_ITEM_MARKET_INFO_ID,
+                R.string.drawer_item_market_info, R.drawable.icon_market_info, enabled = false) {}
 
-        val item3 = PrimaryDrawerItem().withIdentifier(3).withName(R.string.drawer_item_watchlist)
-                .withIcon(R.drawable.ic_eye_24dp).withSelectable(false)
-                .withOnDrawerItemClickListener { _, _, _->
-                    Handler().postDelayed({Navigator.toWatchlistActivity(this)}, 500)
-                    false }
+        val converter = BaseHelper.primaryItem(BaseHelper.DRAWER_ITEM_CONVERTER_ID,
+                R.string.drawer_item_converter, R.drawable.icon_converter, enabled = false) {}
 
-        val item4 = PrimaryDrawerItem().withIdentifier(4).withEnabled(false)
-                .withName(R.string.drawer_item_portfolio).withIcon(R.drawable.icon_portfolio).withSelectable(false)
+        val watchlist = BaseHelper.primaryItem(BaseHelper.DRAWER_ITEM_WATCHLIST_ID,
+                R.string.drawer_item_watchlist, R.drawable.ic_eye_24dp) {
+            BaseHelper.selectedDrawerItem = BaseHelper.DRAWER_ITEM_WATCHLIST_ID
+            Handler().postDelayed({ Navigator.toWatchlistActivity(this) }, 500)
+        }
 
-        val item5 = PrimaryDrawerItem().withIdentifier(5).withEnabled(false)
-                .withName(R.string.drawer_item_exchanges).withIcon(R.drawable.icon_exchanges).withSelectable(false)
+        val portfolio = BaseHelper.primaryItem(BaseHelper.DRAWER_ITEM_PORTFOLIO_ID,
+                R.string.drawer_item_portfolio, R.drawable.icon_portfolio, enabled = false) {}
 
-        val item6 = PrimaryDrawerItem().withIdentifier(6).withEnabled(false)
-                .withName(R.string.drawer_item_ico).withIcon(R.drawable.icon_ico).withSelectable(false)
+        val exchanges = BaseHelper.primaryItem(BaseHelper.DRAWER_ITEM_EXCHANGES_ID,
+                R.string.drawer_item_exchanges, R.drawable.icon_exchanges, enabled = false) {}
 
-        val item7 = PrimaryDrawerItem().withIdentifier(7)
-                .withName(R.string.drawer_item_mining).withIcon(R.drawable.icon_mining).withSelectable(false)
-                .withOnDrawerItemClickListener { _, _, _->
-                    Handler().postDelayed({Navigator.toMiningActivity(this)}, 500)
-                    false }
+        val ico = BaseHelper.primaryItem(BaseHelper.DRAWER_ITEM_ICO_ID,
+                R.string.drawer_item_ico, R.drawable.icon_ico, enabled = false) {}
 
-        val item8 = PrimaryDrawerItem().withIdentifier(8).withEnabled(false)
-                .withName(R.string.drawer_item_settings).withIcon(R.drawable.icon_settings).withSelectable(false)
+        val mining = BaseHelper.primaryItem(BaseHelper.DRAWER_ITEM_MINING_ID,
+                R.string.drawer_item_mining, R.drawable.icon_mining) {
+            BaseHelper.selectedDrawerItem = BaseHelper.DRAWER_ITEM_MINING_ID
+            Handler().postDelayed({ Navigator.toMiningActivity(this) }, 500)
+        }
 
-        val item9 = PrimaryDrawerItem().withIdentifier(9).withSelectable(false)
-                .withName(R.string.drawer_item_ad).withIcon(R.drawable.ic_warning_gray_24dp)
-                .withOnDrawerItemClickListener { _, _, _-> showInterstitialAd(); false }
+        val settings = BaseHelper.primaryItem(BaseHelper.DRAWER_ITEM_SETTINGS_ID,
+                R.string.drawer_item_settings, R.drawable.icon_settings, enabled = false) {}
+
+        val ad = BaseHelper.primaryItem(BaseHelper.DRAWER_ITEM_AD_ID,
+                R.string.drawer_item_ad, R.drawable.ic_warning_gray_24dp) {
+            showInterstitialAd()
+        }
 
         val headerResult = AccountHeaderBuilder()
                 .withActivity(this)
                 .withHeaderBackground(R.drawable.nav_bar_header_background)
                 .withSelectionListEnabledForSingleProfile(false)
                 .addProfiles(ProfileDrawerItem()
-                                .withName(R.string.add_google_account)
-                                .withIcon(resources.getDrawable(R.drawable.ic_account_circle_black_24dp)))
+                        .withName(R.string.add_google_account)
+                        .withIcon(resources.getDrawable(R.drawable.ic_account_circle_black_24dp)))
                 .withOnAccountHeaderListener({ view, profile, currentProfile ->
-//                    toast("To add google account activity")
+                    //                    toast("To add google account activity")
                     true
                 })
                 .build()
@@ -85,16 +89,16 @@ abstract class BaseActivity : MvpAppCompatActivity(), BaseView {
                 .withActivity(this)
                 .withAccountHeader(headerResult)
                 .withToolbar(toolbar)
-                .withSelectedItem(-1)
+                .withSelectedItem(BaseHelper.selectedDrawerItem)
                 .withActionBarDrawerToggle(true)
-                .addDrawerItems(item1, item2, item3, item4, item5, item6, item7,
-                        DividerDrawerItem(), item8, item9)
+                .addDrawerItems(home, marketInfo, converter, watchlist, portfolio, exchanges, ico, mining,
+                        DividerDrawerItem(), settings, ad)
                 .build()
 //        drawer.header.onClick { toast("To add google account activity") }
     }
 
     private fun showInterstitialAd() {
-        if(interstitialAd.isLoaded)
+        if (interstitialAd.isLoaded)
             interstitialAd.show()
         else
             Timber.e("The interstitial wasn't loaded yet.")

@@ -13,9 +13,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import com.mikepenz.materialdrawer.AccountHeaderBuilder
 import com.mikepenz.materialdrawer.Drawer
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem
-import com.yadaniil.blogchain.mining.MiningActivity
-import com.yadaniil.blogchain.watchlist.WatchlistActivity
-import org.jetbrains.anko.startActivity
+import com.yadaniil.blogchain.utils.Navigator
 import timber.log.Timber
 
 
@@ -43,7 +41,7 @@ abstract class BaseActivity : MvpAppCompatActivity(), BaseView {
 
         val item3 = PrimaryDrawerItem().withIdentifier(3).withName(R.string.drawer_item_watchlist)
                 .withIcon(R.drawable.ic_eye_24dp).withSelectable(false)
-                .withOnDrawerItemClickListener { _, _, _-> startActivity<WatchlistActivity>(); false }
+                .withOnDrawerItemClickListener { _, _, _-> Navigator.toWatchlistActivity(this); false }
 
         val item4 = PrimaryDrawerItem().withIdentifier(4).withEnabled(false)
                 .withName(R.string.drawer_item_portfolio).withIcon(R.drawable.icon_portfolio).withSelectable(false)
@@ -56,7 +54,7 @@ abstract class BaseActivity : MvpAppCompatActivity(), BaseView {
 
         val item7 = PrimaryDrawerItem().withIdentifier(7)
                 .withName(R.string.drawer_item_mining).withIcon(R.drawable.icon_mining).withSelectable(false)
-                .withOnDrawerItemClickListener { _, _, _-> startActivity<MiningActivity>(); false }
+                .withOnDrawerItemClickListener { _, _, _-> Navigator.toMiningActivity(this); false }
 
         val item8 = PrimaryDrawerItem().withIdentifier(8).withEnabled(false)
                 .withName(R.string.drawer_item_settings).withIcon(R.drawable.icon_settings).withSelectable(false)

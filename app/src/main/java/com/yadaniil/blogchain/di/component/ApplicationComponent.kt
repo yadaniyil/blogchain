@@ -19,6 +19,8 @@ import com.yadaniil.blogchain.screens.coins.AllCoinsPresenter
 import com.yadaniil.blogchain.screens.mining.fragments.calculator.CalculatorPresenter
 import com.yadaniil.blogchain.screens.mining.fragments.coins.CoinsPresenter
 import com.yadaniil.blogchain.screens.mining.fragments.miners.MinersPresenter
+import com.yadaniil.blogchain.screens.portfolio.PortfolioPresenter
+import com.yadaniil.blogchain.screens.portfolio.addcoin.AddToPortfolioPresenter
 import com.yadaniil.blogchain.screens.watchlist.WatchlistPresenter
 
 import dagger.Component
@@ -38,6 +40,8 @@ interface ApplicationComponent {
     fun inject(watchlistPresenter: WatchlistPresenter)
     fun inject(findCoinPresenter: FindCoinPresenter)
     fun inject(homePresenter: HomePresenter)
+    fun inject(portfolioPresenter: PortfolioPresenter)
+    fun inject(addToPortfolioPresenter: AddToPortfolioPresenter)
 
     fun app(): Application
     fun context(): Context

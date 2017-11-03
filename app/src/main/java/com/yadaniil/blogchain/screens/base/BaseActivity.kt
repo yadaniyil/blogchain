@@ -22,6 +22,7 @@ abstract class BaseActivity : MvpAppCompatActivity(), BaseView {
 
     private lateinit var interstitialAd: InterstitialAd
     lateinit var drawer: Drawer
+    val NAV_DRAWER_DELAY: Long = 500
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,13 +38,13 @@ abstract class BaseActivity : MvpAppCompatActivity(), BaseView {
         val home = BaseHelper.primaryItem(BaseHelper.DRAWER_ITEM_HOME_ID,
                 R.string.dashboard, R.drawable.icon_home) {
             BaseHelper.selectedDrawerItem = BaseHelper.DRAWER_ITEM_HOME_ID
-            Handler().postDelayed({ Navigator.toHomeActivity(this) }, 500)
+            Handler().postDelayed({ Navigator.toHomeActivity(this) }, NAV_DRAWER_DELAY)
         }
 
         val allCoins = BaseHelper.primaryItem(BaseHelper.DRAWER_ITEM_ALL_COINS_ID,
                 R.string.all_coins, R.drawable.ic_format_list_numbered_24dp) {
             BaseHelper.selectedDrawerItem = BaseHelper.DRAWER_ITEM_ALL_COINS_ID
-            Handler().postDelayed({ Navigator.toAllCoinsActivity(this) }, 500)
+            Handler().postDelayed({ Navigator.toAllCoinsActivity(this) }, NAV_DRAWER_DELAY)
         }
 
         val marketInfo = BaseHelper.primaryItem(BaseHelper.DRAWER_ITEM_MARKET_INFO_ID,
@@ -55,11 +56,14 @@ abstract class BaseActivity : MvpAppCompatActivity(), BaseView {
         val watchlist = BaseHelper.primaryItem(BaseHelper.DRAWER_ITEM_WATCHLIST_ID,
                 R.string.drawer_item_watchlist, R.drawable.ic_eye_24dp) {
             BaseHelper.selectedDrawerItem = BaseHelper.DRAWER_ITEM_WATCHLIST_ID
-            Handler().postDelayed({ Navigator.toWatchlistActivity(this) }, 500)
+            Handler().postDelayed({ Navigator.toWatchlistActivity(this) }, NAV_DRAWER_DELAY)
         }
 
         val portfolio = BaseHelper.primaryItem(BaseHelper.DRAWER_ITEM_PORTFOLIO_ID,
-                R.string.drawer_item_portfolio, R.drawable.icon_portfolio, enabled = false) {}
+                R.string.drawer_item_portfolio, R.drawable.icon_portfolio) {
+            BaseHelper.selectedDrawerItem = BaseHelper.DRAWER_ITEM_ALL_COINS_ID
+            Handler().postDelayed({ Navigator.toPortfolioActivity(this) }, NAV_DRAWER_DELAY)
+        }
 
         val exchanges = BaseHelper.primaryItem(BaseHelper.DRAWER_ITEM_EXCHANGES_ID,
                 R.string.drawer_item_exchanges, R.drawable.icon_exchanges, enabled = false) {}
@@ -70,7 +74,7 @@ abstract class BaseActivity : MvpAppCompatActivity(), BaseView {
         val mining = BaseHelper.primaryItem(BaseHelper.DRAWER_ITEM_MINING_ID,
                 R.string.drawer_item_mining, R.drawable.icon_mining) {
             BaseHelper.selectedDrawerItem = BaseHelper.DRAWER_ITEM_MINING_ID
-            Handler().postDelayed({ Navigator.toMiningActivity(this) }, 500)
+            Handler().postDelayed({ Navigator.toMiningActivity(this) }, NAV_DRAWER_DELAY)
         }
 
         val settings = BaseHelper.primaryItem(BaseHelper.DRAWER_ITEM_SETTINGS_ID,

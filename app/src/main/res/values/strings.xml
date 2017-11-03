@@ -99,6 +99,11 @@
     <string name="dashboard">Dashboard</string>
     <string name="all_coins">All coins</string>
     <string name="remove_from_favourite_question">Remove this coin from favourites?</string>
+    <string name="your_portfolio">Your portfolio</string>
+    <string name="current_value">Current value</string>
+    <string name="amount">Amount</string>
+    <string name="buy_price">Buy price</string>
+    <string name="add_to_portfolio">Add to portfolio</string>
 
     <string-array name="miner_filters">
         <item>All categories</item>

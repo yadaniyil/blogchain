@@ -59,6 +59,16 @@
             android:label="@string/dashboard"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name="com.yadaniil.blogchain.screens.portfolio.PortfolioActivity"
+            android:label="@string/your_portfolio"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name="com.yadaniil.blogchain.screens.portfolio.addcoin.AddToPortfolioActivity"
+            android:label="@string/add_to_portfolio"
+            android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>

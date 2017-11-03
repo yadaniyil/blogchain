@@ -4,6 +4,8 @@ import android.support.v7.app.AppCompatActivity
 import com.yadaniil.blogchain.screens.coins.AllCoinsActivity
 import com.yadaniil.blogchain.screens.home.HomeActivity
 import com.yadaniil.blogchain.screens.mining.MiningActivity
+import com.yadaniil.blogchain.screens.portfolio.addcoin.AddToPortfolioActivity
+import com.yadaniil.blogchain.screens.portfolio.PortfolioActivity
 import com.yadaniil.blogchain.screens.watchlist.WatchlistActivity
 import org.jetbrains.anko.*
 
@@ -31,6 +33,15 @@ object Navigator {
     fun toAllCoinsActivity(activity: AppCompatActivity) {
         activity.startActivity<AllCoinsActivity>()
         activity.finish()
+    }
+
+    fun toPortfolioActivity(activity: AppCompatActivity) {
+        activity.startActivity<PortfolioActivity>()
+        activity.finish()
+    }
+
+    fun toAddCoinToPortfolioActivity(activity: AppCompatActivity) {
+        activity.startActivity<AddToPortfolioActivity>()
     }
 
 }

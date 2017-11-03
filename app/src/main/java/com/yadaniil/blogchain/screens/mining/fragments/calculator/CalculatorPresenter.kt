@@ -7,6 +7,7 @@ import com.yadaniil.blogchain.data.Repository
 import com.yadaniil.blogchain.data.api.models.MiningCoin
 import com.yadaniil.blogchain.data.api.models.MiningCoinsResponse
 import com.yadaniil.blogchain.utils.CurrencyHelper
+import com.yadaniil.blogchain.utils.CurrencyHelper.getSymbolFromFullName
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.BiFunction
@@ -79,9 +80,6 @@ class CalculatorPresenter : MvpPresenter<CalculatorView>() {
         nethash.length in 10..15 -> "Mh/s"
         else -> "h/s"
     }
-
-    private fun getSymbolFromFullName(fullCoinName: String) =
-            fullCoinName.substring(fullCoinName.indexOf("(") + 1, fullCoinName.indexOf(")"))
 
     fun calculateTable(coinFullName: String, hashrate: String, power: String,
                        cost: String, poolFeePercent: String) {

@@ -32,4 +32,10 @@ object CurrencyHelper {
             ccCurrencies.find { it.name == symbol }?.imageUrl ?: ""
         }
     }
+
+    // For format Bitcoin (BTC)
+    fun getSymbolFromFullName(fullCoinName: String) =
+            fullCoinName.substring(fullCoinName.indexOf("(") + 1, fullCoinName.indexOf(")"))
+
+
 }

@@ -16,15 +16,15 @@ class RealmDbMigration : RealmMigration {
         val schema = realm?.schema
         var currentVersion = oldVersion.toInt()
 
-        // Add isFavourite field to coin. Db version must be 2
-        if (currentVersion == 1) {
+        // Add isFavourite field to coin. Db version must be 1
+        if (currentVersion == 0) {
             schema?.get("CoinMarketCapCurrencyRealm")
                     ?.addField("isFavourite", Boolean::class.java)
             currentVersion++
         }
 
-        // Add Portfolio model. Db version must be 3
-        if (currentVersion == 2) {
+        // Add Portfolio model. Db version must be 2
+        if (currentVersion == 1) {
             schema?.create("PortfolioRealm")
                     ?.addField("id", String::class.java, FieldAttribute.PRIMARY_KEY)
                     ?.addField("createdAt", Date::class.java)
@@ -36,8 +36,8 @@ class RealmDbMigration : RealmMigration {
             currentVersion++
         }
 
-        // Added buyDate to portfolio model
-        if(currentVersion == 3) {
+        // Added buyDate to portfolio model. Db version must be 3
+        if(currentVersion == 2) {
             schema?.get("PortfolioRealm")
                     ?.addField("buyDate", Date::class.java)
 

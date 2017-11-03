@@ -58,6 +58,13 @@
         <item>X11</item>
         <item>CryptoNight</item>
     </string-array>
+
+    <string-array name="storage_types">
+        <item>Программный кошелек</item>
+        <item>Аппаратный кошелек</item>
+        <item>Биржа</item>
+    </string-array>
+
     <string name="whats_new">Что-то новенькое?</string>
     <string name="downloading_blockchain">Скачиваю блокчейн</string>
     <string name="something_went_wrong">Упс. Что-то пошло не так</string>
@@ -95,4 +102,14 @@
     <string name="not_so_fast">Не так быстро</string>
     <string name="dashboard">Главная</string>
     <string name="all_coins">Все монеты</string>
+    <string name="remove_from_favourite_question">Удалить эту монету из любимых?</string>
+    <string name="your_portfolio">Ваше портфолио</string>
+    <string name="current_balance">Текущий баланс</string>
+    <string name="amount_of_coins">Количество монет</string>
+    <string name="buy_coin_price">Цена покупки монеты</string>
+    <string name="add_to_portfolio">Добавить в портфолио</string>
+    <string name="storage_type">Тип хранилища</string>
+    <string name="optional">Опционально</string>
+    <string name="wallet_name">Название кошелька</string>
+    <string name="exchange_name">Название биржи</string>
 </resources>

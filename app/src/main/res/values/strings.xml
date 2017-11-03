@@ -100,10 +100,14 @@
     <string name="all_coins">All coins</string>
     <string name="remove_from_favourite_question">Remove this coin from favourites?</string>
     <string name="your_portfolio">Your portfolio</string>
-    <string name="current_value">Current value</string>
-    <string name="amount">Amount</string>
-    <string name="buy_price">Buy price</string>
+    <string name="current_balance">Current balance</string>
+    <string name="amount_of_coins">Amount of coins</string>
+    <string name="buy_coin_price">Buy coin price</string>
     <string name="add_to_portfolio">Add to portfolio</string>
+    <string name="storage_type">Storage type</string>
+    <string name="optional">Optional</string>
+    <string name="wallet_name">Wallet name</string>
+    <string name="exchange_name">Exchange name</string>
 
     <string-array name="miner_filters">
         <item>All categories</item>
@@ -120,5 +124,11 @@
         <item>Equihash</item>
         <item>X11</item>
         <item>CryptoNight</item>
+    </string-array>
+
+    <string-array name="storage_types">
+        <item>Software wallet</item>
+        <item>Hardware wallet</item>
+        <item>Exchange</item>
     </string-array>
 </resources>

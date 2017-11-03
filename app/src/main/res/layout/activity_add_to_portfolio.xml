@@ -54,38 +54,47 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/standard_dimen"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <TextView
-                android:layout_width="0dp"
-                android:layout_weight="4"
-                android:singleLine="true"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/text_size_normal"
-                android:text="@string/amount"/>
+                android:singleLine="true"
+                android:textSize="@dimen/text_size_small"
+                android:text="@string/amount_of_coins"/>
 
-            <com.rengwuxian.materialedittext.MaterialEditText
-                android:layout_width="0dp"
-                android:layout_weight="5"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/amount_edit_text"
-                android:inputType="numberDecimal"
-                android:maxLines="1"
-                android:singleLine="true"
-                app:met_baseColor="@color/colorPrimary"
-                app:met_underlineColor="@color/colorPrimary"
-                app:met_primaryColor="@color/colorPrimary"
-                app:met_floatingLabelTextColor="@color/colorPrimary"
-                app:met_floatingLabel="none"/>
+                android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="2"
-                android:singleLine="true"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/text_size_normal"
-                android:id="@+id/coin_symbol"
-                android:paddingStart="@dimen/half_standard_dimen" />
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:layout_width="0dp"
+                    android:layout_weight="7"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/amount_edit_text"
+                    android:inputType="numberDecimal"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    app:met_baseColor="@color/colorPrimary"
+                    app:met_underlineColor="@color/colorPrimary"
+                    app:met_primaryColor="@color/colorPrimary"
+                    app:met_floatingLabelTextColor="@color/colorPrimary"
+                    app:met_floatingLabel="none"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:gravity="center"
+                    android:textSize="@dimen/text_size_normal"
+                    android:id="@+id/coin_symbol"
+                    android:paddingStart="@dimen/half_standard_dimen" />
+
+            </LinearLayout>
+
+
 
         </LinearLayout>
 
@@ -93,23 +102,94 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/standard_dimen"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <TextView
-                android:layout_width="0dp"
-                android:layout_weight="4"
-                android:singleLine="true"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/text_size_normal"
-                android:text="@string/buy_price"/>
+                android:singleLine="true"
+                android:textSize="@dimen/text_size_small"
+                android:text="@string/buy_coin_price"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:layout_width="0dp"
+                    android:layout_weight="7"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/buy_price_edit_text"
+                    android:hint="@string/optional"
+                    android:inputType="numberDecimal"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    app:met_baseColor="@color/colorPrimary"
+                    app:met_underlineColor="@color/colorPrimary"
+                    app:met_primaryColor="@color/colorPrimary"
+                    app:met_floatingLabelTextColor="@color/colorPrimary"
+                    app:met_floatingLabel="none"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_normal"
+                    android:singleLine="true"
+                    android:gravity="center"
+                    android:id="@+id/fiat_currency_buy_price"
+                    android:paddingStart="@dimen/half_standard_dimen"
+                    android:text="@string/usd"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/standard_dimen"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:textSize="@dimen/text_size_small"
+                android:text="@string/storage_type"/>
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/storage_type_spinner"
+                android:spinnerMode="dialog">
+
+            </Spinner>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/standard_dimen"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text="@string/wallet_name"
+                android:textSize="@dimen/text_size_small"
+                android:id="@+id/storage_type_name_label"/>
 
             <com.rengwuxian.materialedittext.MaterialEditText
-                android:layout_width="0dp"
-                android:layout_weight="5"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/buy_price_edit_text"
-                android:inputType="numberDecimal"
+                android:id="@+id/storage_name_edit_text"
+                android:inputType="text"
                 android:maxLines="1"
+                android:hint="@string/optional"
                 android:singleLine="true"
                 app:met_baseColor="@color/colorPrimary"
                 app:met_underlineColor="@color/colorPrimary"
@@ -117,15 +197,6 @@
                 app:met_floatingLabelTextColor="@color/colorPrimary"
                 app:met_floatingLabel="none"/>
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="2"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/text_size_normal"
-                android:singleLine="true"
-                android:id="@+id/fiat_currency_buy_price"
-                android:paddingStart="@dimen/half_standard_dimen"
-                android:text="@string/usd"/>
 
         </LinearLayout>
 

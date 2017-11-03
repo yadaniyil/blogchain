@@ -56,7 +56,7 @@
                 android:textColor="@color/md_white_1000"
                 android:textSize="@dimen/text_size_normal"
                 android:layout_height="wrap_content"
-                android:text="@string/current_value"/>
+                android:text="@string/current_balance"/>
 
             <TextView
                 android:layout_width="match_parent"

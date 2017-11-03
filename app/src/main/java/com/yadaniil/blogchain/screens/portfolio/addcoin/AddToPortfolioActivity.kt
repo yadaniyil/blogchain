@@ -25,6 +25,7 @@ class AddToPortfolioActivity : MvpAppCompatActivity(), AddToPortfolioView {
 
     @InjectPresenter lateinit var presenter: AddToPortfolioPresenter
 
+    // region Activity
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_to_portfolio)
@@ -32,13 +33,8 @@ class AddToPortfolioActivity : MvpAppCompatActivity(), AddToPortfolioView {
         presenter.showCoins()
         UiHelper.addCryptocurrencyInputFilter(amount_edit_text)
         UiHelper.addFiatInputFilter(buy_price_edit_text)
-    }
-
-    private fun initToolbar() {
-        toolbar.title = getString(R.string.add_to_portfolio)
-        setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
+        initStorageType()
+        initStorageName()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -58,6 +54,35 @@ class AddToPortfolioActivity : MvpAppCompatActivity(), AddToPortfolioView {
             else -> super.onOptionsItemSelected(item)
         }
     }
+    // endregion Activity
+
+    // region Init
+    private fun initStorageName() {
+        storage_type_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(p0: AdapterView<*>?) {}
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
+                if (position == 0 || position == 1)
+                    storage_type_name_label.text = getString(R.string.wallet_name)
+                else if(position == 2) {
+                    storage_type_name_label.text = getString(R.string.exchange_name)
+                }
+            }
+        }
+    }
+
+    private fun initStorageType() {
+        val adapter = ArrayAdapter(this,
+                android.R.layout.simple_spinner_dropdown_item, resources.getStringArray(R.array.storage_types))
+        storage_type_spinner.adapter = adapter
+    }
+
+    private fun initToolbar() {
+        toolbar.title = getString(R.string.add_to_portfolio)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+    }
+    // endregion Init
 
     override fun showCoin(coins: List<CoinMarketCapCurrencyRealm>) {
         val coinsForDisplay = coins.map { "${it.name} (${it.symbol})" }

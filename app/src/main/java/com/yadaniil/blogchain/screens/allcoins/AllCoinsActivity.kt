@@ -1,4 +1,4 @@
-package com.yadaniil.blogchain.screens.coins
+package com.yadaniil.blogchain.screens.allcoins
 
 import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
@@ -152,7 +152,11 @@ class AllCoinsActivity : BaseActivity(), AllCoinsView, CoinClickListener, CoinLo
                 }
             }
         })
-        currenciesAdapter.setData(realmCurrencies)
+
+        realmCurrencies.asObservable().subscribe({ coins ->
+            currenciesAdapter.setData(coins)
+        }, { toast(R.string.error) })
+
 
         CoinSorter.sortCurrencies(currenciesAdapter)
     }

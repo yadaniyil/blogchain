@@ -23,7 +23,7 @@
             android:value="${fabricApiKey}" />
 
         <activity
-            android:name="com.yadaniil.blogchain.screens.coins.AllCoinsActivity"
+            android:name="com.yadaniil.blogchain.screens.allcoins.AllCoinsActivity"
             android:label="@string/drawer_item_all_coins"
             android:screenOrientation="portrait" />
 

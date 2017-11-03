@@ -15,7 +15,7 @@ import com.yadaniil.blogchain.di.module.DatabaseModule
 import com.yadaniil.blogchain.di.module.NetModule
 import com.yadaniil.blogchain.screens.findcoin.FindCoinPresenter
 import com.yadaniil.blogchain.screens.home.HomePresenter
-import com.yadaniil.blogchain.screens.coins.AllCoinsPresenter
+import com.yadaniil.blogchain.screens.allcoins.AllCoinsPresenter
 import com.yadaniil.blogchain.screens.mining.fragments.calculator.CalculatorPresenter
 import com.yadaniil.blogchain.screens.mining.fragments.coins.CoinsPresenter
 import com.yadaniil.blogchain.screens.mining.fragments.miners.MinersPresenter

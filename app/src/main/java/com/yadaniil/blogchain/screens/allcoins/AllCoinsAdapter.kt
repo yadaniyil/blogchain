@@ -1,4 +1,4 @@
-package com.yadaniil.blogchain.screens.coins
+package com.yadaniil.blogchain.screens.allcoins
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView

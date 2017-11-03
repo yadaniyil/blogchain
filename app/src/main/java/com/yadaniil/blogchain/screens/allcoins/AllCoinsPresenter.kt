@@ -1,4 +1,4 @@
-package com.yadaniil.blogchain.screens.coins
+package com.yadaniil.blogchain.screens.allcoins
 
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter

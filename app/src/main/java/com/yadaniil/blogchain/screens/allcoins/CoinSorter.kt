@@ -1,4 +1,4 @@
-package com.yadaniil.blogchain.screens.coins
+package com.yadaniil.blogchain.screens.allcoins
 
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity

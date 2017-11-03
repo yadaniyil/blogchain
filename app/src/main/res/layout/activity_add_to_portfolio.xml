@@ -81,6 +81,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_weight="2"
+                android:singleLine="true"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/text_size_normal"
                 android:id="@+id/coin_symbol"
@@ -121,6 +122,7 @@
                 android:layout_weight="2"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/text_size_normal"
+                android:singleLine="true"
                 android:id="@+id/fiat_currency_buy_price"
                 android:paddingStart="@dimen/half_standard_dimen"
                 android:text="@string/usd"/>

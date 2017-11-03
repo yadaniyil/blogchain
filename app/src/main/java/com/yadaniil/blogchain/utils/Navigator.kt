@@ -1,7 +1,7 @@
 package com.yadaniil.blogchain.utils
 
 import android.support.v7.app.AppCompatActivity
-import com.yadaniil.blogchain.screens.coins.AllCoinsActivity
+import com.yadaniil.blogchain.screens.allcoins.AllCoinsActivity
 import com.yadaniil.blogchain.screens.home.HomeActivity
 import com.yadaniil.blogchain.screens.mining.MiningActivity
 import com.yadaniil.blogchain.screens.portfolio.addcoin.AddToPortfolioActivity

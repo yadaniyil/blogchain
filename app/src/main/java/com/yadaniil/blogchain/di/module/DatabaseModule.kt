@@ -22,6 +22,7 @@ class DatabaseModule {
                 .schemaVersion(2) // Must be bumped when the schema changes
                 .migration(RealmDbMigration()) // Migration to run instead of throwing an exception
                 .build()
+        Realm.setDefaultConfiguration(realmConfig)
         return Realm.getInstance(realmConfig)
     }
 

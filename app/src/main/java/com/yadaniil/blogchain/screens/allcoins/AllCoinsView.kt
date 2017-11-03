@@ -1,4 +1,4 @@
-package com.yadaniil.blogchain.screens.coins
+package com.yadaniil.blogchain.screens.allcoins
 
 import com.yadaniil.blogchain.screens.base.ToolbarLoadingView
 import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm

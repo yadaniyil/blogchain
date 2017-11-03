@@ -12,8 +12,6 @@ import java.util.*
 
 class RealmDbMigration : RealmMigration {
 
-
-
     override fun migrate(realm: DynamicRealm?, oldVersion: Long, newVersion: Long) {
         val schema = realm?.schema
         var currentVersion = oldVersion.toInt()
@@ -38,9 +36,15 @@ class RealmDbMigration : RealmMigration {
             currentVersion++
         }
 
+        // Added buyDate to portfolio model
+        if(currentVersion == 3) {
+            schema?.get("PortfolioRealm")
+                    ?.addField("buyDate", Date::class.java)
+
+            currentVersion++
+        }
+
+
 
     }
-
-
-
 }

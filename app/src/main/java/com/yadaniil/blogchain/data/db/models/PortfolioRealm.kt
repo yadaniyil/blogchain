@@ -12,6 +12,7 @@ open class PortfolioRealm(
         @PrimaryKey
         var id: String = UUID.randomUUID().toString(),
         var createdAt: Date = Date(),
+        var buyDate: Date = Date(),
         var amountOfCoins: String? = "",
         var buyPriceInFiat: String? = "",
         var storageType: String? = "", // Wallet, exchange and etc.

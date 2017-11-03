@@ -155,10 +155,8 @@ class AllCoinsActivity : BaseActivity(), AllCoinsView, CoinClickListener, CoinLo
 
         realmCurrencies.asObservable().subscribe({ coins ->
             currenciesAdapter.setData(coins)
+            CoinSorter.sortCurrencies(currenciesAdapter)
         }, { toast(R.string.error) })
-
-
-        CoinSorter.sortCurrencies(currenciesAdapter)
     }
 
     private fun colorSortButtonToWhite() {

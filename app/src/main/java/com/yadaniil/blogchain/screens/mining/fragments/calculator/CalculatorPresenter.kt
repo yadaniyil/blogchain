@@ -64,9 +64,13 @@ class CalculatorPresenter : MvpPresenter<CalculatorView>() {
         return coins
     }
 
-    fun getLinkForCoinImage(name: String): String {
-        val symbol = getSymbolFromFullName(name)
-        return CurrencyHelper.getImageLinkForCurrency(symbol, repo.getAllCryptoCompareCoinsFromDb())
+    fun getLinkForCoinImage(fullName: String): String {
+        if(fullName.startsWith("Nicehash", true))
+            return ""
+
+        val symbol = getSymbolFromFullName(fullName)
+        val cryptoCoin = repo.getCMCCoinFromDb(symbol)
+        return CurrencyHelper.getImageLinkForCurrency(cryptoCoin, repo.getAllCryptoCompareCoinsFromDb())
     }
 
     fun getHashrateExponentForCoin(fullCoinName: String): String {

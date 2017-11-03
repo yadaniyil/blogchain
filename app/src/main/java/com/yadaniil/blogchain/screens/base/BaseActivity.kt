@@ -61,7 +61,7 @@ abstract class BaseActivity : MvpAppCompatActivity(), BaseView {
 
         val portfolio = BaseHelper.primaryItem(BaseHelper.DRAWER_ITEM_PORTFOLIO_ID,
                 R.string.drawer_item_portfolio, R.drawable.icon_portfolio) {
-            BaseHelper.selectedDrawerItem = BaseHelper.DRAWER_ITEM_ALL_COINS_ID
+            BaseHelper.selectedDrawerItem = BaseHelper.DRAWER_ITEM_PORTFOLIO_ID
             Handler().postDelayed({ Navigator.toPortfolioActivity(this) }, NAV_DRAWER_DELAY)
         }
 

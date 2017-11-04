@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.View
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.yadaniil.blogchain.R
 import com.yadaniil.blogchain.data.db.models.PortfolioRealm
@@ -11,13 +12,10 @@ import com.yadaniil.blogchain.screens.base.BaseActivity
 import com.yadaniil.blogchain.utils.AmountFormatter
 import com.yadaniil.blogchain.utils.CurrencyListHelper
 import com.yadaniil.blogchain.utils.Navigator
+import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_portfolio.*
 import org.jetbrains.anko.onClick
 import org.jetbrains.anko.toast
-import io.realm.OrderedCollectionChangeSet
-import io.realm.RealmResults
-import io.realm.OrderedRealmCollectionChangeListener
-import io.realm.RealmChangeListener
 import java.math.BigDecimal
 
 
@@ -48,7 +46,17 @@ class PortfolioActivity : BaseActivity(), PortfolioView {
 
     private fun initTotalFiatBalance() {
         portfolios = presenter.getPortfolios()
-        portfolios?.addChangeListener { portfolios -> updateTotalFiatBalance(portfolios) }
+        portfolios?.addChangeListener { portfolios ->
+            updateTotalFiatBalance(portfolios)
+            if(portfolios.isEmpty()) {
+                no_items_text_view.visibility = View.VISIBLE
+                swipe_refresh.visibility = View.GONE
+            } else {
+                no_items_text_view.visibility = View.GONE
+                swipe_refresh.visibility = View.VISIBLE
+            }
+
+        }
     }
 
     private fun initSwipeRefresh() {

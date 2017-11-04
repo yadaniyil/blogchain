@@ -22,13 +22,18 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/watchlist_recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:clipToPadding="false"
-                android:paddingBottom="@dimen/quadra_dimen" />
+                android:layout_height="match_parent" />
 
         </android.support.v4.widget.SwipeRefreshLayout>
 
-        <include layout="@layout/no_items_layout" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/double_dimen"
+            android:textSize="@dimen/text_size_normal"
+            android:gravity="center"
+            android:id="@+id/no_items_text_view"
+            android:text="@string/no_items_in_portfolio"/>
 
     </LinearLayout>
 
@@ -63,6 +68,7 @@
                 android:gravity="center_horizontal"
                 android:textColor="@color/md_white_1000"
                 android:id="@+id/total_amount"
+                android:textStyle="bold"
                 android:textSize="@dimen/text_size_big"
                 android:layout_height="wrap_content" />
 

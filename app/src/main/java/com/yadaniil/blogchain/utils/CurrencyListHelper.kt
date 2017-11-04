@@ -32,7 +32,7 @@ object CurrencyListHelper {
                      ccList: MutableList<CryptoCompareCurrencyRealm>, context: Context,
                      onClick: CoinClickListener, onLongClick: CoinLongClickListener, removeRank: Boolean) {
         with(currencyHolder) {
-            if(removeRank) rank.visibility = View.GONE else rank.text = currencyRealm.rank.toString()
+            if (removeRank) rank.visibility = View.GONE else rank.text = currencyRealm.rank.toString()
 
             data = currencyRealm
             symbol.text = currencyRealm.symbol
@@ -172,12 +172,40 @@ object CurrencyListHelper {
             symbol.text = portfolioRealm.coin?.symbol
             name.text = portfolioRealm.coin?.name
             amountOfCoins.text = "${portfolioRealm.amountOfCoins} ${portfolioRealm.coin?.symbol}"
-            fiatBalance.text = "${AmountFormatter.formatFiatPrice(calculatePortfolioFiatSum(portfolioRealm))} " +
-                    "${context.getString(R.string.usd)}"
-            profitPercentage.text = "46%"
+            fiatBalance.text = "${AmountFormatter
+                    .formatFiatPrice(calculatePortfolioFiatSum(portfolioRealm))} ${context.getString(R.string.usd)}"
+            setPortfolioProfit(portfolioRealm, profitPercentage, context)
 
             downloadAndSaveIcon(icon, portfolioRealm.coin, ccList, context)
         }
+    }
+
+    private fun setPortfolioProfit(portfolioRealm: PortfolioRealm, profitPercentage: TextView, context: Context) {
+        // Setting value
+        if (portfolioRealm.buyPriceInFiat.isNullOrBlank())
+            profitPercentage.text = "?"
+        else
+            profitPercentage.text = calculateProfit(portfolioRealm.coin?.priceUsd?.toDoubleOrNull(),
+                    portfolioRealm.buyPriceInFiat?.toDoubleOrNull())
+
+        // Setting color
+        if(profitPercentage.text.startsWith("-"))
+            profitPercentage.setTextColor(context.resources.getColor(R.color.md_red_900))
+        else if(profitPercentage.text != "?")
+            profitPercentage.setTextColor(context.resources.getColor(R.color.md_green_900))
+
+        if(profitPercentage.text != "?")
+            profitPercentage.text = "${profitPercentage.text} %"
+    }
+
+    private fun calculateProfit(currentPrice: Double?, buyPrice: Double?): String {
+        if (currentPrice == null || buyPrice == null) return "?"
+
+        val difference = currentPrice - buyPrice
+        val secondStep = difference / currentPrice
+        val finalResult = secondStep * 100
+
+        return AmountFormatter.formatFiatPrice(finalResult.toString())
     }
 
     fun calculatePortfolioFiatSum(portfolio: PortfolioRealm) =

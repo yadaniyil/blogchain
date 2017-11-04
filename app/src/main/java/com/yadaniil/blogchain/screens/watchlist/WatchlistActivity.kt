@@ -6,6 +6,7 @@ import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.MenuItem
+import android.view.View
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
@@ -33,6 +34,8 @@ class WatchlistActivity : BaseActivity(), WatchlistView, CoinClickListener, Coin
     lateinit var presenter: WatchlistPresenter
     private val PICK_FAVOURITE_COIN_REQUEST_CODE = 0
 
+    private var favourites: RealmResults<CoinMarketCapCurrencyRealm>? = null
+
     private lateinit var watchlistAdapter: WatchlistAdapter
     private lateinit var listDivider: RecyclerView.ItemDecoration
 
@@ -40,10 +43,12 @@ class WatchlistActivity : BaseActivity(), WatchlistView, CoinClickListener, Coin
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         listDivider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
+        favourites = presenter.getRealmCurrenciesFavourite()
         initAdMobBanner()
         initSwipeRefresh()
         initFab()
-        setUpWatchlist(presenter.getRealmCurrenciesFavourite())
+        initNoFavouritesView()
+        setUpWatchlist(favourites!!)
         presenter.downloadAndSaveAllCurrencies()
     }
 
@@ -68,6 +73,18 @@ class WatchlistActivity : BaseActivity(), WatchlistView, CoinClickListener, Coin
     // endregion Activity
 
     // region Init
+    private fun initNoFavouritesView() {
+        favourites?.addChangeListener { favourites ->
+            if(favourites.isEmpty()) {
+                no_items_text_view.visibility = View.VISIBLE
+                swipe_refresh.visibility = View.GONE
+            } else {
+                no_items_text_view.visibility = View.GONE
+                swipe_refresh.visibility = View.VISIBLE
+            }
+        }
+    }
+
     private fun initFab() {
         fab.onClick { startActivityForResult(
                 Intent(this, FindCoinActivity::class.java),

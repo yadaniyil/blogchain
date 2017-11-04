@@ -12,10 +12,12 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.squareup.picasso.Picasso
 import com.yadaniil.blogchain.R
 import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
+import com.yadaniil.blogchain.utils.CurrencyHelper
 import com.yadaniil.blogchain.utils.CurrencyHelper.getSymbolFromFullName
 import com.yadaniil.blogchain.utils.Endpoints
 import com.yadaniil.blogchain.utils.UiHelper
 import kotlinx.android.synthetic.main.activity_add_to_portfolio.*
+import org.jetbrains.anko.toast
 
 /**
  * Created by danielyakovlev on 11/3/17.
@@ -49,7 +51,18 @@ class AddToPortfolioActivity : MvpAppCompatActivity(), AddToPortfolioView {
                 true
             }
             R.id.action_done -> {
-                presenter.addCoinToPortfolio(); true
+                if(amount_edit_text.text.isBlank()) {
+                    toast(R.string.amount_of_coins_should_not_be_empty)
+                } else {
+                    presenter.addCoinToPortfolio(
+                            CurrencyHelper.getSymbolFromFullName(coin_spinner.selectedItem.toString()),
+                            amount_edit_text.text.toString(),
+                            buy_price_edit_text.text.toString(),
+                            storage_type_spinner.selectedItem.toString(),
+                            storage_name_edit_text.text.toString())
+                    finish()
+                }
+                true
             }
             else -> super.onOptionsItemSelected(item)
         }
@@ -63,7 +76,7 @@ class AddToPortfolioActivity : MvpAppCompatActivity(), AddToPortfolioView {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
                 if (position == 0 || position == 1)
                     storage_type_name_label.text = getString(R.string.wallet_name)
-                else if(position == 2) {
+                else if (position == 2) {
                     storage_type_name_label.text = getString(R.string.exchange_name)
                 }
             }

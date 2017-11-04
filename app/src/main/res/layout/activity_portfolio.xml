@@ -68,6 +68,24 @@
 
         </LinearLayout>
 
+        <fr.castorflex.android.smoothprogressbar.SmoothProgressBar xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/smooth_progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:indeterminate="true"
+            app:spb_color="?attr/colorAccent"
+            app:spb_mirror_mode="true"
+            app:spb_progressiveStart_activated="false"
+            app:spb_progressiveStart_speed="4.0"
+            app:spb_progressiveStop_speed="4.0"
+            app:spb_reversed="true"
+            app:spb_sections_count="2"
+            app:spb_speed="4.0"
+            app:spb_stroke_separator_length="4dp"
+            app:spb_stroke_width="4dp" />
+
+
 
     </android.support.design.widget.AppBarLayout>
 

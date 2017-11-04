@@ -24,7 +24,7 @@ object CurrencyHelper {
         }
     }
 
-    // For format Bitcoin (BTC)
+    // For formatFiatPrice Bitcoin (BTC)
     fun getSymbolFromFullName(fullCoinName: String) =
             fullCoinName.substring(fullCoinName.indexOf("(") + 1, fullCoinName.indexOf(")"))
 

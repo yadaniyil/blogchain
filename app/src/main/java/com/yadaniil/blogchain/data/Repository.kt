@@ -6,6 +6,7 @@ import com.yadaniil.blogchain.data.db.AppDbHelper
 import com.yadaniil.blogchain.data.db.DbHelper
 import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
 import com.yadaniil.blogchain.data.db.models.CryptoCompareCurrencyRealm
+import com.yadaniil.blogchain.data.db.models.PortfolioRealm
 import com.yadaniil.blogchain.data.prefs.SharedPrefs
 import com.yadaniil.blogchain.data.prefs.SharedPrefsHelper
 import io.reactivex.Observable
@@ -53,6 +54,12 @@ class Repository @Inject constructor(private var appApiHelper: AppApiHelper,
             appDbHelper.getAllFavouriteCoins()
 
     override fun getCMCCoinFromDb(symbol: String) = appDbHelper.getCMCCoinFromDb(symbol)
+
+    override fun addCoinToPortfolio(coin: CoinMarketCapCurrencyRealm, amountOfCoins: String,
+                                    buyPriceOfCoin: String, storageType: String, storageName: String) =
+        appDbHelper.addCoinToPortfolio(coin, amountOfCoins, buyPriceOfCoin, storageType, storageName)
+
+    override fun getAllPortfolio() = appDbHelper.getAllPortfolio()
     // endregion Db
 
     // region Api

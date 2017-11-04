@@ -14,10 +14,12 @@ import com.yadaniil.blogchain.R
 import com.yadaniil.blogchain.screens.base.CoinClickListener
 import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
 import com.yadaniil.blogchain.data.db.models.CryptoCompareCurrencyRealm
+import com.yadaniil.blogchain.data.db.models.PortfolioRealm
 import com.yadaniil.blogchain.screens.base.CoinLongClickListener
 import com.yadaniil.blogchain.screens.findcoin.FindCoinAdapter
 import org.jetbrains.anko.*
 import timber.log.Timber
+import java.math.BigDecimal
 
 /**
  * Created by danielyakovlev on 10/31/17.
@@ -35,7 +37,7 @@ object CurrencyListHelper {
             data = currencyRealm
             symbol.text = currencyRealm.symbol
             name.text = currencyRealm.name
-            usdRate.text = AmountFormatter.format(currencyRealm?.priceUsd ?: "") + " USD"
+            usdRate.text = AmountFormatter.formatFiatPrice(currencyRealm?.priceUsd ?: "") + " USD"
             btcRate.text = currencyRealm?.priceBtc + " BTC"
             itemRootLayout.onClick { onClick.onClick(currencyHolder, currencyRealm) }
             itemRootLayout.onLongClick { onLongClick.onLongClick(currencyHolder, currencyRealm); true }
@@ -153,4 +155,32 @@ object CurrencyListHelper {
     }
     // endregion Simple string item
 
+    // region Portfolio
+    class PortfolioViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        var itemRootLayout: LinearLayout = view.find(R.id.item_root_layout)
+        var symbol: TextView = view.find(R.id.item_currency_symbol)
+        var name: TextView = view.find(R.id.item_currency_name)
+        var amountOfCoins: TextView = view.find(R.id.item_coin_amount)
+        var fiatBalance: TextView = view.find(R.id.item_fiat_balance)
+        var profitPercentage: TextView = view.find(R.id.item_profit_percentage)
+        var icon: ImageView = view.find(R.id.item_currency_icon)
+    }
+
+    fun bindPortfolioItem(holder: PortfolioViewHolder, portfolioRealm: PortfolioRealm,
+                          context: Context, ccList: MutableList<CryptoCompareCurrencyRealm>) {
+        with(holder) {
+            symbol.text = portfolioRealm.coin?.symbol
+            name.text = portfolioRealm.coin?.name
+            amountOfCoins.text = "${portfolioRealm.amountOfCoins} ${portfolioRealm.coin?.symbol}"
+            fiatBalance.text = "${AmountFormatter.formatFiatPrice(calculatePortfolioFiatSum(portfolioRealm))} " +
+                    "${context.getString(R.string.usd)}"
+            profitPercentage.text = "46%"
+
+            downloadAndSaveIcon(icon, portfolioRealm.coin, ccList, context)
+        }
+    }
+
+    fun calculatePortfolioFiatSum(portfolio: PortfolioRealm) =
+            (BigDecimal(portfolio.amountOfCoins) * BigDecimal(portfolio.coin?.priceUsd))
+    // endregion Portfolio
 }

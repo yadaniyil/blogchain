@@ -36,7 +36,9 @@ class AddToPortfolioPresenter : MvpPresenter<AddToPortfolioView>() {
         return CurrencyHelper.getImageLinkForCurrency(coin, repo.getAllCryptoCompareCoinsFromDb())
     }
 
-    fun addCoinToPortfolio() {
-
+    fun addCoinToPortfolio(coinSymbol: String, amountOfCoins: String, buyPriceOfCoin: String,
+                           storageType: String, storageName: String) {
+        val coin = repo.getCMCCoinFromDb(coinSymbol)
+        repo.addCoinToPortfolio(coin, amountOfCoins, buyPriceOfCoin, storageType, storageName)
     }
 }

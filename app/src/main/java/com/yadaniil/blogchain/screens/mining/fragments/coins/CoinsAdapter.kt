@@ -66,7 +66,7 @@ class CoinsAdapter(context: Context, coinClickListener: CoinItemClickListener,
     }
 
     private fun getPriceInUsd(coin: MiningCoin, btc: CoinMarketCapCurrencyRealm?): String {
-        return "$${AmountFormatter.format(BigDecimal(coin.btcRevenue24)
+        return "$${AmountFormatter.formatFiatPrice(BigDecimal(coin.btcRevenue24)
                 .multiply(BigDecimal(btc?.priceUsd)))}"
     }
 

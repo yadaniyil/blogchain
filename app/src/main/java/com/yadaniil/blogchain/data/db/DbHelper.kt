@@ -2,6 +2,8 @@ package com.yadaniil.blogchain.data.db
 
 import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
 import com.yadaniil.blogchain.data.db.models.CryptoCompareCurrencyRealm
+import com.yadaniil.blogchain.data.db.models.PortfolioRealm
+import io.realm.RealmAsyncTask
 import io.realm.RealmResults
 
 /**
@@ -21,4 +23,8 @@ interface DbHelper {
     fun addCoinToFavourite(coin: CoinMarketCapCurrencyRealm)
     fun removeCoinFromFavourites(coin: CoinMarketCapCurrencyRealm)
     fun getAllFavouriteCoins(): RealmResults<CoinMarketCapCurrencyRealm>
+
+    fun addCoinToPortfolio(coin: CoinMarketCapCurrencyRealm, amountOfCoins: String,
+                           buyPriceOfCoin: String, storageType: String, storageName: String)
+    fun getAllPortfolio(): RealmResults<PortfolioRealm>
 }

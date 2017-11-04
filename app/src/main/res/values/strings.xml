@@ -108,6 +108,8 @@
     <string name="optional">Optional</string>
     <string name="wallet_name">Wallet name</string>
     <string name="exchange_name">Exchange name</string>
+    <string name="amount_of_coins_should_not_be_empty">Amount of coins should not be empty</string>
+    <string name="dollar_sign" translatable="false">$</string>
 
     <string-array name="miner_filters">
         <item>All categories</item>

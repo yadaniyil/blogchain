@@ -77,7 +77,9 @@
                 android:gravity="start"
                 android:singleLine="true"
                 android:textSize="@dimen/btc_price_text_size"
-                android:padding="@dimen/half_standard_dimen"
+                android:paddingStart="@dimen/half_standard_dimen"
+                android:paddingEnd="@dimen/half_standard_dimen"
+                android:paddingBottom="@dimen/half_standard_dimen"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content" />
 

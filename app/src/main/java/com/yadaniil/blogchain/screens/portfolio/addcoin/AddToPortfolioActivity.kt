@@ -4,6 +4,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.MotionEvent
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -17,6 +18,7 @@ import com.yadaniil.blogchain.utils.CurrencyHelper.getSymbolFromFullName
 import com.yadaniil.blogchain.utils.Endpoints
 import com.yadaniil.blogchain.utils.UiHelper
 import kotlinx.android.synthetic.main.activity_add_to_portfolio.*
+import org.jetbrains.anko.onClick
 import org.jetbrains.anko.toast
 
 /**
@@ -114,6 +116,10 @@ class AddToPortfolioActivity : MvpAppCompatActivity(), AddToPortfolioView {
     }
 
     private fun showCoinIcon() {
+        coin_icon.onClick { coin_spinner.dispatchTouchEvent(
+                MotionEvent.obtain(0, 0, MotionEvent.ACTION_UP,
+                        0f, 0f, 0)) }
+        
         val imageLink = presenter.getLinkForCoinImage(coin_spinner.selectedItem.toString())
         if (imageLink.isBlank()) {
             coin_icon.setImageResource(R.drawable.icon_ico)

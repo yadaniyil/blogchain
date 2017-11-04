@@ -7,10 +7,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
-import android.view.LayoutInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import com.arellomobile.mvp.MvpAppCompatFragment
@@ -137,6 +134,10 @@ class CalculatorFragment : MvpAppCompatFragment(), CalculatorView {
     }
 
     private fun showCoinIcon() {
+        coin_icon.onClick { mining_coin_spinner.dispatchTouchEvent(
+                MotionEvent.obtain(0, 0, MotionEvent.ACTION_UP,
+                        0f, 0f, 0)) }
+
         val imageLink = presenter.getLinkForCoinImage(mining_coin_spinner.selectedItem.toString())
         if (imageLink.isBlank()) {
             Picasso.with(context)

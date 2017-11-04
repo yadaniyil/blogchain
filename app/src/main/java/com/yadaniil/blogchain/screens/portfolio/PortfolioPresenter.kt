@@ -43,4 +43,5 @@ class PortfolioPresenter : MvpPresenter<PortfolioView>() {
                     Timber.e(error.message)
                 })
     }
+
 }

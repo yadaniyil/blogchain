@@ -6,11 +6,20 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.yadaniil.blogchain.R
+import com.yadaniil.blogchain.data.db.models.PortfolioRealm
 import com.yadaniil.blogchain.screens.base.BaseActivity
+import com.yadaniil.blogchain.utils.AmountFormatter
+import com.yadaniil.blogchain.utils.CurrencyListHelper
 import com.yadaniil.blogchain.utils.Navigator
 import kotlinx.android.synthetic.main.activity_portfolio.*
 import org.jetbrains.anko.onClick
 import org.jetbrains.anko.toast
+import io.realm.OrderedCollectionChangeSet
+import io.realm.RealmResults
+import io.realm.OrderedRealmCollectionChangeListener
+import io.realm.RealmChangeListener
+import java.math.BigDecimal
+
 
 /**
  * Created by danielyakovlev on 11/3/17.
@@ -20,6 +29,8 @@ class PortfolioActivity : BaseActivity(), PortfolioView {
 
     @InjectPresenter
     lateinit var presenter: PortfolioPresenter
+
+    private var portfolios: RealmResults<PortfolioRealm>? = null
 
     private lateinit var portfolioAdapter: PortfolioAdapter
     private lateinit var listDivider: RecyclerView.ItemDecoration
@@ -31,8 +42,13 @@ class PortfolioActivity : BaseActivity(), PortfolioView {
 
         initPortfolioList()
         initSwipeRefresh()
-        updateTotalFiatBalance()
         presenter.downloadAndSaveAllCurrencies()
+        initTotalFiatBalance()
+    }
+
+    private fun initTotalFiatBalance() {
+        portfolios = presenter.getPortfolios()
+        portfolios?.addChangeListener { portfolios -> updateTotalFiatBalance(portfolios) }
     }
 
     private fun initSwipeRefresh() {
@@ -44,7 +60,7 @@ class PortfolioActivity : BaseActivity(), PortfolioView {
 
     private fun initPortfolioList() {
         portfolioAdapter = PortfolioAdapter(presenter.getPortfolios(), true,
-                this, presenter.getAllCcCoin()) { updateTotalFiatBalance() }
+                this, presenter.getAllCcCoin())
         watchlist_recycler_view.layoutManager = LinearLayoutManager(this)
         watchlist_recycler_view.adapter = portfolioAdapter
         watchlist_recycler_view.itemAnimator = null
@@ -65,8 +81,17 @@ class PortfolioActivity : BaseActivity(), PortfolioView {
         })
     }
 
-    private fun updateTotalFiatBalance() {
-        total_amount.text = portfolioAdapter.getPortfolioSumFiatFormatted()
+    private fun updateTotalFiatBalance(portfolios: RealmResults<PortfolioRealm>?) {
+        if(portfolios == null || portfolios.isEmpty())
+            total_amount.text = "0 USD"
+        else {
+            var sum: BigDecimal = BigDecimal.ZERO
+            portfolios.forEach {
+                sum += CurrencyListHelper.calculatePortfolioFiatSum(it)
+            }
+
+            total_amount.text = "${AmountFormatter.formatFiatPrice(sum)} USD"
+        }
     }
 
     // region View

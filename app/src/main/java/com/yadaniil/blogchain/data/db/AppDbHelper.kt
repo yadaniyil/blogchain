@@ -4,10 +4,7 @@ import com.yadaniil.blogchain.Application
 import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
 import com.yadaniil.blogchain.data.db.models.CryptoCompareCurrencyRealm
 import com.yadaniil.blogchain.data.db.models.PortfolioRealm
-import io.realm.Case
-import io.realm.Realm
-import io.realm.RealmAsyncTask
-import io.realm.RealmResults
+import io.realm.*
 import javax.inject.Inject
 
 /**

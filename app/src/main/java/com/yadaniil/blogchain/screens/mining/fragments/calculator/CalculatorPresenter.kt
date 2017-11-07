@@ -69,7 +69,7 @@ class CalculatorPresenter : MvpPresenter<CalculatorView>() {
             return ""
 
         val symbol = getSymbolFromFullName(fullName)
-        val cryptoCoin = repo.getCMCCoinFromDb(symbol)
+        val cryptoCoin = repo.getCoinFromDb(symbol)
         return CurrencyHelper.getImageLinkForCurrency(cryptoCoin, repo.getAllCryptoCompareCoinsFromDb())
     }
 

@@ -8,22 +8,20 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import com.arellomobile.mvp.presenter.InjectPresenter
-import com.miguelcatalan.materialsearchview.MaterialSearchView
-import com.yadaniil.blogchain.R
-import com.yadaniil.blogchain.screens.base.BaseActivity
-import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
-import io.realm.RealmResults
-import kotlinx.android.synthetic.main.activity_main.*
-import com.crashlytics.android.Crashlytics
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
-import io.fabric.sdk.android.Fabric
-import kotlinx.android.synthetic.main.no_items_filtered_layout.*
-import kotlinx.android.synthetic.main.no_items_layout.*
-import org.jetbrains.anko.onClick
+import com.miguelcatalan.materialsearchview.MaterialSearchView
+import com.yadaniil.blogchain.R
+import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
+import com.yadaniil.blogchain.screens.base.BaseActivity
 import com.yadaniil.blogchain.screens.base.CoinClickListener
 import com.yadaniil.blogchain.screens.base.CoinLongClickListener
 import com.yadaniil.blogchain.utils.CurrencyListHelper
+import io.realm.RealmResults
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.no_items_filtered_layout.*
+import kotlinx.android.synthetic.main.no_items_layout.*
+import org.jetbrains.anko.onClick
 import org.jetbrains.anko.toast
 
 
@@ -35,20 +33,20 @@ class AllCoinsActivity : BaseActivity(), AllCoinsView, CoinClickListener, CoinLo
     private var sortMenuItem: MenuItem? = null
 
     private lateinit var listDivider: RecyclerView.ItemDecoration
-    private lateinit var currenciesAdapter: AllCoinsAdapter
+    private lateinit var allCoinsAdapter: AllCoinsAdapter
 
     // region Activity
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Fabric.with(this, Crashlytics())
-
-        initAdMobBanner()
         listDivider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
-        setUpCurrenciesList(presenter.getRealmCurrencies())
         initSearchView()
-        initBackgroundRefresh()
         initRetryRefreshButton()
         initSwipeRefresh()
+        AllCoinsHelper.coins = presenter.getAllCoinsFromDb()
+        AllCoinsHelper.presenter = presenter
+        setUpCurrenciesList(AllCoinsHelper.coins)
+        presenter.downloadAndSaveAllCurrencies()
+        initAdMobBanner()
     }
 
     override fun onBackPressed() {
@@ -69,8 +67,12 @@ class AllCoinsActivity : BaseActivity(), AllCoinsView, CoinClickListener, CoinLo
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if (item?.itemId == R.id.action_sort) {
-            CoinSorter.showCoinSortDialog(this, currenciesAdapter,
-                    {colorSortButtonToWhite()}, {colorSortButtonToAccent()})
+            AllCoinsHelper.showCoinSortDialog(
+                    this,
+                    allCoinsAdapter,
+                    { colorSortButtonToWhite() },
+                    { colorSortButtonToAccent() },
+                    { setUpCurrenciesList(AllCoinsHelper.coins) })
         }
 
         return super.onOptionsItemSelected(item)
@@ -90,13 +92,6 @@ class AllCoinsActivity : BaseActivity(), AllCoinsView, CoinClickListener, CoinLo
         adView.loadAd(builder)
     }
 
-    private fun initBackgroundRefresh() {
-//        val scheduledExecutorService = Executors.newScheduledThreadPool(5)
-//        scheduledExecutorService.scheduleAtFixedRate({
-        presenter.downloadAndSaveAllCurrencies()
-//        }, 0, 40, TimeUnit.SECONDS)
-    }
-
     private fun initSearchView() {
         search_view.setOnQueryTextListener(object : MaterialSearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -104,7 +99,7 @@ class AllCoinsActivity : BaseActivity(), AllCoinsView, CoinClickListener, CoinLo
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                setUpCurrenciesList(presenter.getRealmCurrenciesFiltered(newText ?: ""))
+                setUpCurrenciesList(presenter.getAllCoinsFiltered(newText ?: ""))
                 return true
             }
         })
@@ -124,23 +119,27 @@ class AllCoinsActivity : BaseActivity(), AllCoinsView, CoinClickListener, CoinLo
     }
 
     private fun setUpCurrenciesList(realmCurrencies: RealmResults<CoinMarketCapCurrencyRealm>) {
-        currenciesAdapter = AllCoinsAdapter(this, presenter, this, this)
+        allCoinsAdapter = AllCoinsAdapter(realmCurrencies, true, this,
+                presenter.getAllCryptoCompareCoinsFromDb(), this, this)
+
         currencies_recycler_view.layoutManager = LinearLayoutManager(this)
-        currencies_recycler_view.adapter = currenciesAdapter
+        currencies_recycler_view.adapter = allCoinsAdapter
+        currencies_recycler_view.itemAnimator = null
         currencies_recycler_view.setHasFixedSize(true)
-        currencies_recycler_view.setItemViewCacheSize(100)
+        currencies_recycler_view.setItemViewCacheSize(200)
         currencies_recycler_view.isDrawingCacheEnabled = true
-        currencies_recycler_view.drawingCacheQuality = View.DRAWING_CACHE_QUALITY_HIGH
+        currencies_recycler_view.drawingCacheQuality = View.DRAWING_CACHE_QUALITY_AUTO
         currencies_recycler_view.removeItemDecoration(listDivider)
         currencies_recycler_view.addItemDecoration(listDivider)
-        currenciesAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+
+        allCoinsAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
             override fun onChanged() {
-                if (currenciesAdapter.itemCount > 0) {
+                if (allCoinsAdapter.itemCount > 0) {
                     no_items_layout.visibility = View.GONE
                     swipe_refresh.visibility = View.VISIBLE
                     no_items_filtered_layout.visibility = View.GONE
                 } else {
-                    if(search_view.isSearchOpen) {
+                    if (search_view.isSearchOpen) {
                         no_items_layout.visibility = View.GONE
                         swipe_refresh.visibility = View.GONE
                         no_items_filtered_layout.visibility = View.VISIBLE
@@ -152,28 +151,23 @@ class AllCoinsActivity : BaseActivity(), AllCoinsView, CoinClickListener, CoinLo
                 }
             }
         })
-
-        realmCurrencies.asObservable().subscribe({ coins ->
-            currenciesAdapter.setData(coins)
-            CoinSorter.sortCurrencies(currenciesAdapter)
-        }, { toast(R.string.error) })
     }
 
     private fun colorSortButtonToWhite() {
-        if(sortMenuItem != null)
+        if (sortMenuItem != null)
             sortMenuItem?.icon = resources.getDrawable(R.drawable.ic_sort_white_24dp)
     }
 
     private fun colorSortButtonToAccent() {
-        if(sortMenuItem != null)
+        if (sortMenuItem != null)
             sortMenuItem?.icon = resources.getDrawable(R.drawable.ic_sort_accent_24dp)
     }
 
     // region View
     override fun getLayout() = R.layout.activity_main
+
     override fun showToolbarLoading() = smooth_progress_bar.progressiveStart()
     override fun stopToolbarLoading() = smooth_progress_bar.progressiveStop()
-    override fun updateList() = setUpCurrenciesList(presenter.getRealmCurrencies())
     override fun showLoadingError() {
         downloading_label.visibility = View.GONE
         progress_bar.visibility = View.GONE
@@ -193,7 +187,7 @@ class AllCoinsActivity : BaseActivity(), AllCoinsView, CoinClickListener, CoinLo
     }
 
     override fun hideSwipeRefreshLoading() {
-        if(swipe_refresh.isRefreshing)
+        if (swipe_refresh.isRefreshing)
             swipe_refresh.isRefreshing = false
     }
 

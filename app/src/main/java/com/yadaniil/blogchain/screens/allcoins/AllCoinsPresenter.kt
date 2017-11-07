@@ -9,6 +9,7 @@ import com.yadaniil.blogchain.data.db.models.CryptoCompareCurrencyRealm
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import io.realm.RealmResults
+import io.realm.Sort
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -23,11 +24,17 @@ class AllCoinsPresenter : MvpPresenter<AllCoinsView>() {
         Application.component?.inject(this)
     }
 
-    fun getRealmCurrencies(): RealmResults<CoinMarketCapCurrencyRealm>
-            = repo.getAllCoinMarketCapCoinsFromDb()
+    fun getAllCoinsFromDb(): RealmResults<CoinMarketCapCurrencyRealm>
+            = repo.getAllCoinsFromDb()
 
-    fun getRealmCurrenciesFiltered(text: String): RealmResults<CoinMarketCapCurrencyRealm>
-            = repo.getAllCoinMarketCapCoinsFromDbFiltered(text)
+    fun getAllCryptoCompareCoinsFromDb(): RealmResults<CryptoCompareCurrencyRealm> =
+            repo.getAllCryptoCompareCoinsFromDb()
+
+    fun getAllCoinsFiltered(text: String): RealmResults<CoinMarketCapCurrencyRealm>
+            = repo.getAllCoinsFiltered(text)
+
+    fun getAllCoinsSorted(fieldName: String, sortOrder: Sort): RealmResults<CoinMarketCapCurrencyRealm>
+            = repo.getAllCoinsSorted(fieldName, sortOrder)
 
     fun downloadAndSaveAllCurrencies() {
         repo.getFullCurrenciesList()
@@ -39,11 +46,13 @@ class AllCoinsPresenter : MvpPresenter<AllCoinsView>() {
                 .doOnComplete { downloadCMCList() }
                 .subscribe({ currenciesList ->
                     repo.saveCryptoCompareCoinsToDb(currenciesList)
-                }, { error ->
-                    viewState.showLoadingError()
-                    viewState.stopToolbarLoading()
-                    Timber.e(error.message)
-                })
+                }
+//                        , { error ->
+//                    viewState.showLoadingError()
+//                    viewState.stopToolbarLoading()
+//                    Timber.e(error.message)
+//                }
+                )
     }
 
     private fun downloadCMCList() {
@@ -53,14 +62,15 @@ class AllCoinsPresenter : MvpPresenter<AllCoinsView>() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnComplete { viewState.stopToolbarLoading() }
                 .subscribe({ currenciesList ->
-                    repo.saveCoinMarketCapCoinsToDb(currenciesList)
-                    repo.getAllCoinMarketCapCoinsFromDb()
-                    viewState.updateList()
-                }, { error ->
-                    viewState.showLoadingError()
-                    viewState.stopToolbarLoading()
-                    Timber.e(error.message)
-                })
+                    repo.saveCoinsToDb(currenciesList)
+                    repo.getAllCoinsFromDb()
+                }
+//                        , { error ->
+//                    viewState.showLoadingError()
+//                    viewState.stopToolbarLoading()
+//                    Timber.e(error.message)
+//                }
+                )
     }
 
     fun addCurrencyToFavourite(currency: CoinMarketCapCurrencyRealm) {

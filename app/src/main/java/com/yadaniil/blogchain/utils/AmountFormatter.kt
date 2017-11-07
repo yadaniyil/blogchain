@@ -37,4 +37,8 @@ object AmountFormatter {
             else -> buildDecimalFormatter(4, 2).format(BigDecimal(amount))
         }
     }
+
+    fun formatCryptoPrice(amount: String): String {
+        return buildDecimalFormatter(8, 2).format(BigDecimal(amount))
+    }
 }

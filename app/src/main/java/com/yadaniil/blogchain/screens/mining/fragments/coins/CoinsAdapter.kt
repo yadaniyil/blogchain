@@ -67,7 +67,7 @@ class CoinsAdapter(context: Context, coinClickListener: CoinItemClickListener,
 
     private fun getPriceInUsd(coin: MiningCoin, btc: CoinMarketCapCurrencyRealm?): String {
         return "$${AmountFormatter.formatFiatPrice(BigDecimal(coin.btcRevenue24)
-                .multiply(BigDecimal(btc?.priceUsd)))}"
+                .multiply(BigDecimal(btc?.priceUsd ?: 0.0)))}"
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder {

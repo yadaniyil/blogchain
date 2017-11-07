@@ -36,7 +36,7 @@ class PortfolioPresenter : MvpPresenter<PortfolioView>() {
                     viewState.hideSwipeRefreshLoading() }
                 .doOnComplete { viewState.stopToolbarLoading() }
                 .subscribe({ currenciesList ->
-                    repo.saveCoinMarketCapCoinsToDb(currenciesList)
+                    repo.saveCoinsToDb(currenciesList)
                 }, { error ->
                     viewState.showLoadingError()
                     viewState.stopToolbarLoading()

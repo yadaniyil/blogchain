@@ -23,7 +23,7 @@ class AddToPortfolioPresenter : MvpPresenter<AddToPortfolioView>() {
     }
 
     fun showCoins() {
-        repo.getAllCoinMarketCapCoinsFromDb().asObservable().subscribe({
+        repo.getAllCoinsFromDb().asObservable().subscribe({
             viewState.showCoin(it)
         }, { error ->
             Timber.e(error.message)
@@ -32,13 +32,13 @@ class AddToPortfolioPresenter : MvpPresenter<AddToPortfolioView>() {
 
     fun getLinkForCoinImage(name: String): String {
         val symbol = getSymbolFromFullName(name)
-        val coin = repo.getCMCCoinFromDb(symbol)
+        val coin = repo.getCoinFromDb(symbol)
         return CurrencyHelper.getImageLinkForCurrency(coin, repo.getAllCryptoCompareCoinsFromDb())
     }
 
     fun addCoinToPortfolio(coinSymbol: String, amountOfCoins: String, buyPriceOfCoin: String,
                            storageType: String, storageName: String) {
-        val coin = repo.getCMCCoinFromDb(coinSymbol)
+        val coin = repo.getCoinFromDb(coinSymbol)
         repo.addCoinToPortfolio(coin, amountOfCoins, buyPriceOfCoin, storageType, storageName)
     }
 }

@@ -6,11 +6,11 @@ import com.yadaniil.blogchain.data.db.AppDbHelper
 import com.yadaniil.blogchain.data.db.DbHelper
 import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
 import com.yadaniil.blogchain.data.db.models.CryptoCompareCurrencyRealm
-import com.yadaniil.blogchain.data.db.models.PortfolioRealm
 import com.yadaniil.blogchain.data.prefs.SharedPrefs
 import com.yadaniil.blogchain.data.prefs.SharedPrefsHelper
 import io.reactivex.Observable
 import io.realm.RealmResults
+import io.realm.Sort
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -26,14 +26,14 @@ class Repository @Inject constructor(private var appApiHelper: AppApiHelper,
         DbHelper, SharedPrefsHelper {
 
     // region Db
-    override fun getAllCoinMarketCapCoinsFromDb(): RealmResults<CoinMarketCapCurrencyRealm> =
-            appDbHelper.getAllCoinMarketCapCoinsFromDb()
+    override fun getAllCoinsFromDb(): RealmResults<CoinMarketCapCurrencyRealm> =
+            appDbHelper.getAllCoinsFromDb()
 
-    override fun getAllCoinMarketCapCoinsFromDbFiltered(text: String): RealmResults<CoinMarketCapCurrencyRealm> =
-            appDbHelper.getAllCoinMarketCapCoinsFromDbFiltered(text)
+    override fun getAllCoinsFiltered(text: String): RealmResults<CoinMarketCapCurrencyRealm> =
+            appDbHelper.getAllCoinsFiltered(text)
 
-    override fun saveCoinMarketCapCoinsToDb(coins: List<CoinMarketCapCurrencyRealm>) =
-        appDbHelper.saveCoinMarketCapCoinsToDb(coins)
+    override fun saveCoinsToDb(coins: List<CoinMarketCapCurrencyRealm>) =
+        appDbHelper.saveCoinsToDb(coins)
 
     override fun getAllCryptoCompareCoinsFromDb(): RealmResults<CryptoCompareCurrencyRealm> =
             appDbHelper.getAllCryptoCompareCoinsFromDb()
@@ -53,13 +53,16 @@ class Repository @Inject constructor(private var appApiHelper: AppApiHelper,
     override fun getAllFavouriteCoins(): RealmResults<CoinMarketCapCurrencyRealm> =
             appDbHelper.getAllFavouriteCoins()
 
-    override fun getCMCCoinFromDb(symbol: String) = appDbHelper.getCMCCoinFromDb(symbol)
+    override fun getCoinFromDb(symbol: String) = appDbHelper.getCoinFromDb(symbol)
 
     override fun addCoinToPortfolio(coin: CoinMarketCapCurrencyRealm, amountOfCoins: String,
                                     buyPriceOfCoin: String, storageType: String, storageName: String) =
         appDbHelper.addCoinToPortfolio(coin, amountOfCoins, buyPriceOfCoin, storageType, storageName)
 
     override fun getAllPortfolio() = appDbHelper.getAllPortfolio()
+
+    override fun getAllCoinsSorted(fieldName: String, sortOrder: Sort) =
+            appDbHelper.getAllCoinsSorted(fieldName, sortOrder)
     // endregion Db
 
     // region Api

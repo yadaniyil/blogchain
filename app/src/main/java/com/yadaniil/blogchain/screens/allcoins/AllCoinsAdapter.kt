@@ -1,7 +1,6 @@
 package com.yadaniil.blogchain.screens.allcoins
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
@@ -11,50 +10,42 @@ import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
 import com.yadaniil.blogchain.data.db.models.CryptoCompareCurrencyRealm
 import com.yadaniil.blogchain.screens.base.CoinLongClickListener
 import com.yadaniil.blogchain.utils.CurrencyListHelper
+import io.realm.RealmRecyclerViewAdapter
+import io.realm.RealmResults
 
 
 /**
  * Created by danielyakovlev on 7/2/17.
  */
 
-class AllCoinsAdapter(var context: Context, presenter: AllCoinsPresenter,
-                      val onClick: CoinClickListener, private val onLongClick: CoinLongClickListener)
-    : RecyclerView.Adapter<RecyclerView.ViewHolder>(), FastScrollRecyclerView.SectionedAdapter {
+class AllCoinsAdapter(data: RealmResults<CoinMarketCapCurrencyRealm>, autoUpdate: Boolean,
+                      private var context: Context, val ccList: MutableList<CryptoCompareCurrencyRealm>,
+                      var onClick: CoinClickListener, var onLongClick: CoinLongClickListener)
+    : RealmRecyclerViewAdapter<CoinMarketCapCurrencyRealm, CurrencyListHelper.CurrencyViewHolder>(data, autoUpdate),
+        FastScrollRecyclerView.SectionedAdapter {
 
-    private var currencies: MutableList<CoinMarketCapCurrencyRealm> = ArrayList()
-    private var ccList: MutableList<CryptoCompareCurrencyRealm> = ArrayList()
+    var data: RealmResults<CoinMarketCapCurrencyRealm>? = null
+
 
     init {
-        ccList = presenter.repo.getAllCryptoCompareCoinsFromDb()
-    }
-
-    fun getCurrencies() = currencies
-
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
-        val currencyRealm = currencies[position]
-        val currencyHolder = holder as CurrencyListHelper.CurrencyViewHolder
-        CurrencyListHelper.bindCurrency(currencyHolder, currencyRealm, ccList, context,
-                onClick, onLongClick, false)
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder {
-
-        val itemView = LayoutInflater.from(parent?.context)
-                .inflate(R.layout.item_currency, parent, false)
-        return CurrencyListHelper.CurrencyViewHolder(itemView)
-    }
-
-    override fun getItemCount(): Int {
-        return currencies.size
-    }
-
-    fun setData(currencies: List<CoinMarketCapCurrencyRealm>) {
-        this.currencies.clear()
-        this.currencies.addAll(currencies)
-        notifyDataSetChanged()
+        setHasStableIds(true)
     }
 
     override fun getSectionName(position: Int): String {
         return (position + 1).toString()
     }
+
+    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): CurrencyListHelper.CurrencyViewHolder {
+        val itemView = LayoutInflater.from(parent?.context)
+                .inflate(R.layout.item_currency, parent, false)
+        return CurrencyListHelper.CurrencyViewHolder(itemView)
+    }
+
+    override fun onBindViewHolder(holder: CurrencyListHelper.CurrencyViewHolder?, position: Int) {
+        val currencyRealm = getItem(position)
+        CurrencyListHelper.bindCurrency(holder!!, currencyRealm!!, ccList, context,
+                onClick, onLongClick, true)
+    }
+
+
 }

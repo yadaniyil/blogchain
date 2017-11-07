@@ -37,8 +37,8 @@ object CurrencyListHelper {
             data = currencyRealm
             symbol.text = currencyRealm.symbol
             name.text = currencyRealm.name
-            usdRate.text = AmountFormatter.formatFiatPrice(currencyRealm?.priceUsd ?: "") + " USD"
-            btcRate.text = currencyRealm?.priceBtc + " BTC"
+            usdRate.text = AmountFormatter.formatFiatPrice(BigDecimal(currencyRealm?.priceUsd).toString()) + " USD"
+            btcRate.text = AmountFormatter.formatCryptoPrice(BigDecimal(currencyRealm.priceBtc).toString()) + " BTC"
             itemRootLayout.onClick { onClick.onClick(currencyHolder, currencyRealm) }
             itemRootLayout.onLongClick { onLongClick.onLongClick(currencyHolder, currencyRealm); true }
             initRatesChange(this, currencyRealm, context)
@@ -87,9 +87,9 @@ object CurrencyListHelper {
     private fun initRatesChange(currencyViewHolder: CurrencyViewHolder,
                                 currencyRealm: CoinMarketCapCurrencyRealm?, context: Context) {
         with(currencyViewHolder) {
-            hourChange.text = currencyRealm?.percentChange1h + "%"
-            dayChange.text = currencyRealm?.percentChange24h + "%"
-            weekChange.text = currencyRealm?.percentChange7d + "%"
+            hourChange.text = "${currencyRealm?.percentChange1h} %"
+            dayChange.text = "${currencyRealm?.percentChange24h} %"
+            weekChange.text = "${currencyRealm?.percentChange7d} %"
 
             if (hourChange.text.startsWith("-"))
                 hourChange.setTextColor(context.resources.getColor(R.color.md_red_900))
@@ -185,7 +185,7 @@ object CurrencyListHelper {
         if (portfolioRealm.buyPriceInFiat.isNullOrBlank())
             profitPercentage.text = "?"
         else
-            profitPercentage.text = calculateProfit(portfolioRealm.coin?.priceUsd?.toDoubleOrNull(),
+            profitPercentage.text = calculateProfit(portfolioRealm.coin?.priceUsd,
                     portfolioRealm.buyPriceInFiat?.toDoubleOrNull())
 
         // Setting color
@@ -209,6 +209,6 @@ object CurrencyListHelper {
     }
 
     fun calculatePortfolioFiatSum(portfolio: PortfolioRealm) =
-            (BigDecimal(portfolio.amountOfCoins) * BigDecimal(portfolio.coin?.priceUsd))
+            (BigDecimal(portfolio.amountOfCoins) * BigDecimal(portfolio.coin?.priceUsd ?: 0.0))
     // endregion Portfolio
 }

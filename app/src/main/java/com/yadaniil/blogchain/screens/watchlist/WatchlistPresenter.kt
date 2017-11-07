@@ -29,13 +29,13 @@ class WatchlistPresenter : MvpPresenter<WatchlistView>() {
             = repo.getAllFavouriteCoins()
 
     fun getAllRealmCurrencies(): RealmResults<CoinMarketCapCurrencyRealm>
-            = repo.getAllCoinMarketCapCoinsFromDb()
+            = repo.getAllCoinsFromDb()
 
     fun getCcRealmCurrencies(): RealmResults<CryptoCompareCurrencyRealm>
             = repo.getAllCryptoCompareCoinsFromDb()
 
     fun addCoinToFavourite(symbol: String?) {
-        val coin = repo.getCMCCoinFromDb(symbol ?: "")
+        val coin = repo.getCoinFromDb(symbol ?: "")
         repo.addCoinToFavourite(coin)
     }
 
@@ -49,7 +49,7 @@ class WatchlistPresenter : MvpPresenter<WatchlistView>() {
                     viewState.hideSwipeRefreshLoading() }
                 .doOnComplete { viewState.stopToolbarLoading() }
                 .subscribe({ currenciesList ->
-                    repo.saveCoinMarketCapCoinsToDb(currenciesList)
+                    repo.saveCoinsToDb(currenciesList)
                 }, { error ->
                     viewState.showLoadingError()
                     viewState.stopToolbarLoading()

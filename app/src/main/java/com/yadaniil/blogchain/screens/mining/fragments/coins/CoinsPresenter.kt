@@ -67,6 +67,6 @@ class CoinsPresenter : MvpPresenter<CoinsView>() {
                 it.name.startsWith(query, true) }
     }
 
-    fun getAllCmcCurrencies() = repo.getAllCoinMarketCapCoinsFromDb()
+    fun getAllCmcCurrencies() = repo.getAllCoinsFromDb()
     fun getAllCcCurrencies() = repo.getAllCryptoCompareCoinsFromDb()
 }

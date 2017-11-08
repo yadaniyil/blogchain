@@ -57,7 +57,7 @@ class AllCoinsPresenter : MvpPresenter<AllCoinsView>() {
     }
 
     private fun downloadCMCList() {
-        repo.getAllCurrencies()
+        repo.getAllCurrencies(limit = "0")
                 .subscribeOn(Schedulers.io())
                 .map { CoinMarketCapCurrencyRealm.convertApiResponseToRealmList(it) }
                 .observeOn(AndroidSchedulers.mainThread())

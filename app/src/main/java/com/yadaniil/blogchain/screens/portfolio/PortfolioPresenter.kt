@@ -27,7 +27,7 @@ class PortfolioPresenter : MvpPresenter<PortfolioView>() {
     fun getAllCcCoin() = repo.getAllCryptoCompareCoinsFromDb()
 
     fun downloadAndSaveAllCurrencies() {
-        repo.getAllCurrencies()
+        repo.getAllCurrencies(limit = "0")
                 .subscribeOn(Schedulers.io())
                 .map { CoinMarketCapCurrencyRealm.convertApiResponseToRealmList(it) }
                 .observeOn(AndroidSchedulers.mainThread())

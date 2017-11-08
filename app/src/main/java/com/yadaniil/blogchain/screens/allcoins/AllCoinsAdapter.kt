@@ -44,7 +44,7 @@ class AllCoinsAdapter(data: RealmResults<CoinMarketCapCurrencyRealm>, autoUpdate
     override fun onBindViewHolder(holder: ListHelper.CoinViewHolder?, position: Int) {
         val currencyRealm = getItem(position)
         ListHelper.bindCurrency(holder!!, currencyRealm!!, ccList, context,
-                onClick, onLongClick, true)
+                onClick, onLongClick, false)
     }
 
 

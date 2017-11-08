@@ -112,4 +112,7 @@
     <string name="optional">Опционально</string>
     <string name="wallet_name">Название кошелька</string>
     <string name="exchange_name">Название биржи</string>
+    <string name="amount_of_coins_should_not_be_empty">Количество монет не должно быть пустым</string>
+    <string name="no_items_in_portfolio">У вас нет монет в портфолио</string>
+    <string name="no_favourite_coins">У вас нет любимых монет</string>
 </resources>

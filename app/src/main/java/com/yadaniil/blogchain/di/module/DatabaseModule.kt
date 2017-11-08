@@ -19,8 +19,9 @@ class DatabaseModule {
     fun provideRealm(context: Context): Realm {
         Realm.init(context)
         val realmConfig = RealmConfiguration.Builder()
-                .schemaVersion(3) // Must be bumped when the schema changes
-                .migration(RealmDbMigration()) // Migration to run instead of throwing an exception
+//                .schemaVersion(3) // Must be bumped when the schema changes
+//                .migration(RealmDbMigration()) // Migration to run instead of throwing an exception
+                .deleteRealmIfMigrationNeeded()
                 .build()
         Realm.setDefaultConfiguration(realmConfig)
         return Realm.getInstance(realmConfig)

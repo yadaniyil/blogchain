@@ -17,6 +17,7 @@ import com.yadaniil.blogchain.screens.base.BaseActivity
 import com.yadaniil.blogchain.screens.base.CoinClickListener
 import com.yadaniil.blogchain.screens.base.CoinLongClickListener
 import com.yadaniil.blogchain.utils.ListHelper
+import io.realm.RealmChangeListener
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.no_items_filtered_layout.*
@@ -132,25 +133,23 @@ class AllCoinsActivity : BaseActivity(), AllCoinsView, CoinClickListener, CoinLo
         currencies_recycler_view.removeItemDecoration(listDivider)
         currencies_recycler_view.addItemDecoration(listDivider)
 
-        allCoinsAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
-            override fun onChanged() {
-                if (allCoinsAdapter.itemCount > 0) {
+        realmCurrencies.addChangeListener { coins ->
+            if (coins!!.isNotEmpty()) {
+                no_items_layout.visibility = View.GONE
+                swipe_refresh.visibility = View.VISIBLE
+                no_items_filtered_layout.visibility = View.GONE
+            } else {
+                if (search_view.isSearchOpen) {
                     no_items_layout.visibility = View.GONE
-                    swipe_refresh.visibility = View.VISIBLE
-                    no_items_filtered_layout.visibility = View.GONE
+                    swipe_refresh.visibility = View.GONE
+                    no_items_filtered_layout.visibility = View.VISIBLE
                 } else {
-                    if (search_view.isSearchOpen) {
-                        no_items_layout.visibility = View.GONE
-                        swipe_refresh.visibility = View.GONE
-                        no_items_filtered_layout.visibility = View.VISIBLE
-                    } else {
-                        no_items_filtered_layout.visibility = View.GONE
-                        no_items_layout.visibility = View.VISIBLE
-                        swipe_refresh.visibility = View.GONE
-                    }
+                    no_items_filtered_layout.visibility = View.GONE
+                    no_items_layout.visibility = View.VISIBLE
+                    swipe_refresh.visibility = View.GONE
                 }
             }
-        })
+        }
     }
 
     private fun colorSortButtonToWhite() {

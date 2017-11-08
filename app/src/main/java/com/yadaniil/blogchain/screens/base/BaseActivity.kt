@@ -22,7 +22,7 @@ abstract class BaseActivity : MvpAppCompatActivity(), BaseView {
 
     private lateinit var interstitialAd: InterstitialAd
     lateinit var drawer: Drawer
-    val NAV_DRAWER_DELAY: Long = 500
+    val NAV_DRAWER_DELAY: Long = 400
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

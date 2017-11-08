@@ -13,6 +13,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.squareup.picasso.Picasso
 import com.yadaniil.blogchain.R
 import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
+import com.yadaniil.blogchain.data.db.models.PortfolioRealm
 import com.yadaniil.blogchain.utils.CurrencyHelper
 import com.yadaniil.blogchain.utils.CurrencyHelper.getSymbolFromFullName
 import com.yadaniil.blogchain.utils.Endpoints
@@ -28,17 +29,22 @@ import org.jetbrains.anko.toast
 class AddToPortfolioActivity : MvpAppCompatActivity(), AddToPortfolioView {
 
     @InjectPresenter lateinit var presenter: AddToPortfolioPresenter
+    private var portfolioToEdit: PortfolioRealm? = null
 
     // region Activity
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_to_portfolio)
+
         initToolbar()
+        val portfolioId = intent.extras.getString("id")
+        portfolioToEdit = presenter.getSinglePortfolio(portfolioId)
         presenter.showCoins()
         UiHelper.addCryptocurrencyInputFilter(amount_edit_text)
         UiHelper.addFiatInputFilter(buy_price_edit_text)
         initStorageType()
         initStorageName()
+        fillPortfolioIfEditing()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -61,7 +67,7 @@ class AddToPortfolioActivity : MvpAppCompatActivity(), AddToPortfolioView {
                             amount_edit_text.text.toString(),
                             buy_price_edit_text.text.toString(),
                             storage_type_spinner.selectedItem.toString(),
-                            storage_name_edit_text.text.toString())
+                            storage_name_edit_text.text.toString(), portfolioToEdit)
                     finish()
                 }
                 true
@@ -99,6 +105,23 @@ class AddToPortfolioActivity : MvpAppCompatActivity(), AddToPortfolioView {
     }
     // endregion Init
 
+    private fun fillPortfolioIfEditing() {
+        if(portfolioToEdit == null) return
+        amount_edit_text.setText(portfolioToEdit?.amountOfCoins)
+        buy_price_edit_text.setText(portfolioToEdit?.buyPriceInFiat)
+        storage_name_edit_text.setText(portfolioToEdit?.storageName)
+
+        // Select item in storage type spinner
+        (0 until storage_type_spinner.count).forEach {
+            if(storage_type_spinner.getItemAtPosition(it).toString() == portfolioToEdit?.storageType) {
+                storage_type_spinner.setSelection(it)
+                return@forEach
+            }
+        }
+
+        // The item selection for coin spinner is located in showCoin method
+    }
+
     override fun showCoin(coins: List<CoinMarketCapCurrencyRealm>) {
         val coinsForDisplay = coins.map { "${it.name} (${it.symbol})" }
         val adapter = ArrayAdapter(this,
@@ -113,6 +136,17 @@ class AddToPortfolioActivity : MvpAppCompatActivity(), AddToPortfolioView {
             }
         }
         coin_spinner.adapter = adapter
+
+        // select item in coin spinner
+        if(portfolioToEdit != null) {
+            (0 until coin_spinner.count).forEach {
+                if(coin_spinner.getItemAtPosition(it).toString() ==
+                        "${portfolioToEdit?.coin?.name} (${portfolioToEdit?.coin?.symbol})") {
+                    coin_spinner.setSelection(it)
+                    return@forEach
+                }
+            }
+        }
     }
 
     private fun showCoinIcon() {

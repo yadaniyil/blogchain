@@ -6,6 +6,7 @@ import com.yadaniil.blogchain.data.db.AppDbHelper
 import com.yadaniil.blogchain.data.db.DbHelper
 import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
 import com.yadaniil.blogchain.data.db.models.CryptoCompareCurrencyRealm
+import com.yadaniil.blogchain.data.db.models.PortfolioRealm
 import com.yadaniil.blogchain.data.prefs.SharedPrefs
 import com.yadaniil.blogchain.data.prefs.SharedPrefsHelper
 import io.reactivex.Observable
@@ -63,6 +64,14 @@ class Repository @Inject constructor(private var appApiHelper: AppApiHelper,
 
     override fun getAllCoinsSorted(fieldName: String, sortOrder: Sort) =
             appDbHelper.getAllCoinsSorted(fieldName, sortOrder)
+
+    override fun getSinglePortfolio(portfolioId: String) = appDbHelper.getSinglePortfolio(portfolioId)
+
+    override fun editPortfolio(portfolioItem: PortfolioRealm, coin: CoinMarketCapCurrencyRealm,
+                               amountOfCoins: String, buyPriceOfCoin: String,
+                               storageType: String, storageName: String)
+            = appDbHelper.editPortfolio(portfolioItem, coin, amountOfCoins,
+            buyPriceOfCoin, storageType, storageName)
     // endregion Db
 
     // region Api

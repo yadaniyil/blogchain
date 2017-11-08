@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.yadaniil.blogchain.R
 import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
-import com.yadaniil.blogchain.utils.CurrencyListHelper
+import com.yadaniil.blogchain.utils.ListHelper
 import io.realm.RealmRecyclerViewAdapter
 import io.realm.RealmResults
 
@@ -14,25 +14,25 @@ import io.realm.RealmResults
 
 class FindCoinAdapter(data: RealmResults<CoinMarketCapCurrencyRealm>, autoUpdate: Boolean,
                       var onClick: SimpleItemClickListener)
-    : RealmRecyclerViewAdapter<CoinMarketCapCurrencyRealm, CurrencyListHelper.StringViewHolder>(data, autoUpdate) {
+    : RealmRecyclerViewAdapter<CoinMarketCapCurrencyRealm, ListHelper.StringViewHolder>(data, autoUpdate) {
 
     interface SimpleItemClickListener {
-        fun onClick(holder: CurrencyListHelper.StringViewHolder?, currencyRealm: CoinMarketCapCurrencyRealm)
+        fun onClick(holder: ListHelper.StringViewHolder?, currencyRealm: CoinMarketCapCurrencyRealm)
     }
 
     init {
         setHasStableIds(true)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): CurrencyListHelper.StringViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ListHelper.StringViewHolder {
         val itemView = LayoutInflater.from(parent?.context)
                 .inflate(R.layout.item_simple_list, parent, false)
-        return CurrencyListHelper.StringViewHolder(itemView)
+        return ListHelper.StringViewHolder(itemView)
     }
 
-    override fun onBindViewHolder(holder: CurrencyListHelper.StringViewHolder?, position: Int) {
+    override fun onBindViewHolder(holder: ListHelper.StringViewHolder?, position: Int) {
         val currencyRealm = getItem(position)
-        CurrencyListHelper.bindSimpleItem(holder!!, currencyRealm, onClick)
+        ListHelper.bindSimpleItem(holder!!, currencyRealm, onClick)
     }
 
 }

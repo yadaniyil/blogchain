@@ -8,7 +8,7 @@ import com.yadaniil.blogchain.screens.base.CoinClickListener
 import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
 import com.yadaniil.blogchain.data.db.models.CryptoCompareCurrencyRealm
 import com.yadaniil.blogchain.screens.base.CoinLongClickListener
-import com.yadaniil.blogchain.utils.CurrencyListHelper
+import com.yadaniil.blogchain.utils.ListHelper
 import io.realm.RealmRecyclerViewAdapter
 import io.realm.RealmResults
 
@@ -19,21 +19,21 @@ import io.realm.RealmResults
 class WatchlistAdapter(data: RealmResults<CoinMarketCapCurrencyRealm>, autoUpdate: Boolean,
                        private var context: Context, val ccList: MutableList<CryptoCompareCurrencyRealm>,
                        var onClick: CoinClickListener, var onLongClick: CoinLongClickListener)
-    : RealmRecyclerViewAdapter<CoinMarketCapCurrencyRealm, CurrencyListHelper.CurrencyViewHolder>(data, autoUpdate) {
+    : RealmRecyclerViewAdapter<CoinMarketCapCurrencyRealm, ListHelper.CoinViewHolder>(data, autoUpdate) {
 
     init {
         setHasStableIds(true)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): CurrencyListHelper.CurrencyViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ListHelper.CoinViewHolder {
         val itemView = LayoutInflater.from(parent?.context)
                 .inflate(R.layout.item_currency, parent, false)
-        return CurrencyListHelper.CurrencyViewHolder(itemView)
+        return ListHelper.CoinViewHolder(itemView)
     }
 
-    override fun onBindViewHolder(holder: CurrencyListHelper.CurrencyViewHolder?, position: Int) {
+    override fun onBindViewHolder(holder: ListHelper.CoinViewHolder?, position: Int) {
         val currencyRealm = getItem(position)
-        CurrencyListHelper.bindCurrency(holder!!, currencyRealm!!, ccList, context,
+        ListHelper.bindCurrency(holder!!, currencyRealm!!, ccList, context,
                 onClick, onLongClick, true)
     }
 

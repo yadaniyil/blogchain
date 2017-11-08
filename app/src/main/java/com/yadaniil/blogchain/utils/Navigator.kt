@@ -40,8 +40,8 @@ object Navigator {
         activity.finish()
     }
 
-    fun toAddCoinToPortfolioActivity(activity: AppCompatActivity) {
-        activity.startActivity<AddToPortfolioActivity>()
+    fun toAddCoinToPortfolioActivity(activity: AppCompatActivity, id: String = "") {
+        activity.startActivity<AddToPortfolioActivity>("id" to id)
     }
 
 }

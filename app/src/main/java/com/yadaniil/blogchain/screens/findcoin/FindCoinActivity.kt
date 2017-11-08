@@ -12,7 +12,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.miguelcatalan.materialsearchview.MaterialSearchView
 import com.yadaniil.blogchain.R
 import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
-import com.yadaniil.blogchain.utils.CurrencyListHelper
+import com.yadaniil.blogchain.utils.ListHelper
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_find_coin.*
 import kotlinx.android.synthetic.main.no_items_filtered_layout.*
@@ -116,7 +116,7 @@ class FindCoinActivity : MvpAppCompatActivity(), FindCoinView, FindCoinAdapter.S
         })
     }
 
-    override fun onClick(holder: CurrencyListHelper.StringViewHolder?, currencyRealm: CoinMarketCapCurrencyRealm) {
+    override fun onClick(holder: ListHelper.StringViewHolder?, currencyRealm: CoinMarketCapCurrencyRealm) {
         val returnIntent = Intent()
         returnIntent.putExtra(PICKED_COIN_SYMBOL, currencyRealm.symbol)
         setResult(Activity.RESULT_OK, returnIntent)

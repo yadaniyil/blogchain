@@ -10,7 +10,7 @@ import com.yadaniil.blogchain.R
 import com.yadaniil.blogchain.data.db.models.PortfolioRealm
 import com.yadaniil.blogchain.screens.base.BaseActivity
 import com.yadaniil.blogchain.utils.AmountFormatter
-import com.yadaniil.blogchain.utils.CurrencyListHelper
+import com.yadaniil.blogchain.utils.ListHelper
 import com.yadaniil.blogchain.utils.Navigator
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_portfolio.*
@@ -23,7 +23,7 @@ import java.math.BigDecimal
  * Created by danielyakovlev on 11/3/17.
  */
 
-class PortfolioActivity : BaseActivity(), PortfolioView {
+class PortfolioActivity : BaseActivity(), PortfolioView, PortfolioAdapter.OnClick, PortfolioAdapter.OnLongClick {
 
     @InjectPresenter
     lateinit var presenter: PortfolioPresenter
@@ -68,7 +68,7 @@ class PortfolioActivity : BaseActivity(), PortfolioView {
 
     private fun initPortfolioList() {
         portfolioAdapter = PortfolioAdapter(presenter.getPortfolios(), true,
-                this, presenter.getAllCcCoin())
+                this, presenter.getAllCcCoin(), this, this)
         watchlist_recycler_view.layoutManager = LinearLayoutManager(this)
         watchlist_recycler_view.adapter = portfolioAdapter
         watchlist_recycler_view.itemAnimator = null
@@ -95,7 +95,7 @@ class PortfolioActivity : BaseActivity(), PortfolioView {
         else {
             var sum: BigDecimal = BigDecimal.ZERO
             portfolios.forEach {
-                sum += CurrencyListHelper.calculatePortfolioFiatSum(it)
+                sum += ListHelper.calculatePortfolioFiatSum(it)
             }
 
             total_amount.text = "${AmountFormatter.formatFiatPrice(sum)} USD"
@@ -113,6 +113,13 @@ class PortfolioActivity : BaseActivity(), PortfolioView {
     override fun hideSwipeRefreshLoading() {
         if(swipe_refresh.isRefreshing)
             swipe_refresh.isRefreshing = false
+    }
+
+    override fun onLongClick(holder: ListHelper.PortfolioViewHolder, portfolioItem: PortfolioRealm) =
+            Navigator.toAddCoinToPortfolioActivity(this, portfolioItem.id)
+
+    override fun onClick(holder: ListHelper.PortfolioViewHolder, portfolioItem: PortfolioRealm) {
+
     }
     // endregion View
 

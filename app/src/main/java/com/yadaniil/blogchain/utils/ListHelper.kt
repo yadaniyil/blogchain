@@ -17,6 +17,7 @@ import com.yadaniil.blogchain.data.db.models.CryptoCompareCurrencyRealm
 import com.yadaniil.blogchain.data.db.models.PortfolioRealm
 import com.yadaniil.blogchain.screens.base.CoinLongClickListener
 import com.yadaniil.blogchain.screens.findcoin.FindCoinAdapter
+import com.yadaniil.blogchain.screens.portfolio.PortfolioAdapter
 import org.jetbrains.anko.*
 import timber.log.Timber
 import java.math.BigDecimal
@@ -25,13 +26,13 @@ import java.math.BigDecimal
  * Created by danielyakovlev on 10/31/17.
  */
 
-object CurrencyListHelper {
+object ListHelper {
 
     // region Currency
-    fun bindCurrency(currencyHolder: CurrencyViewHolder, currencyRealm: CoinMarketCapCurrencyRealm,
+    fun bindCurrency(coinHolder: CoinViewHolder, currencyRealm: CoinMarketCapCurrencyRealm,
                      ccList: MutableList<CryptoCompareCurrencyRealm>, context: Context,
                      onClick: CoinClickListener, onLongClick: CoinLongClickListener, removeRank: Boolean) {
-        with(currencyHolder) {
+        with(coinHolder) {
             if (removeRank) rank.visibility = View.GONE else rank.text = currencyRealm.rank.toString()
 
             data = currencyRealm
@@ -39,8 +40,8 @@ object CurrencyListHelper {
             name.text = currencyRealm.name
             usdRate.text = AmountFormatter.formatFiatPrice(BigDecimal(currencyRealm?.priceUsd).toString()) + " USD"
             btcRate.text = AmountFormatter.formatCryptoPrice(BigDecimal(currencyRealm.priceBtc).toString()) + " BTC"
-            itemRootLayout.onClick { onClick.onClick(currencyHolder, currencyRealm) }
-            itemRootLayout.onLongClick { onLongClick.onLongClick(currencyHolder, currencyRealm); true }
+            itemRootLayout.onClick { onClick.onClick(coinHolder, currencyRealm) }
+            itemRootLayout.onLongClick { onLongClick.onLongClick(coinHolder, currencyRealm); true }
             initRatesChange(this, currencyRealm, context)
 
             if (currencyRealm.iconBytes == null) {
@@ -84,9 +85,9 @@ object CurrencyListHelper {
         }
     }
 
-    private fun initRatesChange(currencyViewHolder: CurrencyViewHolder,
+    private fun initRatesChange(coinViewHolder: CoinViewHolder,
                                 currencyRealm: CoinMarketCapCurrencyRealm?, context: Context) {
-        with(currencyViewHolder) {
+        with(coinViewHolder) {
             hourChange.text = "${currencyRealm?.percentChange1h} %"
             dayChange.text = "${currencyRealm?.percentChange24h} %"
             weekChange.text = "${currencyRealm?.percentChange7d} %"
@@ -125,7 +126,7 @@ object CurrencyListHelper {
         }
     }
 
-    class CurrencyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    class CoinViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var itemRootLayout: LinearLayout = view.find(R.id.item_root_layout)
         var symbol: TextView = view.find(R.id.item_currency_symbol)
         var name: TextView = view.find(R.id.item_currency_name)
@@ -167,7 +168,8 @@ object CurrencyListHelper {
     }
 
     fun bindPortfolioItem(holder: PortfolioViewHolder, portfolioRealm: PortfolioRealm,
-                          context: Context, ccList: MutableList<CryptoCompareCurrencyRealm>) {
+                          context: Context, ccList: MutableList<CryptoCompareCurrencyRealm>,
+                          onClick: PortfolioAdapter.OnClick, onLongClick: PortfolioAdapter.OnLongClick) {
         with(holder) {
             symbol.text = portfolioRealm.coin?.symbol
             name.text = portfolioRealm.coin?.name
@@ -175,6 +177,8 @@ object CurrencyListHelper {
             fiatBalance.text = "${AmountFormatter
                     .formatFiatPrice(calculatePortfolioFiatSum(portfolioRealm))} ${context.getString(R.string.usd)}"
             setPortfolioProfit(portfolioRealm, profitPercentage, context)
+            itemRootLayout.onClick { onClick.onClick(holder, portfolioRealm) }
+            itemRootLayout.onLongClick { onLongClick.onLongClick(holder, portfolioRealm); true }
 
             downloadAndSaveIcon(icon, portfolioRealm.coin, ccList, context)
         }

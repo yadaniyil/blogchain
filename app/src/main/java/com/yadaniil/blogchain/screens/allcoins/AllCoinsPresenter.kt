@@ -41,17 +41,18 @@ class AllCoinsPresenter : MvpPresenter<AllCoinsView>() {
                 .subscribeOn(Schedulers.io())
                 .map { CryptoCompareCurrencyRealm.convertApiResponseToRealmList(it) }
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { viewState.showToolbarLoading()
-                    viewState.showLoading(); viewState.hideSwipeRefreshLoading() }
+                .doOnSubscribe {
+                    viewState.showToolbarLoading()
+                    viewState.showLoading(); viewState.hideSwipeRefreshLoading()
+                }
                 .doOnComplete { downloadCMCList() }
                 .subscribe({ currenciesList ->
                     repo.saveCryptoCompareCoinsToDb(currenciesList)
+                }, { error ->
+                    viewState.showLoadingError()
+                    viewState.stopToolbarLoading()
+                    Timber.e(error.message)
                 }
-//                        , { error ->
-//                    viewState.showLoadingError()
-//                    viewState.stopToolbarLoading()
-//                    Timber.e(error.message)
-//                }
                 )
     }
 
@@ -64,12 +65,11 @@ class AllCoinsPresenter : MvpPresenter<AllCoinsView>() {
                 .subscribe({ currenciesList ->
                     repo.saveCoinsToDb(currenciesList)
                     repo.getAllCoinsFromDb()
+                }, { error ->
+                    viewState.showLoadingError()
+                    viewState.stopToolbarLoading()
+                    Timber.e(error.message)
                 }
-//                        , { error ->
-//                    viewState.showLoadingError()
-//                    viewState.stopToolbarLoading()
-//                    Timber.e(error.message)
-//                }
                 )
     }
 

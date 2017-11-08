@@ -16,7 +16,7 @@ import com.yadaniil.blogchain.screens.base.CoinClickListener
 import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
 import com.yadaniil.blogchain.screens.base.CoinLongClickListener
 import com.yadaniil.blogchain.screens.findcoin.FindCoinActivity
-import com.yadaniil.blogchain.utils.CurrencyListHelper
+import com.yadaniil.blogchain.utils.ListHelper
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_watchlist.*
 import org.jetbrains.anko.alert
@@ -141,11 +141,11 @@ class WatchlistActivity : BaseActivity(), WatchlistView, CoinClickListener, Coin
             swipe_refresh.isRefreshing = false
     }
 
-    override fun onClick(holder: CurrencyListHelper.CurrencyViewHolder, currencyRealm: CoinMarketCapCurrencyRealm) {
+    override fun onClick(holder: ListHelper.CoinViewHolder, currencyRealm: CoinMarketCapCurrencyRealm) {
         // To coin activity
     }
 
-    override fun onLongClick(holder: CurrencyListHelper.CurrencyViewHolder, currencyRealm: CoinMarketCapCurrencyRealm) {
+    override fun onLongClick(holder: ListHelper.CoinViewHolder, currencyRealm: CoinMarketCapCurrencyRealm) {
         alert {
             title(R.string.remove_from_favourite_question)
             message("${currencyRealm.name} (${currencyRealm.symbol})")

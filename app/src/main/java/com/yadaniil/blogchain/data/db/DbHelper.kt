@@ -3,7 +3,6 @@ package com.yadaniil.blogchain.data.db
 import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
 import com.yadaniil.blogchain.data.db.models.CryptoCompareCurrencyRealm
 import com.yadaniil.blogchain.data.db.models.PortfolioRealm
-import io.realm.RealmAsyncTask
 import io.realm.RealmResults
 import io.realm.Sort
 
@@ -33,5 +32,7 @@ interface DbHelper {
     fun addCoinToPortfolio(coin: CoinMarketCapCurrencyRealm, amountOfCoins: String,
                            buyPriceOfCoin: String, storageType: String, storageName: String)
     fun getAllPortfolio(): RealmResults<PortfolioRealm>
+    fun getSinglePortfolio(portfolioId: String): PortfolioRealm?
+    fun editPortfolio(portfolioItem: PortfolioRealm, coin: CoinMarketCapCurrencyRealm, amountOfCoins: String, buyPriceOfCoin: String, storageType: String, storageName: String)
     // endregion Portfolio
 }

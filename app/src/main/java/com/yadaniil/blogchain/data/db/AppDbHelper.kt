@@ -94,5 +94,20 @@ class AppDbHelper : DbHelper {
     override fun getAllPortfolio(): RealmResults<PortfolioRealm> {
         return realm.where(PortfolioRealm::class.java).findAllAsync()
     }
+
+    override fun getSinglePortfolio(portfolioId: String): PortfolioRealm? =
+        realm.where(PortfolioRealm::class.java).equalTo("id", portfolioId).findFirst()
+
+    override fun editPortfolio(portfolioItem: PortfolioRealm, coin: CoinMarketCapCurrencyRealm,
+                               amountOfCoins: String, buyPriceOfCoin: String,
+                               storageType: String, storageName: String) {
+        realm.executeTransaction { realm ->
+            portfolioItem.coin = coin
+            portfolioItem.amountOfCoins = amountOfCoins
+            portfolioItem.buyPriceInFiat = buyPriceOfCoin
+            portfolioItem.storageType = storageType
+            portfolioItem.storageName = storageName
+        }
+    }
     // endregion Portfolio
 }

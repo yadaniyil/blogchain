@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/currency_item_height"
-    android:background="@color/white"
+    android:background="?android:attr/selectableItemBackground"
     android:orientation="horizontal"
     android:id="@+id/item_coin_layout"
     android:paddingEnd="@dimen/half_standard_dimen"

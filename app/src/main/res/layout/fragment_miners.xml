@@ -29,7 +29,6 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#E4E6E3"
         android:id="@+id/miners_frame_layout"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 

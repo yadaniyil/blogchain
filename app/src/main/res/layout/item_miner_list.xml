@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
     android:id="@+id/miner_item_layout"
-    android:background="@color/white"
+    android:background="?android:attr/selectableItemBackground"
     android:padding="@dimen/half_standard_dimen"
     android:layout_height="wrap_content">
 

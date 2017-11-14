@@ -193,23 +193,21 @@ object ListHelper {
                     portfolioRealm.buyPriceInFiat?.toDoubleOrNull())
 
         // Setting color
-        if(profitPercentage.text.startsWith("-"))
+        if (profitPercentage.text.startsWith("-"))
             profitPercentage.setTextColor(context.resources.getColor(R.color.md_red_900))
-        else if(profitPercentage.text != "?")
+        else if (profitPercentage.text != "?")
             profitPercentage.setTextColor(context.resources.getColor(R.color.md_green_900))
 
-        if(profitPercentage.text != "?")
+        if (profitPercentage.text != "?")
             profitPercentage.text = "${profitPercentage.text} %"
     }
 
     private fun calculateProfit(currentPrice: Double?, buyPrice: Double?): String {
         if (currentPrice == null || buyPrice == null) return "?"
 
-        val difference = currentPrice - buyPrice
-        val secondStep = difference / currentPrice
-        val finalResult = secondStep * 100
-
-        return AmountFormatter.formatFiatPrice(finalResult.toString())
+        val increase = currentPrice - buyPrice
+        val result = increase / buyPrice * 100
+        return AmountFormatter.formatFiatPrice(result.toString())
     }
 
     fun calculatePortfolioFiatSum(portfolio: PortfolioRealm) =

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog bulletedList="true">
 
-    <changelogversion versionName="0.3.0" changeDate="Nov 09,2017">
+    <changelogversion versionName="0.3.0" changeDate="Nov 14,2017">
         <changelogtext><![CDATA[<b><font color=#43A047>New!</font></b> Meet favourite coins! Use this section to watch the most interesting coins for you]]></changelogtext>
         <changelogtext><![CDATA[<b><font color=#43A047>New!</font></b> Meet portfolio! Use this section to track and modify your balance]]></changelogtext>
     </changelogversion>

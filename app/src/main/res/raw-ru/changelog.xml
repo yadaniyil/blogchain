@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog bulletedList="true">
 
-    <changelogversion versionName="0.3.0" changeDate="09 ноябррря, 2017">
+    <changelogversion versionName="0.3.0" changeDate="14 ноябррря, 2017">
         <changelogtext><![CDATA[<b><font color=#43A047>New!</font></b> Встречай любимые монеты! Используй эту секцию чтобы следить за самыми интересными монетами]]></changelogtext>
         <changelogtext><![CDATA[<b><font color=#43A047>New!</font></b> Встречай портфолио! Используй эту секцию чтобы следить и управлять своим балансом]]></changelogtext>
     </changelogversion>

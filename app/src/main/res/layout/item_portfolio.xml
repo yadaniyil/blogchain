@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/currency_item_height"
+    android:background="?android:attr/selectableItemBackground"
+    android:orientation="horizontal"
+    android:id="@+id/item_root_layout"
+    android:paddingEnd="@dimen/half_standard_dimen"
+    android:paddingLeft="@dimen/half_standard_dimen"
+    android:paddingStart="@dimen/half_standard_dimen">
+
+    <TextView
+        android:id="@+id/item_currency_rank"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/currency_item_name_text_size"
+        android:layout_gravity="center_vertical" />
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_weight="8"
+        android:layout_height="match_parent"
+        android:padding="@dimen/half_standard_dimen"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/item_currency_icon"
+            android:layout_centerHorizontal="true"
+            android:layout_width="@dimen/currency_item_icon_diameter"
+            android:layout_height="@dimen/currency_item_icon_diameter"
+            android:layout_gravity="center_vertical" />
+
+        <TextView
+            android:id="@+id/item_currency_name"
+            android:layout_width="match_parent"
+            android:gravity="center_horizontal"
+            android:singleLine="true"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/item_currency_icon"
+            android:textSize="@dimen/currency_item_symbol_text_size" />
+
+        <TextView
+            android:id="@+id/item_currency_symbol"
+            android:layout_width="match_parent"
+            android:gravity="center_horizontal"
+            android:singleLine="true"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/item_currency_name"
+            android:textSize="@dimen/currency_item_name_text_size" />
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="20"
+        android:layout_height="match_parent"
+        android:padding="@dimen/half_standard_dimen">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:orientation="vertical"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/item_fiat_balance"
+                android:gravity="start"
+                android:textStyle="bold"
+                android:singleLine="true"
+                android:padding="@dimen/half_standard_dimen"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content" />
+
+            <TextView
+                android:id="@+id/item_coin_amount"
+                android:gravity="start"
+                android:singleLine="true"
+                android:textSize="@dimen/btc_price_text_size"
+                android:paddingStart="@dimen/half_standard_dimen"
+                android:paddingEnd="@dimen/half_standard_dimen"
+                android:paddingBottom="@dimen/half_standard_dimen"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="@string/profit"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content" />
+
+                <TextView
+                    android:id="@+id/item_profit_percentage"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:text="50%"
+                    android:layout_marginTop="@dimen/half_standard_dimen"
+                    android:singleLine="true"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

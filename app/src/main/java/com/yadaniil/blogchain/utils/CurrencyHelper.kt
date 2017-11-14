@@ -24,12 +24,12 @@ object CurrencyHelper {
         }
     }
 
-    fun getImageLinkForCurrency(symbol: String,
-                                ccCurrencies: List<CryptoCompareCurrencyRealm>): String {
-        return if(symbol.isNullOrBlank()) {
-            ""
-        } else {
-            ccCurrencies.find { it.name == symbol }?.imageUrl ?: ""
-        }
-    }
+    // For formatFiatPrice Bitcoin (BTC)
+    fun getSymbolFromFullName(fullCoinName: String) =
+            fullCoinName.substring(fullCoinName.indexOf("(") + 1, fullCoinName.indexOf(")"))
+
+    fun getNameFromFullName(fullCoinName: String) =
+            fullCoinName.substring(0, fullCoinName.indexOf("(") - 1)
+
+
 }

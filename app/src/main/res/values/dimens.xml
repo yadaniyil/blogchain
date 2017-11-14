@@ -12,10 +12,14 @@
     <dimen name="quater_standard_dimen">4dp</dimen>
     <dimen name="currency_item_name_text_size">10sp</dimen>
     <dimen name="currency_item_symbol_text_size">12sp</dimen>
-    <dimen name="btc_price_text_size">10sp</dimen>
+    <dimen name="btc_price_text_size">12sp</dimen>
     <dimen name="text_size_big">24sp</dimen>
     <dimen name="text_size_normal">18sp</dimen>
     <dimen name="text_size_small">12sp</dimen>
+    <dimen name="text_size_portfolio_btc_balance">16sp</dimen>
     <dimen name="dialog_title_start_margin">24dp</dimen>
     <dimen name="text_size_title_material">20sp</dimen>
+    <dimen name="bottom_bar_height">60dp</dimen>
+    <dimen name="bottom_bar_with_ad_height">110dp</dimen>
+    <dimen name="fab_bottom_margin_with_ad">56dp</dimen>
 </resources>

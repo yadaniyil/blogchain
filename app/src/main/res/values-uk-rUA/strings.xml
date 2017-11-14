@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Блогчейн</string>
     <string name="loading">Завантаження…</string>
-    <string name="drawer_item_currencies">Валюти</string>
+    <string name="drawer_item_all_coins">Валюти</string>
     <string name="drawer_item_exchanges">Біржі</string>
     <string name="drawer_item_portfolio">Портфоліо</string>
     <string name="drawer_item_settings">Налаштування</string>
@@ -58,6 +58,13 @@
         <item>X11</item>
         <item>CryptoNight</item>
     </string-array>
+
+    <string-array name="storage_types">
+        <item>Програмний гаманець</item>
+        <item>Апаратний гаманець</item>
+        <item>Біржа</item>
+    </string-array>
+
     <string name="whats_new">Щось нове?</string>
     <string name="something_went_wrong">Упс. Щось пішло не так</string>
     <string name="retry">Спробувати ще</string>
@@ -87,4 +94,25 @@
     <string name="month">Місяць</string>
     <string name="year">Рік</string>
     <string name="error">Помилка</string>
+    <string name="drawer_item_ad">Не чіпай!</string>
+    <string name="drawer_item_watchlist">Улюблені</string>
+    <string name="is_now_in_watchlist">тепер в улюблених</string>
+    <string name="pick_favourite_coin">Вибери улюблену монету</string>
+    <string name="drawer_item_home">Додому</string>
+    <string name="not_so_fast">Не так швидко</string>
+    <string name="dashboard">Головна</string>
+    <string name="all_coins">Усі монети</string>
+    <string name="remove_from_favourite_question">Видалити цю монету з улюблених?</string>
+    <string name="your_portfolio">Ваше портфоліо</string>
+    <string name="current_balance">Поточний баланс</string>
+    <string name="amount_of_coins">Кількість монет</string>
+    <string name="buy_coin_price">Ціна покупки монети</string>
+    <string name="add_to_portfolio">Додати в портфоліо</string>
+    <string name="storage_type">Тип сховища</string>
+    <string name="optional">Опціонально</string>
+    <string name="wallet_name">Название кошелька</string>
+    <string name="exchange_name">Назва біржі</string>
+    <string name="amount_of_coins_should_not_be_empty">Кількість монет не повинно бути порожнім</string>
+    <string name="no_items_in_portfolio">У вас немає монет у портфоліо</string>
+    <string name="no_favourite_coins">У вас немає улюблених монет</string>
 </resources>

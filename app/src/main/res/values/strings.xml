@@ -7,7 +7,7 @@
     <string name="drawer_open" translatable="false">Open</string>
     <string name="drawer_close" translatable="false">Close</string>
     <string name="loading">Loading…</string>
-    <string name="drawer_item_currencies">Currencies</string>
+    <string name="drawer_item_all_coins">All coins</string>
     <string name="drawer_item_portfolio">Portfolio</string>
     <string name="drawer_item_exchanges">Exchanges</string>
     <string name="drawer_item_settings">Settings</string>
@@ -85,6 +85,38 @@
     <string name="poll_fee">Poll fee</string>
     <string name="remove_options">Remove options</string>
     <string name="banner_currencies_list" translatable="false">ca-app-pub-4946735304037594/6033211182</string>
+    <string name="admob_app_id" translatable="false">ca-app-pub-4946735304037594~5659173642</string>
+    <string name="drawer_item_ad">Don\'t touch!</string>
+    <string name="dont_touch_interstitial" translatable="false">ca-app-pub-4946735304037594/7916551764</string>
+    <string name="admob_test_device" translatable="false">6D52FC8438981F070E41819319BD9543</string>
+    <string name="banner_mining_calculator" translatable="false">ca-app-pub-4946735304037594/9843521732</string>
+    <string name="drawer_item_watchlist">Watchlist</string>
+    <string name="banner_watchlist_list" translatable="false">ca-app-pub-4946735304037594/3483288631</string>
+    <string name="is_now_in_watchlist">is now in watchlist</string>
+    <string name="pick_favourite_coin">Pick favourite coin</string>
+    <string name="drawer_item_home">Home</string>
+    <string name="not_so_fast">Not so fast</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="all_coins">All coins</string>
+    <string name="remove_from_favourite_question">Remove this coin from favourites?</string>
+    <string name="your_portfolio">Your portfolio</string>
+    <string name="current_balance">Current balance</string>
+    <string name="amount_of_coins">Amount of coins</string>
+    <string name="buy_coin_price">Buy coin price</string>
+    <string name="add_to_portfolio">Add to portfolio</string>
+    <string name="storage_type">Storage type</string>
+    <string name="optional">Optional</string>
+    <string name="wallet_name">Wallet name</string>
+    <string name="exchange_name">Exchange name</string>
+    <string name="amount_of_coins_should_not_be_empty">Amount of coins should not be empty</string>
+    <string name="dollar_sign" translatable="false">$</string>
+    <string name="no_items_in_portfolio">You have no coins in portfolio</string>
+    <string name="no_favourite_coins">You have no favourite coins</string>
+    <string name="add">Add</string>
+    <string name="edit">Edit</string>
+    <string name="remove">Remove</string>
+    <string name="remove_from_portfolio_question">Are you sure you want to remove this coin from portfolio?</string>
+    <string name="description">Description</string>
 
     <string-array name="miner_filters">
         <item>All categories</item>
@@ -101,5 +133,11 @@
         <item>Equihash</item>
         <item>X11</item>
         <item>CryptoNight</item>
+    </string-array>
+
+    <string-array name="storage_types">
+        <item>Software wallet</item>
+        <item>Hardware wallet</item>
+        <item>Exchange</item>
     </string-array>
 </resources>

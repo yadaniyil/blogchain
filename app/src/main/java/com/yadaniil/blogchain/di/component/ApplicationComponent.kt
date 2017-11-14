@@ -13,10 +13,15 @@ import com.yadaniil.blogchain.di.module.DatabaseModule
 
 
 import com.yadaniil.blogchain.di.module.NetModule
-import com.yadaniil.blogchain.main.MainPresenter
-import com.yadaniil.blogchain.mining.fragments.calculator.CalculatorPresenter
-import com.yadaniil.blogchain.mining.fragments.coins.CoinsPresenter
-import com.yadaniil.blogchain.mining.fragments.miners.MinersPresenter
+import com.yadaniil.blogchain.screens.findcoin.FindCoinPresenter
+import com.yadaniil.blogchain.screens.home.HomePresenter
+import com.yadaniil.blogchain.screens.allcoins.AllCoinsPresenter
+import com.yadaniil.blogchain.screens.mining.fragments.calculator.CalculatorPresenter
+import com.yadaniil.blogchain.screens.mining.fragments.coins.CoinsPresenter
+import com.yadaniil.blogchain.screens.mining.fragments.miners.MinersPresenter
+import com.yadaniil.blogchain.screens.portfolio.PortfolioPresenter
+import com.yadaniil.blogchain.screens.portfolio.addcoin.AddToPortfolioPresenter
+import com.yadaniil.blogchain.screens.watchlist.WatchlistPresenter
 
 import dagger.Component
 import io.realm.Realm
@@ -28,10 +33,15 @@ interface ApplicationComponent {
     fun inject(appDbHelper: AppDbHelper)
     fun inject(appApiHelper: AppApiHelper)
     fun inject(sharedPrefs: SharedPrefs)
-    fun inject(mainPresenter: MainPresenter)
+    fun inject(allCoinsPresenter: AllCoinsPresenter)
     fun inject(minersPresenter: MinersPresenter)
     fun inject(coinsPresenter: CoinsPresenter)
     fun inject(calculatorPresenter: CalculatorPresenter)
+    fun inject(watchlistPresenter: WatchlistPresenter)
+    fun inject(findCoinPresenter: FindCoinPresenter)
+    fun inject(homePresenter: HomePresenter)
+    fun inject(portfolioPresenter: PortfolioPresenter)
+    fun inject(addToPortfolioPresenter: AddToPortfolioPresenter)
 
     fun app(): Application
     fun context(): Context

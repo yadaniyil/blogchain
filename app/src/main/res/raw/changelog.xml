@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog bulletedList="true">
 
+    <changelogversion versionName="0.3.0" changeDate="Nov 09,2017">
+        <changelogtext><![CDATA[<b><font color=#43A047>New!</font></b> Meet favourite coins! Use this section to watch the most interesting coins for you]]></changelogtext>
+        <changelogtext><![CDATA[<b><font color=#43A047>New!</font></b> Meet portfolio! Use this section to track and modify your balance]]></changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="0.2.0" changeDate="Oct 22,2017">
         <changelogtext><![CDATA[<b><font color=#43A047>New!</font></b> Mining calculator!]]></changelogtext>
         <changelogtext><![CDATA[<b><font color=#43A047>New!</font></b> Update currencies list with swipe from the top]]></changelogtext>

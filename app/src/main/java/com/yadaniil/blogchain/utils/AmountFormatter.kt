@@ -26,14 +26,19 @@ object AmountFormatter {
         return df
     }
 
-    fun format(amount: BigDecimal): String {
+    fun formatFiatPrice(amount: BigDecimal): String {
         return buildDecimalFormatter(2, 2).format(amount)
     }
 
-    fun format(amount: String): String {
-        return if(BigDecimal(amount) > BigDecimal(1))
-            buildDecimalFormatter(2, 2).format(BigDecimal(amount))
-        else
-            buildDecimalFormatter(4, 2).format(BigDecimal(amount))
+    fun formatFiatPrice(amount: String): String {
+        return when {
+            BigDecimal(amount) !in BigDecimal(-1)..BigDecimal(1) ->
+                buildDecimalFormatter(2, 2).format(BigDecimal(amount))
+            else -> buildDecimalFormatter(4, 2).format(BigDecimal(amount))
+        }
+    }
+
+    fun formatCryptoPrice(amount: String): String {
+        return buildDecimalFormatter(8, 2).format(BigDecimal(amount))
     }
 }

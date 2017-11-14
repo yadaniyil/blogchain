@@ -6,10 +6,12 @@ import com.yadaniil.blogchain.data.db.AppDbHelper
 import com.yadaniil.blogchain.data.db.DbHelper
 import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
 import com.yadaniil.blogchain.data.db.models.CryptoCompareCurrencyRealm
+import com.yadaniil.blogchain.data.db.models.PortfolioRealm
 import com.yadaniil.blogchain.data.prefs.SharedPrefs
 import com.yadaniil.blogchain.data.prefs.SharedPrefsHelper
 import io.reactivex.Observable
 import io.realm.RealmResults
+import io.realm.Sort
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -25,26 +27,53 @@ class Repository @Inject constructor(private var appApiHelper: AppApiHelper,
         DbHelper, SharedPrefsHelper {
 
     // region Db
-    override fun getAllCoinMarketCapCurrenciesFromDb(): RealmResults<CoinMarketCapCurrencyRealm> =
-            appDbHelper.getAllCoinMarketCapCurrenciesFromDb()
+    override fun getAllCoinsFromDb(): RealmResults<CoinMarketCapCurrencyRealm> =
+            appDbHelper.getAllCoinsFromDb()
 
-    override fun getAllCoinMarketCapCurrenciesFromDbFiltered(text: String): RealmResults<CoinMarketCapCurrencyRealm> =
-            appDbHelper.getAllCoinMarketCapCurrenciesFromDbFiltered(text)
+    override fun getAllCoinsFiltered(text: String): RealmResults<CoinMarketCapCurrencyRealm> =
+            appDbHelper.getAllCoinsFiltered(text)
 
-    override fun saveCoinMarketCapCurrenciesToDb(currencies: List<CoinMarketCapCurrencyRealm>) {
-        appDbHelper.saveCoinMarketCapCurrenciesToDb(currencies)
-    }
+    override fun saveCoinsToDb(coins: List<CoinMarketCapCurrencyRealm>) =
+        appDbHelper.saveCoinsToDb(coins)
 
-    override fun getAllCryptoCompareCurrenciesFromDb(): RealmResults<CryptoCompareCurrencyRealm> =
-            appDbHelper.getAllCryptoCompareCurrenciesFromDb()
+    override fun getAllCryptoCompareCoinsFromDb(): RealmResults<CryptoCompareCurrencyRealm> =
+            appDbHelper.getAllCryptoCompareCoinsFromDb()
 
-    override fun saveCryptoCompareCurrenciesToDb(currencies: List<CryptoCompareCurrencyRealm>) {
-        appDbHelper.saveCryptoCompareCurrenciesToDb(currencies)
-    }
+    override fun saveCryptoCompareCoinsToDb(coins: List<CryptoCompareCurrencyRealm>) =
+        appDbHelper.saveCryptoCompareCoinsToDb(coins)
 
-    override fun saveCryptoCompareCurrencyIcon(currency: CoinMarketCapCurrencyRealm, byteArray: ByteArray) {
-        appDbHelper.saveCryptoCompareCurrencyIcon(currency, byteArray)
-    }
+    override fun saveCryptoCompareCoinIcon(coin: CoinMarketCapCurrencyRealm, byteArray: ByteArray) =
+        appDbHelper.saveCryptoCompareCoinIcon(coin, byteArray)
+
+    override fun addCoinToFavourite(coin: CoinMarketCapCurrencyRealm) =
+            appDbHelper.addCoinToFavourite(coin)
+
+    override fun removeCoinFromFavourites(coin: CoinMarketCapCurrencyRealm) =
+            appDbHelper.removeCoinFromFavourites(coin)
+
+    override fun getAllFavouriteCoins(): RealmResults<CoinMarketCapCurrencyRealm> =
+            appDbHelper.getAllFavouriteCoins()
+
+    override fun getCoinFromDb(symbol: String) = appDbHelper.getCoinFromDb(symbol)
+
+    override fun addCoinToPortfolio(coin: CoinMarketCapCurrencyRealm, amountOfCoins: String,
+                                    buyPriceOfCoin: String, storageType: String, storageName: String, description: String) =
+        appDbHelper.addCoinToPortfolio(coin, amountOfCoins, buyPriceOfCoin, storageType, storageName, description)
+
+    override fun getAllPortfolio() = appDbHelper.getAllPortfolio()
+
+    override fun getAllCoinsSorted(fieldName: String, sortOrder: Sort) =
+            appDbHelper.getAllCoinsSorted(fieldName, sortOrder)
+
+    override fun getSinglePortfolio(portfolioId: String) = appDbHelper.getSinglePortfolio(portfolioId)
+
+    override fun editPortfolio(portfolioItem: PortfolioRealm, coin: CoinMarketCapCurrencyRealm,
+                               amountOfCoins: String, buyPriceOfCoin: String,
+                               storageType: String, storageName: String, description: String)
+            = appDbHelper.editPortfolio(portfolioItem, coin, amountOfCoins,
+            buyPriceOfCoin, storageType, storageName, description)
+
+    override fun removeItemFromPortfolio(id: String) = appDbHelper.removeItemFromPortfolio(id)
     // endregion Db
 
     // region Api
@@ -68,9 +97,8 @@ class Repository @Inject constructor(private var appApiHelper: AppApiHelper,
 
     override fun getCoinById(coinId: String, userHashrate: String?, power: String?,
                              poolFeePercent: String?, electricityCost: String?,
-                             hardwareCost: String?): Observable<MiningCoinResponse> {
-        return appApiHelper.getCoinById(coinId, userHashrate, power, poolFeePercent, electricityCost, hardwareCost)
-    }
+                             hardwareCost: String?) =
+            appApiHelper.getCoinById(coinId, userHashrate, power, poolFeePercent, electricityCost, hardwareCost)
     // endregion Api
 
     // region SharedPrefs

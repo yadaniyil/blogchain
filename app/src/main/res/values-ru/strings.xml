@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Блогчейн</string>
     <string name="loading">Загрузка…</string>
-    <string name="drawer_item_currencies">Валюты</string>
+    <string name="drawer_item_all_coins">Валюты</string>
     <string name="drawer_item_portfolio">Портфолио</string>
     <string name="drawer_item_exchanges">Биржи</string>
     <string name="drawer_item_settings">Настройки</string>
@@ -58,6 +58,13 @@
         <item>X11</item>
         <item>CryptoNight</item>
     </string-array>
+
+    <string-array name="storage_types">
+        <item>Программный кошелек</item>
+        <item>Аппаратный кошелек</item>
+        <item>Биржа</item>
+    </string-array>
+
     <string name="whats_new">Что-то новенькое?</string>
     <string name="downloading_blockchain">Скачиваю блокчейн</string>
     <string name="something_went_wrong">Упс. Что-то пошло не так</string>
@@ -87,4 +94,25 @@
     <string name="poll_fee">Комиссия пула</string>
     <string name="dollars_for_kwh">$/кВт⋅ч</string>
     <string name="remove_options">Удалить опции</string>
+    <string name="drawer_item_ad">Не трогай!</string>
+    <string name="drawer_item_watchlist">Любимые</string>
+    <string name="is_now_in_watchlist">теперь в любимых</string>
+    <string name="pick_favourite_coin">Выбери любимую монету</string>
+    <string name="drawer_item_home">Домой</string>
+    <string name="not_so_fast">Не так быстро</string>
+    <string name="dashboard">Главная</string>
+    <string name="all_coins">Все монеты</string>
+    <string name="remove_from_favourite_question">Удалить эту монету из любимых?</string>
+    <string name="your_portfolio">Ваше портфолио</string>
+    <string name="current_balance">Текущий баланс</string>
+    <string name="amount_of_coins">Количество монет</string>
+    <string name="buy_coin_price">Цена покупки монеты</string>
+    <string name="add_to_portfolio">Добавить в портфолио</string>
+    <string name="storage_type">Тип хранилища</string>
+    <string name="optional">Опционально</string>
+    <string name="wallet_name">Название кошелька</string>
+    <string name="exchange_name">Название биржи</string>
+    <string name="amount_of_coins_should_not_be_empty">Количество монет не должно быть пустым</string>
+    <string name="no_items_in_portfolio">У вас нет монет в портфолио</string>
+    <string name="no_favourite_coins">У вас нет любимых монет</string>
 </resources>

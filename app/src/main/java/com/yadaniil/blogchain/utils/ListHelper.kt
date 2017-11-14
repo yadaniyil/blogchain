@@ -212,5 +212,8 @@ object ListHelper {
 
     fun calculatePortfolioFiatSum(portfolio: PortfolioRealm) =
             (BigDecimal(portfolio.amountOfCoins) * BigDecimal(portfolio.coin?.priceUsd ?: 0.0))
+
+    fun calculatePortfolioBtcSum(portfolio: PortfolioRealm) =
+            (BigDecimal(portfolio.amountOfCoins) * BigDecimal(portfolio.coin?.priceBtc ?: 0.0))
     // endregion Portfolio
 }

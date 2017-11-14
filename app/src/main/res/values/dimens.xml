@@ -16,6 +16,7 @@
     <dimen name="text_size_big">24sp</dimen>
     <dimen name="text_size_normal">18sp</dimen>
     <dimen name="text_size_small">12sp</dimen>
+    <dimen name="text_size_portfolio_btc_balance">16sp</dimen>
     <dimen name="dialog_title_start_margin">24dp</dimen>
     <dimen name="text_size_title_material">20sp</dimen>
     <dimen name="bottom_bar_height">60dp</dimen>

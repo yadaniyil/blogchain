@@ -90,15 +90,19 @@ class PortfolioActivity : BaseActivity(), PortfolioView, PortfolioAdapter.OnClic
     }
 
     private fun updateTotalFiatBalance(portfolios: RealmResults<PortfolioRealm>?) {
-        if(portfolios == null || portfolios.isEmpty())
+        if(portfolios == null || portfolios.isEmpty()) {
             total_amount.text = "0 USD"
-        else {
-            var sum: BigDecimal = BigDecimal.ZERO
+            total_amount_btc.text = "0 BTC"
+        } else {
+            var sumFiat: BigDecimal = BigDecimal.ZERO
+            var sumBtc: BigDecimal = BigDecimal.ZERO
             portfolios.forEach {
-                sum += ListHelper.calculatePortfolioFiatSum(it)
+                sumFiat += ListHelper.calculatePortfolioFiatSum(it)
+                sumBtc += ListHelper.calculatePortfolioBtcSum(it)
             }
 
-            total_amount.text = "${AmountFormatter.formatFiatPrice(sum)} USD"
+            total_amount.text = "${AmountFormatter.formatFiatPrice(sumFiat)} USD"
+            total_amount_btc.text = "${AmountFormatter.formatCryptoPrice(sumBtc.toString())} BTC"
         }
     }
 

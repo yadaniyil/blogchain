@@ -17,5 +17,6 @@ open class PortfolioRealm(
         var buyPriceInFiat: String? = "",
         var storageType: String? = "", // Software wallet, hardware wallet or exchange
         var storageName: String? = "", // Wallet name or Exchange name
-        var coin: CoinMarketCapCurrencyRealm? = null
+        var coin: CoinMarketCapCurrencyRealm? = null,
+        var description: String? = ""
 ) : RealmObject()

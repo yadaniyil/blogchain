@@ -116,6 +116,7 @@
     <string name="edit">Edit</string>
     <string name="remove">Remove</string>
     <string name="remove_from_portfolio_question">Are you sure you want to remove this coin from portfolio?</string>
+    <string name="description">Description</string>
 
     <string-array name="miner_filters">
         <item>All categories</item>

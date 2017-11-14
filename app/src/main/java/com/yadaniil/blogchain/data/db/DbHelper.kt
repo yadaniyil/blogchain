@@ -30,10 +30,12 @@ interface DbHelper {
 
     // region Portfolio
     fun addCoinToPortfolio(coin: CoinMarketCapCurrencyRealm, amountOfCoins: String,
-                           buyPriceOfCoin: String, storageType: String, storageName: String)
+                           buyPriceOfCoin: String, storageType: String, storageName: String, description: String)
     fun getAllPortfolio(): RealmResults<PortfolioRealm>
     fun getSinglePortfolio(portfolioId: String): PortfolioRealm?
-    fun editPortfolio(portfolioItem: PortfolioRealm, coin: CoinMarketCapCurrencyRealm, amountOfCoins: String, buyPriceOfCoin: String, storageType: String, storageName: String)
+    fun editPortfolio(portfolioItem: PortfolioRealm, coin: CoinMarketCapCurrencyRealm,
+                      amountOfCoins: String, buyPriceOfCoin: String, storageType: String,
+                      storageName: String, description: String)
     fun removeItemFromPortfolio(id: String)
     // endregion Portfolio
 }

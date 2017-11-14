@@ -57,8 +57,8 @@ class Repository @Inject constructor(private var appApiHelper: AppApiHelper,
     override fun getCoinFromDb(symbol: String) = appDbHelper.getCoinFromDb(symbol)
 
     override fun addCoinToPortfolio(coin: CoinMarketCapCurrencyRealm, amountOfCoins: String,
-                                    buyPriceOfCoin: String, storageType: String, storageName: String) =
-        appDbHelper.addCoinToPortfolio(coin, amountOfCoins, buyPriceOfCoin, storageType, storageName)
+                                    buyPriceOfCoin: String, storageType: String, storageName: String, description: String) =
+        appDbHelper.addCoinToPortfolio(coin, amountOfCoins, buyPriceOfCoin, storageType, storageName, description)
 
     override fun getAllPortfolio() = appDbHelper.getAllPortfolio()
 
@@ -69,9 +69,9 @@ class Repository @Inject constructor(private var appApiHelper: AppApiHelper,
 
     override fun editPortfolio(portfolioItem: PortfolioRealm, coin: CoinMarketCapCurrencyRealm,
                                amountOfCoins: String, buyPriceOfCoin: String,
-                               storageType: String, storageName: String)
+                               storageType: String, storageName: String, description: String)
             = appDbHelper.editPortfolio(portfolioItem, coin, amountOfCoins,
-            buyPriceOfCoin, storageType, storageName)
+            buyPriceOfCoin, storageType, storageName, description)
 
     override fun removeItemFromPortfolio(id: String) = appDbHelper.removeItemFromPortfolio(id)
     // endregion Db

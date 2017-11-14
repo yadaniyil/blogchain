@@ -80,13 +80,14 @@ class AppDbHelper : DbHelper {
 
     // region Portfolio
     override fun addCoinToPortfolio(coin: CoinMarketCapCurrencyRealm, amountOfCoins: String,
-                                    buyPriceOfCoin: String, storageType: String, storageName: String) {
+                                    buyPriceOfCoin: String, storageType: String, storageName: String, description: String) {
         realm.executeTransaction { realm ->
             val portfolioItem = PortfolioRealm(amountOfCoins = amountOfCoins,
                     buyPriceInFiat = buyPriceOfCoin,
                     storageType = storageType,
                     storageName = storageName,
-                    coin = coin)
+                    coin = coin,
+                    description = description)
             realm.copyToRealmOrUpdate(portfolioItem)
         }
     }
@@ -100,13 +101,14 @@ class AppDbHelper : DbHelper {
 
     override fun editPortfolio(portfolioItem: PortfolioRealm, coin: CoinMarketCapCurrencyRealm,
                                amountOfCoins: String, buyPriceOfCoin: String,
-                               storageType: String, storageName: String) {
+                               storageType: String, storageName: String, description: String) {
         realm.executeTransaction { realm ->
             portfolioItem.coin = coin
             portfolioItem.amountOfCoins = amountOfCoins
             portfolioItem.buyPriceInFiat = buyPriceOfCoin
             portfolioItem.storageType = storageType
             portfolioItem.storageName = storageName
+            portfolioItem.description = description
         }
     }
 

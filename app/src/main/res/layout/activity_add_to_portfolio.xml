@@ -177,7 +177,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/standard_dimen"
-                android:layout_marginBottom="@dimen/double_dimen"
                 android:orientation="vertical">
 
                 <TextView
@@ -192,6 +191,38 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/storage_name_edit_text"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:hint="@string/optional"
+                    android:singleLine="true"
+                    app:met_baseColor="@color/colorPrimary"
+                    app:met_underlineColor="@color/colorPrimary"
+                    app:met_primaryColor="@color/colorPrimary"
+                    app:met_floatingLabelTextColor="@color/colorPrimary"
+                    app:met_floatingLabel="none"/>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/standard_dimen"
+                android:layout_marginBottom="@dimen/double_dimen"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:text="@string/description"
+                    android:textSize="@dimen/text_size_small"
+                    android:id="@+id/description_label"/>
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/description_edit_text"
                     android:inputType="text"
                     android:maxLines="1"
                     android:hint="@string/optional"

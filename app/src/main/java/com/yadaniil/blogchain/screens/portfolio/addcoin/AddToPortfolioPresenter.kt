@@ -4,7 +4,6 @@ import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.yadaniil.blogchain.Application
 import com.yadaniil.blogchain.data.Repository
-import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
 import com.yadaniil.blogchain.data.db.models.PortfolioRealm
 import com.yadaniil.blogchain.utils.CurrencyHelper
 import com.yadaniil.blogchain.utils.CurrencyHelper.getSymbolFromFullName
@@ -39,12 +38,13 @@ class AddToPortfolioPresenter : MvpPresenter<AddToPortfolioView>() {
     }
 
     fun addCoinToPortfolio(coinSymbol: String, amountOfCoins: String, buyPriceOfCoin: String,
-                           storageType: String, storageName: String, portfolioToEdit: PortfolioRealm?) {
+                           storageType: String, storageName: String, portfolioToEdit: PortfolioRealm?,
+                           description: String) {
         val coin = repo.getCoinFromDb(coinSymbol)
         if(portfolioToEdit != null)
-            repo.editPortfolio(portfolioToEdit, coin, amountOfCoins, buyPriceOfCoin, storageType, storageName)
+            repo.editPortfolio(portfolioToEdit, coin, amountOfCoins, buyPriceOfCoin, storageType, storageName, description)
         else
-            repo.addCoinToPortfolio(coin, amountOfCoins, buyPriceOfCoin, storageType, storageName)
+            repo.addCoinToPortfolio(coin, amountOfCoins, buyPriceOfCoin, storageType, storageName, description)
     }
 
 //    fun editPortfolio(portfolio: PortfolioRealm, coin: CoinMarketCapCurrencyRealm,

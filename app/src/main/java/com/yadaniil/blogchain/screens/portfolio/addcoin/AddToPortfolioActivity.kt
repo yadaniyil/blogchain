@@ -72,7 +72,9 @@ class AddToPortfolioActivity : MvpAppCompatActivity(), AddToPortfolioView {
                         amount_edit_text.text.toString(),
                         buy_price_edit_text.text.toString(),
                         storage_type_spinner.selectedItem.toString(),
-                        storage_name_edit_text.text.toString(), portfolioToEdit)
+                        storage_name_edit_text.text.toString(),
+                        portfolioToEdit,
+                        description_edit_text.text.toString())
                 finish()
             }
             true
@@ -130,6 +132,7 @@ class AddToPortfolioActivity : MvpAppCompatActivity(), AddToPortfolioView {
         amount_edit_text.setText(portfolioToEdit?.amountOfCoins)
         buy_price_edit_text.setText(portfolioToEdit?.buyPriceInFiat)
         storage_name_edit_text.setText(portfolioToEdit?.storageName)
+        description_edit_text.setText(portfolioToEdit?.description)
 
         // Select item in storage type spinner
         (0 until storage_type_spinner.count).forEach {

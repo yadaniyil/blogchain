@@ -109,5 +109,13 @@ class AppDbHelper : DbHelper {
             portfolioItem.storageName = storageName
         }
     }
+
+    override fun removeItemFromPortfolio(id: String) {
+        realm.executeTransaction { realm ->
+            realm.where(PortfolioRealm::class.java)
+                    .equalTo("id", id).findFirst().deleteFromRealm()
+        }
+    }
+
     // endregion Portfolio
 }

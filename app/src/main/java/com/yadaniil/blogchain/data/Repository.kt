@@ -72,6 +72,8 @@ class Repository @Inject constructor(private var appApiHelper: AppApiHelper,
                                storageType: String, storageName: String)
             = appDbHelper.editPortfolio(portfolioItem, coin, amountOfCoins,
             buyPriceOfCoin, storageType, storageName)
+
+    override fun removeItemFromPortfolio(id: String) = appDbHelper.removeItemFromPortfolio(id)
     // endregion Db
 
     // region Api
@@ -95,9 +97,8 @@ class Repository @Inject constructor(private var appApiHelper: AppApiHelper,
 
     override fun getCoinById(coinId: String, userHashrate: String?, power: String?,
                              poolFeePercent: String?, electricityCost: String?,
-                             hardwareCost: String?): Observable<MiningCoinResponse> {
-        return appApiHelper.getCoinById(coinId, userHashrate, power, poolFeePercent, electricityCost, hardwareCost)
-    }
+                             hardwareCost: String?) =
+            appApiHelper.getCoinById(coinId, userHashrate, power, poolFeePercent, electricityCost, hardwareCost)
     // endregion Api
 
     // region SharedPrefs

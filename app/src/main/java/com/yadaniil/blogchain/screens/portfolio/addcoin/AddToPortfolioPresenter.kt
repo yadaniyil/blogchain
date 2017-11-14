@@ -53,4 +53,5 @@ class AddToPortfolioPresenter : MvpPresenter<AddToPortfolioView>() {
 //            = repo.editPortfolio(portfolio, coin, amountOfCoins, buyPriceOfCoin, storageType, storageName)
 
     fun getSinglePortfolio(portfolioId: String) = repo.getSinglePortfolio(portfolioId)
+    fun removeItemFromPortfolio(id: String?) = repo.removeItemFromPortfolio(id ?: "")
 }

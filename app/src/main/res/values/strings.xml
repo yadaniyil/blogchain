@@ -112,6 +112,10 @@
     <string name="dollar_sign" translatable="false">$</string>
     <string name="no_items_in_portfolio">You have no coins in portfolio</string>
     <string name="no_favourite_coins">You have no favourite coins</string>
+    <string name="add">Add</string>
+    <string name="edit">Edit</string>
+    <string name="remove">Remove</string>
+    <string name="remove_from_portfolio_question">Are you sure you want to remove this coin from portfolio?</string>
 
     <string-array name="miner_filters">
         <item>All categories</item>

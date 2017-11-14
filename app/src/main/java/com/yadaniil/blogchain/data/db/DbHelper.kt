@@ -34,5 +34,6 @@ interface DbHelper {
     fun getAllPortfolio(): RealmResults<PortfolioRealm>
     fun getSinglePortfolio(portfolioId: String): PortfolioRealm?
     fun editPortfolio(portfolioItem: PortfolioRealm, coin: CoinMarketCapCurrencyRealm, amountOfCoins: String, buyPriceOfCoin: String, storageType: String, storageName: String)
+    fun removeItemFromPortfolio(id: String)
     // endregion Portfolio
 }

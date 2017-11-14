@@ -19,6 +19,7 @@ import com.yadaniil.blogchain.utils.CurrencyHelper.getSymbolFromFullName
 import com.yadaniil.blogchain.utils.Endpoints
 import com.yadaniil.blogchain.utils.UiHelper
 import kotlinx.android.synthetic.main.activity_add_to_portfolio.*
+import org.jetbrains.anko.alert
 import org.jetbrains.anko.onClick
 import org.jetbrains.anko.toast
 
@@ -30,15 +31,16 @@ class AddToPortfolioActivity : MvpAppCompatActivity(), AddToPortfolioView {
 
     @InjectPresenter lateinit var presenter: AddToPortfolioPresenter
     private var portfolioToEdit: PortfolioRealm? = null
+    private var removePortfolioMenuItem: MenuItem? = null
 
     // region Activity
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_to_portfolio)
 
-        initToolbar()
         val portfolioId = intent.extras.getString("id")
         portfolioToEdit = presenter.getSinglePortfolio(portfolioId)
+        initToolbar()
         presenter.showCoins()
         UiHelper.addCryptocurrencyInputFilter(amount_edit_text)
         UiHelper.addFiatInputFilter(buy_price_edit_text)
@@ -49,31 +51,44 @@ class AddToPortfolioActivity : MvpAppCompatActivity(), AddToPortfolioView {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_check, menu)
+        removePortfolioMenuItem = menu?.findItem(R.id.action_remove_portfolio)!!
+        if(portfolioToEdit == null)
+            removePortfolioMenuItem?.isVisible = false
+
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return when (item?.itemId) {
-            android.R.id.home -> {
-                onBackPressed()
-                true
+    override fun onOptionsItemSelected(item: MenuItem?) = when (item?.itemId) {
+        android.R.id.home -> {
+            onBackPressed()
+            true
+        }
+        R.id.action_save_portfolio -> {
+            if (amount_edit_text.text.isBlank()) {
+                toast(R.string.amount_of_coins_should_not_be_empty)
+            } else {
+                presenter.addCoinToPortfolio(
+                        CurrencyHelper.getSymbolFromFullName(coin_spinner.selectedItem.toString()),
+                        amount_edit_text.text.toString(),
+                        buy_price_edit_text.text.toString(),
+                        storage_type_spinner.selectedItem.toString(),
+                        storage_name_edit_text.text.toString(), portfolioToEdit)
+                finish()
             }
-            R.id.action_done -> {
-                if(amount_edit_text.text.isBlank()) {
-                    toast(R.string.amount_of_coins_should_not_be_empty)
-                } else {
-                    presenter.addCoinToPortfolio(
-                            CurrencyHelper.getSymbolFromFullName(coin_spinner.selectedItem.toString()),
-                            amount_edit_text.text.toString(),
-                            buy_price_edit_text.text.toString(),
-                            storage_type_spinner.selectedItem.toString(),
-                            storage_name_edit_text.text.toString(), portfolioToEdit)
+            true
+        }
+        R.id.action_remove_portfolio -> {
+            alert(R.string.remove_from_portfolio_question) {
+                yesButton {
+                    presenter.removeItemFromPortfolio(portfolioToEdit?.id)
                     finish()
                 }
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
+                cancelButton()
+            }.show()
+
+            true
         }
+        else -> super.onOptionsItemSelected(item)
     }
     // endregion Activity
 
@@ -98,7 +113,12 @@ class AddToPortfolioActivity : MvpAppCompatActivity(), AddToPortfolioView {
     }
 
     private fun initToolbar() {
-        toolbar.title = getString(R.string.add_to_portfolio)
+        if (portfolioToEdit == null) {
+            toolbar.title = getString(R.string.add)
+        } else {
+            toolbar.title = getString(R.string.edit)
+        }
+
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
@@ -106,14 +126,14 @@ class AddToPortfolioActivity : MvpAppCompatActivity(), AddToPortfolioView {
     // endregion Init
 
     private fun fillPortfolioIfEditing() {
-        if(portfolioToEdit == null) return
+        if (portfolioToEdit == null) return
         amount_edit_text.setText(portfolioToEdit?.amountOfCoins)
         buy_price_edit_text.setText(portfolioToEdit?.buyPriceInFiat)
         storage_name_edit_text.setText(portfolioToEdit?.storageName)
 
         // Select item in storage type spinner
         (0 until storage_type_spinner.count).forEach {
-            if(storage_type_spinner.getItemAtPosition(it).toString() == portfolioToEdit?.storageType) {
+            if (storage_type_spinner.getItemAtPosition(it).toString() == portfolioToEdit?.storageType) {
                 storage_type_spinner.setSelection(it)
                 return@forEach
             }
@@ -138,9 +158,9 @@ class AddToPortfolioActivity : MvpAppCompatActivity(), AddToPortfolioView {
         coin_spinner.adapter = adapter
 
         // select item in coin spinner
-        if(portfolioToEdit != null) {
+        if (portfolioToEdit != null) {
             (0 until coin_spinner.count).forEach {
-                if(coin_spinner.getItemAtPosition(it).toString() ==
+                if (coin_spinner.getItemAtPosition(it).toString() ==
                         "${portfolioToEdit?.coin?.name} (${portfolioToEdit?.coin?.symbol})") {
                     coin_spinner.setSelection(it)
                     return@forEach
@@ -150,10 +170,12 @@ class AddToPortfolioActivity : MvpAppCompatActivity(), AddToPortfolioView {
     }
 
     private fun showCoinIcon() {
-        coin_icon.onClick { coin_spinner.dispatchTouchEvent(
-                MotionEvent.obtain(0, 0, MotionEvent.ACTION_UP,
-                        0f, 0f, 0)) }
-        
+        coin_icon.onClick {
+            coin_spinner.dispatchTouchEvent(
+                    MotionEvent.obtain(0, 0, MotionEvent.ACTION_UP,
+                            0f, 0f, 0))
+        }
+
         val imageLink = presenter.getLinkForCoinImage(coin_spinner.selectedItem.toString())
         if (imageLink.isBlank()) {
             coin_icon.setImageResource(R.drawable.icon_ico)

@@ -220,33 +220,33 @@ class CalculatorFragment : MvpAppCompatFragment(), CalculatorView {
 
         // Rewards is removed due to no space in screen
 
-//        hour_rewards.text = "${(dayReward / HOURS_IN_DAY)}"
+//        hour_rewards.coinName = "${(dayReward / HOURS_IN_DAY)}"
         hour_revenue_dollar.text = "$${(dayRewardsDollar / HOURS_IN_DAY)}"
         hour_cost.text = "$${(dayCost / HOURS_IN_DAY)}"
         hour_profit.text =
                 if (isProfitNegative) "-$${(dayProfit / HOURS_IN_DAY)}"
                 else "$${(dayProfit / HOURS_IN_DAY)}"
 
-//        day_rewards.text = coin.estimatedRewards
+//        day_rewards.coinName = coin.estimatedRewards
         day_revenue_dollar.text = coin.revenueDollar
         day_cost.text = coin.cost
         day_profit.text = coin.profit
 
-//        week_rewards.text = "${(dayReward * DAYS_IN_WEEK)}"
+//        week_rewards.coinName = "${(dayReward * DAYS_IN_WEEK)}"
         week_revenue_dollar.text = "$${(dayRewardsDollar * DAYS_IN_WEEK)}"
         week_cost.text = "$${(dayCost * DAYS_IN_WEEK)}"
         week_profit.text =
                 if (isProfitNegative) "-$${(dayProfit * DAYS_IN_WEEK)}"
                 else "$${(dayProfit * DAYS_IN_WEEK)}"
 
-//        month_rewards.text = "${(dayReward * DAYS_IN_MONTH)}"
+//        month_rewards.coinName = "${(dayReward * DAYS_IN_MONTH)}"
         month_revenue_dollar.text = "$${(dayRewardsDollar * DAYS_IN_MONTH)}"
         month_cost.text = "$${(dayCost * DAYS_IN_MONTH)}"
         month_profit.text =
                 if (isProfitNegative) "-$${(dayProfit * DAYS_IN_MONTH)}"
                 else "$${(dayProfit * DAYS_IN_MONTH)}"
 
-//        year_rewards.text = "${(dayReward * DAYS_IN_YEAR)}"
+//        year_rewards.coinName = "${(dayReward * DAYS_IN_YEAR)}"
         year_revenue_dollar.text = "$${(dayRewardsDollar * DAYS_IN_YEAR)}"
         year_cost.text = "$${(dayCost * DAYS_IN_YEAR)}"
         year_profit.text =

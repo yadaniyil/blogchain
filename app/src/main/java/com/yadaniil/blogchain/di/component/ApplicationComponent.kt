@@ -13,9 +13,11 @@ import com.yadaniil.blogchain.di.module.DatabaseModule
 
 
 import com.yadaniil.blogchain.di.module.NetModule
-import com.yadaniil.blogchain.screens.findcoin.FindCoinPresenter
+import com.yadaniil.blogchain.screens.findcurrency.FindCurrencyPresenter
 import com.yadaniil.blogchain.screens.home.HomePresenter
 import com.yadaniil.blogchain.screens.allcoins.AllCoinsPresenter
+import com.yadaniil.blogchain.screens.converter.ConverterPresenter
+import com.yadaniil.blogchain.screens.findcurrency.crypto.FindCoinPresenter
 import com.yadaniil.blogchain.screens.mining.fragments.calculator.CalculatorPresenter
 import com.yadaniil.blogchain.screens.mining.fragments.coins.CoinsPresenter
 import com.yadaniil.blogchain.screens.mining.fragments.miners.MinersPresenter
@@ -38,10 +40,12 @@ interface ApplicationComponent {
     fun inject(coinsPresenter: CoinsPresenter)
     fun inject(calculatorPresenter: CalculatorPresenter)
     fun inject(watchlistPresenter: WatchlistPresenter)
-    fun inject(findCoinPresenter: FindCoinPresenter)
+    fun inject(findCurrencyPresenter: FindCurrencyPresenter)
     fun inject(homePresenter: HomePresenter)
     fun inject(portfolioPresenter: PortfolioPresenter)
     fun inject(addToPortfolioPresenter: AddToPortfolioPresenter)
+    fun inject(converterPresenter: ConverterPresenter)
+    fun inject(findCoinPresenter: FindCoinPresenter)
 
     fun app(): Application
     fun context(): Context

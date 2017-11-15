@@ -15,7 +15,7 @@ import com.yadaniil.blogchain.screens.base.BaseActivity
 import com.yadaniil.blogchain.screens.base.CoinClickListener
 import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
 import com.yadaniil.blogchain.screens.base.CoinLongClickListener
-import com.yadaniil.blogchain.screens.findcoin.FindCoinActivity
+import com.yadaniil.blogchain.screens.findcurrency.FindCurrencyActivity
 import com.yadaniil.blogchain.utils.ListHelper
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_watchlist.*
@@ -65,7 +65,7 @@ class WatchlistActivity : BaseActivity(), WatchlistView, CoinClickListener, Coin
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == PICK_FAVOURITE_COIN_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-                presenter.addCoinToFavourite(data?.extras?.getString(FindCoinActivity.PICKED_COIN_SYMBOL))
+                presenter.addCoinToFavourite(data?.extras?.getString(FindCurrencyActivity.PICKED_COIN_SYMBOL))
                 presenter.downloadAndSaveAllCurrencies()
             }
         }
@@ -87,7 +87,7 @@ class WatchlistActivity : BaseActivity(), WatchlistView, CoinClickListener, Coin
 
     private fun initFab() {
         fab.onClick { startActivityForResult(
-                Intent(this, FindCoinActivity::class.java),
+                Intent(this, FindCurrencyActivity::class.java),
                 PICK_FAVOURITE_COIN_REQUEST_CODE) }
     }
 

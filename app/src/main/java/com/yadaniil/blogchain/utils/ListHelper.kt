@@ -16,7 +16,7 @@ import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
 import com.yadaniil.blogchain.data.db.models.CryptoCompareCurrencyRealm
 import com.yadaniil.blogchain.data.db.models.PortfolioRealm
 import com.yadaniil.blogchain.screens.base.CoinLongClickListener
-import com.yadaniil.blogchain.screens.findcoin.FindCoinAdapter
+import com.yadaniil.blogchain.screens.findcurrency.crypto.FindCoinAdapter
 import com.yadaniil.blogchain.screens.portfolio.PortfolioAdapter
 import org.jetbrains.anko.*
 import timber.log.Timber
@@ -28,7 +28,21 @@ import java.math.BigDecimal
 
 object ListHelper {
 
-    // region Currency
+    // region Coin
+    class CoinViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        var itemRootLayout: LinearLayout = view.find(R.id.item_root_layout)
+        var symbol: TextView = view.find(R.id.item_currency_symbol)
+        var name: TextView = view.find(R.id.item_currency_name)
+        var usdRate: TextView = view.find(R.id.item_currency_price)
+        var btcRate: TextView = view.find(R.id.item_currency_btc_price)
+        var hourChange: TextView = view.find(R.id.item_currency_hour_change)
+        var dayChange: TextView = view.find(R.id.item_currency_day_change)
+        var weekChange: TextView = view.find(R.id.item_currency_week_change)
+        var icon: ImageView = view.find(R.id.item_currency_icon)
+        var rank: TextView = view.find(R.id.item_currency_rank)
+        var data: CoinMarketCapCurrencyRealm? = null
+    }
+
     fun bindCurrency(coinHolder: CoinViewHolder, currencyRealm: CoinMarketCapCurrencyRealm,
                      ccList: MutableList<CryptoCompareCurrencyRealm>, context: Context,
                      onClick: CoinClickListener, onLongClick: CoinLongClickListener, removeRank: Boolean) {
@@ -125,36 +139,24 @@ object ListHelper {
             }
         }
     }
+    // endregion Coin
 
-    class CoinViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        var itemRootLayout: LinearLayout = view.find(R.id.item_root_layout)
-        var symbol: TextView = view.find(R.id.item_currency_symbol)
-        var name: TextView = view.find(R.id.item_currency_name)
-        var usdRate: TextView = view.find(R.id.item_currency_price)
-        var btcRate: TextView = view.find(R.id.item_currency_btc_price)
-        var hourChange: TextView = view.find(R.id.item_currency_hour_change)
-        var dayChange: TextView = view.find(R.id.item_currency_day_change)
-        var weekChange: TextView = view.find(R.id.item_currency_week_change)
-        var icon: ImageView = view.find(R.id.item_currency_icon)
-        var rank: TextView = view.find(R.id.item_currency_rank)
-        var data: CoinMarketCapCurrencyRealm? = null
-    }
-    // endregion Currency
-
-
-    // region Simple string item
-    class StringViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    // region FindCoin
+    class FindCoinHolder(view: View) : RecyclerView.ViewHolder(view) {
         var itemRootLayout: LinearLayout = view.find(R.id.simple_item_root)
-        var text: TextView = view.find(R.id.item_text)
+        var coinName: TextView = view.find(R.id.coin_name)
+        var coinSymbol: TextView = view.find(R.id.coin_symbol)
+        var coinIcon: ImageView = view.find(R.id.coin_icon)
     }
 
-    fun bindSimpleItem(holder: StringViewHolder, currency: CoinMarketCapCurrencyRealm?,
-                       onClick: FindCoinAdapter.SimpleItemClickListener) {
-        val text = "${currency?.name} (${currency?.symbol})"
-        holder.text.text = text
+    fun bindFindCoin(holder: FindCoinHolder, currency: CoinMarketCapCurrencyRealm?,
+                     onClick: FindCoinAdapter.SimpleItemClickListener, ccList: MutableList<CryptoCompareCurrencyRealm>, context: Context) {
+        holder.coinName.text = currency?.name
+        holder.coinSymbol.text = currency?.symbol
         holder.itemRootLayout.onClick { onClick.onClick(holder, currency!!) }
+        downloadAndSaveIcon(holder.coinIcon, currency, ccList, context)
     }
-    // endregion Simple string item
+    // endregion FindCoin
 
     // region Portfolio
     class PortfolioViewHolder(view: View) : RecyclerView.ViewHolder(view) {

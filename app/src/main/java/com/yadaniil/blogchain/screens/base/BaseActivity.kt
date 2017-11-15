@@ -51,7 +51,10 @@ abstract class BaseActivity : MvpAppCompatActivity(), BaseView {
                 R.string.drawer_item_market_info, R.drawable.icon_market_info, enabled = false) {}
 
         val converter = BaseHelper.primaryItem(BaseHelper.DRAWER_ITEM_CONVERTER_ID,
-                R.string.drawer_item_converter, R.drawable.icon_converter, enabled = false) {}
+                R.string.drawer_item_converter, R.drawable.icon_converter) {
+            BaseHelper.selectedDrawerItem = BaseHelper.DRAWER_ITEM_CONVERTER_ID
+            Handler().postDelayed({ Navigator.toConverterActivity(this) }, NAV_DRAWER_DELAY)
+        }
 
         val watchlist = BaseHelper.primaryItem(BaseHelper.DRAWER_ITEM_WATCHLIST_ID,
                 R.string.drawer_item_watchlist, R.drawable.ic_eye_24dp) {

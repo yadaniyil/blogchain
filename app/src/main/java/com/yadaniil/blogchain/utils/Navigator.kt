@@ -2,6 +2,7 @@ package com.yadaniil.blogchain.utils
 
 import android.support.v7.app.AppCompatActivity
 import com.yadaniil.blogchain.screens.allcoins.AllCoinsActivity
+import com.yadaniil.blogchain.screens.converter.ConverterActivity
 import com.yadaniil.blogchain.screens.home.HomeActivity
 import com.yadaniil.blogchain.screens.mining.MiningActivity
 import com.yadaniil.blogchain.screens.portfolio.addcoin.AddToPortfolioActivity
@@ -42,6 +43,11 @@ object Navigator {
 
     fun toAddCoinToPortfolioActivity(activity: AppCompatActivity, id: String = "") {
         activity.startActivity<AddToPortfolioActivity>("id" to id)
+    }
+
+    fun toConverterActivity(activity: AppCompatActivity) {
+        activity.startActivity<ConverterActivity>()
+        activity.finish()
     }
 
 }

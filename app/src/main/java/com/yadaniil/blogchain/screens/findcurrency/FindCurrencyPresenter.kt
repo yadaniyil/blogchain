@@ -1,4 +1,4 @@
-package com.yadaniil.blogchain.screens.findcoin
+package com.yadaniil.blogchain.screens.findcurrency
 
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
@@ -13,18 +13,11 @@ import javax.inject.Inject
  */
 
 @InjectViewState
-class FindCoinPresenter : MvpPresenter<FindCoinView>() {
+class FindCurrencyPresenter : MvpPresenter<FindCurrencyView>() {
 
     @Inject lateinit var repo: Repository
 
     init {
         Application.component?.inject(this)
     }
-
-    fun getAllRealmCurrencies(): RealmResults<CoinMarketCapCurrencyRealm>
-            = repo.getAllCoinsFromDb()
-
-    fun getRealmCurrenciesFiltered(text: String): RealmResults<CoinMarketCapCurrencyRealm>
-            = repo.getAllCoinsFiltered(text)
-
 }

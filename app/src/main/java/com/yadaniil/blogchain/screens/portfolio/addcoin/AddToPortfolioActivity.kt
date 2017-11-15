@@ -64,7 +64,8 @@ class AddToPortfolioActivity : MvpAppCompatActivity(), AddToPortfolioView {
             true
         }
         R.id.action_save_portfolio -> {
-            if (amount_edit_text.text.isBlank()) {
+            if (amount_edit_text.text.isBlank() || amount_edit_text.text.toString() == "0"
+                    || amount_edit_text.text.toString() == ".") {
                 toast(R.string.amount_of_coins_should_not_be_empty)
             } else {
                 presenter.addCoinToPortfolio(

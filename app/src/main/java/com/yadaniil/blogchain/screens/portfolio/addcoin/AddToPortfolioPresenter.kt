@@ -42,9 +42,9 @@ class AddToPortfolioPresenter : MvpPresenter<AddToPortfolioView>() {
                            description: String) {
         val coin = repo.getCoinFromDb(coinSymbol)
         if(portfolioToEdit != null)
-            repo.editPortfolio(portfolioToEdit, coin, amountOfCoins, buyPriceOfCoin, storageType, storageName, description)
+            repo.editPortfolio(portfolioToEdit, coin!!, amountOfCoins, buyPriceOfCoin, storageType, storageName, description)
         else
-            repo.addCoinToPortfolio(coin, amountOfCoins, buyPriceOfCoin, storageType, storageName, description)
+            repo.addCoinToPortfolio(coin!!, amountOfCoins, buyPriceOfCoin, storageType, storageName, description)
     }
 
 //    fun editPortfolio(portfolio: PortfolioRealm, coin: CoinMarketCapCurrencyRealm,

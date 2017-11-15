@@ -22,7 +22,7 @@ class AppDbHelper : DbHelper {
     override fun getAllCoinsFromDb(): RealmResults<CoinMarketCapCurrencyRealm> =
             realm.where(CoinMarketCapCurrencyRealm::class.java).findAllSortedAsync("rank")
 
-    override fun getCoinFromDb(symbol: String): CoinMarketCapCurrencyRealm =
+    override fun getCoinFromDb(symbol: String): CoinMarketCapCurrencyRealm? =
             realm.where(CoinMarketCapCurrencyRealm::class.java)
                     .equalTo("symbol", symbol, Case.INSENSITIVE).findFirst()
 

@@ -36,7 +36,7 @@ class WatchlistPresenter : MvpPresenter<WatchlistView>() {
 
     fun addCoinToFavourite(symbol: String?) {
         val coin = repo.getCoinFromDb(symbol ?: "")
-        repo.addCoinToFavourite(coin)
+        repo.addCoinToFavourite(coin!!)
     }
 
     fun downloadAndSaveAllCurrencies() {

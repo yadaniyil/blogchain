@@ -22,11 +22,11 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/watchlist_recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingBottom="@dimen/quadra_dimen"
-                android:clipToPadding="false"/>
+                android:layout_height="match_parent" />
 
         </android.support.v4.widget.SwipeRefreshLayout>
+
+        <include layout="@layout/no_items_filtered_layout"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -85,16 +85,16 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <com.google.android.gms.ads.AdView
-        xmlns:ads="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/adView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        ads:adSize="BANNER"
-        ads:adUnitId="@string/banner_watchlist_list">
-    </com.google.android.gms.ads.AdView>
+    <!--<com.google.android.gms.ads.AdView-->
+        <!--xmlns:ads="http://schemas.android.com/apk/res-auto"-->
+        <!--android:id="@+id/adView"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--ads:adSize="BANNER"-->
+        <!--ads:adUnitId="@string/banner_watchlist_list">-->
+    <!--</com.google.android.gms.ads.AdView>-->
 
     <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"
@@ -104,9 +104,7 @@
         android:id="@+id/fab"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_above="@id/adView"
         android:src="@drawable/ic_plus_white_24dp"
-        android:layout_marginEnd="@dimen/standard_dimen"
-        android:layout_marginBottom="@dimen/fab_bottom_margin_with_ad"/>
+        android:layout_margin="@dimen/standard_dimen" />
 
 </RelativeLayout>

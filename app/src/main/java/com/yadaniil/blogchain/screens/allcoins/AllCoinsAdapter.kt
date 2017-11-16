@@ -10,6 +10,7 @@ import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
 import com.yadaniil.blogchain.data.db.models.CryptoCompareCurrencyRealm
 import com.yadaniil.blogchain.screens.base.CoinLongClickListener
 import com.yadaniil.blogchain.utils.ListHelper
+import io.realm.OrderedRealmCollection
 import io.realm.RealmRecyclerViewAdapter
 import io.realm.RealmResults
 
@@ -47,5 +48,5 @@ class AllCoinsAdapter(data: RealmResults<CoinMarketCapCurrencyRealm>, autoUpdate
                 onClick, onLongClick, false)
     }
 
-
+    fun update(newData: OrderedRealmCollection<CoinMarketCapCurrencyRealm>) = updateData(newData)
 }

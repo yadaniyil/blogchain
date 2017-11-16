@@ -21,7 +21,7 @@ class FindFavouritePresenter : MvpPresenter<FindFavouriteView>() {
 
     fun getFavouriteCoins() = repo.getAllFavouriteCoins()
 
-    fun getAllCoinsFiltered(text: String) = repo.getAllCoinsFiltered(text)
+    fun getFavouriteCoinsFiltered(text: String) = repo.getFavouriteCoinsFiltered(text)
 
     fun getCcCoins() = repo.getAllCryptoCompareCoinsFromDb()
 }

@@ -8,8 +8,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.MenuItem
 import android.view.View
 import com.arellomobile.mvp.presenter.InjectPresenter
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.MobileAds
 import com.yadaniil.blogchain.R
 import com.yadaniil.blogchain.screens.base.BaseActivity
 import com.yadaniil.blogchain.screens.base.CoinClickListener
@@ -44,7 +42,7 @@ class WatchlistActivity : BaseActivity(), WatchlistView, CoinClickListener, Coin
         super.onCreate(savedInstanceState)
         listDivider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         favourites = presenter.getRealmCurrenciesFavourite()
-        initAdMobBanner()
+//        initAdMobBanner()
         initSwipeRefresh()
         initFab()
         initNoFavouritesView()
@@ -91,13 +89,13 @@ class WatchlistActivity : BaseActivity(), WatchlistView, CoinClickListener, Coin
                 PICK_FAVOURITE_COIN_REQUEST_CODE) }
     }
 
-    private fun initAdMobBanner() {
-        MobileAds.initialize(this, getString(R.string.admob_app_id))
-        val builder = AdRequest.Builder()
-                .addTestDevice(getString(R.string.admob_test_device))
-                .build()
-        adView.loadAd(builder)
-    }
+//    private fun initAdMobBanner() {
+//        MobileAds.initialize(this, getString(R.string.admob_app_id))
+//        val builder = AdRequest.Builder()
+//                .addTestDevice(getString(R.string.admob_test_device))
+//                .build()
+//        adView.loadAd(builder)
+//    }
 
     private fun initSwipeRefresh() {
         swipe_refresh.setColorSchemeColors(resources.getColor(R.color.colorAccent))

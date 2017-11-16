@@ -10,7 +10,8 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.miguelcatalan.materialsearchview.MaterialSearchView
 import com.yadaniil.blogchain.R
 import com.yadaniil.blogchain.utils.ListHelper
-import kotlinx.android.synthetic.main.fragment_find_cryptocurrencies.*
+import kotlinx.android.synthetic.main.fragment_find_fiat.*
+import timber.log.Timber
 
 /**
  * Created by danielyakovlev on 11/15/17.
@@ -26,19 +27,39 @@ class FindFiatFragment : MvpAppCompatFragment(), FindFiatAdapter.OnClick, FindFi
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         initFiatList()
+        initSearchView()
     }
 
-    private fun initFiatList() {
-        findFiatAdapter = FindFiatAdapter(getAllFiatCurrencies(), activity)
-        currencies_recycler_view.layoutManager = LinearLayoutManager(activity)
-        currencies_recycler_view.adapter = findFiatAdapter
-        currencies_recycler_view.setHasFixedSize(true)
+    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        if (isVisibleToUser)
+            initSearchView()
     }
 
-    private fun getAllFiatCurrencies(): MutableList<FiatListItem> {
+    private fun initSearchView() {
+        if(searchView.isSearchOpen)
+            searchView.closeSearch()
+        searchView.setOnQueryTextListener(object : MaterialSearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?) = true
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                Timber.e(newText)
+                initFiatList(newText)
+                return true
+            }
+        })
+    }
+
+    private fun initFiatList(newText: String? = "") {
+        findFiatAdapter = FindFiatAdapter(getAllFiatCurrencies(newText), activity)
+        fiat_recycler_view.layoutManager = LinearLayoutManager(activity)
+        fiat_recycler_view.adapter = findFiatAdapter
+        fiat_recycler_view.setHasFixedSize(true)
+    }
+
+    private fun getAllFiatCurrencies(newText: String?): MutableList<FiatListItem> {
         val symbols = resources.getStringArray(R.array.fiat_currencies_symbols)
         val names = resources.getStringArray(R.array.fiat_currencies_names)
-        return listOf(
+        val list = listOf(
                 FiatHeaderItem(getString(R.string.popular)),
                 FiatCurrencyItem(symbols[0], names[0], R.drawable.usd),
                 FiatCurrencyItem(symbols[1], names[1], R.drawable.eur),
@@ -75,10 +96,23 @@ class FindFiatFragment : MvpAppCompatFragment(), FindFiatAdapter.OnClick, FindFi
                 FiatCurrencyItem(symbols[30], names[30], R.drawable.twd),
                 FiatCurrencyItem(symbols[31], names[31], R.drawable.zar)
         ).toMutableList()
+
+        return if (newText == null || newText.isBlank()) {
+            list
+        } else {
+            val filteredList: MutableList<FiatListItem> = ArrayList()
+            filteredList
+                    .filter { it is FiatCurrencyItem }
+//                    .filter { val fiat = it as FiatCurrencyItem;
+//                        fiat.symbol.contains(newText, true)
+//                                || fiat.name.contains(newText, true) }
+
+            filteredList.toMutableList()
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-            inflater?.inflate(R.layout.fragment_find_cryptocurrencies, container, false)
+            inflater?.inflate(R.layout.fragment_find_fiat, container, false)
 
     override fun onClick(holder: ListHelper.FindFiatHolder?, fiatItem: FiatCurrencyItem) {
 

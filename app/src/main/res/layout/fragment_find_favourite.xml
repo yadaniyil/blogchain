@@ -12,7 +12,7 @@
         android:orientation="vertical">
 
         <com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
-            android:id="@+id/currencies_recycler_view"
+            android:id="@+id/favourites_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:fastScrollAutoHide="true"

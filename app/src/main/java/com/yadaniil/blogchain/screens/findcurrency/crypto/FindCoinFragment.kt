@@ -19,6 +19,7 @@ import io.realm.RealmResults
 import kotlinx.android.synthetic.main.fragment_find_cryptocurrencies.*
 import kotlinx.android.synthetic.main.no_items_filtered_layout.*
 import kotlinx.android.synthetic.main.no_items_layout.*
+import timber.log.Timber
 
 /**
  * Created by danielyakovlev on 11/15/17.
@@ -38,14 +39,24 @@ class FindCoinFragment : MvpAppCompatFragment(), FindCoinAdapter.SimpleItemClick
         initCoinList(presenter.getAllCoins())
     }
 
+    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        if(isVisibleToUser)
+            initSearchView()
+    }
+
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? =
             inflater?.inflate(R.layout.fragment_find_cryptocurrencies, container, false)
 
     private fun initSearchView() {
+        if(searchView.isSearchOpen)
+            searchView.closeSearch()
+
+        searchView.setOnQueryTextListener(null)
         searchView.setOnQueryTextListener(object : MaterialSearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?) = true
 
             override fun onQueryTextChange(newText: String?): Boolean {
+                Timber.e(newText)
                 initCoinList(presenter.getAllCoinsFiltered(newText ?: ""))
                 return true
             }

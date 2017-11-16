@@ -63,4 +63,15 @@
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Title</item>
     </style>
 
+
+    <style name="DarkMaterialSearchView">
+        <item name="searchBackground">@color/colorBlueDark</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textColorHint">@color/divider</item>
+        <item name="android:hint">@string/search</item>
+        <item name="searchVoiceIcon">@drawable/ic_action_voice_search_inverted</item>
+        <item name="searchCloseIcon">@drawable/ic_action_navigation_close_inverted</item>
+        <item name="searchBackIcon">@drawable/ic_action_navigation_arrow_back_inverted</item>
+    </style>
+
 </resources>

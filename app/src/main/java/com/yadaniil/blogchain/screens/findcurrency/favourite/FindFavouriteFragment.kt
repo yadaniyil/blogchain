@@ -17,9 +17,10 @@ import com.yadaniil.blogchain.screens.findcurrency.FindCurrencyActivity.Companio
 import com.yadaniil.blogchain.screens.findcurrency.crypto.FindCoinAdapter
 import com.yadaniil.blogchain.utils.ListHelper
 import io.realm.RealmResults
-import kotlinx.android.synthetic.main.fragment_find_cryptocurrencies.*
+import kotlinx.android.synthetic.main.fragment_find_favourite.*
 import kotlinx.android.synthetic.main.no_items_filtered_layout.*
 import kotlinx.android.synthetic.main.no_items_layout.*
+import timber.log.Timber
 
 /**
  * Created by danielyakovlev on 11/15/17.
@@ -41,32 +42,40 @@ class FindFavouriteFragment : MvpAppCompatFragment(), FindCoinAdapter.SimpleItem
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-            inflater?.inflate(R.layout.fragment_find_cryptocurrencies, container, false)
+            inflater?.inflate(R.layout.fragment_find_favourite, container, false)
 
     private fun initSearchView() {
+        if(searchView.isSearchOpen)
+            searchView.closeSearch()
         searchView.setOnQueryTextListener(object : MaterialSearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?) = true
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                initCoinList(presenter.getAllCoinsFiltered(newText ?: ""))
+                Timber.e(newText)
+                initCoinList(presenter.getFavouriteCoinsFiltered(newText ?: ""))
                 return true
             }
         })
     }
 
+    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        if(isVisibleToUser)
+            initSearchView()
+    }
+
     private fun initCoinList(currencies: RealmResults<CoinMarketCapCurrencyRealm>) {
         findCoinAdapter = FindCoinAdapter(currencies, true, this, presenter.getCcCoins(), activity)
-        currencies_recycler_view.layoutManager = LinearLayoutManager(activity)
-        currencies_recycler_view.adapter = findCoinAdapter
-        currencies_recycler_view.setHasFixedSize(true)
+        favourites_recycler_view.layoutManager = LinearLayoutManager(activity)
+        favourites_recycler_view.adapter = findCoinAdapter
+        favourites_recycler_view.setHasFixedSize(true)
         findCoinAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
             override fun onChanged() {
                 if (findCoinAdapter.itemCount > 0) {
-                    currencies_recycler_view.visibility = View.VISIBLE
+                    favourites_recycler_view.visibility = View.VISIBLE
                     no_items_layout.visibility = View.GONE
                     no_items_filtered_layout.visibility = View.GONE
                 } else {
-                    currencies_recycler_view.visibility = View.GONE
+                    favourites_recycler_view.visibility = View.GONE
                     if (searchView.isSearchOpen) {
                         no_items_layout.visibility = View.GONE
                         no_items_filtered_layout.visibility = View.VISIBLE

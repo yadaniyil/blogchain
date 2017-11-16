@@ -4,8 +4,6 @@ import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.yadaniil.blogchain.Application
 import com.yadaniil.blogchain.data.Repository
-import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
-import io.realm.RealmResults
 import javax.inject.Inject
 
 /**

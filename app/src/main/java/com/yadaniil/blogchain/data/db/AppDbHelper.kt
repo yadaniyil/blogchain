@@ -63,6 +63,16 @@ class AppDbHelper : DbHelper {
             realm.where(CoinMarketCapCurrencyRealm::class.java)
                     .equalTo("isFavourite", true).findAllAsync()
 
+    override fun getFavouriteCoinsFiltered(text: String): RealmResults<CoinMarketCapCurrencyRealm> =
+            realm.where(CoinMarketCapCurrencyRealm::class.java)
+                    .equalTo("isFavourite", true)
+                    .beginGroup()
+                    .contains("name", text, Case.INSENSITIVE)
+                    .or()
+                    .contains("symbol", text, Case.INSENSITIVE)
+                    .endGroup()
+                    .findAllSortedAsync("rank")
+
     // endregion Coins
 
     // region CryptoCompare

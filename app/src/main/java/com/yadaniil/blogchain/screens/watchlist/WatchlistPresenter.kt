@@ -39,6 +39,8 @@ class WatchlistPresenter : MvpPresenter<WatchlistView>() {
         repo.addCoinToFavourite(coin!!)
     }
 
+    fun getFavouriteCoinsFiltered(filter: String) = repo.getFavouriteCoinsFiltered(filter)
+
     fun downloadAndSaveAllCurrencies() {
         repo.getAllCurrencies(limit = "0")
                 .subscribeOn(Schedulers.io())

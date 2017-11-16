@@ -54,6 +54,9 @@ class Repository @Inject constructor(private var appApiHelper: AppApiHelper,
     override fun getAllFavouriteCoins(): RealmResults<CoinMarketCapCurrencyRealm> =
             appDbHelper.getAllFavouriteCoins()
 
+    override fun getFavouriteCoinsFiltered(text: String): RealmResults<CoinMarketCapCurrencyRealm> =
+            appDbHelper.getFavouriteCoinsFiltered(text)
+
     override fun getCoinFromDb(symbol: String) = appDbHelper.getCoinFromDb(symbol)
 
     override fun addCoinToPortfolio(coin: CoinMarketCapCurrencyRealm, amountOfCoins: String,

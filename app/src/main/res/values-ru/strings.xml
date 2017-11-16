@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Блогчейн</string>
     <string name="loading">Загрузка…</string>
-    <string name="drawer_item_all_coins">Валюты</string>
+    <string name="drawer_item_all_coins">Все монеты</string>
     <string name="drawer_item_portfolio">Портфолио</string>
     <string name="drawer_item_exchanges">Биржи</string>
     <string name="drawer_item_settings">Настройки</string>
@@ -115,4 +115,15 @@
     <string name="amount_of_coins_should_not_be_empty">Количество монет не должно быть пустым</string>
     <string name="no_items_in_portfolio">У вас нет монет в портфолио</string>
     <string name="no_favourite_coins">У вас нет любимых монет</string>
+    <string name="add">Добавить</string>
+    <string name="edit">Редактировать</string>
+    <string name="remove">Удалить</string>
+    <string name="remove_from_portfolio_question">Удалить эту монеты из портфолио?</string>
+    <string name="description">Описание</string>
+    <string name="fiat">Фиат</string>
+    <string name="cryptocurrencies">Криптовалюты</string>
+    <string name="favourites">Любимые</string>
+    <string name="popular">Популярные</string>
+    <string name="other">Другие</string>
+    <string name="currencies">Валюты</string>
 </resources>

@@ -20,6 +20,7 @@ interface DbHelper {
     fun addCoinToFavourite(coin: CoinMarketCapCurrencyRealm)
     fun removeCoinFromFavourites(coin: CoinMarketCapCurrencyRealm)
     fun getAllFavouriteCoins(): RealmResults<CoinMarketCapCurrencyRealm>
+    fun getFavouriteCoinsFiltered(text: String): RealmResults<CoinMarketCapCurrencyRealm>
     // endregion Coins
 
     // region CryptoCompare

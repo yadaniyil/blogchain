@@ -54,7 +54,7 @@ class FindCurrencyActivity : MvpAppCompatActivity(), FindCurrencyView {
     }
 
     private fun initToolbar() {
-        toolbar.title = getString(R.string.pick)
+        toolbar.title = getString(R.string.currencies)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)

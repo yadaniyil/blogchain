@@ -5,9 +5,11 @@ import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import com.arellomobile.mvp.presenter.InjectPresenter
+import com.miguelcatalan.materialsearchview.MaterialSearchView
 import com.yadaniil.blogchain.R
 import com.yadaniil.blogchain.screens.base.BaseActivity
 import com.yadaniil.blogchain.screens.base.CoinClickListener
@@ -32,7 +34,7 @@ class WatchlistActivity : BaseActivity(), WatchlistView, CoinClickListener, Coin
     lateinit var presenter: WatchlistPresenter
     private val PICK_FAVOURITE_COIN_REQUEST_CODE = 0
 
-    private var favourites: RealmResults<CoinMarketCapCurrencyRealm>? = null
+    private var allFavourites: RealmResults<CoinMarketCapCurrencyRealm>? = null
 
     private lateinit var watchlistAdapter: WatchlistAdapter
     private lateinit var listDivider: RecyclerView.ItemDecoration
@@ -41,23 +43,28 @@ class WatchlistActivity : BaseActivity(), WatchlistView, CoinClickListener, Coin
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         listDivider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
-        favourites = presenter.getRealmCurrenciesFavourite()
-//        initAdMobBanner()
+        allFavourites = presenter.getRealmCurrenciesFavourite()
         initSwipeRefresh()
         initFab()
+        initSearchView()
         initNoFavouritesView()
-        setUpWatchlist(favourites!!)
+        setUpWatchlist(allFavourites!!)
         presenter.downloadAndSaveAllCurrencies()
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return when (item?.itemId) {
-            android.R.id.home -> {
-                onBackPressed()
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_find, menu)
+        val searchItem = menu?.findItem(R.id.action_search)
+        search_view.setMenuItem(searchItem)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?) = when (item?.itemId) {
+        android.R.id.home -> {
+            onBackPressed()
+            true
         }
+        else -> super.onOptionsItemSelected(item)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -68,11 +75,30 @@ class WatchlistActivity : BaseActivity(), WatchlistView, CoinClickListener, Coin
             }
         }
     }
+
+    override fun onBackPressed() {
+        if (search_view.isSearchOpen) {
+            search_view.closeSearch()
+        } else {
+            super.onBackPressed()
+        }
+    }
     // endregion Activity
 
     // region Init
+    private fun initSearchView() {
+        search_view.setOnQueryTextListener(object : MaterialSearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?) = true
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                updateList(presenter.getFavouriteCoinsFiltered(newText ?: ""))
+                return true
+            }
+        })
+    }
+
     private fun initNoFavouritesView() {
-        favourites?.addChangeListener { favourites ->
+        allFavourites?.addChangeListener { favourites ->
             if(favourites.isEmpty()) {
                 no_items_text_view.visibility = View.VISIBLE
                 swipe_refresh.visibility = View.GONE
@@ -153,5 +179,10 @@ class WatchlistActivity : BaseActivity(), WatchlistView, CoinClickListener, Coin
     }
 
     override fun getLayout() = R.layout.activity_watchlist
+
+    private fun updateList(favourites: RealmResults<CoinMarketCapCurrencyRealm>) {
+        watchlistAdapter.updateData(favourites)
+    }
+
     // endregion View
 }

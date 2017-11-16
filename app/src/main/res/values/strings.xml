@@ -98,7 +98,7 @@
     <string name="not_so_fast">Not so fast</string>
     <string name="dashboard">Dashboard</string>
     <string name="all_coins">All coins</string>
-    <string name="remove_from_favourite_question">Remove this coin from favourites?</string>
+    <string name="remove_from_favourite_question">Remove this coin from allFavourites?</string>
     <string name="your_portfolio">Your portfolio</string>
     <string name="current_balance">Current balance</string>
     <string name="amount_of_coins">Amount of coins</string>

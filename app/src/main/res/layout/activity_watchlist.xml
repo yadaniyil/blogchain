@@ -26,8 +26,6 @@
 
         </android.support.v4.widget.SwipeRefreshLayout>
 
-        <include layout="@layout/no_items_filtered_layout"/>
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -60,9 +58,8 @@
 
             <com.miguelcatalan.materialsearchview.MaterialSearchView
                 android:id="@+id/search_view"
+                style="@style/DarkMaterialSearchView"
                 android:layout_width="match_parent"
-                android:hint="@string/search"
-                android:textColorHint="@color/gray_700"
                 android:layout_height="wrap_content" />
         </FrameLayout>
 

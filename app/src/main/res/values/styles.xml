@@ -65,7 +65,7 @@
 
 
     <style name="DarkMaterialSearchView">
-        <item name="searchBackground">@color/colorBlueDark</item>
+        <item name="searchBackground">@color/colorPrimary</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textColorHint">@color/divider</item>
         <item name="android:hint">@string/search</item>

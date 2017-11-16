@@ -11,6 +11,7 @@ import com.yadaniil.blogchain.R
 import com.yadaniil.blogchain.screens.findcurrency.events.InitCoinsSearchViewEvent
 import com.yadaniil.blogchain.screens.findcurrency.events.InitFavouritesSearchViewEvent
 import com.yadaniil.blogchain.screens.findcurrency.events.InitFiatSearchViewEvent
+import com.yadaniil.blogchain.screens.watchlist.WatchlistActivity
 import kotlinx.android.synthetic.main.activity_find_coin.*
 import org.greenrobot.eventbus.EventBus
 
@@ -23,17 +24,20 @@ class FindCurrencyActivity : MvpAppCompatActivity(), FindCurrencyView {
 
     @InjectPresenter
     lateinit var presenter: FindCurrencyPresenter
+    private var findPurposeRequestCode: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_find_coin)
+        findPurposeRequestCode = intent.extras.getInt("requestCode")
         initViewPager()
         initTabs()
         initToolbar()
     }
 
     private fun initViewPager() {
-        val pagerAdapter = FindCurrencyPagerAdapter(supportFragmentManager, search_view)
+        val pagerAdapter = FindCurrencyPagerAdapter(supportFragmentManager, search_view,
+                findPurposeRequestCode ?: 0)
         pager.adapter = pagerAdapter
         pager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {}
@@ -49,23 +53,22 @@ class FindCurrencyActivity : MvpAppCompatActivity(), FindCurrencyView {
     }
 
     private fun initTabs() {
-        tab_layout.addTab(tab_layout.newTab().setText(R.string.fiat))
-        tab_layout.addTab(tab_layout.newTab().setText(R.string.coins))
-        tab_layout.addTab(tab_layout.newTab().setText(R.string.favourites))
+        if(findPurposeRequestCode == WatchlistActivity.PICK_FAVOURITE_COIN_REQUEST_CODE)
+            tab_layout.addTab(tab_layout.newTab().setText(R.string.coins))
+        else {
+            tab_layout.addTab(tab_layout.newTab().setText(R.string.fiat))
+            tab_layout.addTab(tab_layout.newTab().setText(R.string.coins))
+            tab_layout.addTab(tab_layout.newTab().setText(R.string.favourites))
+        }
+
 
         pager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tab_layout))
         tab_layout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 pager.currentItem = tab.position
             }
-
-            override fun onTabUnselected(tab: TabLayout.Tab) {
-
-            }
-
-            override fun onTabReselected(tab: TabLayout.Tab) {
-
-            }
+            override fun onTabUnselected(tab: TabLayout.Tab) {}
+            override fun onTabReselected(tab: TabLayout.Tab) {}
         })
     }
 

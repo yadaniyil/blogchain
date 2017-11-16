@@ -89,9 +89,10 @@ class FindCoinFragment : MvpAppCompatFragment(), FindCoinAdapter.SimpleItemClick
     }
 
     companion object {
-        fun newInstance(search_view: MaterialSearchView): FindCoinFragment {
+        fun newInstance(search_view: MaterialSearchView, initSearchImmediately: Boolean): FindCoinFragment {
             val fragment = FindCoinFragment()
             fragment.searchView = search_view
+            if(initSearchImmediately) fragment.initSearchView()
             return fragment
         }
     }

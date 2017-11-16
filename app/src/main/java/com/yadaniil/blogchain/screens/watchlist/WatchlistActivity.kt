@@ -17,6 +17,7 @@ import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
 import com.yadaniil.blogchain.screens.base.CoinLongClickListener
 import com.yadaniil.blogchain.screens.findcurrency.FindCurrencyActivity
 import com.yadaniil.blogchain.utils.ListHelper
+import com.yadaniil.blogchain.utils.Navigator
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_watchlist.*
 import org.jetbrains.anko.alert
@@ -32,8 +33,6 @@ class WatchlistActivity : BaseActivity(), WatchlistView, CoinClickListener, Coin
 
     @InjectPresenter
     lateinit var presenter: WatchlistPresenter
-    private val PICK_FAVOURITE_COIN_REQUEST_CODE = 0
-
     private var allFavourites: RealmResults<CoinMarketCapCurrencyRealm>? = null
 
     private lateinit var watchlistAdapter: WatchlistAdapter
@@ -110,9 +109,7 @@ class WatchlistActivity : BaseActivity(), WatchlistView, CoinClickListener, Coin
     }
 
     private fun initFab() {
-        fab.onClick { startActivityForResult(
-                Intent(this, FindCurrencyActivity::class.java),
-                PICK_FAVOURITE_COIN_REQUEST_CODE) }
+        fab.onClick { Navigator.toFindCurrencyActivity(this, PICK_FAVOURITE_COIN_REQUEST_CODE) }
     }
 
 //    private fun initAdMobBanner() {
@@ -182,6 +179,10 @@ class WatchlistActivity : BaseActivity(), WatchlistView, CoinClickListener, Coin
 
     private fun updateList(favourites: RealmResults<CoinMarketCapCurrencyRealm>) {
         watchlistAdapter.updateData(favourites)
+    }
+
+    companion object {
+        val PICK_FAVOURITE_COIN_REQUEST_CODE = 0
     }
 
     // endregion View

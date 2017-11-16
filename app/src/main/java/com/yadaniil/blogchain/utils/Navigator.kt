@@ -1,8 +1,10 @@
 package com.yadaniil.blogchain.utils
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import com.yadaniil.blogchain.screens.allcoins.AllCoinsActivity
 import com.yadaniil.blogchain.screens.converter.ConverterActivity
+import com.yadaniil.blogchain.screens.findcurrency.FindCurrencyActivity
 import com.yadaniil.blogchain.screens.home.HomeActivity
 import com.yadaniil.blogchain.screens.mining.MiningActivity
 import com.yadaniil.blogchain.screens.portfolio.addcoin.AddToPortfolioActivity
@@ -48,6 +50,12 @@ object Navigator {
     fun toConverterActivity(activity: AppCompatActivity) {
         activity.startActivity<ConverterActivity>()
         activity.finish()
+    }
+
+    fun toFindCurrencyActivity(activity: AppCompatActivity, requestCode: Int) {
+        val intent = Intent(activity, FindCurrencyActivity::class.java)
+        intent.putExtra("requestCode", requestCode)
+        activity.startActivityForResult(intent, requestCode)
     }
 
 }

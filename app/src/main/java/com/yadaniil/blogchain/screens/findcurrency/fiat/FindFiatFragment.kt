@@ -53,7 +53,7 @@ class FindFiatFragment : MvpAppCompatFragment(), FindFiatAdapter.OnClick, FindFi
     }
 
     private fun initSearchView() {
-        if(searchView.isSearchOpen)
+        if (searchView.isSearchOpen)
             searchView.closeSearch()
 
         searchView.setOnQueryTextListener(object : MaterialSearchView.OnQueryTextListener {
@@ -117,13 +117,19 @@ class FindFiatFragment : MvpAppCompatFragment(), FindFiatAdapter.OnClick, FindFi
         return if (newText == null || newText.isBlank()) {
             list
         } else {
-            val filteredList: MutableList<FiatListItem> = ArrayList()
-            filteredList.filter { it is FiatCurrencyItem }
-//                    .filter { val fiat = it as FiatCurrencyItem;
-//                        fiat.symbol.contains(newText, true)
-//                                || fiat.name.contains(newText, true) }
+            var filteredList: MutableList<FiatListItem> = ArrayList()
+            filteredList.addAll(list)
+            filteredList
+                    .filterIsInstance<FiatHeaderItem>()
+                    .forEach { filteredList.remove(it) }
 
-            filteredList.toMutableList()
+            filteredList = filteredList.filter {
+                val fiat = it as FiatCurrencyItem
+                fiat.symbol.contains(newText, true)
+                        || fiat.name.contains(newText, true)
+            }.toMutableList()
+
+            filteredList
         }
     }
 

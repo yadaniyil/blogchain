@@ -34,11 +34,12 @@ class FindFavouriteFragment : MvpAppCompatFragment(), FindCoinAdapter.SimpleItem
     private lateinit var findCoinAdapter: FindCoinAdapter
     private lateinit var searchView: MaterialSearchView
 
+    private lateinit var allFavouriteCoins: RealmResults<CoinMarketCapCurrencyRealm>
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         initSearchView()
-        initCoinList(presenter.getFavouriteCoins())
+        initCoinList()
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? =
@@ -47,12 +48,11 @@ class FindFavouriteFragment : MvpAppCompatFragment(), FindCoinAdapter.SimpleItem
     private fun initSearchView() {
         if(searchView.isSearchOpen)
             searchView.closeSearch()
+
         searchView.setOnQueryTextListener(object : MaterialSearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?) = true
-
             override fun onQueryTextChange(newText: String?): Boolean {
-                Timber.e(newText)
-                initCoinList(presenter.getFavouriteCoinsFiltered(newText ?: ""))
+                findCoinAdapter.updateData(presenter.getFavouriteCoinsFiltered(newText ?: ""))
                 return true
             }
         })
@@ -63,29 +63,24 @@ class FindFavouriteFragment : MvpAppCompatFragment(), FindCoinAdapter.SimpleItem
             initSearchView()
     }
 
-    private fun initCoinList(currencies: RealmResults<CoinMarketCapCurrencyRealm>) {
-        findCoinAdapter = FindCoinAdapter(currencies, true, this, presenter.getCcCoins(), activity)
+    private fun initCoinList() {
+        allFavouriteCoins = presenter.getFavouriteCoins()
+        allFavouriteCoins.addChangeListener { favoriteCoins ->
+            if(favoriteCoins.isEmpty()) {
+                favourites_recycler_view.visibility = View.GONE
+                no_items_text_view.visibility = View.VISIBLE
+            } else {
+                if(favourites_recycler_view != null && no_items_text_view != null) {
+                    favourites_recycler_view.visibility = View.VISIBLE
+                    no_items_text_view.visibility = View.GONE
+                }
+            }
+        }
+
+        findCoinAdapter = FindCoinAdapter(allFavouriteCoins, true, this, presenter.getCcCoins(), activity)
         favourites_recycler_view.layoutManager = LinearLayoutManager(activity)
         favourites_recycler_view.adapter = findCoinAdapter
         favourites_recycler_view.setHasFixedSize(true)
-        findCoinAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
-            override fun onChanged() {
-                if (findCoinAdapter.itemCount > 0) {
-                    favourites_recycler_view.visibility = View.VISIBLE
-                    no_items_layout.visibility = View.GONE
-                    no_items_filtered_layout.visibility = View.GONE
-                } else {
-                    favourites_recycler_view.visibility = View.GONE
-                    if (searchView.isSearchOpen) {
-                        no_items_layout.visibility = View.GONE
-                        no_items_filtered_layout.visibility = View.VISIBLE
-                    } else {
-                        no_items_filtered_layout.visibility = View.GONE
-                        no_items_layout.visibility = View.VISIBLE
-                    }
-                }
-            }
-        })
     }
 
     override fun onClick(holder: ListHelper.FindCoinHolder?, currencyRealm: CoinMarketCapCurrencyRealm) {

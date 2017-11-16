@@ -23,8 +23,14 @@
             app:fastScrollPopupTextSize="36sp"
             app:fastScrollThumbColor="@color/colorPrimary" />
 
-        <include layout="@layout/no_items_layout"/>
-        <include layout="@layout/no_items_filtered_layout" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/double_dimen"
+            android:textSize="@dimen/text_size_normal"
+            android:gravity="center"
+            android:id="@+id/no_items_text_view"
+            android:text="@string/no_favourite_coins"/>
 
     </LinearLayout>
 

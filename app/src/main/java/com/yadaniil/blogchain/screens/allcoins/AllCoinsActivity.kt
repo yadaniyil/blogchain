@@ -196,7 +196,7 @@ class AllCoinsActivity : BaseActivity(), AllCoinsView, CoinClickListener, CoinLo
 
     private fun updateList(coins: RealmResults<CoinMarketCapCurrencyRealm>) {
         initNoItemsLayout(coins)
-        allCoinsAdapter.update(coins)
+        allCoinsAdapter.updateData(coins)
     }
 
     private fun colorSortButtonToWhite() {

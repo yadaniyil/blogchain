@@ -21,6 +21,13 @@ import kotlinx.android.synthetic.main.fragment_find_favourite.*
 import kotlinx.android.synthetic.main.no_items_filtered_layout.*
 import kotlinx.android.synthetic.main.no_items_layout.*
 import timber.log.Timber
+import android.widget.Toast
+import com.yadaniil.blogchain.screens.findcurrency.events.InitFavouritesSearchViewEvent
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
+
+
 
 /**
  * Created by danielyakovlev on 11/15/17.
@@ -38,7 +45,6 @@ class FindFavouriteFragment : MvpAppCompatFragment(), FindCoinAdapter.SimpleItem
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        initSearchView()
         initCoinList()
     }
 
@@ -56,11 +62,6 @@ class FindFavouriteFragment : MvpAppCompatFragment(), FindCoinAdapter.SimpleItem
                 return true
             }
         })
-    }
-
-    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
-        if(isVisibleToUser)
-            initSearchView()
     }
 
     private fun initCoinList() {
@@ -88,6 +89,22 @@ class FindFavouriteFragment : MvpAppCompatFragment(), FindCoinAdapter.SimpleItem
         returnIntent.putExtra(PICKED_COIN_SYMBOL, currencyRealm.symbol)
         activity.setResult(Activity.RESULT_OK, returnIntent)
         activity.finish()
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onMessageEvent(event: InitFavouritesSearchViewEvent) {
+        Timber.e(event.message)
+        initSearchView()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        EventBus.getDefault().register(this)
+    }
+
+    override fun onStop() {
+        EventBus.getDefault().unregister(this)
+        super.onStop()
     }
 
     companion object {

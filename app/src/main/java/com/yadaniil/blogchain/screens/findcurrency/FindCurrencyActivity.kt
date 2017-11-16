@@ -2,12 +2,17 @@ package com.yadaniil.blogchain.screens.findcurrency
 
 import android.os.Bundle
 import android.support.design.widget.TabLayout
+import android.support.v4.view.ViewPager
 import android.view.Menu
 import android.view.MenuItem
 import com.arellomobile.mvp.MvpAppCompatActivity
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.yadaniil.blogchain.R
+import com.yadaniil.blogchain.screens.findcurrency.events.InitCoinsSearchViewEvent
+import com.yadaniil.blogchain.screens.findcurrency.events.InitFavouritesSearchViewEvent
+import com.yadaniil.blogchain.screens.findcurrency.events.InitFiatSearchViewEvent
 import kotlinx.android.synthetic.main.activity_find_coin.*
+import org.greenrobot.eventbus.EventBus
 
 
 /**
@@ -30,6 +35,17 @@ class FindCurrencyActivity : MvpAppCompatActivity(), FindCurrencyView {
     private fun initViewPager() {
         val pagerAdapter = FindCurrencyPagerAdapter(supportFragmentManager, search_view)
         pager.adapter = pagerAdapter
+        pager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageScrollStateChanged(state: Int) {}
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
+            override fun onPageSelected(position: Int) {
+                when(position) {
+                    0 -> EventBus.getDefault().post(InitFiatSearchViewEvent("Search through fiat enabled"))
+                    1 -> EventBus.getDefault().post(InitCoinsSearchViewEvent("Search through all coins enabled"))
+                    2 -> EventBus.getDefault().post(InitFavouritesSearchViewEvent("Search through favourite coins enabled"))
+                }
+            }
+        })
     }
 
     private fun initTabs() {

@@ -47,6 +47,4 @@ class AllCoinsAdapter(data: RealmResults<CoinMarketCapCurrencyRealm>, autoUpdate
         ListHelper.bindCurrency(holder!!, currencyRealm!!, ccList, context,
                 onClick, onLongClick, false)
     }
-
-    fun update(newData: OrderedRealmCollection<CoinMarketCapCurrencyRealm>) = updateData(newData)
 }

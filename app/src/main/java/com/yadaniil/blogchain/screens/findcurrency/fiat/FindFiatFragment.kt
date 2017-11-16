@@ -1,6 +1,7 @@
 package com.yadaniil.blogchain.screens.findcurrency.fiat
 
 import android.os.Bundle
+import android.support.v4.view.ViewPager
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -9,8 +10,12 @@ import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.miguelcatalan.materialsearchview.MaterialSearchView
 import com.yadaniil.blogchain.R
+import com.yadaniil.blogchain.screens.findcurrency.events.InitFiatSearchViewEvent
 import com.yadaniil.blogchain.utils.ListHelper
 import kotlinx.android.synthetic.main.fragment_find_fiat.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import timber.log.Timber
 
 /**
@@ -23,26 +28,38 @@ class FindFiatFragment : MvpAppCompatFragment(), FindFiatAdapter.OnClick, FindFi
 
     private lateinit var findFiatAdapter: FindFiatAdapter
     private lateinit var searchView: MaterialSearchView
+    private lateinit var viewPager: ViewPager
+    private var pageNumber: Int? = null
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         initFiatList()
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onMessageEvent(event: InitFiatSearchViewEvent) {
+        Timber.e(event.message)
         initSearchView()
     }
 
-    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
-        if (isVisibleToUser)
-            initSearchView()
+    override fun onStart() {
+        super.onStart()
+        EventBus.getDefault().register(this)
+    }
+
+    override fun onStop() {
+        EventBus.getDefault().unregister(this)
+        super.onStop()
     }
 
     private fun initSearchView() {
         if(searchView.isSearchOpen)
             searchView.closeSearch()
+
         searchView.setOnQueryTextListener(object : MaterialSearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?) = true
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                Timber.e(newText)
                 initFiatList(newText)
                 return true
             }
@@ -101,8 +118,7 @@ class FindFiatFragment : MvpAppCompatFragment(), FindFiatAdapter.OnClick, FindFi
             list
         } else {
             val filteredList: MutableList<FiatListItem> = ArrayList()
-            filteredList
-                    .filter { it is FiatCurrencyItem }
+            filteredList.filter { it is FiatCurrencyItem }
 //                    .filter { val fiat = it as FiatCurrencyItem;
 //                        fiat.symbol.contains(newText, true)
 //                                || fiat.name.contains(newText, true) }

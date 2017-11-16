@@ -18,6 +18,8 @@ import com.yadaniil.blogchain.screens.home.HomePresenter
 import com.yadaniil.blogchain.screens.allcoins.AllCoinsPresenter
 import com.yadaniil.blogchain.screens.converter.ConverterPresenter
 import com.yadaniil.blogchain.screens.findcurrency.crypto.FindCoinPresenter
+import com.yadaniil.blogchain.screens.findcurrency.favourite.FindFavouritePresenter
+import com.yadaniil.blogchain.screens.findcurrency.fiat.FindFiatPresenter
 import com.yadaniil.blogchain.screens.mining.fragments.calculator.CalculatorPresenter
 import com.yadaniil.blogchain.screens.mining.fragments.coins.CoinsPresenter
 import com.yadaniil.blogchain.screens.mining.fragments.miners.MinersPresenter
@@ -46,6 +48,8 @@ interface ApplicationComponent {
     fun inject(addToPortfolioPresenter: AddToPortfolioPresenter)
     fun inject(converterPresenter: ConverterPresenter)
     fun inject(findCoinPresenter: FindCoinPresenter)
+    fun inject(findFavouritePresenter: FindFavouritePresenter)
+    fun inject(findFiatPresenter: FindFiatPresenter)
 
     fun app(): Application
     fun context(): Context

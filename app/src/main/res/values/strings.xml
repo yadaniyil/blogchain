@@ -122,6 +122,8 @@
     <string name="cryptocurrencies">Cryptocurrencies</string>
     <string name="favourites">Favourites</string>
     <string name="pick">Выбирай</string>
+    <string name="popular">Popular</string>
+    <string name="other">Other</string>
 
     <string-array name="miner_filters">
         <item>All categories</item>
@@ -145,4 +147,79 @@
         <item>Hardware wallet</item>
         <item>Exchange</item>
     </string-array>
+
+    <string-array name="fiat_currencies_names">
+        <item>United States Dollar</item>
+        <item>Euro</item>
+        <item>British pound</item>
+        <item>Japanese yen</item>
+        <item>Russian ruble</item>
+
+        <item>Australian dollar</item>
+        <item>Brazilian real</item>
+        <item>Canadian dollar</item>
+        <item>Swiss franc</item>
+        <item>Chilean peso</item>
+        <item>Chinese yuan</item>
+        <item>Czech koruna</item>
+        <item>Danish krone</item>
+        <item>Hong Kong dollar</item>
+        <item>Hungarian forint</item>
+        <item>Indonesian rupiah</item>
+        <item>Israeli new shekel</item>
+        <item>Indian rupee</item>
+        <item>South Korean won</item>
+        <item>Mexican peso</item>
+        <item>Malaysian ringgit</item>
+        <item>Norwegian krone</item>
+        <item>New Zealand dollar</item>
+        <item>Philippine piso</item>
+        <item>Pakistani rupee</item>
+        <item>Polish złoty</item>
+        <item>Swedish krona</item>
+        <item>Singapore dollar</item>
+        <item>Thai baht</item>
+        <item>Turkish lira</item>
+        <item>New Taiwan dollar</item>
+        <item>South African rand</item>
+    </string-array>
+
+    <string-array name="fiat_currencies_symbols">
+        <item>USD</item>
+        <item>EUR</item>
+        <item>GBP</item>
+        <item>JPY</item>
+        <item>RUB</item>
+
+        <item>AUD</item>
+        <item>BRL</item>
+        <item>CAD</item>
+        <item>CHF</item>
+        <item>CLP</item>
+        <item>CNY</item>
+        <item>CZK</item>
+        <item>DKK</item>
+        <item>HKD</item>
+        <item>HUF</item>
+        <item>IDR</item>
+        <item>ILS</item>
+        <item>INR</item>
+        <item>KRW</item>
+        <item>MXN</item>
+        <item>MYR</item>
+        <item>NOK</item>
+        <item>NZD</item>
+        <item>PHP</item>
+        <item>PKR</item>
+        <item>PLN</item>
+        <item>SEK</item>
+        <item>SGD</item>
+        <item>THB</item>
+        <item>TRY</item>
+        <item>TWD</item>
+        <item>ZAR</item>
+    </string-array>
+
 </resources>
+
+

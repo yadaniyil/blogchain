@@ -158,6 +158,19 @@ object ListHelper {
     }
     // endregion FindCoin
 
+    // region FindFiat
+    class FiatHeaderHolder(view: View) : RecyclerView.ViewHolder(view) {
+        var text: TextView = view.find(R.id.fiat_header_text)
+    }
+
+    class FindFiatHolder(view: View) : RecyclerView.ViewHolder(view) {
+        var itemRootLayout: LinearLayout = view.find(R.id.simple_item_root)
+        var fiatName: TextView = view.find(R.id.fiat_name)
+        var fiatSymbol: TextView = view.find(R.id.fiat_symbol)
+        var fiatFlagIcon: ImageView = view.find(R.id.fiat_flag)
+    }
+    // endregion FindFiat
+
     // region Portfolio
     class PortfolioViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var itemRootLayout: LinearLayout = view.find(R.id.item_root_layout)

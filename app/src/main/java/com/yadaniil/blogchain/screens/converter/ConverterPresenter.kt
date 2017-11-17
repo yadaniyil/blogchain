@@ -19,4 +19,8 @@ class ConverterPresenter : MvpPresenter<ConverterView>() {
         Application.component?.inject(this)
     }
 
+    fun getAllCoins() = repo.getAllCoinsFromDb()
+    fun getAllCcCoins() = repo.getAllCryptoCompareCoinsFromDb()
+
+
 }

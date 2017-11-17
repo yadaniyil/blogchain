@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rootView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
-
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appBar"
@@ -22,7 +20,72 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/appBar">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/top_currency_layout"
+                android:orientation="vertical"
+                android:layout_margin="@dimen/standard_dimen">
+
+                <include
+                    android:id="@+id/top_currency"
+                    layout="@layout/item_converter" />
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/top_amount"
+                    android:inputType="numberDecimal"
+                    android:maxLines="1"
+                    android:hint="@string/amount"
+                    android:singleLine="true"
+                    app:met_baseColor="@color/colorPrimary"
+                    app:met_underlineColor="@color/colorPrimary"
+                    app:met_primaryColor="@color/colorPrimary"
+                    app:met_floatingLabelTextColor="@color/colorPrimary"
+                    app:met_floatingLabel="none"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/bottom_currency_layout"
+                android:orientation="vertical"
+                android:layout_margin="@dimen/standard_dimen">
+
+                <include layout="@layout/item_converter"
+                    android:id="@+id/bottom_currency"/>
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/bottom_amount"
+                    android:inputType="numberDecimal"
+                    android:maxLines="1"
+                    android:hint="@string/amount"
+                    android:singleLine="true"
+                    app:met_baseColor="@color/colorPrimary"
+                    app:met_underlineColor="@color/colorPrimary"
+                    app:met_primaryColor="@color/colorPrimary"
+                    app:met_floatingLabelTextColor="@color/colorPrimary"
+                    app:met_floatingLabel="none"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <com.google.android.gms.ads.AdView
         xmlns:ads="http://schemas.android.com/apk/res-auto"

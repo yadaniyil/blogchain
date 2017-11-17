@@ -59,6 +59,7 @@ class FindCurrencyActivity : MvpAppCompatActivity(), FindCurrencyView {
             tab_layout.addTab(tab_layout.newTab().setText(R.string.fiat))
             tab_layout.addTab(tab_layout.newTab().setText(R.string.coins))
             tab_layout.addTab(tab_layout.newTab().setText(R.string.favourites))
+            pager.setCurrentItem(1, false)
         }
 
 

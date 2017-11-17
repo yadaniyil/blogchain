@@ -23,9 +23,9 @@ class FindCurrencyPagerAdapter(fm: FragmentManager, private val search_view: Mat
             return FindCoinFragment.newInstance(search_view, initSearchImmediately = true)
         else return when (i) {
             0 -> FindFiatFragment.newInstance(search_view)
-            1 -> FindCoinFragment.newInstance(search_view, false)
+            1 -> FindCoinFragment.newInstance(search_view, true)
             2 -> FindFavouriteFragment.newInstance(search_view)
-            else -> FindCoinFragment.newInstance(search_view, false)
+            else -> FindCoinFragment.newInstance(search_view, true)
         }
     }
 

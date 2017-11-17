@@ -59,7 +59,7 @@ object ListHelper {
             initRatesChange(this, currencyRealm, context)
 
             if (currencyRealm.iconBytes == null) {
-                downloadAndSaveIcon(icon, currencyRealm, ccList, context)
+                downloadAndSetIcon(icon, currencyRealm, ccList, context)
             } else {
                 doAsync {
                     val bitmapIcon = BitmapFactory
@@ -72,8 +72,8 @@ object ListHelper {
         }
     }
 
-    private fun downloadAndSaveIcon(icon: ImageView, currencyRealm: CoinMarketCapCurrencyRealm?,
-                                    ccList: MutableList<CryptoCompareCurrencyRealm>, context: Context) {
+    fun downloadAndSetIcon(icon: ImageView, currencyRealm: CoinMarketCapCurrencyRealm?,
+                                   ccList: MutableList<CryptoCompareCurrencyRealm>, context: Context) {
         val imageLink = CurrencyHelper.getImageLinkForCurrency(currencyRealm!!, ccList)
         if (imageLink.isEmpty()) {
             icon.setImageResource(R.drawable.icon_ico)
@@ -154,7 +154,7 @@ object ListHelper {
         holder.coinName.text = currency?.name
         holder.coinSymbol.text = currency?.symbol
         holder.itemRootLayout.onClick { onClick.onClick(holder, currency!!) }
-        downloadAndSaveIcon(holder.coinIcon, currency, ccList, context)
+        downloadAndSetIcon(holder.coinIcon, currency, ccList, context)
     }
     // endregion FindCoin
 
@@ -195,7 +195,7 @@ object ListHelper {
             itemRootLayout.onClick { onClick.onClick(holder, portfolioRealm) }
             itemRootLayout.onLongClick { onLongClick.onLongClick(holder, portfolioRealm); true }
 
-            downloadAndSaveIcon(icon, portfolioRealm.coin, ccList, context)
+            downloadAndSetIcon(icon, portfolioRealm.coin, ccList, context)
         }
     }
 

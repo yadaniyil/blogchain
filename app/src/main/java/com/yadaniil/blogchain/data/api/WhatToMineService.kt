@@ -23,10 +23,10 @@ interface WhatToMineService {
     fun getAllAsicMiningCoins(): Observable<MiningCoinsResponse>
 
     @GET("coins/{coinId}.json")
-    fun getCoinById(@Path("coinId") coinId: String,
-                    @Query("hr") userHashrate: String? = null,
-                    @Query("p") power: String? = null,
-                    @Query("fee") poolFeePercent: String? = null,
-                    @Query("cost") electricityCost: String? = null,
-                    @Query("hcost") hardwareCost: String? = null): Observable<MiningCoinResponse>
+    fun getMiningCoinById(@Path("coinId") coinId: String,
+                          @Query("hr") userHashrate: String? = null,
+                          @Query("p") power: String? = null,
+                          @Query("fee") poolFeePercent: String? = null,
+                          @Query("cost") electricityCost: String? = null,
+                          @Query("hcost") hardwareCost: String? = null): Observable<MiningCoinResponse>
 }

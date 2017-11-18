@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,10 +17,7 @@ import com.yadaniil.blogchain.screens.findcurrency.crypto.FindCoinAdapter
 import com.yadaniil.blogchain.utils.ListHelper
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.fragment_find_favourite.*
-import kotlinx.android.synthetic.main.no_items_filtered_layout.*
-import kotlinx.android.synthetic.main.no_items_layout.*
 import timber.log.Timber
-import android.widget.Toast
 import com.yadaniil.blogchain.screens.findcurrency.events.InitFavouritesSearchViewEvent
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -34,7 +30,7 @@ import org.greenrobot.eventbus.ThreadMode
  */
 
 
-class FindFavouriteFragment : MvpAppCompatFragment(), FindCoinAdapter.SimpleItemClickListener, FindFavouriteView {
+class FindFavouriteFragment : MvpAppCompatFragment(), ListHelper.OnCoinClickListener, FindFavouriteView {
 
     @InjectPresenter lateinit var presenter: FindFavouritePresenter
 

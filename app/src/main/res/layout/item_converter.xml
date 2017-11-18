@@ -4,12 +4,13 @@
     android:layout_width="match_parent"
     android:id="@+id/converter_item_root"
     android:background="?android:attr/selectableItemBackground"
-    android:layout_height="60dp">
+    android:layout_height="@dimen/converter_item_height">
 
     <ImageView
         android:layout_width="0dp"
         android:layout_weight="1.4"
         android:layout_marginTop="@dimen/half_standard_dimen"
+        android:layout_marginStart="@dimen/standard_dimen"
         android:layout_marginBottom="@dimen/half_standard_dimen"
         android:layout_height="match_parent"
         android:id="@+id/currency_icon"/>

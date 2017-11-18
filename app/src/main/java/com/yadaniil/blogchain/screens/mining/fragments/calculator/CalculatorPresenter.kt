@@ -90,7 +90,7 @@ class CalculatorPresenter : MvpPresenter<CalculatorView>() {
         val symbol = getSymbolFromFullName(coinFullName)
         val coinId = downloadedCoins.find { it.tag == symbol }?.id ?: ""
 
-        repo.getCoinById(coinId.toString(), hashrate, power, poolFeePercent, cost)
+        repo.getMiningCoinById(coinId.toString(), hashrate, power, poolFeePercent, cost)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe { viewState.showTableLoading() }

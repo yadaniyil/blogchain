@@ -16,7 +16,6 @@ import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
 import com.yadaniil.blogchain.data.db.models.CryptoCompareCurrencyRealm
 import com.yadaniil.blogchain.data.db.models.PortfolioRealm
 import com.yadaniil.blogchain.screens.base.CoinLongClickListener
-import com.yadaniil.blogchain.screens.findcurrency.crypto.FindCoinAdapter
 import com.yadaniil.blogchain.screens.portfolio.PortfolioAdapter
 import org.jetbrains.anko.*
 import timber.log.Timber
@@ -27,6 +26,10 @@ import java.math.BigDecimal
  */
 
 object ListHelper {
+
+    interface OnCoinClickListener {
+        fun onClick(holder: ListHelper.FindCoinHolder?, currencyRealm: CoinMarketCapCurrencyRealm)
+    }
 
     // region Coin
     class CoinViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -150,7 +153,7 @@ object ListHelper {
     }
 
     fun bindFindCoin(holder: FindCoinHolder, currency: CoinMarketCapCurrencyRealm?,
-                     onClick: FindCoinAdapter.SimpleItemClickListener, ccList: MutableList<CryptoCompareCurrencyRealm>, context: Context) {
+                     onClick: OnCoinClickListener, ccList: MutableList<CryptoCompareCurrencyRealm>, context: Context) {
         holder.coinName.text = currency?.name
         holder.coinSymbol.text = currency?.symbol
         holder.itemRootLayout.onClick { onClick.onClick(holder, currency!!) }

@@ -80,8 +80,11 @@ class Repository @Inject constructor(private var appApiHelper: AppApiHelper,
     // endregion Db
 
     // region Api
-    override fun getAllCurrencies(convertToCurrency: String?, limit: String?): Observable<List<TickerResponse>> =
-            appApiHelper.getAllCurrencies(convertToCurrency, limit)
+    override fun getAllCoins(convertToCurrency: String?, limit: String?): Observable<List<TickerResponse>> =
+            appApiHelper.getAllCoins(convertToCurrency, limit)
+
+    override fun getCoin(coinId: String, convertToCurrency: String?): Observable<String> =
+            appApiHelper.getCoin(coinId, convertToCurrency)
 
     override fun getFullCurrenciesList(): Observable<CryptoCompareCurrenciesListResponse> =
             appApiHelper.getFullCurrenciesList()
@@ -98,10 +101,10 @@ class Repository @Inject constructor(private var appApiHelper: AppApiHelper,
 
     override fun getAllAsicMiningCoins(): Observable<MiningCoinsResponse> = appApiHelper.getAllAsicMiningCoins()
 
-    override fun getCoinById(coinId: String, userHashrate: String?, power: String?,
-                             poolFeePercent: String?, electricityCost: String?,
-                             hardwareCost: String?) =
-            appApiHelper.getCoinById(coinId, userHashrate, power, poolFeePercent, electricityCost, hardwareCost)
+    override fun getMiningCoinById(coinId: String, userHashrate: String?, power: String?,
+                                   poolFeePercent: String?, electricityCost: String?,
+                                   hardwareCost: String?) =
+            appApiHelper.getMiningCoinById(coinId, userHashrate, power, poolFeePercent, electricityCost, hardwareCost)
     // endregion Api
 
     // region SharedPrefs

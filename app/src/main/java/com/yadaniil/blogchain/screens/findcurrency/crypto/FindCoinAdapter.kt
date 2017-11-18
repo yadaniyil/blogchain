@@ -15,13 +15,9 @@ import io.realm.RealmResults
  */
 
 class FindCoinAdapter(data: RealmResults<CoinMarketCapCurrencyRealm>, autoUpdate: Boolean,
-                      var onClick: SimpleItemClickListener,
+                      var onClick: ListHelper.OnCoinClickListener,
                       val ccList: MutableList<CryptoCompareCurrencyRealm>, val context: Context)
     : RealmRecyclerViewAdapter<CoinMarketCapCurrencyRealm, ListHelper.FindCoinHolder>(data, autoUpdate) {
-
-    interface SimpleItemClickListener {
-        fun onClick(holder: ListHelper.FindCoinHolder?, currencyRealm: CoinMarketCapCurrencyRealm)
-    }
 
     init {
         setHasStableIds(true)

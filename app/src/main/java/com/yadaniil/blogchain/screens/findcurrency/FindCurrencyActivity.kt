@@ -103,7 +103,6 @@ class FindCurrencyActivity : MvpAppCompatActivity(), FindCurrencyView {
         }
     }
 
-
     companion object {
         val PICKED_COIN_SYMBOL = "picked_coin_symbol"
     }

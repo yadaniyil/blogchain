@@ -20,5 +20,7 @@ class TickerResponse(
         @SerializedName("percent_change_24h") var percentChange24h: String = "",
         @SerializedName("percent_change_7d") var percentChange7d: String = "",
         @SerializedName("last_updated") var lastUpdated: Long = 0L,
-        @SerializedName("max_supply") var maxSupply: String = ""
-)
+        @SerializedName("max_supply") var maxSupply: String = "",
+        var priceFiatAnalogue: String = "",
+        var dayVolumeFiatAnalogue: String = "",
+        var marketCapFiatAnalogue: String = "")

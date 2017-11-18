@@ -3,7 +3,6 @@ package com.yadaniil.blogchain.screens.findcurrency.crypto
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.view.ViewPager
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -27,7 +26,7 @@ import timber.log.Timber
  * Created by danielyakovlev on 11/15/17.
  */
 
-class FindCoinFragment : MvpAppCompatFragment(), FindCoinAdapter.SimpleItemClickListener, FindCoinView {
+class FindCoinFragment : MvpAppCompatFragment(), ListHelper.OnCoinClickListener, FindCoinView {
 
     @InjectPresenter lateinit var presenter: FindCoinPresenter
 

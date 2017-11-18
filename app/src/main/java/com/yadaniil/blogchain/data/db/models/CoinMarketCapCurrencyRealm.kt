@@ -27,9 +27,7 @@ open class CoinMarketCapCurrencyRealm(
 ) : RealmObject() {
 
     companion object {
-        private fun toDoubleSafe(string: String?): Double {
-            return string?.toDouble() ?: 0.0
-        }
+        private fun toDoubleSafe(string: String?) = string?.toDouble() ?: 0.0
 
         fun convertApiResponseToRealmList(tickerResponse: List<TickerResponse>): List<CoinMarketCapCurrencyRealm> {
             val currenciesRealmList: MutableList<CoinMarketCapCurrencyRealm> = ArrayList()
@@ -43,7 +41,15 @@ open class CoinMarketCapCurrencyRealm(
             }
             return currenciesRealmList
         }
+
+        fun convertSingleTickerToRealmModel(ticker: TickerResponse): CoinMarketCapCurrencyRealm {
+            return CoinMarketCapCurrencyRealm(ticker.id, ticker.name, ticker.symbol, ticker.rank,
+                    toDoubleSafe(ticker.priceUsd), toDoubleSafe(ticker.priceBtc),
+                    toDoubleSafe(ticker.volume24hUsd), toDoubleSafe(ticker.marketCapUsd),
+                    toDoubleSafe(ticker.availableSupply), toDoubleSafe(ticker.totalSupply),
+                    toDoubleSafe(ticker.percentChange1h), toDoubleSafe(ticker.percentChange24h),
+                    toDoubleSafe(ticker.percentChange7d), ticker.lastUpdated)
+        }
+
     }
-
-
 }

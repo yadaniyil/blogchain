@@ -3,8 +3,6 @@ package com.yadaniil.blogchain.data.api
 import com.yadaniil.blogchain.Application
 import com.yadaniil.blogchain.data.api.models.*
 import io.reactivex.Observable
-import retrofit2.http.Path
-import retrofit2.http.Query
 import javax.inject.Inject
 
 /**
@@ -22,8 +20,12 @@ class AppApiHelper : CoinMarketCapService, CryptoCompareService,
         Application.component?.inject(this)
     }
 
-    override fun getAllCurrencies(convertToCurrency: String?, limit: String?) =
-            coinMarketCapService.getAllCurrencies(convertToCurrency, limit)
+    override fun getAllCoins(convertToCurrency: String?, limit: String?) =
+            coinMarketCapService.getAllCoins(convertToCurrency, limit)
+
+    override fun getCoin(coinId: String, convertToCurrency: String?): Observable<String> =
+            coinMarketCapService.getCoin(coinId, convertToCurrency)
+
 
     override fun getFullCurrenciesList(): Observable<CryptoCompareCurrenciesListResponse> =
             cryptoCompareService.getFullCurrenciesList()
@@ -40,10 +42,10 @@ class AppApiHelper : CoinMarketCapService, CryptoCompareService,
 
     override fun getAllAsicMiningCoins(): Observable<MiningCoinsResponse> = whatToMineService.getAllAsicMiningCoins()
 
-    override fun getCoinById(coinId: String, userHashrate: String?, power: String?,
-                             poolFeePercent: String?, electricityCost: String?,
-                             hardwareCost: String?): Observable<MiningCoinResponse> {
-        return whatToMineService.getCoinById(coinId, userHashrate, power, poolFeePercent, electricityCost, hardwareCost)
+    override fun getMiningCoinById(coinId: String, userHashrate: String?, power: String?,
+                                   poolFeePercent: String?, electricityCost: String?,
+                                   hardwareCost: String?): Observable<MiningCoinResponse> {
+        return whatToMineService.getMiningCoinById(coinId, userHashrate, power, poolFeePercent, electricityCost, hardwareCost)
     }
 
 }

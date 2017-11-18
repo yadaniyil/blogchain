@@ -1,5 +1,7 @@
 package com.yadaniil.blogchain.screens.findcurrency.fiat
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.view.ViewPager
 import android.support.v7.widget.LinearLayoutManager
@@ -10,6 +12,8 @@ import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.miguelcatalan.materialsearchview.MaterialSearchView
 import com.yadaniil.blogchain.R
+import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
+import com.yadaniil.blogchain.screens.findcurrency.FindCurrencyActivity
 import com.yadaniil.blogchain.screens.findcurrency.events.InitFiatSearchViewEvent
 import com.yadaniil.blogchain.utils.ListHelper
 import kotlinx.android.synthetic.main.fragment_find_fiat.*
@@ -22,14 +26,12 @@ import timber.log.Timber
  * Created by danielyakovlev on 11/15/17.
  */
 
-class FindFiatFragment : MvpAppCompatFragment(), FindFiatAdapter.OnClick, FindFiatView {
+class FindFiatFragment : MvpAppCompatFragment(), FindFiatAdapter.FiatOnClick, FindFiatView {
 
     @InjectPresenter lateinit var presenter: FindFiatPresenter
 
     private lateinit var findFiatAdapter: FindFiatAdapter
     private lateinit var searchView: MaterialSearchView
-    private lateinit var viewPager: ViewPager
-    private var pageNumber: Int? = null
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -67,7 +69,7 @@ class FindFiatFragment : MvpAppCompatFragment(), FindFiatAdapter.OnClick, FindFi
     }
 
     private fun initFiatList(newText: String? = "") {
-        findFiatAdapter = FindFiatAdapter(getAllFiatCurrencies(newText), activity)
+        findFiatAdapter = FindFiatAdapter(getAllFiatCurrencies(newText), activity, this)
         fiat_recycler_view.layoutManager = LinearLayoutManager(activity)
         fiat_recycler_view.adapter = findFiatAdapter
         fiat_recycler_view.setHasFixedSize(true)
@@ -137,7 +139,10 @@ class FindFiatFragment : MvpAppCompatFragment(), FindFiatAdapter.OnClick, FindFi
             inflater?.inflate(R.layout.fragment_find_fiat, container, false)
 
     override fun onClick(holder: ListHelper.FindFiatHolder?, fiatItem: FiatCurrencyItem) {
-
+        val returnIntent = Intent()
+        returnIntent.putExtra(FindCurrencyActivity.PICKED_COIN_SYMBOL, fiatItem.symbol)
+        activity.setResult(Activity.RESULT_OK, returnIntent)
+        activity.finish()
     }
 
     companion object {

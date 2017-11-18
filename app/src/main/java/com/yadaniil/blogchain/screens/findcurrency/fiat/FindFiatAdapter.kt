@@ -6,21 +6,22 @@ import android.view.ViewGroup
 import android.view.LayoutInflater
 import android.view.View
 import com.yadaniil.blogchain.R
-import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
 import com.yadaniil.blogchain.utils.ListHelper
+import org.jetbrains.anko.onClick
 
 
 /**
  * Created by danielyakovlev on 11/16/17.
  */
 
-class FindFiatAdapter(private val items: MutableList<FiatListItem>, private val context: Context)
+class FindFiatAdapter(private val items: MutableList<FiatListItem>, private val context: Context,
+                      private val onClick: FiatOnClick)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val TYPE_HEADER = 0
     private val TYPE_ITEM = 1
 
-    interface OnClick {
+    interface FiatOnClick {
         fun onClick(holder: ListHelper.FindFiatHolder?, fiatItem: FiatCurrencyItem)
     }
 
@@ -49,6 +50,7 @@ class FindFiatAdapter(private val items: MutableList<FiatListItem>, private val 
             holder.fiatSymbol.text = fiat.symbol
             holder.fiatName.text = fiat.name
             holder.fiatFlagIcon.setImageDrawable(context.resources.getDrawable(item.iconIntRes))
+            holder.itemRootLayout.onClick { onClick.onClick(holder, fiat) }
         }
     }
 

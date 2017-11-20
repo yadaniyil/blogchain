@@ -30,15 +30,15 @@ object AmountFormatter {
         return buildDecimalFormatter(2, 2).format(amount)
     }
 
-    fun formatFiatPrice(amount: String): String {
-        return when {
-            BigDecimal(amount) !in BigDecimal(-1)..BigDecimal(1) ->
-                buildDecimalFormatter(2, 2).format(BigDecimal(amount))
-            else -> buildDecimalFormatter(4, 2).format(BigDecimal(amount))
-        }
+    fun formatFiatPrice(amount: String): String = when {
+        BigDecimal(amount) !in BigDecimal(-1)..BigDecimal(1) ->
+            buildDecimalFormatter(2, 2).format(BigDecimal(amount))
+        else -> buildDecimalFormatter(4, 2).format(BigDecimal(amount))
     }
 
-    fun formatCryptoPrice(amount: String): String {
-        return buildDecimalFormatter(8, 2).format(BigDecimal(amount))
-    }
+    fun formatCryptoPrice(amount: String): String =
+            buildDecimalFormatter(8, 2).format(BigDecimal(amount))
+
+    fun formatCryptoPrice(amount: BigDecimal): String =
+            buildDecimalFormatter(8, 2).format(amount)
 }

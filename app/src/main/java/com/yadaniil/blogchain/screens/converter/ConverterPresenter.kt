@@ -5,7 +5,6 @@ import com.arellomobile.mvp.MvpPresenter
 import com.yadaniil.blogchain.Application
 import com.yadaniil.blogchain.data.Repository
 import com.yadaniil.blogchain.data.api.models.TickerResponse
-import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
 import com.yadaniil.blogchain.utils.TickerParser
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -38,7 +37,7 @@ class ConverterPresenter : MvpPresenter<ConverterView>() {
                 .doOnSubscribe { viewState.startToolbarLoading() }
                 .doOnComplete { viewState.stopToolbarLoading() }
                 .subscribe({ ticker ->
-//                    viewState.setConversionValues(ticker.priceUsd, ticker.priceFiatAnalogue)
+                    viewState.setConversionValues(ticker)
                 }, { error ->
 
                     Timber.e(error.message)
@@ -50,8 +49,25 @@ class ConverterPresenter : MvpPresenter<ConverterView>() {
                 .subscribeOn(Schedulers.io())
                 .map { TickerParser.parseTickerResponse(it) }
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { viewState.startToolbarLoading() }
-                .doOnComplete { viewState.stopToolbarLoading() }
+    }
+
+    fun downloadTicker(coinId: String, convertToSymbol: String) {
+        repo.getCoin(coinId, convertToSymbol)
+                .subscribeOn(Schedulers.io())
+                .map { TickerParser.parseTickerResponse(it) }
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe {
+                    viewState.startToolbarLoading()
+                    viewState.disableAmountFields() }
+                .doOnComplete {
+                    viewState.stopToolbarLoading()
+                    viewState.enableAmountFields() }
+                .subscribe({ ticker ->
+                    viewState.setConversionValues(ticker)
+                }, { error ->
+
+                    Timber.e(error.message)
+                })
     }
 
 }

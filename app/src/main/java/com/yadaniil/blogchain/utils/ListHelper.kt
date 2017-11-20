@@ -77,7 +77,7 @@ object ListHelper {
 
     fun downloadAndSetIcon(icon: ImageView, currencyRealm: CoinMarketCapCurrencyRealm?,
                                    ccList: MutableList<CryptoCompareCurrencyRealm>, context: Context) {
-        val imageLink = CurrencyHelper.getImageLinkForCurrency(currencyRealm!!, ccList)
+        val imageLink = CryptocurrencyHelper.getImageLinkForCurrency(currencyRealm!!, ccList)
         if (imageLink.isEmpty()) {
             icon.setImageResource(R.drawable.icon_ico)
         } else {

@@ -7,6 +7,7 @@ import android.view.Menu
 import android.view.MenuItem
 import com.arellomobile.mvp.MvpAppCompatActivity
 import com.arellomobile.mvp.presenter.InjectPresenter
+import com.jakewharton.rxbinding2.support.v4.view.RxViewPager
 import com.yadaniil.blogchain.R
 import com.yadaniil.blogchain.screens.findcurrency.events.InitCoinsSearchViewEvent
 import com.yadaniil.blogchain.screens.findcurrency.events.InitFavouritesSearchViewEvent
@@ -30,47 +31,27 @@ class FindCurrencyActivity : MvpAppCompatActivity(), FindCurrencyView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_find_coin)
         findPurposeRequestCode = intent.extras.getInt("requestCode")
-        initViewPager()
-        initTabs()
         initToolbar()
+        initViewPager()
     }
 
     private fun initViewPager() {
         val pagerAdapter = FindCurrencyPagerAdapter(supportFragmentManager, search_view,
-                findPurposeRequestCode ?: 0)
+                findPurposeRequestCode ?: 0, this)
         pager.adapter = pagerAdapter
-        pager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-            override fun onPageScrollStateChanged(state: Int) {}
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
-            override fun onPageSelected(position: Int) {
-                when(position) {
-                    0 -> EventBus.getDefault().post(InitFiatSearchViewEvent("Search through fiat enabled"))
-                    1 -> EventBus.getDefault().post(InitCoinsSearchViewEvent("Search through all coins enabled"))
-                    2 -> EventBus.getDefault().post(InitFavouritesSearchViewEvent("Search through favourite coins enabled"))
-                }
-            }
-        })
-    }
 
-    private fun initTabs() {
-        if(findPurposeRequestCode == WatchlistActivity.PICK_FAVOURITE_COIN_REQUEST_CODE)
-            tab_layout.addTab(tab_layout.newTab().setText(R.string.coins))
-        else {
-            tab_layout.addTab(tab_layout.newTab().setText(R.string.fiat))
-            tab_layout.addTab(tab_layout.newTab().setText(R.string.coins))
-            tab_layout.addTab(tab_layout.newTab().setText(R.string.favourites))
-            pager.setCurrentItem(1, false)
+        RxViewPager.pageSelections(pager).subscribe {
+            when (it) {
+                0 -> EventBus.getDefault().post(InitFiatSearchViewEvent("Search through fiat enabled"))
+                1 -> EventBus.getDefault().post(InitCoinsSearchViewEvent("Search through all coins enabled"))
+                2 -> EventBus.getDefault().post(InitFavouritesSearchViewEvent("Search through favourite coins enabled"))
+            }
         }
 
+        tab_layout.setupWithViewPager(pager)
 
-        pager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tab_layout))
-        tab_layout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab) {
-                pager.currentItem = tab.position
-            }
-            override fun onTabUnselected(tab: TabLayout.Tab) {}
-            override fun onTabReselected(tab: TabLayout.Tab) {}
-        })
+        if (findPurposeRequestCode != WatchlistActivity.PICK_FAVOURITE_COIN_REQUEST_CODE)
+            pager.currentItem = 1
     }
 
     private fun initToolbar() {

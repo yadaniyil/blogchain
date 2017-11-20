@@ -178,6 +178,9 @@ dependencies {
 
     // For returning string from retrofit request
     compile 'com.squareup.retrofit2:converter-scalars:2.2.0'
+
+    compile 'com.jakewharton.rxbinding2:rxbinding:2.0.0'
+    compile 'com.jakewharton.rxbinding2:rxbinding-support-v4:2.0.0'
 }
 
 kapt {

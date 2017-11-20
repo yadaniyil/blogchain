@@ -12,7 +12,7 @@ import org.json.JSONObject
 
 object TickerParser {
 
-    fun parseTickerResponse(response: String) {
+    fun parseTickerResponse(response: String): TickerResponse {
         val jsonArray = JSONArray(response)
         val jsonObject = jsonArray.get(0) as JSONObject
 
@@ -44,5 +44,6 @@ object TickerParser {
         ticker.priceFiatAnalogue = priceFiatAnalogue
         ticker.dayVolumeFiatAnalogue = dayVolumeFiatAnalogue
         ticker.marketCapFiatAnalogue = marketCapFiatAnalogue
+        return ticker
     }
 }

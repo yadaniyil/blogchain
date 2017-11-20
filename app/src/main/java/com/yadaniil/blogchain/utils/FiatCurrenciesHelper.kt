@@ -49,4 +49,6 @@ object FiatCurrenciesHelper {
                 FiatCurrencyItem(symbols[31], names[31], R.drawable.zar)
         )
     }
+
+    fun isFiat(symbol: String, allFiats: List<FiatCurrencyItem>) = allFiats.any { it.symbol == symbol }
 }

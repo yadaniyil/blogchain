@@ -125,6 +125,7 @@
     <string name="other">Other</string>
     <string name="currencies">Currencies</string>
     <string name="amount">Amount</string>
+    <string name="swap">Swap</string>
 
     <string-array name="miner_filters">
         <item>All categories</item>

@@ -23,7 +23,10 @@ open class CoinMarketCapCurrencyRealm(
         var percentChange7d: Double = 0.0,
         var lastUpdated: Long = 0L,
         var iconBytes: ByteArray? = null,
-        var isFavourite: Boolean = false
+        var isFavourite: Boolean = false,
+        var priceFiatAnalogue: Double = 0.0,
+        var volume24hFiatAnalogue: Double = 0.0,
+        var marketCapFiatAnalogue: Double = 0.0
 ) : RealmObject() {
 
     companion object {
@@ -48,7 +51,9 @@ open class CoinMarketCapCurrencyRealm(
                     toDoubleSafe(ticker.volume24hUsd), toDoubleSafe(ticker.marketCapUsd),
                     toDoubleSafe(ticker.availableSupply), toDoubleSafe(ticker.totalSupply),
                     toDoubleSafe(ticker.percentChange1h), toDoubleSafe(ticker.percentChange24h),
-                    toDoubleSafe(ticker.percentChange7d), ticker.lastUpdated)
+                    toDoubleSafe(ticker.percentChange7d), ticker.lastUpdated, null,
+                    false, toDoubleSafe(ticker.priceFiatAnalogue),
+                    toDoubleSafe(ticker.dayVolumeFiatAnalogue), toDoubleSafe(ticker.marketCapFiatAnalogue))
         }
 
     }

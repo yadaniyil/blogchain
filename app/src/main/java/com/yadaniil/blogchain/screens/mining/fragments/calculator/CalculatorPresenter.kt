@@ -6,8 +6,8 @@ import com.yadaniil.blogchain.Application
 import com.yadaniil.blogchain.data.Repository
 import com.yadaniil.blogchain.data.api.models.MiningCoin
 import com.yadaniil.blogchain.data.api.models.MiningCoinsResponse
-import com.yadaniil.blogchain.utils.CurrencyHelper
-import com.yadaniil.blogchain.utils.CurrencyHelper.getSymbolFromFullName
+import com.yadaniil.blogchain.utils.CryptocurrencyHelper
+import com.yadaniil.blogchain.utils.CryptocurrencyHelper.getSymbolFromFullName
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.BiFunction
@@ -70,7 +70,7 @@ class CalculatorPresenter : MvpPresenter<CalculatorView>() {
 
         val symbol = getSymbolFromFullName(fullName)
         val cryptoCoin = repo.getCoinFromDb(symbol)
-        return CurrencyHelper.getImageLinkForCurrency(cryptoCoin, repo.getAllCryptoCompareCoinsFromDb())
+        return CryptocurrencyHelper.getImageLinkForCurrency(cryptoCoin, repo.getAllCryptoCompareCoinsFromDb())
     }
 
     fun getHashrateExponentForCoin(fullCoinName: String): String {

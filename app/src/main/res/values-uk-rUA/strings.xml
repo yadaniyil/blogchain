@@ -126,4 +126,6 @@
     <string name="cryptocurrencies">Криптовалюти</string>
     <string name="fiat">Фіат</string>
     <string name="currencies">Валюти</string>
+    <string name="amount">Кількість</string>
+    <string name="swap">Поміняти місцями</string>
 </resources>

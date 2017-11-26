@@ -126,4 +126,6 @@
     <string name="popular">Популярные</string>
     <string name="other">Другие</string>
     <string name="currencies">Валюты</string>
+    <string name="amount">Количество</string>
+    <string name="swap">Поменять местами</string>
 </resources>

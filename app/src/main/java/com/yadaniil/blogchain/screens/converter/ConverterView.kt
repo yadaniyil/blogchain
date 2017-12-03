@@ -9,7 +9,8 @@ import com.yadaniil.blogchain.data.api.models.TickerResponse
 
 interface ConverterView : MvpView {
     fun proceedCryptToAnyConversion(ticker: TickerResponse)
-    fun proceedFiatToCryptConversion(ticker: TickerResponse)
+    fun proceedFiatToFiatConversion(tickers: List<TickerResponse>)
+
     fun startToolbarLoading()
     fun stopToolbarLoading()
     fun disableAmountFields()

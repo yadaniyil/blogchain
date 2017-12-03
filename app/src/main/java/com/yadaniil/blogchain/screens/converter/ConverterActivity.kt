@@ -52,6 +52,8 @@ class ConverterActivity : BaseActivity(), ConverterView {
     private lateinit var bottomAmountSubscription: Disposable
 
     private lateinit var ticker: TickerResponse
+    private lateinit var topFiatTicker: TickerResponse
+    private lateinit var bottomFiatTicker: TickerResponse
 
     // region Activity
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,7 +66,7 @@ class ConverterActivity : BaseActivity(), ConverterView {
         initTopCurrency()
         initBottomCurrency()
         updateTicker()
-        initSwipeToRefresh()
+        swipe_refresh.setOnRefreshListener { updateTicker() }
         initConversionAmounts()
     }
 
@@ -135,28 +137,6 @@ class ConverterActivity : BaseActivity(), ConverterView {
                 .observeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { initBottomToTopConversion() }
-    }
-
-    private fun initSwipeToRefresh() {
-        RxSwipeRefreshLayout.refreshes(swipe_refresh)
-                .doOnSubscribe { disableAmountFields() }
-                .doOnComplete { enableAmountFields() }
-                .switchMap {
-                    if (topCurrency.isCrypto()) {
-                        presenter.downloadTickerWithConversion(
-                                (topCurrency as ConverterCryptoCurrency).id, bottomCurrency.symbol)
-                    } else if (topCurrency.isFiat() && bottomCurrency.isCrypto()) {
-                        presenter.downloadTickerWithConversion(
-                                (bottomCurrency as ConverterCryptoCurrency).id, topCurrency.symbol)
-                    } else {
-                        presenter.downloadTickerWithConversion(
-                                (bottomCurrency as ConverterCryptoCurrency).id, topCurrency.symbol)
-                    }
-                }
-                .subscribe {
-                    swipe_refresh.isRefreshing = false
-                    initTopToBottomConversion()
-                }
     }
 
     private fun initTopCurrency(coin: CoinMarketCapCurrencyRealm? = null, fiat: FiatCurrencyItem? = null) {
@@ -249,7 +229,16 @@ class ConverterActivity : BaseActivity(), ConverterView {
 
         // Both fiat
         if (topCurrency.isFiat() && bottomCurrency.isFiat()) {
+            val topPriceFiat =
+                    if (topFiatTicker.priceFiatAnalogue.isNotEmpty()) topFiatTicker.priceFiatAnalogue
+                    else topFiatTicker.priceUsd
 
+            val bottomPriceFiat =
+                    if (bottomFiatTicker.priceFiatAnalogue.isNotEmpty()) bottomFiatTicker.priceFiatAnalogue
+                    else bottomFiatTicker.priceUsd
+
+            bottom_amount.setText(calculateConversion(
+                    top_amount.text.toString().toDouble(), bottomPriceFiat.toDouble() / topPriceFiat.toDouble()))
         }
 
         // Both crypto
@@ -305,6 +294,8 @@ class ConverterActivity : BaseActivity(), ConverterView {
         } else if (topCurrency.isFiat() && bottomCurrency.isCrypto()) {
             presenter.fiatToCryptoConversion(
                     (bottomCurrency as ConverterCryptoCurrency).id, topCurrency.symbol)
+        } else if(topCurrency.isFiat() && bottomCurrency.isFiat()) {
+            presenter.fiatToFiatConversion(topCurrency.symbol, bottomCurrency.symbol)
         }
     }
 
@@ -324,8 +315,14 @@ class ConverterActivity : BaseActivity(), ConverterView {
         initTopToBottomConversion()
     }
 
-    override fun proceedFiatToCryptConversion(ticker: TickerResponse) {
-        this.ticker = ticker
+    override fun proceedFiatToFiatConversion(tickers: List<TickerResponse>) {
+        if(tickers.size != 2) {
+            toast(R.string.error)
+            return
+        }
+
+        topFiatTicker = tickers[0]
+        bottomFiatTicker = tickers[1]
         initTopToBottomConversion()
     }
 

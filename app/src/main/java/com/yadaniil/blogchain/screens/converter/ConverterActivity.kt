@@ -27,6 +27,7 @@ import kotlinx.android.synthetic.main.activity_converter.*
 import org.jetbrains.anko.find
 import org.jetbrains.anko.image
 import org.jetbrains.anko.onClick
+import timber.log.Timber
 import java.math.BigDecimal
 
 
@@ -243,10 +244,20 @@ class ConverterActivity : BaseActivity(), ConverterView {
 
         }
 
+        Timber.e("ticker.priceBtc: " + ticker.priceBtc)
+        Timber.e("ticker.priceFiatAnalogue: " + ticker.priceFiatAnalogue)
+//        Timber.e("priceToConvertTo: " + priceToConvertTo)
+
         // Both crypto
         if (topCurrency.isCrypto() && bottomCurrency.isCrypto()) {
-            bottom_amount.setText(
-                    calculateConversion(top_amount.text.toString(), ticker.priceFiatAnalogue))
+            var priceToConvertTo: String
+
+            if (ticker.priceFiatAnalogue == "") {
+                priceToConvertTo = ticker.priceBtc
+            } else {
+                priceToConvertTo = ticker.priceFiatAnalogue
+            }
+            bottom_amount.setText(calculateConversion(top_amount.text.toString(), priceToConvertTo))
         }
     }
 
@@ -286,8 +297,10 @@ class ConverterActivity : BaseActivity(), ConverterView {
     private fun updateTicker() = presenter.downloadTicker(
             (topCurrency as ConverterCryptoCurrency).id, bottomCurrency.symbol)
 
-    private fun calculateConversion(amount: String, rate: String) =
-            AmountFormatter.formatCryptoPrice(BigDecimal(amount.toDouble() * rate.toDouble()))
+    private fun calculateConversion(amount: String, rate: String): String {
+        return AmountFormatter.formatCryptoPrice(BigDecimal(amount.toDouble() * rate.toDouble()))
+    }
+
 
     private fun ConverterCurrency.isCrypto() = CryptocurrencyHelper.isCrypto(this.symbol, allCoins)
     private fun ConverterCurrency.isFiat() = FiatCurrenciesHelper.isFiat(this.symbol, allFiatCurrencies)

@@ -37,7 +37,7 @@ class ConverterPresenter : MvpPresenter<ConverterView>() {
                 .doOnSubscribe { viewState.startToolbarLoading() }
                 .doOnComplete { viewState.stopToolbarLoading() }
                 .subscribe({ ticker ->
-                    viewState.setConversionValues(ticker)
+                    viewState.proceedCryptToAnyConversion(ticker)
                 }, { error ->
 
                     Timber.e(error.message)
@@ -51,7 +51,7 @@ class ConverterPresenter : MvpPresenter<ConverterView>() {
                 .observeOn(AndroidSchedulers.mainThread())
     }
 
-    fun downloadTicker(coinId: String, convertToSymbol: String) {
+    fun cryptToAnyConversion(coinId: String, convertToSymbol: String) {
         repo.getCoin(coinId, convertToSymbol)
                 .subscribeOn(Schedulers.io())
                 .map { TickerParser.parseTickerResponse(it) }
@@ -63,7 +63,26 @@ class ConverterPresenter : MvpPresenter<ConverterView>() {
                     viewState.stopToolbarLoading()
                     viewState.enableAmountFields() }
                 .subscribe({ ticker ->
-                    viewState.setConversionValues(ticker)
+                    viewState.proceedCryptToAnyConversion(ticker)
+                }, { error ->
+
+                    Timber.e(error.message)
+                })
+    }
+
+    fun fiatToCryptoConversion(coinId: String, convertToSymbol: String) {
+        repo.getCoin(coinId, convertToSymbol)
+                .subscribeOn(Schedulers.io())
+                .map { TickerParser.parseTickerResponse(it) }
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe {
+                    viewState.startToolbarLoading()
+                    viewState.disableAmountFields() }
+                .doOnComplete {
+                    viewState.stopToolbarLoading()
+                    viewState.enableAmountFields() }
+                .subscribe({ ticker ->
+                    viewState.proceedCryptToAnyConversion(ticker)
                 }, { error ->
 
                     Timber.e(error.message)

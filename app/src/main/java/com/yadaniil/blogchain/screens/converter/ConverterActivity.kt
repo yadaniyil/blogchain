@@ -27,7 +27,7 @@ import kotlinx.android.synthetic.main.activity_converter.*
 import org.jetbrains.anko.find
 import org.jetbrains.anko.image
 import org.jetbrains.anko.onClick
-import timber.log.Timber
+import org.jetbrains.anko.toast
 import java.math.BigDecimal
 
 
@@ -142,8 +142,16 @@ class ConverterActivity : BaseActivity(), ConverterView {
                 .doOnSubscribe { disableAmountFields() }
                 .doOnComplete { enableAmountFields() }
                 .switchMap {
-                    presenter.downloadTickerWithConversion(
-                            (topCurrency as ConverterCryptoCurrency).id, bottomCurrency.symbol)
+                    if (topCurrency.isCrypto()) {
+                        presenter.downloadTickerWithConversion(
+                                (topCurrency as ConverterCryptoCurrency).id, bottomCurrency.symbol)
+                    } else if (topCurrency.isFiat() && bottomCurrency.isCrypto()) {
+                        presenter.downloadTickerWithConversion(
+                                (bottomCurrency as ConverterCryptoCurrency).id, topCurrency.symbol)
+                    } else {
+                        presenter.downloadTickerWithConversion(
+                                (bottomCurrency as ConverterCryptoCurrency).id, topCurrency.symbol)
+                    }
                 }
                 .subscribe {
                     swipe_refresh.isRefreshing = false
@@ -224,10 +232,10 @@ class ConverterActivity : BaseActivity(), ConverterView {
         // Top - fiat, bottom - crypto
         if (topCurrency.isFiat() && bottomCurrency.isCrypto()) {
             val priceToConvertTo =
-                    if (ticker.priceFiatAnalogue.isNotEmpty()) ticker.priceFiatAnalogue
-                    else ticker.priceUsd
-            bottom_amount.setText(
-                    calculateConversion(top_amount.text.toString(), priceToConvertTo))
+                    if (ticker.priceFiatAnalogue.isNotEmpty()) 1 / ticker.priceFiatAnalogue.toDouble()
+                    else 1 / ticker.priceUsd.toDouble()
+            bottom_amount.setText(calculateConversion(
+                    top_amount.text.toString().toDouble(), priceToConvertTo))
         }
 
         // Top - crypto, bottom - fiat
@@ -235,8 +243,8 @@ class ConverterActivity : BaseActivity(), ConverterView {
             val priceToConvertTo =
                     if (ticker.priceFiatAnalogue.isNotEmpty()) ticker.priceFiatAnalogue
                     else ticker.priceUsd
-            bottom_amount.setText(
-                    calculateConversion(top_amount.text.toString(), priceToConvertTo))
+            bottom_amount.setText(calculateConversion(
+                    top_amount.text.toString().toDouble(), priceToConvertTo.toDouble()))
         }
 
         // Both fiat
@@ -244,20 +252,15 @@ class ConverterActivity : BaseActivity(), ConverterView {
 
         }
 
-        Timber.e("ticker.priceBtc: " + ticker.priceBtc)
-        Timber.e("ticker.priceFiatAnalogue: " + ticker.priceFiatAnalogue)
-//        Timber.e("priceToConvertTo: " + priceToConvertTo)
-
         // Both crypto
         if (topCurrency.isCrypto() && bottomCurrency.isCrypto()) {
-            var priceToConvertTo: String
+            val priceToConvertTo = if (ticker.priceFiatAnalogue == "")
+                ticker.priceBtc
+            else
+                ticker.priceFiatAnalogue
 
-            if (ticker.priceFiatAnalogue == "") {
-                priceToConvertTo = ticker.priceBtc
-            } else {
-                priceToConvertTo = ticker.priceFiatAnalogue
-            }
-            bottom_amount.setText(calculateConversion(top_amount.text.toString(), priceToConvertTo))
+            bottom_amount.setText(calculateConversion(
+                    top_amount.text.toString().toDouble(), priceToConvertTo.toDouble()))
         }
     }
 
@@ -291,14 +294,22 @@ class ConverterActivity : BaseActivity(), ConverterView {
         bottomCurrencyName.text = bufferName
         bottomCurrencyIcon.setImageDrawable(bufferIcon)
 
+
         updateTicker()
     }
 
-    private fun updateTicker() = presenter.downloadTicker(
-            (topCurrency as ConverterCryptoCurrency).id, bottomCurrency.symbol)
+    private fun updateTicker() {
+        if (topCurrency.isCrypto()) {
+            presenter.cryptToAnyConversion(
+                    (topCurrency as ConverterCryptoCurrency).id, bottomCurrency.symbol)
+        } else if (topCurrency.isFiat() && bottomCurrency.isCrypto()) {
+            presenter.fiatToCryptoConversion(
+                    (bottomCurrency as ConverterCryptoCurrency).id, topCurrency.symbol)
+        }
+    }
 
-    private fun calculateConversion(amount: String, rate: String): String {
-        return AmountFormatter.formatCryptoPrice(BigDecimal(amount.toDouble() * rate.toDouble()))
+    private fun calculateConversion(amount: Double, rate: Double): String {
+        return AmountFormatter.formatCryptoPrice(BigDecimal(amount * rate))
     }
 
 
@@ -308,7 +319,12 @@ class ConverterActivity : BaseActivity(), ConverterView {
     // region View
     override fun getLayout() = R.layout.activity_converter
 
-    override fun setConversionValues(ticker: TickerResponse) {
+    override fun proceedCryptToAnyConversion(ticker: TickerResponse) {
+        this.ticker = ticker
+        initTopToBottomConversion()
+    }
+
+    override fun proceedFiatToCryptConversion(ticker: TickerResponse) {
         this.ticker = ticker
         initTopToBottomConversion()
     }

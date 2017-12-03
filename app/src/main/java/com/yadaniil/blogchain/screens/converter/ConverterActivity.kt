@@ -119,6 +119,9 @@ class ConverterActivity : BaseActivity(), ConverterView {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if (item?.itemId == R.id.action_swap) {
             swapCurrencies()
+        } else if(item?.itemId == R.id.action_clear) {
+            top_amount.text.clear()
+            bottom_amount.text.clear()
         }
         return super.onOptionsItemSelected(item)
     }
@@ -258,6 +261,7 @@ class ConverterActivity : BaseActivity(), ConverterView {
     }
     // endregion Init
 
+    // region Conversion
     private fun swapCurrencies() {
         val bufferCurrency = topCurrency
         topCurrency = bottomCurrency
@@ -306,6 +310,7 @@ class ConverterActivity : BaseActivity(), ConverterView {
 
     private fun ConverterCurrency.isCrypto() = CryptocurrencyHelper.isCrypto(this.symbol, allCoins)
     private fun ConverterCurrency.isFiat() = FiatCurrenciesHelper.isFiat(this.symbol, allFiatCurrencies)
+    // endregion Conversion
 
     // region View
     override fun getLayout() = R.layout.activity_converter

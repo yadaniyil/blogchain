@@ -4,9 +4,14 @@
 
     <item
         android:id="@+id/action_swap"
-        android:orderInCategory="100"
         android:icon="@drawable/ic_swap_vert_white_24dp"
         android:title="@string/swap"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_clear"
+        android:icon="@drawable/ic_clear_white_24dp"
+        android:title="@string/clear"
         app:showAsAction="always" />
 
 </menu>

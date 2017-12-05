@@ -20,6 +20,7 @@ class HomeActivity : BaseActivity(), HomeView {
         super.onCreate(savedInstanceState)
 
         presenter.showChangelogDialog()
+        presenter.downloadAndSaveAllCurrencies()
     }
 
 

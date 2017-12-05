@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog bulletedList="true">
 
-    <changelogversion versionName="0.3.0" changeDate="09 листопада, 2017">
+    <changelogversion versionName="0.4.0" changeDate="5 грудня, 2017">
+        <changelogtext><![CDATA[<b><font color=#43A047>New!</font></b> Зустрічай конвертер! Конвертація між 32 фіатними валютами і всією криптою!]]></changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="0.3.0" changeDate="9 листопада, 2017">
         <changelogtext><![CDATA[<b><font color=#43A047>New!</font></b> Зустрічай улюблені монети! Використовуй цю секцію щоб стежити за найцікавішими монетами]]></changelogtext>
         <changelogtext><![CDATA[<b><font color=#43A047>New!</font></b> Зустрічай портфоліо! Використовуй цю секцію щоб стежити та керувати своїм балансом]]></changelogtext>
     </changelogversion>

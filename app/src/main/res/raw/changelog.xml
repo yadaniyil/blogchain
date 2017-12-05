@@ -1,21 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog bulletedList="true">
 
-    <changelogversion versionName="0.3.0" changeDate="Nov 09,2017">
+    <changelogversion versionName="0.4.0" changeDate="Dec 05, 2017">
+        <changelogtext><![CDATA[<b><font color=#43A047>New!</font></b> Meet converter! Conversion between 32 fiat currencies and all crypto!]]></changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="0.3.0" changeDate="Nov 09, 2017">
         <changelogtext><![CDATA[<b><font color=#43A047>New!</font></b> Meet favourite coins! Use this section to watch the most interesting coins for you]]></changelogtext>
         <changelogtext><![CDATA[<b><font color=#43A047>New!</font></b> Meet portfolio! Use this section to track and modify your balance]]></changelogtext>
     </changelogversion>
 
-    <changelogversion versionName="0.2.0" changeDate="Oct 22,2017">
+    <changelogversion versionName="0.2.0" changeDate="Oct 22, 2017">
         <changelogtext><![CDATA[<b><font color=#43A047>New!</font></b> Mining calculator!]]></changelogtext>
         <changelogtext><![CDATA[<b><font color=#43A047>New!</font></b> Update currencies list with swipe from the top]]></changelogtext>
     </changelogversion>
 
-    <changelogversion versionName="0.1.2" changeDate="Oct 13,2017">
+    <changelogversion versionName="0.1.2" changeDate="Oct 13, 2017">
         <changelogtext><![CDATA[<b><font color=#43A047>New!</font></b> Now you can see if something is loading or if an error occurred]]></changelogtext>
     </changelogversion>
 
-    <changelogversion versionName="0.1.1" changeDate="Oct 13,2017">
+    <changelogversion versionName="0.1.1" changeDate="Oct 13, 2017">
         <changelogtext><![CDATA[<b><font color=#43A047>New!</font></b> Sorting of currencies]]></changelogtext>
         <changelogtext><![CDATA[<b><font color=#43A047>New!</font></b> Side slider for fast scrolling though currencies]]></changelogtext>
         <changelogtext><![CDATA[<b><font color=#43A047>New!</font></b> Russian and Ukrainian languages]]></changelogtext>

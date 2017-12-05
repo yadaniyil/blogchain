@@ -61,7 +61,6 @@ class ConverterActivity : BaseActivity(), ConverterView {
         allCoins = presenter.getAllCoins()
         allCcCoins = presenter.getAllCcCoins()
         allFiatCurrencies = FiatCurrenciesHelper.getAll(this)
-        initAdMobBanner()
         initTopCurrency()
         initBottomCurrency()
         updateTicker()
@@ -204,14 +203,6 @@ class ConverterActivity : BaseActivity(), ConverterView {
         }
 
         bottom_currency.onClick { Navigator.toFindCurrencyActivity(this, PICK_BOTTOM_CONVERT_CURRENCY) }
-    }
-
-    private fun initAdMobBanner() {
-        MobileAds.initialize(this, getString(R.string.admob_app_id))
-        val builder = AdRequest.Builder()
-                .addTestDevice(getString(R.string.admob_test_device))
-                .build()
-        adView.loadAd(builder)
     }
     // endregion Init
 

@@ -117,7 +117,6 @@
     <string name="remove">Remove</string>
     <string name="remove_from_portfolio_question">Remove this coin from portfolio?</string>
     <string name="description">Description</string>
-    <string name="banner_converter" translatable="false">ca-app-pub-4946735304037594/9256457083</string>
     <string name="fiat">Fiat</string>
     <string name="cryptocurrencies">Cryptocurrencies</string>
     <string name="favourites">Favourites</string>

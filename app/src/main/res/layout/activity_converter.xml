@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"/>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/appBar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/top_currency_layout"
+                android:orientation="vertical">
+
+                <include
+                    android:id="@+id/top_currency"
+                    android:layout_height="@dimen/converter_item_height"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="@dimen/standard_dimen"
+                    layout="@layout/item_converter" />
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/top_amount"
+                    android:layout_margin="@dimen/standard_dimen"
+                    android:inputType="numberDecimal"
+                    android:maxLines="1"
+                    android:imeOptions="actionDone"
+                    android:hint="@string/amount"
+                    android:singleLine="true"
+                    app:met_baseColor="@color/colorPrimary"
+                    app:met_underlineColor="@color/colorPrimary"
+                    app:met_primaryColor="@color/colorPrimary"
+                    app:met_floatingLabelTextColor="@color/colorPrimary"
+                    app:met_floatingLabel="none"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/bottom_currency_layout"
+                android:orientation="vertical">
+
+                <include layout="@layout/item_converter"
+                    android:layout_height="@dimen/converter_item_height"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="@dimen/standard_dimen"
+                    android:id="@+id/bottom_currency"/>
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/bottom_amount"
+                    android:inputType="numberDecimal"
+                    android:maxLines="1"
+                    android:imeOptions="actionDone"
+                    android:layout_margin="@dimen/standard_dimen"
+                    android:hint="@string/amount"
+                    android:singleLine="true"
+                    app:met_baseColor="@color/colorPrimary"
+                    app:met_underlineColor="@color/colorPrimary"
+                    app:met_primaryColor="@color/colorPrimary"
+                    app:met_floatingLabelTextColor="@color/colorPrimary"
+                    app:met_floatingLabel="none"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+</RelativeLayout>

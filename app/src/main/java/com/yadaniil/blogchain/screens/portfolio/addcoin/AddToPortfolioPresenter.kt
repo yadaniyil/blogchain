@@ -5,8 +5,8 @@ import com.arellomobile.mvp.MvpPresenter
 import com.yadaniil.blogchain.Application
 import com.yadaniil.blogchain.data.Repository
 import com.yadaniil.blogchain.data.db.models.PortfolioRealm
-import com.yadaniil.blogchain.utils.CurrencyHelper
-import com.yadaniil.blogchain.utils.CurrencyHelper.getSymbolFromFullName
+import com.yadaniil.blogchain.utils.CryptocurrencyHelper
+import com.yadaniil.blogchain.utils.CryptocurrencyHelper.getSymbolFromFullName
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -34,7 +34,7 @@ class AddToPortfolioPresenter : MvpPresenter<AddToPortfolioView>() {
     fun getLinkForCoinImage(name: String): String {
         val symbol = getSymbolFromFullName(name)
         val coin = repo.getCoinFromDb(symbol)
-        return CurrencyHelper.getImageLinkForCurrency(coin, repo.getAllCryptoCompareCoinsFromDb())
+        return CryptocurrencyHelper.getImageLinkForCurrency(coin, repo.getAllCryptoCompareCoinsFromDb())
     }
 
     fun addCoinToPortfolio(coinSymbol: String, amountOfCoins: String, buyPriceOfCoin: String,
@@ -42,9 +42,9 @@ class AddToPortfolioPresenter : MvpPresenter<AddToPortfolioView>() {
                            description: String) {
         val coin = repo.getCoinFromDb(coinSymbol)
         if(portfolioToEdit != null)
-            repo.editPortfolio(portfolioToEdit, coin, amountOfCoins, buyPriceOfCoin, storageType, storageName, description)
+            repo.editPortfolio(portfolioToEdit, coin!!, amountOfCoins, buyPriceOfCoin, storageType, storageName, description)
         else
-            repo.addCoinToPortfolio(coin, amountOfCoins, buyPriceOfCoin, storageType, storageName, description)
+            repo.addCoinToPortfolio(coin!!, amountOfCoins, buyPriceOfCoin, storageType, storageName, description)
     }
 
 //    fun editPortfolio(portfolio: PortfolioRealm, coin: CoinMarketCapCurrencyRealm,

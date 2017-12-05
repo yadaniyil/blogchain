@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:id="@+id/converter_item_root"
+    android:background="?android:attr/selectableItemBackground"
+    android:layout_height="@dimen/converter_item_height">
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_weight="1.4"
+        android:layout_marginTop="@dimen/half_standard_dimen"
+        android:layout_marginStart="@dimen/standard_dimen"
+        android:layout_marginBottom="@dimen/half_standard_dimen"
+        android:layout_height="match_parent"
+        android:id="@+id/currency_icon"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_weight="2"
+        android:textStyle="bold"
+        android:singleLine="true"
+        android:gravity="center"
+        android:id="@+id/currency_symbol"
+        android:textSize="@dimen/text_size_portfolio_btc_balance"
+        android:layout_margin="@dimen/half_standard_dimen"
+        android:layout_height="match_parent"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_weight="6"
+        android:singleLine="true"
+        android:gravity="center_vertical"
+        android:textSize="@dimen/text_size_portfolio_btc_balance"
+        android:id="@+id/currency_name"
+        android:layout_margin="@dimen/half_standard_dimen"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:src="@drawable/ic_arrow_drop_down_black_24dp"
+        android:layout_margin="@dimen/half_standard_dimen"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

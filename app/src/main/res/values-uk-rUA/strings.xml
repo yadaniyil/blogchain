@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Блогчейн</string>
     <string name="loading">Завантаження…</string>
-    <string name="drawer_item_all_coins">Валюти</string>
+    <string name="drawer_item_all_coins">Усі монети</string>
     <string name="drawer_item_exchanges">Біржі</string>
     <string name="drawer_item_portfolio">Портфоліо</string>
     <string name="drawer_item_settings">Налаштування</string>
@@ -115,4 +115,53 @@
     <string name="amount_of_coins_should_not_be_empty">Кількість монет не повинно бути порожнім</string>
     <string name="no_items_in_portfolio">У вас немає монет у портфоліо</string>
     <string name="no_favourite_coins">У вас немає улюблених монет</string>
+    <string name="add">Додати</string>
+    <string name="edit">Редагувати</string>
+    <string name="remove">Видалити</string>
+    <string name="remove_from_portfolio_question">Видалити цю монету з портфоліо?</string>
+    <string name="description">Опис</string>
+    <string name="other">Інші</string>
+    <string name="popular">Популярні</string>
+    <string name="favourites">Улюблені</string>
+    <string name="cryptocurrencies">Криптовалюти</string>
+    <string name="fiat">Фіат</string>
+    <string name="currencies">Валюти</string>
+    <string name="amount">Кількість</string>
+    <string name="swap">Поміняти місцями</string>
+
+    <string-array name="fiat_currencies_names">
+        <item>Долар США</item>
+        <item>Євро</item>
+        <item>Фунт стерлінгів</item>
+        <item>Японська ієна</item>
+        <item>Російський рубль</item>
+        <item>Австралійський долар</item>
+        <item>Бразильський реал</item>
+        <item>Канадський долар</item>
+        <item>Швейцарський франк</item>
+        <item>Чилійський песо</item>
+        <item>Китайський юань</item>
+        <item>Чеська крона</item>
+        <item>Датська крона</item>
+        <item>Гонконгський долар</item>
+        <item>Угорський форинт</item>
+        <item>Індонезійська рупія</item>
+        <item>Ізраїльський новий шекель</item>
+        <item>Індійська рупія</item>
+        <item>Південнокорейська вона</item>
+        <item>Мексиканське песо</item>
+        <item>Малайзійський рінггіт</item>
+        <item>Норвезька крона</item>
+        <item>Новозеландський долар</item>
+        <item>Філіппінське песо</item>
+        <item>Пакистанська рупія</item>
+        <item>Польський злотий</item>
+        <item>Шведська крона</item>
+        <item>Сінгапурський долар</item>
+        <item>Тайський бат</item>
+        <item>Турецька ліра</item>
+        <item>Новий тайванський долар</item>
+        <item>Південноафриканський ранд</item>
+    </string-array>
+    <string name="clear">Очистити</string>
 </resources>

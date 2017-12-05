@@ -30,15 +30,15 @@ class NetModule {
     @Provides
     @Named("cached")
     fun provideOkHttpClient(): OkHttpClient {
-//        val loggingInterceptor = HttpLoggingInterceptor()
-//        loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+        val loggingInterceptor = HttpLoggingInterceptor()
+        loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
 
         val cache = Cache(Environment.getDownloadCacheDirectory(), 10 * 1024 * 1024)
         val clientBuilder = OkHttpClient.Builder()
                 .readTimeout(1, TimeUnit.MINUTES)
                 .writeTimeout(1, TimeUnit.MINUTES)
                 .cache(cache)
-//        clientBuilder.interceptors().add(loggingInterceptor)
+        clientBuilder.interceptors().add(loggingInterceptor)
         return clientBuilder.build()
     }
 

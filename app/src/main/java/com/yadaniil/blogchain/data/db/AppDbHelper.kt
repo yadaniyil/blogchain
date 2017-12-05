@@ -22,7 +22,7 @@ class AppDbHelper : DbHelper {
     override fun getAllCoinsFromDb(): RealmResults<CoinMarketCapCurrencyRealm> =
             realm.where(CoinMarketCapCurrencyRealm::class.java).findAllSortedAsync("rank")
 
-    override fun getCoinFromDb(symbol: String): CoinMarketCapCurrencyRealm =
+    override fun getCoinFromDb(symbol: String): CoinMarketCapCurrencyRealm? =
             realm.where(CoinMarketCapCurrencyRealm::class.java)
                     .equalTo("symbol", symbol, Case.INSENSITIVE).findFirst()
 
@@ -62,6 +62,16 @@ class AppDbHelper : DbHelper {
     override fun getAllFavouriteCoins(): RealmResults<CoinMarketCapCurrencyRealm> =
             realm.where(CoinMarketCapCurrencyRealm::class.java)
                     .equalTo("isFavourite", true).findAllAsync()
+
+    override fun getFavouriteCoinsFiltered(text: String): RealmResults<CoinMarketCapCurrencyRealm> =
+            realm.where(CoinMarketCapCurrencyRealm::class.java)
+                    .equalTo("isFavourite", true)
+                    .beginGroup()
+                    .contains("name", text, Case.INSENSITIVE)
+                    .or()
+                    .contains("symbol", text, Case.INSENSITIVE)
+                    .endGroup()
+                    .findAllSortedAsync("rank")
 
     // endregion Coins
 

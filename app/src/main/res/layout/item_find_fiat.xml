@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:id="@+id/simple_item_root"
+    android:background="?android:attr/selectableItemBackground"
+    android:layout_height="50dp">
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_weight="2"
+        android:layout_margin="@dimen/standard_dimen"
+        android:layout_height="match_parent"
+        android:id="@+id/fiat_flag"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_weight="2"
+        android:textStyle="bold"
+        android:singleLine="true"
+        android:gravity="center_vertical"
+        android:id="@+id/fiat_symbol"
+        android:textSize="@dimen/text_size_portfolio_btc_balance"
+        android:layout_margin="@dimen/half_standard_dimen"
+        android:layout_height="match_parent"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_weight="6"
+        android:singleLine="true"
+        android:gravity="center_vertical"
+        android:textSize="@dimen/text_size_portfolio_btc_balance"
+        android:id="@+id/fiat_name"
+        android:layout_margin="@dimen/half_standard_dimen"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

@@ -51,7 +51,7 @@
             android:theme="@style/GreyActivity"/>
 
         <activity
-            android:name="com.yadaniil.blogchain.screens.findcoin.FindCoinActivity"
+            android:name="com.yadaniil.blogchain.screens.findcurrency.FindCurrencyActivity"
             android:label="@string/pick_favourite_coin"
             android:screenOrientation="portrait" />
 
@@ -67,6 +67,11 @@
         <activity
             android:name="com.yadaniil.blogchain.screens.portfolio.addcoin.AddToPortfolioActivity"
             android:label="@string/add_to_portfolio"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name="com.yadaniil.blogchain.screens.converter.ConverterActivity"
+            android:label="@string/drawer_item_converter"
             android:screenOrientation="portrait" />
 
     </application>

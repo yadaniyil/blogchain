@@ -36,11 +36,13 @@ class WatchlistPresenter : MvpPresenter<WatchlistView>() {
 
     fun addCoinToFavourite(symbol: String?) {
         val coin = repo.getCoinFromDb(symbol ?: "")
-        repo.addCoinToFavourite(coin)
+        repo.addCoinToFavourite(coin!!)
     }
 
+    fun getFavouriteCoinsFiltered(filter: String) = repo.getFavouriteCoinsFiltered(filter)
+
     fun downloadAndSaveAllCurrencies() {
-        repo.getAllCurrencies(limit = "0")
+        repo.getAllCoins(limit = "0")
                 .subscribeOn(Schedulers.io())
                 .map { CoinMarketCapCurrencyRealm.convertApiResponseToRealmList(it) }
                 .observeOn(AndroidSchedulers.mainThread())

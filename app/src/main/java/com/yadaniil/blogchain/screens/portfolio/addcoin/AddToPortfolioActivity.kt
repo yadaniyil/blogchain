@@ -14,8 +14,8 @@ import com.squareup.picasso.Picasso
 import com.yadaniil.blogchain.R
 import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
 import com.yadaniil.blogchain.data.db.models.PortfolioRealm
-import com.yadaniil.blogchain.utils.CurrencyHelper
-import com.yadaniil.blogchain.utils.CurrencyHelper.getSymbolFromFullName
+import com.yadaniil.blogchain.utils.CryptocurrencyHelper
+import com.yadaniil.blogchain.utils.CryptocurrencyHelper.getSymbolFromFullName
 import com.yadaniil.blogchain.utils.Endpoints
 import com.yadaniil.blogchain.utils.UiHelper
 import kotlinx.android.synthetic.main.activity_add_to_portfolio.*
@@ -64,11 +64,12 @@ class AddToPortfolioActivity : MvpAppCompatActivity(), AddToPortfolioView {
             true
         }
         R.id.action_save_portfolio -> {
-            if (amount_edit_text.text.isBlank()) {
+            if (amount_edit_text.text.isBlank() || amount_edit_text.text.toString() == "0"
+                    || amount_edit_text.text.toString() == ".") {
                 toast(R.string.amount_of_coins_should_not_be_empty)
             } else {
                 presenter.addCoinToPortfolio(
-                        CurrencyHelper.getSymbolFromFullName(coin_spinner.selectedItem.toString()),
+                        CryptocurrencyHelper.getSymbolFromFullName(coin_spinner.selectedItem.toString()),
                         amount_edit_text.text.toString(),
                         buy_price_edit_text.text.toString(),
                         storage_type_spinner.selectedItem.toString(),

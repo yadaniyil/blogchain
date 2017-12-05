@@ -57,14 +57,13 @@ class AllCoinsPresenter : MvpPresenter<AllCoinsView>() {
     }
 
     private fun downloadCMCList() {
-        repo.getAllCurrencies(limit = "0")
+        repo.getAllCoins(limit = "0")
                 .subscribeOn(Schedulers.io())
                 .map { CoinMarketCapCurrencyRealm.convertApiResponseToRealmList(it) }
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnComplete { viewState.stopToolbarLoading() }
                 .subscribe({ currenciesList ->
                     repo.saveCoinsToDb(currenciesList)
-                    repo.getAllCoinsFromDb()
                 }, { error ->
                     viewState.showLoadingError()
                     viewState.stopToolbarLoading()

@@ -61,9 +61,8 @@
 
             <com.miguelcatalan.materialsearchview.MaterialSearchView
                 android:id="@+id/search_view"
+                style="@style/DarkMaterialSearchView"
                 android:layout_width="match_parent"
-                android:hint="@string/search"
-                android:textColorHint="@color/gray_700"
                 android:layout_height="wrap_content" />
         </FrameLayout>
 

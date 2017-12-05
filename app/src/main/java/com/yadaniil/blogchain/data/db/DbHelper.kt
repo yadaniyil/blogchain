@@ -16,10 +16,11 @@ interface DbHelper {
     fun getAllCoinsFiltered(text: String): RealmResults<CoinMarketCapCurrencyRealm>
     fun getAllCoinsSorted(fieldName: String, sortOrder: Sort): RealmResults<CoinMarketCapCurrencyRealm>
     fun saveCoinsToDb(coins: List<CoinMarketCapCurrencyRealm>)
-    fun getCoinFromDb(symbol: String): CoinMarketCapCurrencyRealm
+    fun getCoinFromDb(symbol: String): CoinMarketCapCurrencyRealm?
     fun addCoinToFavourite(coin: CoinMarketCapCurrencyRealm)
     fun removeCoinFromFavourites(coin: CoinMarketCapCurrencyRealm)
     fun getAllFavouriteCoins(): RealmResults<CoinMarketCapCurrencyRealm>
+    fun getFavouriteCoinsFiltered(text: String): RealmResults<CoinMarketCapCurrencyRealm>
     // endregion Coins
 
     // region CryptoCompare

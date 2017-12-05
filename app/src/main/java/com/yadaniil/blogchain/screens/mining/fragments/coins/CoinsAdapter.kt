@@ -15,7 +15,7 @@ import com.yadaniil.blogchain.data.api.models.MiningCoin
 import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
 import com.yadaniil.blogchain.data.db.models.CryptoCompareCurrencyRealm
 import com.yadaniil.blogchain.utils.AmountFormatter
-import com.yadaniil.blogchain.utils.CurrencyHelper
+import com.yadaniil.blogchain.utils.CryptocurrencyHelper
 import com.yadaniil.blogchain.utils.Endpoints
 import org.jetbrains.anko.find
 import org.jetbrains.anko.onClick
@@ -53,7 +53,7 @@ class CoinsAdapter(context: Context, coinClickListener: CoinItemClickListener,
         currentHolder.profitability.text = coin.profitability24.toString() + "%"
         currentHolder.equipmentType.text = coin.equipmentType
 
-        val iconLink = CurrencyHelper.getImageLinkForCurrency(cmcCurrency, ccCurrencies)
+        val iconLink = CryptocurrencyHelper.getImageLinkForCurrency(cmcCurrency, ccCurrencies)
         if (iconLink.isNotEmpty())
             Picasso.with(context).load(Uri.parse(Endpoints.CRYPTO_COMPARE_URL + iconLink))
                     .into(currentHolder.icon)

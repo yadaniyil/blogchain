@@ -17,7 +17,6 @@ import com.yadaniil.blogchain.screens.base.BaseActivity
 import com.yadaniil.blogchain.screens.base.CoinClickListener
 import com.yadaniil.blogchain.screens.base.CoinLongClickListener
 import com.yadaniil.blogchain.utils.ListHelper
-import io.realm.RealmChangeListener
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.no_items_filtered_layout.*
@@ -45,7 +44,7 @@ class AllCoinsActivity : BaseActivity(), AllCoinsView, CoinClickListener, CoinLo
         initSwipeRefresh()
         AllCoinsHelper.coins = presenter.getAllCoinsFromDb()
         AllCoinsHelper.presenter = presenter
-        setUpCurrenciesList(AllCoinsHelper.coins)
+        initCurrenciesList(AllCoinsHelper.coins)
         presenter.downloadAndSaveAllCurrencies()
         initAdMobBanner()
     }
@@ -73,7 +72,7 @@ class AllCoinsActivity : BaseActivity(), AllCoinsView, CoinClickListener, CoinLo
                     allCoinsAdapter,
                     { colorSortButtonToWhite() },
                     { colorSortButtonToAccent() },
-                    { setUpCurrenciesList(AllCoinsHelper.coins) })
+                    { updateList(AllCoinsHelper.coins) })
         }
 
         return super.onOptionsItemSelected(item)
@@ -85,6 +84,7 @@ class AllCoinsActivity : BaseActivity(), AllCoinsView, CoinClickListener, CoinLo
     }
     // endregion Activity
 
+    // region Init
     private fun initAdMobBanner() {
         MobileAds.initialize(this, getString(R.string.admob_app_id))
         val builder = AdRequest.Builder()
@@ -95,45 +95,18 @@ class AllCoinsActivity : BaseActivity(), AllCoinsView, CoinClickListener, CoinLo
 
     private fun initSearchView() {
         search_view.setOnQueryTextListener(object : MaterialSearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return true
-            }
+            override fun onQueryTextSubmit(query: String?) = true
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                setUpCurrenciesList(presenter.getAllCoinsFiltered(newText ?: ""))
+                updateList(presenter.getAllCoinsFiltered(newText ?: ""))
+
                 return true
             }
         })
     }
 
-    private fun initRetryRefreshButton() {
-        retry_button.onClick {
-            presenter.downloadAndSaveAllCurrencies()
-        }
-    }
-
-    private fun initSwipeRefresh() {
-        swipe_refresh.setColorSchemeColors(resources.getColor(R.color.colorAccent))
-        swipe_refresh.setOnRefreshListener {
-            presenter.downloadAndSaveAllCurrencies()
-        }
-    }
-
-    private fun setUpCurrenciesList(realmCurrencies: RealmResults<CoinMarketCapCurrencyRealm>) {
-        allCoinsAdapter = AllCoinsAdapter(realmCurrencies, true, this,
-                presenter.getAllCryptoCompareCoinsFromDb(), this, this)
-
-        currencies_recycler_view.layoutManager = LinearLayoutManager(this)
-        currencies_recycler_view.adapter = allCoinsAdapter
-        currencies_recycler_view.itemAnimator = null
-        currencies_recycler_view.setHasFixedSize(true)
-        currencies_recycler_view.setItemViewCacheSize(200)
-        currencies_recycler_view.isDrawingCacheEnabled = true
-        currencies_recycler_view.drawingCacheQuality = View.DRAWING_CACHE_QUALITY_AUTO
-        currencies_recycler_view.removeItemDecoration(listDivider)
-        currencies_recycler_view.addItemDecoration(listDivider)
-
-        realmCurrencies.addChangeListener { coins ->
+    private fun initNoItemsLayout(items: RealmResults<CoinMarketCapCurrencyRealm>) {
+        items.addChangeListener { coins ->
             if (coins!!.isNotEmpty()) {
                 no_items_layout.visibility = View.GONE
                 swipe_refresh.visibility = View.VISIBLE
@@ -152,15 +125,35 @@ class AllCoinsActivity : BaseActivity(), AllCoinsView, CoinClickListener, CoinLo
         }
     }
 
-    private fun colorSortButtonToWhite() {
-        if (sortMenuItem != null)
-            sortMenuItem?.icon = resources.getDrawable(R.drawable.ic_sort_white_24dp)
+    private fun initRetryRefreshButton() {
+        retry_button.onClick {
+            presenter.downloadAndSaveAllCurrencies()
+        }
     }
 
-    private fun colorSortButtonToAccent() {
-        if (sortMenuItem != null)
-            sortMenuItem?.icon = resources.getDrawable(R.drawable.ic_sort_accent_24dp)
+    private fun initSwipeRefresh() {
+        swipe_refresh.setColorSchemeColors(resources.getColor(R.color.colorAccent))
+        swipe_refresh.setOnRefreshListener {
+            presenter.downloadAndSaveAllCurrencies()
+        }
     }
+
+    private fun initCurrenciesList(allCoins: RealmResults<CoinMarketCapCurrencyRealm>) {
+        allCoinsAdapter = AllCoinsAdapter(allCoins, true, this,
+                presenter.getAllCryptoCompareCoinsFromDb(), this, this)
+
+        currencies_recycler_view.layoutManager = LinearLayoutManager(this)
+        currencies_recycler_view.adapter = allCoinsAdapter
+        currencies_recycler_view.itemAnimator = null
+        currencies_recycler_view.setHasFixedSize(true)
+        currencies_recycler_view.setItemViewCacheSize(200)
+        currencies_recycler_view.isDrawingCacheEnabled = true
+        currencies_recycler_view.drawingCacheQuality = View.DRAWING_CACHE_QUALITY_AUTO
+        currencies_recycler_view.removeItemDecoration(listDivider)
+        currencies_recycler_view.addItemDecoration(listDivider)
+        initNoItemsLayout(allCoins)
+    }
+    // endregion Init
 
     // region View
     override fun getLayout() = R.layout.activity_main
@@ -200,6 +193,21 @@ class AllCoinsActivity : BaseActivity(), AllCoinsView, CoinClickListener, CoinLo
 
     override fun onCurrencyAddedToFavourite(currency: CoinMarketCapCurrencyRealm) =
             toast("${currency.symbol} ${getString(R.string.is_now_in_watchlist)}")
+
+    private fun updateList(coins: RealmResults<CoinMarketCapCurrencyRealm>) {
+        initNoItemsLayout(coins)
+        allCoinsAdapter.updateData(coins)
+    }
+
+    private fun colorSortButtonToWhite() {
+        if (sortMenuItem != null)
+            sortMenuItem?.icon = resources.getDrawable(R.drawable.ic_sort_white_24dp)
+    }
+
+    private fun colorSortButtonToAccent() {
+        if (sortMenuItem != null)
+            sortMenuItem?.icon = resources.getDrawable(R.drawable.ic_sort_accent_24dp)
+    }
     // endregion View
 }
 

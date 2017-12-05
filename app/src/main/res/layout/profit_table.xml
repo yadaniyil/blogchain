@@ -32,7 +32,7 @@
             <!--android:layout_weight="1"-->
             <!--android:textStyle="bold"-->
             <!--android:singleLine="true"-->
-            <!--android:text="@string/rev_dot"/>-->
+            <!--andrcoinNametext="@string/rev_dot"/>-->
 
         <TextView
             android:layout_width="0dp"

@@ -9,7 +9,6 @@ import android.widget.TextView
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
-import com.jakewharton.rxbinding2.support.v4.widget.RxSwipeRefreshLayout
 import com.jakewharton.rxbinding2.widget.RxTextView
 import com.yadaniil.blogchain.R
 import com.yadaniil.blogchain.data.api.models.TickerResponse
@@ -24,10 +23,8 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_converter.*
-import org.jetbrains.anko.find
-import org.jetbrains.anko.image
-import org.jetbrains.anko.onClick
-import org.jetbrains.anko.toast
+import org.jetbrains.anko.*
+import timber.log.Timber
 import java.math.BigDecimal
 
 
@@ -52,8 +49,10 @@ class ConverterActivity : BaseActivity(), ConverterView {
     private lateinit var bottomAmountSubscription: Disposable
 
     private lateinit var ticker: TickerResponse
-    private lateinit var topFiatTicker: TickerResponse
-    private lateinit var bottomFiatTicker: TickerResponse
+    private lateinit var topTicker: TickerResponse
+    private lateinit var bottomTicker: TickerResponse
+    private var isTopAmountFocused: Boolean = false
+    private var isBottomAmountFocused: Boolean = false
 
     // region Activity
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -119,7 +118,7 @@ class ConverterActivity : BaseActivity(), ConverterView {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if (item?.itemId == R.id.action_swap) {
             swapCurrencies()
-        } else if(item?.itemId == R.id.action_clear) {
+        } else if (item?.itemId == R.id.action_clear) {
             top_amount.text.clear()
             bottom_amount.text.clear()
         }
@@ -129,17 +128,26 @@ class ConverterActivity : BaseActivity(), ConverterView {
 
     // region Init
     private fun initConversionAmounts() {
+        top_amount.setOnFocusChangeListener { _, isFocused -> isTopAmountFocused = isFocused }
+        bottom_amount.setOnFocusChangeListener { _, isFocused -> isBottomAmountFocused = isFocused }
+
         topAmountSubscription = RxTextView.afterTextChangeEvents(top_amount).skipInitialValue()
-                .map { it.editable().toString() }
+                .map { it.editable().toString().replace(" ", "") }
                 .observeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { initTopToBottomConversion() }
+                .subscribe { amount ->
+                    if (isTopAmountFocused)
+                        performTopToBottomConversion(amount)
+                }
 
         bottomAmountSubscription = RxTextView.afterTextChangeEvents(bottom_amount).skipInitialValue()
-                .map { it.editable().toString() }
+                .map { it.editable().toString().replace(" ", "") }
                 .observeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { initBottomToTopConversion() }
+                .subscribe { amount ->
+                    if (isBottomAmountFocused)
+                        initBottomToTopConversion(amount)
+                }
     }
 
     private fun initTopCurrency(coin: CoinMarketCapCurrencyRealm? = null, fiat: FiatCurrencyItem? = null) {
@@ -164,7 +172,7 @@ class ConverterActivity : BaseActivity(), ConverterView {
             topCurrencySymbol.text = fiat.symbol
             topCurrencyName.text = fiat.name
             topCurrencyIcon.setImageDrawable(resources.getDrawable(fiat.iconIntRes))
-            bottomCurrency = ConverterFiatCurrency(fiat.symbol)
+            topCurrency = ConverterFiatCurrency(fiat.symbol)
         }
 
         top_currency.onClick { Navigator.toFindCurrencyActivity(this, PICK_TOP_CONVERT_CURRENCY) }
@@ -205,60 +213,6 @@ class ConverterActivity : BaseActivity(), ConverterView {
                 .build()
         adView.loadAd(builder)
     }
-
-    private fun initTopToBottomConversion() {
-        if (top_amount.text.isEmpty()) {
-            bottom_amount.text.clear()
-            return
-        }
-
-        // Top - fiat, bottom - crypto
-        if (topCurrency.isFiat() && bottomCurrency.isCrypto()) {
-            val priceToConvertTo =
-                    if (ticker.priceFiatAnalogue.isNotEmpty()) 1 / ticker.priceFiatAnalogue.toDouble()
-                    else 1 / ticker.priceUsd.toDouble()
-            bottom_amount.setText(calculateConversion(
-                    top_amount.text.toString().toDouble(), priceToConvertTo))
-        }
-
-        // Top - crypto, bottom - fiat
-        if (bottomCurrency.isFiat() && topCurrency.isCrypto()) {
-            val priceToConvertTo =
-                    if (ticker.priceFiatAnalogue.isNotEmpty()) ticker.priceFiatAnalogue
-                    else ticker.priceUsd
-            bottom_amount.setText(calculateConversion(
-                    top_amount.text.toString().toDouble(), priceToConvertTo.toDouble()))
-        }
-
-        // Both fiat
-        if (topCurrency.isFiat() && bottomCurrency.isFiat()) {
-            val topPriceFiat =
-                    if (topFiatTicker.priceFiatAnalogue.isNotEmpty()) topFiatTicker.priceFiatAnalogue
-                    else topFiatTicker.priceUsd
-
-            val bottomPriceFiat =
-                    if (bottomFiatTicker.priceFiatAnalogue.isNotEmpty()) bottomFiatTicker.priceFiatAnalogue
-                    else bottomFiatTicker.priceUsd
-
-            bottom_amount.setText(calculateConversion(
-                    top_amount.text.toString().toDouble(), bottomPriceFiat.toDouble() / topPriceFiat.toDouble()))
-        }
-
-        // Both crypto
-        if (topCurrency.isCrypto() && bottomCurrency.isCrypto()) {
-            val priceToConvertTo = if (ticker.priceFiatAnalogue == "")
-                ticker.priceBtc
-            else
-                ticker.priceFiatAnalogue
-
-            bottom_amount.setText(calculateConversion(
-                    top_amount.text.toString().toDouble(), priceToConvertTo.toDouble()))
-        }
-    }
-
-    private fun initBottomToTopConversion() {
-
-    }
     // endregion Init
 
     // region Conversion
@@ -298,8 +252,15 @@ class ConverterActivity : BaseActivity(), ConverterView {
         } else if (topCurrency.isFiat() && bottomCurrency.isCrypto()) {
             presenter.fiatToCryptoConversion(
                     (bottomCurrency as ConverterCryptoCurrency).id, topCurrency.symbol)
-        } else if(topCurrency.isFiat() && bottomCurrency.isFiat()) {
+        } else if (topCurrency.isFiat() && bottomCurrency.isFiat()) {
             presenter.fiatToFiatConversion(topCurrency.symbol, bottomCurrency.symbol)
+        }
+
+        try {
+            Timber.d("Top ticker: " + topTicker.symbol)
+            Timber.d("Bottom ticker: " + bottomTicker.symbol)
+        } catch (e: Exception) {
+            Timber.e(e.message)
         }
     }
 
@@ -307,9 +268,112 @@ class ConverterActivity : BaseActivity(), ConverterView {
         return AmountFormatter.formatCryptoPrice(BigDecimal(amount * rate))
     }
 
-
     private fun ConverterCurrency.isCrypto() = CryptocurrencyHelper.isCrypto(this.symbol, allCoins)
     private fun ConverterCurrency.isFiat() = FiatCurrenciesHelper.isFiat(this.symbol, allFiatCurrencies)
+
+    private fun performTopToBottomConversion(topAmount: String? = null) {
+        val amount = topAmount ?: top_amount.text.toString().replace(" ", "")
+
+        if (amount.isEmpty()) {
+            bottom_amount.text.clear()
+            return
+        }
+
+        // Top - fiat, bottom - crypto
+        if (topCurrency.isFiat() && bottomCurrency.isCrypto()) {
+            val priceToConvertTo =
+                    if (ticker.priceFiatAnalogue.isNotEmpty()) 1 / ticker.priceFiatAnalogue.toDouble()
+                    else 1 / ticker.priceUsd.toDouble()
+            bottom_amount.setText(calculateConversion(
+                    amount.toDouble(), priceToConvertTo))
+        }
+
+        // Top - crypto, bottom - fiat
+        if (bottomCurrency.isFiat() && topCurrency.isCrypto()) {
+            val priceToConvertTo =
+                    if (ticker.priceFiatAnalogue.isNotEmpty()) ticker.priceFiatAnalogue
+                    else ticker.priceUsd
+            bottom_amount.setText(calculateConversion(
+                    amount.toDouble(), priceToConvertTo.toDouble()))
+        }
+
+        // Both fiat
+        if (topCurrency.isFiat() && bottomCurrency.isFiat()) {
+            val topPriceFiat =
+                    if (topTicker.priceFiatAnalogue.isNotEmpty()) topTicker.priceFiatAnalogue
+                    else topTicker.priceUsd
+
+            val bottomPriceFiat =
+                    if (bottomTicker.priceFiatAnalogue.isNotEmpty()) bottomTicker.priceFiatAnalogue
+                    else bottomTicker.priceUsd
+
+            bottom_amount.setText(calculateConversion(
+                    amount.toDouble(), topPriceFiat.toDouble() / bottomPriceFiat.toDouble()))
+        }
+
+        // Both crypto
+        if (topCurrency.isCrypto() && bottomCurrency.isCrypto()) {
+            val priceToConvertTo = if (ticker.priceFiatAnalogue == "")
+                ticker.priceBtc
+            else
+                ticker.priceFiatAnalogue
+
+            bottom_amount.setText(calculateConversion(
+                    amount.toDouble(), priceToConvertTo.toDouble()))
+        }
+    }
+
+    private fun initBottomToTopConversion(bottomAmount: String? = null) {
+        val amount = bottomAmount ?: bottom_amount.text.toString().replace(" ", "")
+
+        if (amount.isEmpty()) {
+            top_amount.text.clear()
+            return
+        }
+
+        // Top - fiat, bottom - crypto
+        if (topCurrency.isFiat() && bottomCurrency.isCrypto()) {
+            val priceToConvertTo =
+                    if (ticker.priceFiatAnalogue.isNotEmpty()) ticker.priceFiatAnalogue.toDouble()
+                    else ticker.priceUsd.toDouble()
+            top_amount.setText(calculateConversion(
+                    amount.toDouble(), priceToConvertTo))
+        }
+
+        // Top - crypto, bottom - fiat
+        if (bottomCurrency.isFiat() && topCurrency.isCrypto()) {
+            val priceToConvertTo =
+                    if (ticker.priceFiatAnalogue.isNotEmpty()) 1 / ticker.priceFiatAnalogue.toDouble()
+                    else 1 / ticker.priceUsd.toDouble()
+            top_amount.setText(calculateConversion(
+                    amount.toDouble(), priceToConvertTo))
+        }
+
+        // Both fiat
+        if (topCurrency.isFiat() && bottomCurrency.isFiat()) {
+            val topPriceFiat =
+                    if (topTicker.priceFiatAnalogue.isNotEmpty()) topTicker.priceFiatAnalogue
+                    else topTicker.priceUsd
+
+            val bottomPriceFiat =
+                    if (bottomTicker.priceFiatAnalogue.isNotEmpty()) bottomTicker.priceFiatAnalogue
+                    else bottomTicker.priceUsd
+
+            top_amount.setText(calculateConversion(
+                    amount.toDouble(), bottomPriceFiat.toDouble() / topPriceFiat.toDouble()))
+        }
+
+        // Both crypto
+        if (topCurrency.isCrypto() && bottomCurrency.isCrypto()) {
+            val priceToConvertTo = if (ticker.priceFiatAnalogue == "")
+                1 / ticker.priceBtc.toDouble()
+            else
+                1 / ticker.priceFiatAnalogue.toDouble()
+
+            top_amount.setText(calculateConversion(
+                    amount.toDouble(), priceToConvertTo))
+        }
+    }
     // endregion Conversion
 
     // region View
@@ -317,18 +381,18 @@ class ConverterActivity : BaseActivity(), ConverterView {
 
     override fun proceedCryptToAnyConversion(ticker: TickerResponse) {
         this.ticker = ticker
-        initTopToBottomConversion()
+        performTopToBottomConversion()
     }
 
     override fun proceedFiatToFiatConversion(tickers: List<TickerResponse>) {
-        if(tickers.size != 2) {
+        if (tickers.size != 2) {
             toast(R.string.error)
             return
         }
 
-        topFiatTicker = tickers[0]
-        bottomFiatTicker = tickers[1]
-        initTopToBottomConversion()
+        topTicker = tickers[0]
+        bottomTicker = tickers[1]
+        performTopToBottomConversion()
     }
 
     override fun startToolbarLoading() {

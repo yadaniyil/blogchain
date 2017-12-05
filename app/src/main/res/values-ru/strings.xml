@@ -128,4 +128,41 @@
     <string name="currencies">Валюты</string>
     <string name="amount">Количество</string>
     <string name="swap">Поменять местами</string>
+
+    <string-array name="fiat_currencies_names">
+        <item>Доллар США</item>
+        <item>Евро</item>
+        <item>Фунт стерлингов</item>
+        <item>Японская иена</item>
+        <item>Российский рубль</item>
+
+        <item>Австралийский доллар</item>
+        <item>Бразильский реал</item>
+        <item>Канадский доллар</item>
+        <item>Швейцарский франк</item>
+        <item>Чилийское песо</item>
+        <item>Китайский юань</item>
+        <item>Чешская крона</item>
+        <item>Датская крона</item>
+        <item>Гонконгский доллар</item>
+        <item>Венгерский форинт</item>
+        <item>Индонезийская рупия</item>
+        <item>Новый израильский шекель</item>
+        <item>Индийская рупия</item>
+        <item>Южнокорейская вона</item>
+        <item>Мексиканское песо</item>
+        <item>Малайзийский ринггит</item>
+        <item>Норвежская крона</item>
+        <item>Новозеландский доллар</item>
+        <item>Филиппинское песо</item>
+        <item>Пакистанская рупия</item>
+        <item>Польский злотый</item>
+        <item>Шведская крона</item>
+        <item>Сингапурский доллар</item>
+        <item>Тайский бат</item>
+        <item>Турецкая лира</item>
+        <item>Новый тайваньский доллар</item>
+        <item>Южноафриканский рэнд</item>
+    </string-array>
+    <string name="clear">Очистить</string>
 </resources>

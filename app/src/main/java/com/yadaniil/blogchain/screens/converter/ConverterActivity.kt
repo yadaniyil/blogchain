@@ -308,7 +308,7 @@ class ConverterActivity : BaseActivity(), ConverterView {
                     else bottomTicker.priceUsd
 
             bottom_amount.setText(calculateConversion(
-                    amount.toDouble(), topPriceFiat.toDouble() / bottomPriceFiat.toDouble()))
+                    amount.toDouble(), bottomPriceFiat.toDouble() / topPriceFiat.toDouble()))
         }
 
         // Both crypto
@@ -360,7 +360,7 @@ class ConverterActivity : BaseActivity(), ConverterView {
                     else bottomTicker.priceUsd
 
             top_amount.setText(calculateConversion(
-                    amount.toDouble(), bottomPriceFiat.toDouble() / topPriceFiat.toDouble()))
+                    amount.toDouble(), topPriceFiat.toDouble() / bottomPriceFiat.toDouble()))
         }
 
         // Both crypto

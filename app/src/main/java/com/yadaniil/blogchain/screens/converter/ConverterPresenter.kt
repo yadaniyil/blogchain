@@ -30,7 +30,7 @@ class ConverterPresenter : MvpPresenter<ConverterView>() {
     fun getAllCcCoins() = repo.getAllCryptoCompareCoinsFromDb()
     fun getCoin(symbol: String) = repo.getCoinFromDb(symbol)
 
-    fun downloadTickerWithConversion(coinId: String, convertToSymbol: String): Observable<TickerResponse> {
+    private fun downloadTickerWithConversion(coinId: String, convertToSymbol: String): Observable<TickerResponse> {
         return repo.getCoin(coinId, convertToSymbol)
                 .subscribeOn(Schedulers.io())
                 .map { TickerParser.parseTickerResponse(it) }

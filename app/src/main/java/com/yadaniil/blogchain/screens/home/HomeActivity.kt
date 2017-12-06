@@ -57,20 +57,9 @@ class HomeActivity : BaseActivity(), HomeView {
 
     private fun initHomeView() {
         homeAdapter = HomeAdapter(mutableListOf(
-                PortfolioItem(portfolios),
-                CoinsItem(coins),
-                NewsItem("Bitcoin is SCAM!!!"),
-                NewsItem("Bitcoin is GOD!!!"),
-                NewsItem("Bitcoin is just cryptocurrency!!!"),
-                NewsItem("Bitcoin is just cryptocurrency!!!"),
-                NewsItem("Bitcoin is just cryptocurrency!!!"),
-                NewsItem("Bitcoin is just cryptocurrency!!!"),
-                NewsItem("Bitcoin is just cryptocurrency!!!"),
-                NewsItem("Bitcoin is just cryptocurrency!!!"),
-                NewsItem("Bitcoin is just cryptocurrency!!!"),
-                NewsItem("Bitcoin is just cryptocurrency!!!"),
-                NewsItem("Bitcoin is just cryptocurrency!!!"),
-                NewsItem("Bitcoin is just cryptocurrency!!!")
+                PortfolioSection(portfolios),
+                CoinsSection(coins),
+                NewsSection(presenter.downloadNews())
         ), this, presenter)
         home_recycler_view.layoutManager = LinearLayoutManager(this)
         home_recycler_view.adapter = homeAdapter

@@ -5,12 +5,11 @@ import com.arellomobile.mvp.MvpPresenter
 import com.yadaniil.blogchain.Application
 import com.yadaniil.blogchain.BuildConfig
 import com.yadaniil.blogchain.data.Repository
+import com.yadaniil.blogchain.data.api.models.NewsModel
 import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
 import com.yadaniil.blogchain.data.db.models.CryptoCompareCurrencyRealm
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import io.realm.RealmResults
-import rx.Observable
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -62,6 +61,10 @@ class HomePresenter : MvpPresenter<HomeView>() {
                 }, { error ->
                     Timber.e(error.message)
                 })
+    }
+
+    fun downloadNews(): List<NewsModel> {
+        return emptyList()
     }
 
 }

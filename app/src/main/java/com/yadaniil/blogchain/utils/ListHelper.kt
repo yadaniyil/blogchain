@@ -260,7 +260,7 @@ object ListHelper {
     }
 
     class HomeNewsHolder(view: View) : RecyclerView.ViewHolder(view) {
-        var header: TextView = view.find(R.id.news_header)
+        var title: TextView = view.find(R.id.news_header)
     }
     // endregion Home
 }

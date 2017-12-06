@@ -21,7 +21,7 @@ import timber.log.Timber
  */
 
 
-class HomeAdapter(private val items: MutableList<HomeListItem>,
+class HomeAdapter(private val sections: MutableList<HomeListSection>,
                   private val context: Context,
                   private val presenter: HomePresenter)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -58,30 +58,30 @@ class HomeAdapter(private val items: MutableList<HomeListItem>,
     }
 
     override fun getItemViewType(position: Int) =
-            when (items[position]) {
-                is PortfolioItem -> TYPE_PORTFOLIO
-                is CoinsItem -> TYPE_COINS
-                is NewsItem -> TYPE_NEWS
+            when (sections[position]) {
+                is PortfolioSection -> TYPE_PORTFOLIO
+                is CoinsSection -> TYPE_COINS
+                is NewsSection -> TYPE_NEWS
             }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
-        val item = items[position]
+        val item = sections[position]
         when (holder) {
-            is ListHelper.HomePortfolioHolder -> bindPortfolio(holder, item as PortfolioItem)
-            is ListHelper.HomeCoinsHolder -> bindCoins(holder, item as CoinsItem)
-            is ListHelper.HomeNewsHolder -> holder.header.text = (item as NewsItem).header
+            is ListHelper.HomePortfolioHolder -> bindPortfolio(holder, item as PortfolioSection)
+            is ListHelper.HomeCoinsHolder -> bindCoins(holder, item as CoinsSection)
+            is ListHelper.HomeNewsHolder -> bindNews(holder, (item as NewsSection), position)
         }
     }
 
-    override fun getItemCount() = items.size
+    override fun getItemCount() = sections.size
 
-    private fun bindPortfolio(holder: ListHelper.HomePortfolioHolder, item: PortfolioItem) {
+    private fun bindPortfolio(holder: ListHelper.HomePortfolioHolder, item: PortfolioSection) {
         PortfolioHelper.updateTotalFiatBalance(item.portfolios, holder.totalAmount, holder.totalAmountBtc)
     }
 
     fun updateCoins(coins: RealmResults<CoinMarketCapCurrencyRealm>) {
         try {
-            bindCoins(coinsHolder, CoinsItem(coins))
+            bindCoins(coinsHolder, CoinsSection(coins))
         } catch (e: Exception) {
             Timber.e(e.message)
         }
@@ -89,13 +89,13 @@ class HomeAdapter(private val items: MutableList<HomeListItem>,
 
     fun updatePortfolio(portfolios: RealmResults<PortfolioRealm>) {
         try {
-            bindPortfolio(portfolioHolder, PortfolioItem(portfolios))
+            bindPortfolio(portfolioHolder, PortfolioSection(portfolios))
         } catch (e: Exception) {
             Timber.e(e.message)
         }
     }
 
-    private fun bindCoins(holder: ListHelper.HomeCoinsHolder, coinsItem: CoinsItem) {
+    private fun bindCoins(holder: ListHelper.HomeCoinsHolder, coinsItem: CoinsSection) {
         val coins: MutableList<CoinMarketCapCurrencyRealm> = ArrayList()
         presenter.getAllCoins().toObservable().subscribe({
             coins.add(it)
@@ -126,7 +126,10 @@ class HomeAdapter(private val items: MutableList<HomeListItem>,
                 holder.forthCoinPrice.text = "$${AmountFormatter.formatFiatPrice(coinsItem.coin[3].priceUsd.toString())}"
             }
         })
+    }
 
+    private fun bindNews(holder: ListHelper.HomeNewsHolder, newsSection: NewsSection, position: Int) {
+        holder.title.text = newsSection.news[position].title
     }
 
 }

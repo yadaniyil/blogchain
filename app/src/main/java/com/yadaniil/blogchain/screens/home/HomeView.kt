@@ -8,4 +8,6 @@ import com.arellomobile.mvp.MvpView
 
 interface HomeView : MvpView {
     fun showChangelogDialog()
+    fun showLoading()
+    fun stopLoading()
 }

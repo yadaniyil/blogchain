@@ -5,10 +5,10 @@ import android.support.v7.widget.LinearLayoutManager
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.yadaniil.blogchain.R
 import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
+import com.yadaniil.blogchain.data.db.models.PortfolioRealm
 import com.yadaniil.blogchain.screens.base.BaseActivity
-import io.reactivex.rxkotlin.toObservable
+import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_home.*
-import timber.log.Timber
 
 /**
  * Created by danielyakovlev on 11/2/17.
@@ -19,6 +19,9 @@ class HomeActivity : BaseActivity(), HomeView {
     @InjectPresenter
     lateinit var presenter: HomePresenter
 
+    private lateinit var portfolios: RealmResults<PortfolioRealm>
+    private lateinit var coins: RealmResults<CoinMarketCapCurrencyRealm>
+
     private lateinit var homeAdapter: HomeAdapter
 
     override fun getLayout() = R.layout.activity_home
@@ -26,23 +29,36 @@ class HomeActivity : BaseActivity(), HomeView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val firstFourCoins: MutableList<CoinMarketCapCurrencyRealm> = ArrayList()
-        presenter.getAllCoins().toObservable().subscribe({
-            firstFourCoins.add(it)
-        }, {
-            Timber.e(it.message)
-        }, {
-            initHomeView(firstFourCoins)
-        })
+        coins = presenter.getAllCoins()
+        portfolios = presenter.getPortfolios()
 
+        initHomeView()
+        initTotalPortfolioBalance()
+        initCoins()
+
+        swipe_refresh.setOnRefreshListener {
+            presenter.downloadAndSaveAllCurrencies()
+        }
         presenter.showChangelogDialog()
         presenter.downloadAndSaveAllCurrencies()
     }
 
-    private fun initHomeView(firstFourCoins: List<CoinMarketCapCurrencyRealm>) {
+    private fun initTotalPortfolioBalance() {
+        portfolios.addChangeListener { portfolios ->
+            homeAdapter.updatePortfolio(portfolios)
+        }
+    }
+
+    private fun initCoins() {
+        coins.addChangeListener { coins ->
+            homeAdapter.updateCoins(coins)
+        }
+    }
+
+    private fun initHomeView() {
         homeAdapter = HomeAdapter(mutableListOf(
-                PortfolioItem("2345.03 USD"),
-                CoinsItem(firstFourCoins),
+                PortfolioItem(portfolios),
+                CoinsItem(coins),
                 NewsItem("Bitcoin is SCAM!!!"),
                 NewsItem("Bitcoin is GOD!!!"),
                 NewsItem("Bitcoin is just cryptocurrency!!!"),
@@ -71,7 +87,11 @@ class HomeActivity : BaseActivity(), HomeView {
         ChangelogDialog().show(ft, "changelogdialog")
     }
 
-    private fun updateAll() {
+    override fun showLoading() {
+        swipe_refresh.isRefreshing = true
+    }
 
+    override fun stopLoading() {
+        swipe_refresh.isRefreshing = false
     }
 }

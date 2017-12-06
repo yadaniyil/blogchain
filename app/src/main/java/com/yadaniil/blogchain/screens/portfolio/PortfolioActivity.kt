@@ -9,14 +9,12 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.yadaniil.blogchain.R
 import com.yadaniil.blogchain.data.db.models.PortfolioRealm
 import com.yadaniil.blogchain.screens.base.BaseActivity
-import com.yadaniil.blogchain.utils.AmountFormatter
 import com.yadaniil.blogchain.utils.ListHelper
 import com.yadaniil.blogchain.utils.Navigator
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_portfolio.*
 import org.jetbrains.anko.onClick
 import org.jetbrains.anko.toast
-import java.math.BigDecimal
 
 
 /**
@@ -38,16 +36,17 @@ class PortfolioActivity : BaseActivity(), PortfolioView, PortfolioAdapter.OnClic
         listDivider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         fab.onClick { Navigator.toAddCoinToPortfolioActivity(this) }
 
+        initTotalPortfolioBalance()
         initPortfolioList()
         initSwipeRefresh()
         presenter.downloadAndSaveAllCurrencies()
-        initTotalFiatBalance()
+
     }
 
-    private fun initTotalFiatBalance() {
+    private fun initTotalPortfolioBalance() {
         portfolios = presenter.getPortfolios()
         portfolios?.addChangeListener { portfolios ->
-            updateTotalFiatBalance(portfolios)
+            PortfolioHelper.updateTotalFiatBalance(portfolios, total_amount, total_amount_btc)
             if(portfolios.isEmpty()) {
                 no_items_text_view.visibility = View.VISIBLE
                 swipe_refresh.visibility = View.GONE
@@ -67,7 +66,7 @@ class PortfolioActivity : BaseActivity(), PortfolioView, PortfolioAdapter.OnClic
     }
 
     private fun initPortfolioList() {
-        portfolioAdapter = PortfolioAdapter(presenter.getPortfolios(), true,
+        portfolioAdapter = PortfolioAdapter(portfolios!!, true,
                 this, presenter.getAllCcCoin(), this, this)
         watchlist_recycler_view.layoutManager = LinearLayoutManager(this)
         watchlist_recycler_view.adapter = portfolioAdapter
@@ -87,23 +86,6 @@ class PortfolioActivity : BaseActivity(), PortfolioView, PortfolioAdapter.OnClic
                 }
             }
         })
-    }
-
-    private fun updateTotalFiatBalance(portfolios: RealmResults<PortfolioRealm>?) {
-        if(portfolios == null || portfolios.isEmpty()) {
-            total_amount.text = "0 USD"
-            total_amount_btc.text = "0 BTC"
-        } else {
-            var sumFiat: BigDecimal = BigDecimal.ZERO
-            var sumBtc: BigDecimal = BigDecimal.ZERO
-            portfolios.forEach {
-                sumFiat += ListHelper.calculatePortfolioFiatSum(it)
-                sumBtc += ListHelper.calculatePortfolioBtcSum(it)
-            }
-
-            total_amount.text = "${AmountFormatter.formatFiatPrice(sumFiat)} USD"
-            total_amount_btc.text = "${AmountFormatter.formatCryptoPrice(sumBtc.toString())} BTC"
-        }
     }
 
     // region View

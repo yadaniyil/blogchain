@@ -126,6 +126,7 @@
     <string name="amount">Amount</string>
     <string name="swap">Swap</string>
     <string name="clear">Clear</string>
+    <string name="portfolios_balance">Portfolios balance</string>
 
     <string-array name="miner_filters">
         <item>All categories</item>

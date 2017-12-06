@@ -5,5 +5,6 @@ package com.yadaniil.blogchain.screens.converter
  */
 
 sealed class ConverterCurrency(val symbol: String)
-data class ConverterCryptoCurrency(private val cryptocurrencySymbol: String, val id: String) : ConverterCurrency(cryptocurrencySymbol)
+data class ConverterCryptoCurrency(private val cryptocurrencySymbol: String, val id: String)
+    : ConverterCurrency(cryptocurrencySymbol)
 data class ConverterFiatCurrency(private val fiatSymbol: String) : ConverterCurrency(fiatSymbol)

@@ -2,8 +2,7 @@ package com.yadaniil.blogchain.utils
 
 import android.content.Context
 import com.yadaniil.blogchain.R
-import com.yadaniil.blogchain.screens.findcurrency.fiat.FiatCurrencyItem
-import com.yadaniil.blogchain.screens.findcurrency.fiat.FiatHeaderItem
+import com.yadaniil.blogchain.screens.findcurrency.fiat.listitems.FiatCurrencyItem
 
 /**
  * Created by danielyakovlev on 11/17/17.

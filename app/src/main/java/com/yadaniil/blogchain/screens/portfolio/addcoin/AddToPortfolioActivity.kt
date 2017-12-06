@@ -1,6 +1,5 @@
 package com.yadaniil.blogchain.screens.portfolio.addcoin
 
-import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -10,13 +9,13 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import com.arellomobile.mvp.MvpAppCompatActivity
 import com.arellomobile.mvp.presenter.InjectPresenter
-import com.squareup.picasso.Picasso
 import com.yadaniil.blogchain.R
 import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
 import com.yadaniil.blogchain.data.db.models.PortfolioRealm
 import com.yadaniil.blogchain.utils.CryptocurrencyHelper
 import com.yadaniil.blogchain.utils.CryptocurrencyHelper.getSymbolFromFullName
 import com.yadaniil.blogchain.utils.Endpoints
+import com.yadaniil.blogchain.utils.ImageLoader
 import com.yadaniil.blogchain.utils.UiHelper
 import kotlinx.android.synthetic.main.activity_add_to_portfolio.*
 import org.jetbrains.anko.alert
@@ -184,9 +183,7 @@ class AddToPortfolioActivity : MvpAppCompatActivity(), AddToPortfolioView {
         if (imageLink.isBlank()) {
             coin_icon.setImageResource(R.drawable.icon_ico)
         } else {
-            Picasso.with(this)
-                    .load(Uri.parse(Endpoints.CRYPTO_COMPARE_URL + imageLink))
-                    .into(coin_icon)
+            ImageLoader.load(Endpoints.CRYPTO_COMPARE_URL + imageLink, coin_icon, this)
         }
     }
 }

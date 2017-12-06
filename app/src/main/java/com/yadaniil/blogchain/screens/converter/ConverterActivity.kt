@@ -7,8 +7,6 @@ import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
 import com.arellomobile.mvp.presenter.InjectPresenter
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.MobileAds
 import com.jakewharton.rxbinding2.widget.RxTextView
 import com.yadaniil.blogchain.R
 import com.yadaniil.blogchain.data.api.models.TickerResponse
@@ -16,7 +14,7 @@ import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
 import com.yadaniil.blogchain.data.db.models.CryptoCompareCurrencyRealm
 import com.yadaniil.blogchain.screens.base.BaseActivity
 import com.yadaniil.blogchain.screens.findcurrency.FindCurrencyActivity
-import com.yadaniil.blogchain.screens.findcurrency.fiat.FiatCurrencyItem
+import com.yadaniil.blogchain.screens.findcurrency.fiat.listitems.FiatCurrencyItem
 import com.yadaniil.blogchain.utils.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable

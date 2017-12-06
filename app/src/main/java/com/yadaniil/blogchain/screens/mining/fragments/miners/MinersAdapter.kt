@@ -1,7 +1,7 @@
 package com.yadaniil.blogchain.screens.mining.fragments.miners
 
 import android.content.Context
-import android.net.Uri
+import android.graphics.drawable.GradientDrawable
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -9,16 +9,14 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.squareup.picasso.Picasso
 import com.yadaniil.blogchain.R
 import com.yadaniil.blogchain.data.api.models.Miner
 import com.yadaniil.blogchain.utils.Endpoints
+import com.yadaniil.blogchain.utils.ImageLoader
 import org.jetbrains.anko.find
 import org.jetbrains.anko.onClick
-import java.util.ArrayList
+import java.util.*
 import kotlin.properties.Delegates
-import android.graphics.drawable.GradientDrawable
-
 
 
 /**
@@ -43,9 +41,7 @@ class MinersAdapter(context: Context, minerClickListener: MinerItemClickListener
 
         holder.name.text = currentMiner.name
         holder.company.text = currentMiner.company
-        Picasso.with(context).load(
-                Uri.parse(Endpoints.CRYPTO_COMPARE_URL + currentMiner.logoUrl))
-                .into(holder.image)
+        ImageLoader.load(Endpoints.CRYPTO_COMPARE_URL + currentMiner.logoUrl, holder.image, context)
 
         holder.equipmentType.text = currentMiner.equipmentType
         holder.algorithm.text = currentMiner.algorithm

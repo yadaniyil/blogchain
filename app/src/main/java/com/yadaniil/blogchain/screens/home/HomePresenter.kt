@@ -9,6 +9,8 @@ import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
 import com.yadaniil.blogchain.data.db.models.CryptoCompareCurrencyRealm
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import io.realm.RealmResults
+import rx.Observable
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -24,6 +26,8 @@ class HomePresenter : MvpPresenter<HomeView>() {
     init {
         Application.component?.inject(this)
     }
+
+    fun getAllCoins() = repo.getAllCoinsFromDb()
 
     fun showChangelogDialog() {
         if(repo.getLastShowChangelogVersion() != BuildConfig.VERSION_CODE) {

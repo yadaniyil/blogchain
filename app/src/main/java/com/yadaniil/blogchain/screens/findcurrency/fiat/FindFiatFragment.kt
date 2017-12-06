@@ -3,7 +3,6 @@ package com.yadaniil.blogchain.screens.findcurrency.fiat
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.view.ViewPager
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -12,9 +11,11 @@ import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.miguelcatalan.materialsearchview.MaterialSearchView
 import com.yadaniil.blogchain.R
-import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
 import com.yadaniil.blogchain.screens.findcurrency.FindCurrencyActivity
 import com.yadaniil.blogchain.screens.findcurrency.events.InitFiatSearchViewEvent
+import com.yadaniil.blogchain.screens.findcurrency.fiat.listitems.FiatCurrencyItem
+import com.yadaniil.blogchain.screens.findcurrency.fiat.listitems.FiatHeaderItem
+import com.yadaniil.blogchain.screens.findcurrency.fiat.listitems.FiatListItem
 import com.yadaniil.blogchain.utils.ListHelper
 import kotlinx.android.synthetic.main.fragment_find_fiat.*
 import org.greenrobot.eventbus.EventBus

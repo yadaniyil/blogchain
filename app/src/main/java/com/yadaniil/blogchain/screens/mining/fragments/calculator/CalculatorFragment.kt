@@ -3,7 +3,6 @@ package com.yadaniil.blogchain.screens.mining.fragments.calculator
 import android.animation.LayoutTransition
 import android.graphics.Color
 import android.graphics.PorterDuff
-import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
@@ -13,16 +12,20 @@ import android.widget.ArrayAdapter
 import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.google.android.gms.ads.AdRequest
-import com.squareup.picasso.Picasso
 import com.yadaniil.blogchain.R
 import com.yadaniil.blogchain.data.api.models.MiningCoin
 import com.yadaniil.blogchain.data.api.models.MiningCoinResponse
+import com.yadaniil.blogchain.utils.CryptocurrencyHelper
 import com.yadaniil.blogchain.utils.Endpoints
+import com.yadaniil.blogchain.utils.ImageLoader
 import com.yadaniil.blogchain.utils.UiHelper
 import kotlinx.android.synthetic.main.fragment_calculator.*
 import kotlinx.android.synthetic.main.no_items_layout.*
 import kotlinx.android.synthetic.main.profit_table.*
-import org.jetbrains.anko.*
+import org.jetbrains.anko.enabled
+import org.jetbrains.anko.onClick
+import org.jetbrains.anko.textChangedListener
+import org.jetbrains.anko.toast
 import java.math.BigDecimal
 
 /**
@@ -52,7 +55,7 @@ class CalculatorFragment : MvpAppCompatFragment(), CalculatorView {
         initMoreOptionsButton()
         poll_fee_edit_text.textChangedListener {
             afterTextChanged { s ->
-                if(!s.isNullOrBlank() && BigDecimal(s.toString()) > BigDecimal(100)) {
+                if (!s.isNullOrBlank() && BigDecimal(s.toString()) > BigDecimal(100)) {
                     poll_fee_edit_text.setText("100")
                     poll_fee_edit_text.setSelection(poll_fee_edit_text.text.length)
                 }
@@ -60,7 +63,7 @@ class CalculatorFragment : MvpAppCompatFragment(), CalculatorView {
         }
         hashrate_edit_text.textChangedListener {
             afterTextChanged { s ->
-                if(s.isNullOrBlank()) {
+                if (s.isNullOrBlank()) {
                     initDisabledCalculateButton()
                 } else {
                     initActiveCalculateButton()
@@ -134,20 +137,14 @@ class CalculatorFragment : MvpAppCompatFragment(), CalculatorView {
     }
 
     private fun showCoinIcon() {
-        coin_icon.onClick { mining_coin_spinner.dispatchTouchEvent(
-                MotionEvent.obtain(0, 0, MotionEvent.ACTION_UP,
-                        0f, 0f, 0)) }
-
-        val imageLink = presenter.getLinkForCoinImage(mining_coin_spinner.selectedItem.toString())
-        if (imageLink.isBlank()) {
-            Picasso.with(context)
-                    .load(Uri.parse(Endpoints.NICEHASH_ICON))
-                    .into(coin_icon)
-        } else {
-            Picasso.with(context)
-                    .load(Uri.parse(Endpoints.CRYPTO_COMPARE_URL + imageLink))
-                    .into(coin_icon)
+        coin_icon.onClick {
+            mining_coin_spinner.dispatchTouchEvent(
+                    MotionEvent.obtain(0, 0, MotionEvent.ACTION_UP,
+                            0f, 0f, 0))
         }
+
+        val coinSymbol = CryptocurrencyHelper.getSymbolFromFullName(mining_coin_spinner.selectedItem.toString())
+        ImageLoader.loadCoinIcon(coinSymbol, coin_icon, context, presenter.repo, Endpoints.NICEHASH_ICON)
     }
 
     private fun changeHashrateExponent() {
@@ -158,7 +155,7 @@ class CalculatorFragment : MvpAppCompatFragment(), CalculatorView {
     private fun initMoreOptionsButton() {
         more_options_layout.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         show_more_options.onClick {
-            if(more_options_layout.visibility == View.GONE) {
+            if (more_options_layout.visibility == View.GONE) {
                 more_options_layout.visibility = View.VISIBLE
                 show_more_options.text = getString(R.string.remove_options)
             } else {

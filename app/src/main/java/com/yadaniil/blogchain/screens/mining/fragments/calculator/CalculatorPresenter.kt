@@ -39,6 +39,9 @@ class CalculatorPresenter : MvpPresenter<CalculatorView>() {
                     downloadedCoins.addAll(gpuCoins)
                     downloadedCoins.addAll(asicCoins)
                     downloadedCoins
+                            .filter { it.name.startsWith("nicehash", true) }
+                            .forEach { downloadedCoins.remove(it) }
+                    downloadedCoins
                 })
 
         allCoinsZipRequest
@@ -62,15 +65,6 @@ class CalculatorPresenter : MvpPresenter<CalculatorView>() {
 
         names.forEachIndexed { index, s -> coins[index].name = s; coins[index].equipmentType = equipmentType }
         return coins
-    }
-
-    fun getLinkForCoinImage(fullName: String): String {
-        if(fullName.startsWith("Nicehash", true))
-            return ""
-
-        val symbol = getSymbolFromFullName(fullName)
-        val cryptoCoin = repo.getCoinFromDb(symbol)
-        return CryptocurrencyHelper.getImageLinkForCurrency(cryptoCoin, repo.getAllCryptoCompareCoinsFromDb())
     }
 
     fun getHashrateExponentForCoin(fullCoinName: String): String {

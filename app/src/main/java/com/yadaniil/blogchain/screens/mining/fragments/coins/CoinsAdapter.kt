@@ -1,7 +1,6 @@
 package com.yadaniil.blogchain.screens.mining.fragments.coins
 
 import android.content.Context
-import android.net.Uri
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.squareup.picasso.Picasso
 import com.yadaniil.blogchain.R
 import com.yadaniil.blogchain.data.api.models.MiningCoin
 import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
@@ -17,6 +15,7 @@ import com.yadaniil.blogchain.data.db.models.CryptoCompareCurrencyRealm
 import com.yadaniil.blogchain.utils.AmountFormatter
 import com.yadaniil.blogchain.utils.CryptocurrencyHelper
 import com.yadaniil.blogchain.utils.Endpoints
+import com.yadaniil.blogchain.utils.ImageLoader
 import org.jetbrains.anko.find
 import org.jetbrains.anko.onClick
 import java.math.BigDecimal
@@ -55,8 +54,7 @@ class CoinsAdapter(context: Context, coinClickListener: CoinItemClickListener,
 
         val iconLink = CryptocurrencyHelper.getImageLinkForCurrency(cmcCurrency, ccCurrencies)
         if (iconLink.isNotEmpty())
-            Picasso.with(context).load(Uri.parse(Endpoints.CRYPTO_COMPARE_URL + iconLink))
-                    .into(currentHolder.icon)
+            ImageLoader.load(Endpoints.CRYPTO_COMPARE_URL + iconLink, currentHolder.icon, context)
         else
             currentHolder.icon.setImageResource(R.drawable.icon_ico)
 

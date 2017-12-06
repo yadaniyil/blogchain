@@ -1,4 +1,4 @@
-package com.yadaniil.blogchain.screens.findcurrency.fiat
+package com.yadaniil.blogchain.screens.findcurrency.fiat.listitems
 
 import android.support.annotation.DrawableRes
 

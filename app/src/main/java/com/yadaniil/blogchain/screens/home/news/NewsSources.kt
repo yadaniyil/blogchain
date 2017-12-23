@@ -19,7 +19,7 @@ object NewsSources {
         return allNewsSources
     }
 
-    private fun getAllSourcesByLanguage(language: SourceLanguage): List<NewsSource> {
+    fun getAllSourcesByLanguage(language: SourceLanguage): List<NewsSource> {
         when (language) {
             SourceLanguage.ENG -> return listOf(
                     NewsSource("http://feeds.feedburner.com/CoinDesk", "CoinDesk", SourceLanguage.ENG),

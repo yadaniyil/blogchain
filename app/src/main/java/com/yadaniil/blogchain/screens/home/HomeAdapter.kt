@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.yadaniil.blogchain.R
+import com.yadaniil.blogchain.data.api.models.NewsModel
 import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
 import com.yadaniil.blogchain.data.db.models.PortfolioRealm
 import com.yadaniil.blogchain.screens.portfolio.PortfolioHelper
@@ -69,7 +70,6 @@ class HomeAdapter(private val sections: MutableList<HomeListSection>,
         when (holder) {
             is ListHelper.HomePortfolioHolder -> bindPortfolio(holder, item as PortfolioSection)
             is ListHelper.HomeCoinsHolder -> bindCoins(holder, item as CoinsSection)
-            is ListHelper.HomeNewsHolder -> bindNews(holder, (item as NewsSection), position)
         }
     }
 
@@ -126,10 +126,6 @@ class HomeAdapter(private val sections: MutableList<HomeListSection>,
                 holder.forthCoinPrice.text = "$${AmountFormatter.formatFiatPrice(coinsItem.coin[3].priceUsd.toString())}"
             }
         })
-    }
-
-    private fun bindNews(holder: ListHelper.HomeNewsHolder, newsSection: NewsSection, position: Int) {
-        holder.title.text = newsSection.news[position].title
     }
 
 }

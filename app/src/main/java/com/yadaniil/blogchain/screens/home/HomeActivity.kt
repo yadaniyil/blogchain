@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.yadaniil.blogchain.R
+import com.yadaniil.blogchain.data.api.models.NewsModel
 import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
 import com.yadaniil.blogchain.data.db.models.PortfolioRealm
 import com.yadaniil.blogchain.screens.base.BaseActivity
@@ -38,9 +39,11 @@ class HomeActivity : BaseActivity(), HomeView {
 
         swipe_refresh.setOnRefreshListener {
             presenter.downloadAndSaveAllCurrencies()
+            presenter.downloadNews()
         }
         presenter.showChangelogDialog()
         presenter.downloadAndSaveAllCurrencies()
+        presenter.downloadNews()
     }
 
     private fun initTotalPortfolioBalance() {
@@ -59,7 +62,7 @@ class HomeActivity : BaseActivity(), HomeView {
         homeAdapter = HomeAdapter(mutableListOf(
                 PortfolioSection(portfolios),
                 CoinsSection(coins),
-                NewsSection(presenter.downloadNews())
+                NewsSection(emptyList())
         ), this, presenter)
         home_recycler_view.layoutManager = LinearLayoutManager(this)
         home_recycler_view.adapter = homeAdapter
@@ -82,5 +85,9 @@ class HomeActivity : BaseActivity(), HomeView {
 
     override fun stopLoading() {
         swipe_refresh.isRefreshing = false
+    }
+
+    override fun showNews(feeds: MutableList<NewsModel>) {
+        homeAdapter.updateNews()
     }
 }

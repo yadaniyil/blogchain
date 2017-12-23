@@ -39,10 +39,8 @@ ext{
     timberVersion = '4.5.1'
     daggerVersion = '2.+'
     retrofitVersion = '2.2.0'
-    okHttpVersion = '3.6.0'
-    greenDaoVersion = '3.2.2'
+    okHttpVersion = '3.9.1'
     picassoVersion = '2.5.2'
-//    crashlyticsVersion = '2.6.8'
     gsonVersion = '2.8.0'
 
     //supportLib
@@ -76,9 +74,6 @@ ext{
     rxJavaAdapter = "com.squareup.retrofit2:adapter-rxjava:$retrofitVersion"
     rxJava2Adapter = "com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0"
     gsonConverter = "com.squareup.retrofit2:converter-gson:$retrofitVersion"
-
-    //greenDao
-    greenDao = "org.greenrobot:greendao:$greenDaoVersion"
 
     //picasso
     picasso = "com.squareup.picasso:picasso:$picassoVersion"

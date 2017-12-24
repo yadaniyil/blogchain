@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.yadaniil.blogchain.R
-import com.yadaniil.blogchain.data.api.models.NewsModel
 import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
 import com.yadaniil.blogchain.data.db.models.PortfolioRealm
 import com.yadaniil.blogchain.screens.portfolio.PortfolioHelper
@@ -29,7 +28,6 @@ class HomeAdapter(private val sections: MutableList<HomeListSection>,
 
     private val TYPE_PORTFOLIO = 0
     private val TYPE_COINS = 1
-    private val TYPE_NEWS = 2
 
     private lateinit var coinsHolder: ListHelper.HomeCoinsHolder
     private lateinit var portfolioHolder: ListHelper.HomePortfolioHolder
@@ -52,8 +50,8 @@ class HomeAdapter(private val sections: MutableList<HomeListSection>,
             }
             else -> {
                 itemView = LayoutInflater.from(parent?.context)
-                        .inflate(R.layout.item_home_news, parent, false)
-                ListHelper.HomeNewsHolder(itemView)
+                        .inflate(R.layout.item_news, parent, false)
+                ListHelper.NewsHolder(itemView)
             }
         }
     }
@@ -62,7 +60,6 @@ class HomeAdapter(private val sections: MutableList<HomeListSection>,
             when (sections[position]) {
                 is PortfolioSection -> TYPE_PORTFOLIO
                 is CoinsSection -> TYPE_COINS
-                is NewsSection -> TYPE_NEWS
             }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {

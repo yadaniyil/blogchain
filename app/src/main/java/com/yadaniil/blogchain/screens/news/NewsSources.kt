@@ -1,4 +1,4 @@
-package com.yadaniil.blogchain.screens.home.news
+package com.yadaniil.blogchain.screens.news
 
 import kotlin.collections.ArrayList
 
@@ -24,9 +24,9 @@ object NewsSources {
             SourceLanguage.ENG -> return listOf(
                     NewsSource("http://feeds.feedburner.com/CoinDesk", "CoinDesk", SourceLanguage.ENG),
                     NewsSource("https://cointelegraph.com/rss", "Cointelegraph", SourceLanguage.ENG),
-                    NewsSource("http://www.newsbtc.com/feed/", "NEWSBTC", SourceLanguage.ENG),
                     NewsSource("https://bitcoinmagazine.com/feed/", "Bitcoin Magazine", SourceLanguage.ENG),
-                    NewsSource("https://news.bitcoin.com/feed", "bitcoin.com", SourceLanguage.ENG),
+                    NewsSource("http://www.newsbtc.com/feed/", "NEWSBTC", SourceLanguage.ENG),
+                    NewsSource("https://news.bitcoin.com/feed/", "bitcoin.com", SourceLanguage.ENG),
                     NewsSource("http://themerkle.com/feed/", "The Merkle", SourceLanguage.ENG),
                     NewsSource("http://news.8btc.com/feed/", "news.8btc.com", SourceLanguage.ENG),
                     NewsSource("https://feeds.feedburner.com/coinspeaker", "Coinspeaker", SourceLanguage.ENG),

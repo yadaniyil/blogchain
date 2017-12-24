@@ -258,9 +258,15 @@ object ListHelper {
         var forthCoinName: TextView = view.find(R.id.forth_coin_name)
         var forthCoinPrice: TextView = view.find(R.id.forth_coin_price)
     }
-
-    class HomeNewsHolder(view: View) : RecyclerView.ViewHolder(view) {
-        var title: TextView = view.find(R.id.news_header)
-    }
     // endregion Home
+
+    // region News
+    class NewsHolder(view: View) : RecyclerView.ViewHolder(view) {
+        var title: TextView = view.find(R.id.news_header)
+        var pubDate: TextView = view.find(R.id.news_publish_date)
+        var sourceName: TextView = view.find(R.id.news_source_name)
+        var image: ImageView = view.find(R.id.news_image)
+        var rootView: LinearLayout = view.find(R.id.item_root_view)
+    }
+    // endregion News
 }

@@ -41,6 +41,12 @@ abstract class BaseActivity : MvpAppCompatActivity(), BaseView {
             Handler().postDelayed({ Navigator.toHomeActivity(this) }, NAV_DRAWER_DELAY)
         }
 
+        val news = BaseHelper.primaryItem(BaseHelper.DRAWER_ITEM_NEWS_ID,
+                R.string.news, R.drawable.ic_forum_24dp) {
+            BaseHelper.selectedDrawerItem = BaseHelper.DRAWER_ITEM_NEWS_ID
+            Handler().postDelayed({ Navigator.toNewsActivity(this) }, NAV_DRAWER_DELAY)
+        }
+
         val allCoins = BaseHelper.primaryItem(BaseHelper.DRAWER_ITEM_ALL_COINS_ID,
                 R.string.all_coins, R.drawable.ic_format_list_numbered_24dp) {
             BaseHelper.selectedDrawerItem = BaseHelper.DRAWER_ITEM_ALL_COINS_ID
@@ -107,7 +113,7 @@ abstract class BaseActivity : MvpAppCompatActivity(), BaseView {
                 .withToolbar(toolbar)
                 .withSelectedItem(BaseHelper.selectedDrawerItem)
                 .withActionBarDrawerToggle(true)
-                .addDrawerItems(home, allCoins, watchlist, portfolio, converter, exchanges, ico, mining, marketInfo,
+                .addDrawerItems(home, news, allCoins, watchlist, portfolio, converter, exchanges, ico, mining, marketInfo,
                         DividerDrawerItem(), settings, ad)
                 .build()
 //        drawer.header.onLongClick { toast("To add google account activity") }

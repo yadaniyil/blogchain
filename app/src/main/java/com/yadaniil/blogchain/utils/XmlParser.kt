@@ -6,6 +6,7 @@ import org.xmlpull.v1.XmlPullParser
 import java.io.ByteArrayInputStream
 import java.nio.charset.Charset
 import org.xmlpull.v1.XmlPullParserException
+import timber.log.Timber
 import java.io.IOException
 import java.util.*
 
@@ -14,6 +15,8 @@ import java.util.*
  * Created by danielyakovlev on 12/10/17.
  */
 object XmlParser {
+
+    lateinit var feedSourceTitle: String
 
     fun parseNewsFeed(rssFeeds: String): List<NewsModel> {
         val inputStream = ByteArrayInputStream(rssFeeds.toByteArray(Charset.forName("UTF-8")))
@@ -31,7 +34,6 @@ object XmlParser {
         val items: MutableList<NewsModel> = ArrayList()
 
         parser.require(XmlPullParser.START_TAG, null, "rss")
-        var feedSourceTitle = ""
         var feedSourceLink = ""
         var feedSourceDescription = ""
         var feedSourceImageUrl = ""
@@ -67,6 +69,10 @@ object XmlParser {
         items.forEach {
             it.sourceImageLink = feedSourceImageUrl
             it.sourceName = feedSourceTitle
+            if(it.imageLink.isEmpty())
+                it.imageLink = feedSourceImageUrl
+            if(it.sourceName.contains("cointelegraph", true))
+                it.sourceName = "Cointelegraph"
         }
 
         return items
@@ -90,6 +96,37 @@ object XmlParser {
     @Throws(XmlPullParserException::class, IOException::class)
     private fun readItem(parser: XmlPullParser): NewsModel {
         parser.require(XmlPullParser.START_TAG, null, "item")
+        return when {
+            feedSourceTitle.contains("cointelegraph", true) -> parseCointelegraphItem(parser)
+            feedSourceTitle.contains("coindesk", true) -> parseCoinDeskItem(parser)
+            feedSourceTitle.contains("bitcoin magazine", true) -> parseBitcoinMagazineItem(parser)
+            else -> NewsModel("", Date(), "")
+        }
+    }
+
+    // region Feed parsers
+    private fun parseCointelegraphItem(parser: XmlPullParser): NewsModel {
+        var title = ""
+        var pubDate = Date()
+        var link = ""
+        var imageUrl = ""
+        while (parser.next() != XmlPullParser.END_TAG) {
+            if (parser.eventType != XmlPullParser.START_TAG) {
+                continue
+            }
+            val name = parser.name
+            when (name) {
+                "title" -> title = readTitle(parser)
+                "pubDate" -> pubDate = readPubDate(parser)
+                "link" -> link = readText(parser)
+                "media:content" -> imageUrl = parseCointelegraphItemImageUrl(parser)
+                else -> skip(parser)
+            }
+        }
+        return NewsModel(title, pubDate, link, imageUrl)
+    }
+
+    private fun parseCoinDeskItem(parser: XmlPullParser): NewsModel {
         var title = ""
         var pubDate = Date()
         var link = ""
@@ -106,6 +143,52 @@ object XmlParser {
             }
         }
         return NewsModel(title, pubDate, link)
+    }
+
+    private fun parseBitcoinMagazineItem(parser: XmlPullParser): NewsModel {
+        var title = ""
+        var pubDate = Date()
+        var link = ""
+        var imageUrl = ""
+        while (parser.next() != XmlPullParser.END_TAG) {
+            if (parser.eventType != XmlPullParser.START_TAG) {
+                continue
+            }
+            val name = parser.name
+            when (name) {
+                "title" -> title = readTitle(parser)
+                "pubDate" -> pubDate = readPubDate(parser)
+                "link" -> link = readText(parser)
+                "description" -> if (imageUrl.isEmpty()) imageUrl = parseBitcoinMagazineItemImageUrl(parser)
+
+                else -> skip(parser)
+            }
+        }
+        return NewsModel(title, pubDate, link, imageUrl)
+    }
+    // endregion Feed parsers
+
+    private fun parseCointelegraphItemImageUrl(parser: XmlPullParser): String {
+        var imageUrl = ""
+        parser.require(XmlPullParser.START_TAG, null, "media:content")
+        val tag = parser.name
+        val relType = parser.getAttributeValue(null, "medium")
+        if (tag == "media:content" && relType == "image") {
+            imageUrl = parser.getAttributeValue(null, "url")
+            parser.nextTag()
+        }
+        parser.require(XmlPullParser.END_TAG, null, "media:content")
+        return imageUrl
+    }
+
+    private fun parseBitcoinMagazineItemImageUrl(parser: XmlPullParser): String {
+        val imageUrl: String
+        val rawDescription = readText(parser)
+
+        imageUrl = rawDescription.substring(
+                rawDescription.indexOf("src=\"") + 5, rawDescription.indexOf("\" width="))
+        Timber.e("Bitcoin Magazine image url: " + imageUrl)
+        return imageUrl
     }
 
     @Throws(IOException::class, XmlPullParserException::class)
@@ -133,7 +216,6 @@ object XmlParser {
         return imageUrl
     }
 
-    // Processes link tags in the feed.
     @Throws(IOException::class, XmlPullParserException::class)
     private fun readLink(parser: XmlPullParser): String {
         var link = ""
@@ -150,7 +232,6 @@ object XmlParser {
         return link
     }
 
-    // Processes summary tags in the feed.
     @Throws(IOException::class, XmlPullParserException::class)
     private fun readPubDate(parser: XmlPullParser): Date {
         parser.require(XmlPullParser.START_TAG, null, "pubDate")
@@ -159,7 +240,6 @@ object XmlParser {
         return Date(pubDateString)
     }
 
-    // For the tags title and summary, extracts their text values.
     @Throws(IOException::class, XmlPullParserException::class)
     private fun readText(parser: XmlPullParser): String {
         var result = ""

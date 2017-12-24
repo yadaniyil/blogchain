@@ -4,12 +4,12 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.yadaniil.blogchain.R
-import com.yadaniil.blogchain.data.api.models.NewsModel
 import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
 import com.yadaniil.blogchain.data.db.models.PortfolioRealm
 import com.yadaniil.blogchain.screens.base.BaseActivity
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_home.*
+import org.jetbrains.anko.toast
 
 /**
  * Created by danielyakovlev on 11/2/17.
@@ -39,11 +39,9 @@ class HomeActivity : BaseActivity(), HomeView {
 
         swipe_refresh.setOnRefreshListener {
             presenter.downloadAndSaveAllCurrencies()
-            presenter.downloadNews()
         }
         presenter.showChangelogDialog()
         presenter.downloadAndSaveAllCurrencies()
-        presenter.downloadNews()
     }
 
     private fun initTotalPortfolioBalance() {
@@ -59,11 +57,9 @@ class HomeActivity : BaseActivity(), HomeView {
     }
 
     private fun initHomeView() {
-        homeAdapter = HomeAdapter(mutableListOf(
-                PortfolioSection(portfolios),
-                CoinsSection(coins),
-                NewsSection(emptyList())
-        ), this, presenter)
+        homeAdapter = HomeAdapter(
+                mutableListOf(PortfolioSection(portfolios), CoinsSection(coins)),
+                this, presenter)
         home_recycler_view.layoutManager = LinearLayoutManager(this)
         home_recycler_view.adapter = homeAdapter
         home_recycler_view.setHasFixedSize(true)
@@ -87,7 +83,5 @@ class HomeActivity : BaseActivity(), HomeView {
         swipe_refresh.isRefreshing = false
     }
 
-    override fun showNews(feeds: MutableList<NewsModel>) {
-        homeAdapter.updateNews()
-    }
+    override fun showLoadingError() = toast(R.string.error)
 }

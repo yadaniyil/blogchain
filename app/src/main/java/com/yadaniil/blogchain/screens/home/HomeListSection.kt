@@ -11,5 +11,4 @@ import io.realm.RealmResults
 
 sealed class HomeListSection
 data class CoinsSection(val coin: RealmResults<CoinMarketCapCurrencyRealm>) : HomeListSection()
-data class NewsSection(val news: List<NewsModel>) : HomeListSection()
 data class PortfolioSection(val portfolios: RealmResults<PortfolioRealm>?) : HomeListSection()

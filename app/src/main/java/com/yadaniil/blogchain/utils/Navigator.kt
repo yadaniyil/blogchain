@@ -7,6 +7,8 @@ import com.yadaniil.blogchain.screens.converter.ConverterActivity
 import com.yadaniil.blogchain.screens.findcurrency.FindCurrencyActivity
 import com.yadaniil.blogchain.screens.home.HomeActivity
 import com.yadaniil.blogchain.screens.mining.MiningActivity
+import com.yadaniil.blogchain.screens.news.NewsActivity
+import com.yadaniil.blogchain.screens.news.WebViewActivity
 import com.yadaniil.blogchain.screens.portfolio.addcoin.AddToPortfolioActivity
 import com.yadaniil.blogchain.screens.portfolio.PortfolioActivity
 import com.yadaniil.blogchain.screens.watchlist.WatchlistActivity
@@ -52,10 +54,19 @@ object Navigator {
         activity.finish()
     }
 
+    fun toNewsActivity(activity: AppCompatActivity) {
+        activity.startActivity<NewsActivity>()
+        activity.finish()
+    }
+
     fun toFindCurrencyActivity(activity: AppCompatActivity, requestCode: Int) {
         val intent = Intent(activity, FindCurrencyActivity::class.java)
         intent.putExtra("requestCode", requestCode)
         activity.startActivityForResult(intent, requestCode)
+    }
+
+    fun toWebViewActivity(url: String, sourceName: String, activity: AppCompatActivity) {
+        activity.startActivity<WebViewActivity>("url" to url, "source" to sourceName)
     }
 
 }

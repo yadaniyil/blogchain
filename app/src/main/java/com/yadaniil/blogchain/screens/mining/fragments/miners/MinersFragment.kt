@@ -41,14 +41,14 @@ class MinersFragment : MvpAppCompatFragment(), MinersView, MinerItemClickListene
     private lateinit var minerFilterNames: Array<String>
 
     // region Fragment
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val rootView = inflater?.inflate(R.layout.fragment_miners, container, false)
+        val rootView = inflater.inflate(R.layout.fragment_miners, container, false)
         setHasOptionsMenu(true)
         return rootView
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         minerFilterColors = resources.getIntArray(R.array.miner_filter_colors)
         minerFilterNames = resources.getStringArray(R.array.miner_filters)
@@ -92,8 +92,8 @@ class MinersFragment : MvpAppCompatFragment(), MinersView, MinerItemClickListene
     }
 
     private fun showFilter() {
-        filter = activity.find(R.id.filter)
-        filter.adapter = MinersFilterAdapter(getFilterTags(), activity, minerFilterColors)
+        filter = activity!!.find(R.id.filter)
+        filter.adapter = MinersFilterAdapter(getFilterTags(), activity!!, minerFilterColors)
         filter.listener = filterListener
         filter.noSelectedItemText = getString(R.string.all_selected)
         filter.build()
@@ -169,7 +169,7 @@ class MinersFragment : MvpAppCompatFragment(), MinersView, MinerItemClickListene
     }
 
     override fun showMiners(miners: List<Miner>) {
-        minersAdapter = MinersAdapter(activity, this, getFilterTags())
+        minersAdapter = MinersAdapter(activity!!, this, getFilterTags())
         miners_list.layoutManager = LinearLayoutManager(activity)
         miners_list.adapter = minersAdapter
         miners_list.setHasFixedSize(true)
@@ -179,11 +179,11 @@ class MinersFragment : MvpAppCompatFragment(), MinersView, MinerItemClickListene
             override fun onChanged() {
                 if(minersAdapter.itemCount > 0) {
                     miners_list.visibility = View.VISIBLE
-                    activity.find<Filter<MinerFilterTag>>(R.id.filter).visibility = View.VISIBLE
+                    activity?.find<Filter<MinerFilterTag>>(R.id.filter)?.visibility = View.VISIBLE
                     no_items_layout.visibility = View.GONE
                 } else {
                     miners_list.visibility = View.GONE
-                    activity.find<Filter<MinerFilterTag>>(R.id.filter).visibility = View.INVISIBLE
+                    activity?.find<Filter<MinerFilterTag>>(R.id.filter)?.visibility = View.INVISIBLE
                     no_items_layout.visibility = View.VISIBLE
                 }
             }

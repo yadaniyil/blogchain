@@ -18,11 +18,11 @@ import com.yadaniil.blogchain.R
 class ChangelogDialog : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val layoutInflater = activity.getSystemService(
+        val layoutInflater = activity?.getSystemService(
                 Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val chgList = layoutInflater.inflate(R.layout.changelog_fragment_dialogmaterial, null) as ChangeLogRecyclerView
 
-        return AlertDialog.Builder(activity, R.style.AppCompatAlertDialogStyle)
+        return AlertDialog.Builder(activity!!, R.style.AppCompatAlertDialogStyle)
                 .setTitle(R.string.whats_new)
                 .setView(chgList)
                 .setPositiveButton(R.string.ok, { dialog, whichButton -> dialog.dismiss() })

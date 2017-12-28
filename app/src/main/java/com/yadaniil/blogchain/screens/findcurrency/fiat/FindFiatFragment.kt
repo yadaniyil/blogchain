@@ -70,7 +70,7 @@ class FindFiatFragment : MvpAppCompatFragment(), FindFiatAdapter.FiatOnClick, Fi
     }
 
     private fun initFiatList(newText: String? = "") {
-        findFiatAdapter = FindFiatAdapter(getAllFiatCurrencies(newText), activity, this)
+        findFiatAdapter = FindFiatAdapter(getAllFiatCurrencies(newText), activity!!, this)
         fiat_recycler_view.layoutManager = LinearLayoutManager(activity)
         fiat_recycler_view.adapter = findFiatAdapter
         fiat_recycler_view.setHasFixedSize(true)
@@ -136,14 +136,14 @@ class FindFiatFragment : MvpAppCompatFragment(), FindFiatAdapter.FiatOnClick, Fi
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-            inflater?.inflate(R.layout.fragment_find_fiat, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+            inflater.inflate(R.layout.fragment_find_fiat, container, false)
 
     override fun onClick(holder: ListHelper.FindFiatHolder?, fiatItem: FiatCurrencyItem) {
         val returnIntent = Intent()
         returnIntent.putExtra(FindCurrencyActivity.PICKED_COIN_SYMBOL, fiatItem.symbol)
-        activity.setResult(Activity.RESULT_OK, returnIntent)
-        activity.finish()
+        activity!!.setResult(Activity.RESULT_OK, returnIntent)
+        activity!!.finish()
     }
 
     companion object {

@@ -38,14 +38,14 @@ class CalculatorFragment : MvpAppCompatFragment(), CalculatorView {
     private lateinit var drawerAction: () -> Unit
 
     // region Fragment
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        val rootView = inflater?.inflate(R.layout.fragment_calculator, container, false)
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val rootView = inflater.inflate(R.layout.fragment_calculator, container, false)
         setHasOptionsMenu(true)
         return rootView
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initToolbar()
         initAdMobBanner()
@@ -144,7 +144,7 @@ class CalculatorFragment : MvpAppCompatFragment(), CalculatorView {
         }
 
         val coinSymbol = CryptocurrencyHelper.getSymbolFromFullName(mining_coin_spinner.selectedItem.toString())
-        ImageLoader.loadCoinIcon(coinSymbol, coin_icon, context, presenter.repo, Endpoints.NICEHASH_ICON)
+        ImageLoader.loadCoinIcon(coinSymbol, coin_icon, context!!, presenter.repo, Endpoints.NICEHASH_ICON)
     }
 
     private fun changeHashrateExponent() {
@@ -197,7 +197,7 @@ class CalculatorFragment : MvpAppCompatFragment(), CalculatorView {
     override fun showTableError() {
         table_loading_progress_bar.visibility = View.GONE
         calculated_table.visibility = View.GONE
-        activity.toast(R.string.error)
+        activity?.toast(R.string.error)
     }
 
     override fun showTable(coin: MiningCoinResponse) {
@@ -251,7 +251,7 @@ class CalculatorFragment : MvpAppCompatFragment(), CalculatorView {
                 else "$${(dayProfit * DAYS_IN_YEAR)}"
 
         calculator_scroll_view.post { calculator_scroll_view.fullScroll(View.FOCUS_DOWN) }
-        UiHelper.closeKeyboard(activity)
+        UiHelper.closeKeyboard(activity!!)
     }
 
 

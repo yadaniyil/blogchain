@@ -44,8 +44,8 @@ class FindFavouriteFragment : MvpAppCompatFragment(), ListHelper.OnCoinClickList
         initCoinList()
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-            inflater?.inflate(R.layout.fragment_find_favourite, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+            inflater.inflate(R.layout.fragment_find_favourite, container, false)
 
     private fun initSearchView() {
         if(searchView.isSearchOpen)
@@ -74,7 +74,7 @@ class FindFavouriteFragment : MvpAppCompatFragment(), ListHelper.OnCoinClickList
             }
         }
 
-        findCoinAdapter = FindCoinAdapter(allFavouriteCoins, true, this, presenter.getCcCoins(), activity)
+        findCoinAdapter = FindCoinAdapter(allFavouriteCoins, true, this, presenter.getCcCoins(), activity!!)
         favourites_recycler_view.layoutManager = LinearLayoutManager(activity)
         favourites_recycler_view.adapter = findCoinAdapter
         favourites_recycler_view.setHasFixedSize(true)
@@ -83,8 +83,8 @@ class FindFavouriteFragment : MvpAppCompatFragment(), ListHelper.OnCoinClickList
     override fun onClick(holder: ListHelper.FindCoinHolder?, currencyRealm: CoinMarketCapCurrencyRealm) {
         val returnIntent = Intent()
         returnIntent.putExtra(PICKED_COIN_SYMBOL, currencyRealm.symbol)
-        activity.setResult(Activity.RESULT_OK, returnIntent)
-        activity.finish()
+        activity!!.setResult(Activity.RESULT_OK, returnIntent)
+        activity!!.finish()
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

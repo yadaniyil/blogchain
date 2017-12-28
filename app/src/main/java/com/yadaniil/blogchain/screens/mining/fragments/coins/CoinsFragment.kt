@@ -31,20 +31,17 @@ class CoinsFragment : MvpAppCompatFragment(), CoinsView, CoinItemClickListener {
     private lateinit var listDivider: RecyclerView.ItemDecoration
     private lateinit var drawerAction: () -> Unit
 
-    // region Fragment
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        val rootView = inflater?.inflate(R.layout.fragment_coins, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val rootView = inflater.inflate(R.layout.fragment_coins, container, false)
         setHasOptionsMenu(true)
         return rootView
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         listDivider = DividerItemDecoration(activity, DividerItemDecoration.VERTICAL)
         initToolbar()
         initSearchView()
-//        UiHelper.changeStatusBarColor(activity, R.color.colorTabCoins)
         showCoins(emptyList())
         retry_button.onClick { presenter.downloadMiningCoins() }
         presenter.downloadMiningCoins()
@@ -122,7 +119,7 @@ class CoinsFragment : MvpAppCompatFragment(), CoinsView, CoinItemClickListener {
     }
 
     override fun showCoins(coins: List<MiningCoin>) {
-        coinsAdapter = CoinsAdapter(activity, this,
+        coinsAdapter = CoinsAdapter(activity!!, this,
                 presenter.getAllCmcCurrencies(), presenter.getAllCcCurrencies())
         coins_list.layoutManager = LinearLayoutManager(activity)
         coins_list.adapter = coinsAdapter

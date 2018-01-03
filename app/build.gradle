@@ -12,6 +12,7 @@ apply plugin: 'io.fabric'
 
 repositories {
     maven { url 'https://maven.fabric.io/public' }
+    maven { url 'http://dl.bintray.com/amulyakhare/maven' }
     jcenter()
 }
 
@@ -181,6 +182,8 @@ dependencies {
 
     compile 'com.jakewharton.rxbinding2:rxbinding:2.0.0'
     compile 'com.jakewharton.rxbinding2:rxbinding-support-v4:2.0.0'
+
+    compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
 }
 
 kapt {

@@ -164,4 +164,13 @@
         <item>Південноафриканський ранд</item>
     </string-array>
     <string name="clear">Очистити</string>
+    <string name="portfolios_balance">Баланс портфоліо</string>
+    <string name="news">Новини</string>
+    <string name="just_now">Щойно</string>
+    <string name="minute_ago">Хвилину тому</string>
+    <string name="minutes_ago">хвилин тому</string>
+    <string name="hour_ago">Годину тому</string>
+    <string name="hours_ago">годин тому</string>
+    <string name="yesterday">Учора</string>
+    <string name="lang_check">ua</string>
 </resources>

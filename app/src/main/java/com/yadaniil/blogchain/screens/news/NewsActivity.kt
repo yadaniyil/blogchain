@@ -10,6 +10,7 @@ import com.yadaniil.blogchain.utils.ListHelper
 import com.yadaniil.blogchain.utils.Navigator
 import kotlinx.android.synthetic.main.activity_news.*
 import org.jetbrains.anko.toast
+import timber.log.Timber
 
 /**
  * Created by danielyakovlev on 12/23/17.
@@ -27,9 +28,12 @@ class NewsActivity : BaseActivity(), NewsView, OnNewsClick {
         super.onCreate(savedInstanceState)
 
         initNewsList()
-        presenter.updateNews()
+        val currentLanguage = getString(R.string.lang_check)
+        Timber.e("current language: " + currentLanguage)
+
+        presenter.updateNews(currentLanguage)
         swipe_refresh.setOnRefreshListener {
-            presenter.updateNews()
+            presenter.updateNews(currentLanguage)
         }
     }
 

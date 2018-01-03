@@ -9,7 +9,9 @@ import com.yadaniil.blogchain.utils.XmlParser
 import okhttp3.*
 import timber.log.Timber
 import java.io.IOException
+import java.util.*
 import javax.inject.Inject
+import kotlin.collections.HashMap
 
 /**
  * Created by danielyakovlev on 12/23/17.
@@ -27,18 +29,22 @@ class NewsPresenter : MvpPresenter<NewsView>() {
         Application.component?.inject(this)
     }
 
-    fun updateNews() {
+    fun updateNews(currentLanguage: String) {
         viewState.showLoading()
 
-        var newsSourcesLinks: MutableList<String> = ArrayList()
-        NewsSources.getAllSourcesByLanguage(NewsSources.SourceLanguage.ENG)
-                .mapTo(newsSourcesLinks) { it.feedRssLink }
+        var newsSourcesLinks: MutableList<NewsSources.NewsSource> = ArrayList()
+
+        if (currentLanguage == "ru" || currentLanguage == "ua")
+            newsSourcesLinks.addAll(NewsSources.getAllSourcesByLanguage(NewsSources.SourceLanguage.RUS))
+        else
+            newsSourcesLinks.addAll(NewsSources.getAllSourcesByLanguage(NewsSources.SourceLanguage.ENG))
+
         newsSourcesLinks = newsSourcesLinks.take(SOURCES_TO_DOWNLOAD).toMutableList()
 
         val client = OkHttpClient()
-        val rssFeeds: MutableList<String> = ArrayList()
-        for(link in newsSourcesLinks) {
-            val request = Request.Builder().url(link).build()
+        val rssFeeds: MutableMap<String, String> = HashMap()
+        for (source in newsSourcesLinks) {
+            val request = Request.Builder().url(source.feedRssLink).build()
             client.newCall(request).enqueue(object : Callback {
                 override fun onFailure(call: Call?, e: IOException?) {
                     Timber.e(e?.message)
@@ -48,7 +54,7 @@ class NewsPresenter : MvpPresenter<NewsView>() {
                 override fun onResponse(call: Call?, response: Response?) {
                     if (response != null) {
                         val xmlString = response.body()!!.string()
-                        rssFeeds.add(xmlString)
+                        rssFeeds.put(source.sourceName, xmlString)
                     }
 
                     if (rssFeeds.size == SOURCES_TO_DOWNLOAD) {
@@ -59,10 +65,10 @@ class NewsPresenter : MvpPresenter<NewsView>() {
         }
     }
 
-    private fun parseXmlFeeds(rssFeeds: MutableList<String>) {
+    private fun parseXmlFeeds(rssFeeds: MutableMap<String, String>) {
         val feeds: MutableList<NewsModel> = ArrayList()
-        for(feed in rssFeeds) {
-            feeds.addAll(XmlParser.parseNewsFeed(feed))
+        for (feed in rssFeeds) {
+            feeds.addAll(XmlParser.parseNewsFeed(feed.key, feed.value))
         }
         feeds.sortByDescending { it.publishDate }
 

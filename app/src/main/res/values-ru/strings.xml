@@ -165,4 +165,13 @@
         <item>Южноафриканский рэнд</item>
     </string-array>
     <string name="clear">Очистить</string>
+    <string name="portfolios_balance">Баланс портфолио</string>
+    <string name="news">Новости</string>
+    <string name="just_now">Только что</string>
+    <string name="minute_ago">Минуту назад</string>
+    <string name="minutes_ago">минут назад</string>
+    <string name="hour_ago">Час назад</string>
+    <string name="hours_ago">часов назад</string>
+    <string name="yesterday">Вчера</string>
+    <string name="lang_check">ru</string>
 </resources>

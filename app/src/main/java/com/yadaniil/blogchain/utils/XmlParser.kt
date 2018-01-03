@@ -18,35 +18,36 @@ object XmlParser {
 
     lateinit var feedSourceTitle: String
 
-    fun parseNewsFeed(rssFeeds: String): List<NewsModel> {
+    fun parseNewsFeed(sourceName: String, rssFeeds: String): List<NewsModel> {
         val inputStream = ByteArrayInputStream(rssFeeds.toByteArray(Charset.forName("UTF-8")))
         inputStream.use { inputStream ->
             val parser = Xml.newPullParser()
             parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false)
             parser.setInput(inputStream, null)
             parser.nextTag()
-            return readFeed(parser)
+            return readFeed(parser, sourceName)
         }
     }
 
     @Throws(XmlPullParserException::class, IOException::class)
-    private fun readFeed(parser: XmlPullParser): List<NewsModel> {
+    private fun readFeed(parser: XmlPullParser, sourceName: String): List<NewsModel> {
         val items: MutableList<NewsModel> = ArrayList()
 
         parser.require(XmlPullParser.START_TAG, null, "rss")
         var feedSourceLink = ""
         var feedSourceDescription = ""
         var feedSourceImageUrl = ""
+        feedSourceTitle = sourceName
         while (parser.next() != XmlPullParser.END_TAG) {
             if (parser.eventType != XmlPullParser.START_TAG) {
                 continue
             }
             val name = parser.name
             if(name == "channel") continue
-            if(name == "title") {
-                feedSourceTitle = readText(parser)
-                continue
-            }
+//            if(name == "title") {
+//                feedSourceTitle = readText(parser)
+//                continue
+//            }
             if(name == "link") {
                 feedSourceLink = readText(parser)
                 continue
@@ -68,11 +69,10 @@ object XmlParser {
 
         items.forEach {
             it.sourceImageLink = feedSourceImageUrl
-            it.sourceName = feedSourceTitle
             if(it.imageLink.isEmpty())
                 it.imageLink = feedSourceImageUrl
-            if(it.sourceName.contains("cointelegraph", true))
-                it.sourceName = "Cointelegraph"
+
+            it.sourceName = sourceName
         }
 
         return items
@@ -100,11 +100,12 @@ object XmlParser {
             feedSourceTitle.contains("cointelegraph", true) -> parseCointelegraphItem(parser)
             feedSourceTitle.contains("coindesk", true) -> parseCoinDeskItem(parser)
             feedSourceTitle.contains("bitcoin magazine", true) -> parseBitcoinMagazineItem(parser)
+            feedSourceTitle.contains("BitNovosti", true) -> parseBitNovostiItem(parser)
             else -> NewsModel("", Date(), "")
         }
     }
 
-    // region Feed parsers
+    // region Eng Feed parsers
     private fun parseCointelegraphItem(parser: XmlPullParser): NewsModel {
         var title = ""
         var pubDate = Date()
@@ -166,7 +167,6 @@ object XmlParser {
         }
         return NewsModel(title, pubDate, link, imageUrl)
     }
-    // endregion Feed parsers
 
     private fun parseCointelegraphItemImageUrl(parser: XmlPullParser): String {
         var imageUrl = ""
@@ -190,6 +190,42 @@ object XmlParser {
         Timber.e("Bitcoin Magazine image url: " + imageUrl)
         return imageUrl
     }
+    // endregion Eng Feed parsers
+
+    // region Rus Feed parsers
+    private fun parseBitNovostiItem(parser: XmlPullParser): NewsModel {
+        var title = ""
+        var pubDate = Date()
+        var link = ""
+        var imageUrl = ""
+        while (parser.next() != XmlPullParser.END_TAG) {
+            if (parser.eventType != XmlPullParser.START_TAG) {
+                continue
+            }
+            val name = parser.name
+            when (name) {
+                "title" -> title = readTitle(parser)
+                "pubDate" -> pubDate = readPubDate(parser)
+                "link" -> link = readText(parser)
+                "description" -> imageUrl = parseBitNovostiItemImageUrl(parser)
+
+                else -> skip(parser)
+            }
+        }
+        return NewsModel(title, pubDate, link, imageUrl)
+    }
+
+    private fun parseBitNovostiItemImageUrl(parser: XmlPullParser): String {
+        var imageUrl = ""
+        val rawDescription = readText(parser)
+
+        if(rawDescription.contains("src"))
+            imageUrl = rawDescription.substring(
+                    rawDescription.indexOf("src=\"") + 5, rawDescription.indexOf(".jpg") + 4)
+        Timber.e("BitNovosti image url: " + imageUrl)
+        return imageUrl
+    }
+    // endregion Rus Feed parsers
 
     @Throws(IOException::class, XmlPullParserException::class)
     private fun readTitle(parser: XmlPullParser): String {

@@ -134,6 +134,7 @@
     <string name="hour_ago">Hour ago</string>
     <string name="hours_ago">hours ago</string>
     <string name="yesterday">Yesterday</string>
+    <string name="lang_check">en</string>
 
     <string-array name="miner_filters">
         <item>All categories</item>

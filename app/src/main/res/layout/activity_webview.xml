@@ -16,6 +16,14 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary" />
 
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:minHeight="5dp"
+            android:maxHeight="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@android:style/Widget.ProgressBar.Horizontal" />
+
     </android.support.design.widget.AppBarLayout>
 
     <WebView

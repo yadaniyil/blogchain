@@ -101,6 +101,8 @@ object XmlParser {
             feedSourceTitle.contains("coindesk", true) -> parseCoinDeskItem(parser)
             feedSourceTitle.contains("bitcoin magazine", true) -> parseBitcoinMagazineItem(parser)
             feedSourceTitle.contains("BitNovosti", true) -> parseBitNovostiItem(parser)
+            feedSourceTitle.contains("forklog", true) -> parseForklogItem(parser)
+            feedSourceTitle.contains("bitjournal", true) -> parseBitjournalItem(parser)
             else -> NewsModel("", Date(), "")
         }
     }
@@ -224,6 +226,63 @@ object XmlParser {
                     rawDescription.indexOf("src=\"") + 5, rawDescription.indexOf(".jpg") + 4)
         Timber.e("BitNovosti image url: " + imageUrl)
         return imageUrl
+    }
+
+    private fun parseForklogItem(parser: XmlPullParser): NewsModel {
+        var title = ""
+        var pubDate = Date()
+        var link = ""
+        var imageUrl = ""
+        while (parser.next() != XmlPullParser.END_TAG) {
+            if (parser.eventType != XmlPullParser.START_TAG) {
+                continue
+            }
+            val name = parser.name
+            when (name) {
+                "title" -> title = readTitle(parser)
+                "pubDate" -> pubDate = readPubDate(parser)
+                "link" -> link = readText(parser)
+                "description" -> imageUrl = parseForklogItemImageUrl(parser)
+
+                else -> skip(parser)
+            }
+        }
+        return NewsModel(title, pubDate, link, imageUrl)
+    }
+
+    private fun parseForklogItemImageUrl(parser: XmlPullParser): String {
+        var imageUrl = ""
+        val rawDescription = readText(parser)
+
+        if(rawDescription.contains("src") && rawDescription.contains("png"))
+            imageUrl = rawDescription.substring(
+                    rawDescription.indexOf("src=\"") + 5, rawDescription.indexOf(".png") + 4)
+        else if(rawDescription.contains("src") && rawDescription.contains("jpg"))
+            imageUrl = rawDescription.substring(
+                    rawDescription.indexOf("src=\"") + 5, rawDescription.indexOf(".jpg") + 4)
+
+        Timber.e("Forklog image url: " + imageUrl)
+        return imageUrl
+    }
+
+    private fun parseBitjournalItem(parser: XmlPullParser): NewsModel {
+        var title = ""
+        var pubDate = Date()
+        var link = ""
+        while (parser.next() != XmlPullParser.END_TAG) {
+            if (parser.eventType != XmlPullParser.START_TAG) {
+                continue
+            }
+            val name = parser.name
+            when (name) {
+                "title" -> title = readTitle(parser)
+                "pubDate" -> pubDate = readPubDate(parser)
+                "link" -> link = readText(parser)
+
+                else -> skip(parser)
+            }
+        }
+        return NewsModel(title, pubDate, link, "")
     }
     // endregion Rus Feed parsers
 

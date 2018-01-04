@@ -40,7 +40,7 @@ object NewsSources {
             SourceLanguage.RUS -> return listOf(
                     NewsSource("https://bitnovosti.com/feed/", "BitNovosti", SourceLanguage.RUS),
                     NewsSource("https://forklog.com/feed/", "Forklog", SourceLanguage.RUS),
-                    NewsSource("https://bitjournal.media/feed/", "bitjournal.media", SourceLanguage.RUS),
+                    NewsSource("https://bitjournal.media/feed/", "BitJournal", SourceLanguage.RUS),
                     NewsSource("https://www.allcryptonews.com/feed/", "AllCryptoNews", SourceLanguage.RUS),
                     NewsSource("https://forum.bits.media/index.php?/rss/2-forum_news.xml/", "bits.media", SourceLanguage.RUS),
                     NewsSource("https://cryptocurrency.tech/feed/", "cryptocurrency.tech", SourceLanguage.RUS),

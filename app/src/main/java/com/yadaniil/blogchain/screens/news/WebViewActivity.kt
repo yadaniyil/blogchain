@@ -24,9 +24,9 @@ class WebViewActivity : AppCompatActivity() {
         setContentView(R.layout.activity_webview)
 
         val url = intent.extras.getString("url")
-        val source = intent.extras.getString("source")
+        val toolbarTitle = intent.extras.getString("title")
 
-        toolbar.title = source
+        toolbar.title = toolbarTitle
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)

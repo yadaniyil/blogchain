@@ -31,7 +31,6 @@ abstract class BaseActivity : MvpAppCompatActivity(), BaseView {
         setSupportActionBar(toolbar)
         setUpNavigationDrawer()
         initAdMobInterstitial()
-
     }
 
     private fun setUpNavigationDrawer() {

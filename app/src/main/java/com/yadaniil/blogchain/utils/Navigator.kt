@@ -65,8 +65,8 @@ object Navigator {
         activity.startActivityForResult(intent, requestCode)
     }
 
-    fun toWebViewActivity(url: String, sourceName: String, activity: AppCompatActivity) {
-        activity.startActivity<WebViewActivity>("url" to url, "source" to sourceName)
+    fun toWebViewActivity(url: String, toolbarTitle: String, activity: AppCompatActivity) {
+        activity.startActivity<WebViewActivity>("url" to url, "title" to toolbarTitle)
     }
 
 }

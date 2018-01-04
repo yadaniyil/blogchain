@@ -195,7 +195,7 @@
         <item>South African rand</item>
     </string-array>
 
-    <string-array name="fiat_currencies_symbols">
+    <string-array name="fiat_currencies_symbols" translatable="false">
         <item>USD</item>
         <item>EUR</item>
         <item>GBP</item>

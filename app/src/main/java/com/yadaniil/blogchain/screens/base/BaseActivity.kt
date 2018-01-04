@@ -95,6 +95,7 @@ abstract class BaseActivity : MvpAppCompatActivity(), BaseView {
 
         val headerResult = AccountHeaderBuilder()
                 .withActivity(this)
+                .withCompactStyle(true)
                 .withHeaderBackground(R.drawable.nav_bar_header_background)
                 .withSelectionListEnabledForSingleProfile(false)
                 .addProfiles(ProfileDrawerItem()

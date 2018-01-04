@@ -163,7 +163,8 @@ class WatchlistActivity : BaseActivity(), WatchlistView, CoinClickListener, Coin
     }
 
     override fun onClick(holder: ListHelper.CoinViewHolder, currencyRealm: CoinMarketCapCurrencyRealm) {
-        // To coin activity
+        Navigator.toWebViewActivity("https://coinmarketcap.com/currencies/" + currencyRealm.id + "/",
+                currencyRealm.name ?: "", this)
     }
 
     override fun onLongClick(holder: ListHelper.CoinViewHolder, currencyRealm: CoinMarketCapCurrencyRealm) {

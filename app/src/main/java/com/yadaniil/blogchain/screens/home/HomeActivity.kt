@@ -43,12 +43,18 @@ class HomeActivity : BaseActivity(), HomeView {
 
         initTotalPortfolioBalance()
         initCoins()
+        initGlobalDataAndPortfolio()
 
         swipe_refresh.setOnRefreshListener {
             presenter.updateAll()
         }
         presenter.showChangelogDialog()
         presenter.updateAll()
+    }
+
+    private fun initGlobalDataAndPortfolio() {
+//        presenter.setSavedGlobalData()
+        presenter.showOrHidePortfolioBalance()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -58,10 +64,7 @@ class HomeActivity : BaseActivity(), HomeView {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if (item?.itemId == R.id.action_hide_portfolio) {
-            if (portfolios_balance_layout.visibility == View.VISIBLE)
-                portfolios_balance_layout.visibility = View.GONE
-            else
-                portfolios_balance_layout.visibility = View.VISIBLE
+            presenter.showOrHidePortfolioBalance(portfolios_balance_layout.visibility == View.VISIBLE)
         }
 
         return super.onOptionsItemSelected(item)
@@ -145,5 +148,12 @@ class HomeActivity : BaseActivity(), HomeView {
 
         val btcDominanceText = "${globalData.bitcoinDominance}%"
         btc_dominance.text = btcDominanceText
+    }
+
+    override fun showOrHidePortfolio(toShow: Boolean) {
+        if(toShow)
+            portfolios_balance_layout.visibility = View.VISIBLE
+        else
+            portfolios_balance_layout.visibility = View.GONE
     }
 }

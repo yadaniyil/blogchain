@@ -13,4 +13,5 @@ interface HomeView : MvpView {
     fun stopLoading()
     fun showLoadingError()
     fun updateGlobalData(globalData: CmcGlobalDataResponse)
+    fun showOrHidePortfolio(toShow: Boolean)
 }

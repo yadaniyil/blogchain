@@ -12,4 +12,7 @@ interface SharedPrefsHelper {
 
     fun saveLastCoinsUpdateTime(lastUpdateTime: Long)
     fun getLastCoinsUpdateTime(): Long
+
+    fun setShowPortfolioAtHome(showPortfolioAtHome: Boolean)
+    fun getShowPortfolioAtHome(): Boolean
 }

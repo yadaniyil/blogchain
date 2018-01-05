@@ -221,9 +221,13 @@ object XmlParser {
         var imageUrl = ""
         val rawDescription = readText(parser)
 
-        if(rawDescription.contains("src"))
+        if(rawDescription.contains("src") && rawDescription.contains("png"))
+            imageUrl = rawDescription.substring(
+                    rawDescription.indexOf("src=\"") + 5, rawDescription.indexOf(".png") + 4)
+        else if(rawDescription.contains("src") && rawDescription.contains("jpg"))
             imageUrl = rawDescription.substring(
                     rawDescription.indexOf("src=\"") + 5, rawDescription.indexOf(".jpg") + 4)
+
         Timber.e("BitNovosti image url: " + imageUrl)
         return imageUrl
     }

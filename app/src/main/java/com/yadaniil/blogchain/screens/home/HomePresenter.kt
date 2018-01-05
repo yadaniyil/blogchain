@@ -8,12 +8,10 @@ import com.yadaniil.blogchain.data.Repository
 import com.yadaniil.blogchain.data.api.models.CmcGlobalDataResponse
 import com.yadaniil.blogchain.data.api.models.TickerResponse
 import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
-import com.yadaniil.blogchain.data.db.models.CryptoCompareCurrencyRealm
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
-import rx.functions.Func2
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -77,5 +75,12 @@ class HomePresenter : MvpPresenter<HomeView>() {
         return repo.getGlobalData()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    fun showOrHidePortfolioBalance(isPortfolioShown: Boolean? = null) {
+        if(isPortfolioShown != null)
+            repo.setShowPortfolioAtHome(!isPortfolioShown)
+
+        viewState.showOrHidePortfolio(repo.getShowPortfolioAtHome())
     }
 }

@@ -111,12 +111,13 @@ class Repository @Inject constructor(private var appApiHelper: AppApiHelper,
 
     // region SharedPrefs
     override fun getLastShowChangelogVersion() = sharedPrefs.getLastShowChangelogVersion()
-
     override fun setLastShowChangelogVersion(versionCode: Int)
             = sharedPrefs.setLastShowChangelogVersion(versionCode)
 
     override fun saveLastCoinsUpdateTime(lastUpdateTime: Long) = sharedPrefs.saveLastCoinsUpdateTime(lastUpdateTime)
-
     override fun getLastCoinsUpdateTime() = sharedPrefs.getLastCoinsUpdateTime()
+
+    override fun setShowPortfolioAtHome(showPortfolioAtHome: Boolean) = sharedPrefs.setShowPortfolioAtHome(showPortfolioAtHome)
+    override fun getShowPortfolioAtHome() = sharedPrefs.getShowPortfolioAtHome()
     // endregion SharedPrefs
 }

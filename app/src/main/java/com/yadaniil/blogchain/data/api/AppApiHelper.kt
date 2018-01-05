@@ -48,4 +48,5 @@ class AppApiHelper : CoinMarketCapService, CryptoCompareService,
         return whatToMineService.getMiningCoinById(coinId, userHashrate, power, poolFeePercent, electricityCost, hardwareCost)
     }
 
+    override fun getGlobalData(convertToCurrency: String?) = coinMarketCapService.getGlobalData(convertToCurrency)
 }

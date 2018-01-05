@@ -13,6 +13,7 @@ import com.yadaniil.blogchain.utils.ListHelper
 import com.yadaniil.blogchain.utils.Navigator
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_portfolio.*
+import kotlinx.android.synthetic.main.layout_portfolio_balance.*
 import org.jetbrains.anko.onClick
 import org.jetbrains.anko.toast
 

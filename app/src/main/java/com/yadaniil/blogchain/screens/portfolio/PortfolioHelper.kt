@@ -30,4 +30,22 @@ object PortfolioHelper {
             btcAmount.text = "${AmountFormatter.formatCryptoPrice(sumBtc.toString())} BTC"
         }
     }
+
+    fun updateTotalFiatBalance(portfolios: RealmResults<PortfolioRealm>?,
+                               amount: TextView) {
+        if(portfolios == null || portfolios.isEmpty()) {
+            amount.text = "0 USD (0 BTC)"
+        } else {
+            var sumFiat: BigDecimal = BigDecimal.ZERO
+            var sumBtc: BigDecimal = BigDecimal.ZERO
+            portfolios.forEach {
+                sumFiat += ListHelper.calculatePortfolioFiatSum(it)
+                sumBtc += ListHelper.calculatePortfolioBtcSum(it)
+            }
+
+            val fiatBalance = AmountFormatter.formatFiatPrice(sumFiat)
+            val btcBalance = AmountFormatter.formatCryptoPrice(sumBtc.toString())
+            amount.text = "$$fiatBalance ($btcBalance BTC)"
+        }
+    }
 }

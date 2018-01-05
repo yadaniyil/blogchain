@@ -14,6 +14,7 @@ class Endpoints {
         const val CRYPTO_COMPARE_COIN_LIST_ENDPOINT = "api/data/coinlist/"
         const val CRYPTO_COMPARE_MINERS_ENDPOINT = "api/data/miningequipment/"
         const val COIN_MARKET_CAP_TICKER_ENDPOINT = "ticker/"
+        const val COIN_MARKET_CAP_GLOBAL_DATA_ENDPOINT = "global/"
         const val CRYPTO_COMPARE_PRICE_MULTI_FULL_ENDPOINT = "data/pricemultifull"
 
 

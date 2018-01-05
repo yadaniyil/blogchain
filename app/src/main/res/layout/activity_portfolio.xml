@@ -50,38 +50,7 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:gravity="center_horizontal"
-                android:textColor="@color/md_white_1000"
-                android:textSize="@dimen/text_size_normal"
-                android:layout_height="wrap_content"
-                android:text="@string/current_balance"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:gravity="center_horizontal"
-                android:textColor="@color/md_white_1000"
-                android:id="@+id/total_amount"
-                android:layout_marginTop="@dimen/half_standard_dimen"
-                android:textStyle="bold"
-                android:textSize="@dimen/text_size_big"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:gravity="center_horizontal"
-                android:textColor="@color/md_white_1000"
-                android:id="@+id/total_amount_btc"
-                android:textSize="@dimen/text_size_normal"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
+        <include layout="@layout/layout_portfolio_balance"/>
 
         <fr.castorflex.android.smoothprogressbar.SmoothProgressBar xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"

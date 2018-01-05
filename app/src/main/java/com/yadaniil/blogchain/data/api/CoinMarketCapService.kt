@@ -1,5 +1,6 @@
 package com.yadaniil.blogchain.data.api
 
+import com.yadaniil.blogchain.data.api.models.CmcGlobalDataResponse
 import com.yadaniil.blogchain.data.api.models.TickerResponse
 import com.yadaniil.blogchain.utils.Endpoints
 import io.reactivex.Observable
@@ -21,4 +22,6 @@ interface CoinMarketCapService {
     fun getCoin(@Path("coinId") coinId: String,
                 @Query("convert") convertToCurrency: String? = null): Observable<String>
 
+    @GET(Endpoints.COIN_MARKET_CAP_GLOBAL_DATA_ENDPOINT)
+    fun getGlobalData(@Query("convert") convertToCurrency: String? = null): Observable<CmcGlobalDataResponse>
 }

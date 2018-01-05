@@ -6,6 +6,7 @@ import android.view.MenuItem
 import android.view.View
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.yadaniil.blogchain.R
+import com.yadaniil.blogchain.data.api.models.CmcGlobalDataResponse
 import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
 import com.yadaniil.blogchain.data.db.models.PortfolioRealm
 import com.yadaniil.blogchain.screens.base.BaseActivity
@@ -15,11 +16,10 @@ import com.yadaniil.blogchain.utils.ImageLoader
 import com.yadaniil.blogchain.utils.Navigator
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_home.*
-import kotlinx.android.synthetic.main.item_home_coins.*
-import kotlinx.android.synthetic.main.item_home_portfolio_balance.*
+import kotlinx.android.synthetic.main.layout_cards_coins.*
+import kotlinx.android.synthetic.main.layout_market_info.*
 import org.jetbrains.anko.onClick
 import org.jetbrains.anko.toast
-import timber.log.Timber
 
 /**
  * Created by danielyakovlev on 11/2/17.
@@ -45,10 +45,10 @@ class HomeActivity : BaseActivity(), HomeView {
         initCoins()
 
         swipe_refresh.setOnRefreshListener {
-            presenter.downloadAndSaveAllCurrencies()
+            presenter.updateAll()
         }
         presenter.showChangelogDialog()
-        presenter.downloadAndSaveAllCurrencies()
+        presenter.updateAll()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -58,10 +58,10 @@ class HomeActivity : BaseActivity(), HomeView {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if (item?.itemId == R.id.action_hide_portfolio) {
-            if(portfolio_layout.visibility == View.VISIBLE)
-                portfolio_layout.visibility = View.GONE
+            if (portfolios_balance_layout.visibility == View.VISIBLE)
+                portfolios_balance_layout.visibility = View.GONE
             else
-                portfolio_layout.visibility = View.VISIBLE
+                portfolios_balance_layout.visibility = View.VISIBLE
         }
 
         return super.onOptionsItemSelected(item)
@@ -113,13 +113,8 @@ class HomeActivity : BaseActivity(), HomeView {
                 currencyRealm.name ?: "", this)
     }
 
-    private fun updatePortfolio(portfolios: RealmResults<PortfolioRealm>) {
-        try {
-            PortfolioHelper.updateTotalFiatBalance(portfolios, total_amount, total_amount_btc)
-        } catch (e: Exception) {
-            Timber.e(e.message)
-        }
-    }
+    private fun updatePortfolio(portfolios: RealmResults<PortfolioRealm>) =
+            PortfolioHelper.updateTotalFiatBalance(portfolios, portfolios_balance)
 
     override fun showChangelogDialog() {
         val fm = supportFragmentManager
@@ -140,4 +135,15 @@ class HomeActivity : BaseActivity(), HomeView {
     }
 
     override fun showLoadingError() = toast(R.string.error)
+
+    override fun updateGlobalData(globalData: CmcGlobalDataResponse) {
+        val marketCapText = "$${AmountFormatter.formatFiatPrice(globalData.totalMarketCapUsd.toString())}"
+        market_cap.text = marketCapText
+
+        val dailyVolumeText = "$${AmountFormatter.formatFiatPrice(globalData.total24hVolumeUsd.toString())}"
+        daily_volume.text = dailyVolumeText
+
+        val btcDominanceText = "${globalData.bitcoinDominance}%"
+        btc_dominance.text = btcDominanceText
+    }
 }

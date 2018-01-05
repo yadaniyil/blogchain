@@ -37,9 +37,8 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <include layout="@layout/item_home_portfolio_balance"/>
-                <include layout="@layout/item_home_coins"/>
-
+                <include layout="@layout/layout_market_info"/>
+                <include layout="@layout/layout_cards_coins"/>
 
             </LinearLayout>
 

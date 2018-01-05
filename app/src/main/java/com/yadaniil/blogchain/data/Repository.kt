@@ -105,6 +105,8 @@ class Repository @Inject constructor(private var appApiHelper: AppApiHelper,
                                    poolFeePercent: String?, electricityCost: String?,
                                    hardwareCost: String?) =
             appApiHelper.getMiningCoinById(coinId, userHashrate, power, poolFeePercent, electricityCost, hardwareCost)
+
+    override fun getGlobalData(convertToCurrency: String?) = appApiHelper.getGlobalData(convertToCurrency)
     // endregion Api
 
     // region SharedPrefs

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimary"
+    android:paddingBottom="@dimen/half_standard_dimen">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/quater_standard_dimen">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/half_standard_dimen"
+            android:textColor="@android:color/white"
+            android:text="@string/market_cap" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:id="@+id/market_cap"
+            android:singleLine="true"
+            android:textStyle="bold"
+            android:paddingStart="@dimen/standard_dimen"
+            android:text="$463,728,195,682,434" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/quater_standard_dimen">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/half_standard_dimen"
+            android:textColor="@android:color/white"
+            android:text="@string/volume_24h" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:id="@+id/daily_volume"
+            android:singleLine="true"
+            android:textStyle="bold"
+            android:paddingStart="@dimen/standard_dimen"
+            android:text="$46,728,682" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/quater_standard_dimen">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:paddingStart="@dimen/half_standard_dimen"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:text="@string/btc_dominance" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:singleLine="true"
+            android:id="@+id/btc_dominance"
+            android:textStyle="bold"
+            android:paddingStart="@dimen/standard_dimen"
+            android:text="35.9%" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
+        android:orientation="horizontal"
+        android:id="@+id/portfolios_balance_layout"
+        android:padding="@dimen/quater_standard_dimen">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/half_standard_dimen"
+            android:textColor="@android:color/white"
+            android:text="@string/portfolios_balance" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:singleLine="true"
+            android:id="@+id/portfolios_balance"
+            android:textStyle="bold"
+            android:paddingStart="@dimen/standard_dimen"
+            android:text="$342 423 (75.53432 BTC)" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

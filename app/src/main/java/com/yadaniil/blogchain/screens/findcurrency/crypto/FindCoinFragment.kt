@@ -74,7 +74,7 @@ class FindCoinFragment : MvpAppCompatFragment(), ListHelper.OnCoinClickListener,
     }
 
     private fun initCoinList() {
-        findCoinAdapter = FindCoinAdapter(allCoins, true, this, presenter.getCcCoins(), activity!!)
+        findCoinAdapter = FindCoinAdapter(allCoins, true, this, presenter.repo, activity!!)
         currencies_recycler_view.layoutManager = LinearLayoutManager(activity)
         currencies_recycler_view.adapter = findCoinAdapter
         currencies_recycler_view.setHasFixedSize(true)

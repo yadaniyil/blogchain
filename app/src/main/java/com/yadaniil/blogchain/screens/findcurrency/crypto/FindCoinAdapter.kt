@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.yadaniil.blogchain.R
+import com.yadaniil.blogchain.data.Repository
 import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
 import com.yadaniil.blogchain.data.db.models.CryptoCompareCurrencyRealm
 import com.yadaniil.blogchain.utils.ListHelper
@@ -16,7 +17,7 @@ import io.realm.RealmResults
 
 class FindCoinAdapter(data: RealmResults<CoinMarketCapCurrencyRealm>, autoUpdate: Boolean,
                       var onClick: ListHelper.OnCoinClickListener,
-                      val ccList: MutableList<CryptoCompareCurrencyRealm>, val context: Context)
+                      var repo: Repository, val context: Context)
     : RealmRecyclerViewAdapter<CoinMarketCapCurrencyRealm, ListHelper.FindCoinHolder>(data, autoUpdate) {
 
     init {
@@ -31,7 +32,7 @@ class FindCoinAdapter(data: RealmResults<CoinMarketCapCurrencyRealm>, autoUpdate
 
     override fun onBindViewHolder(holder: ListHelper.FindCoinHolder?, position: Int) {
         val currencyRealm = getItem(position)
-        ListHelper.bindFindCoin(holder!!, currencyRealm, onClick, ccList, context)
+        ListHelper.bindFindCoin(holder!!, currencyRealm, onClick, repo, context)
     }
 
 }

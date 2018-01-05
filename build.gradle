@@ -36,12 +36,12 @@ ext{
     supportLibVersion = '27.0.2'
     rxJavaVersion = '2.0.1'
     rxKotlinVersion = '2.0.3'
-    timberVersion = '4.5.1'
+    timberVersion = '4.6.0'
     daggerVersion = '2.+'
-    retrofitVersion = '2.2.0'
+    retrofitVersion = '2.3.0'
     okHttpVersion = '3.9.1'
     picassoVersion = '2.5.2'
-    gsonVersion = '2.8.0'
+    gsonVersion = '2.8.2'
 
     //supportLib
     supportLib = "com.android.support:support-v4:$supportLibVersion"

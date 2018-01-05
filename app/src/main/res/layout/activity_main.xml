@@ -94,17 +94,16 @@
         <include layout="@layout/no_items_layout"/>
         <include layout="@layout/no_items_filtered_layout"/>
 
-        <com.google.android.gms.ads.AdView
-            xmlns:ads="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/adView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|center_horizontal"
-            ads:adSize="BANNER"
-            ads:adUnitId="@string/banner_currencies_list">
-        </com.google.android.gms.ads.AdView>
-
     </FrameLayout>
 
+    <com.google.android.gms.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        ads:adSize="BANNER"
+        ads:adUnitId="@string/banner_currencies_list">
+    </com.google.android.gms.ads.AdView>
 
 </android.support.design.widget.CoordinatorLayout>

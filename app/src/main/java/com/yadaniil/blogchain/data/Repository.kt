@@ -112,5 +112,9 @@ class Repository @Inject constructor(private var appApiHelper: AppApiHelper,
 
     override fun setLastShowChangelogVersion(versionCode: Int)
             = sharedPrefs.setLastShowChangelogVersion(versionCode)
+
+    override fun saveLastCoinsUpdateTime(lastUpdateTime: Long) = sharedPrefs.saveLastCoinsUpdateTime(lastUpdateTime)
+
+    override fun getLastCoinsUpdateTime() = sharedPrefs.getLastCoinsUpdateTime()
     // endregion SharedPrefs
 }

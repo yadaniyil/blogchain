@@ -156,13 +156,13 @@ class ConverterActivity : BaseActivity(), ConverterView {
             // Default is crypto
             topCurrencySymbol.text = allCoins[0].symbol
             topCurrencyName.text = allCoins[0].name
-            ListHelper.downloadAndSetIcon(topCurrencyIcon, allCoins[0], allCcCoins, this)
+            ListHelper.downloadAndSetIcon(topCurrencyIcon, allCoins[0], presenter.repo, this)
             topCurrency = ConverterCryptoCurrency(allCoins[0].symbol ?: "", allCoins[0]?.id ?: "")
         } else if (coin != null && fiat == null) {
             // Crypto
             topCurrencySymbol.text = coin.symbol
             topCurrencyName.text = coin.name
-            ListHelper.downloadAndSetIcon(topCurrencyIcon, coin, allCcCoins, this)
+            ListHelper.downloadAndSetIcon(topCurrencyIcon, coin, presenter.repo, this)
             topCurrency = ConverterCryptoCurrency(coin.symbol ?: "", coin.id ?: "")
         } else if (coin == null && fiat != null) {
             // Fiat
@@ -190,7 +190,7 @@ class ConverterActivity : BaseActivity(), ConverterView {
             // Crypto
             bottomCurrencySymbol.text = coin.symbol
             bottomCurrencyName.text = coin.name
-            ListHelper.downloadAndSetIcon(bottomCurrencyIcon, coin, allCcCoins, this)
+            ListHelper.downloadAndSetIcon(bottomCurrencyIcon, coin, presenter.repo, this)
             bottomCurrency = ConverterCryptoCurrency(coin.symbol ?: "", coin?.id ?: "")
         } else if (coin == null && fiat != null) {
             // Fiat

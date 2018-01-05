@@ -24,7 +24,6 @@ object DateHelper {
         if (context == null)
             return time
 
-
         var longTime = tryParseDate(time).time
         if (longTime < 1000000000000L) {
             // if timestamp given in seconds, convert to millis
@@ -64,10 +63,14 @@ object DateHelper {
             return try {
                 if (yearOfTransaction == yearNow) {
                     var dateFormat = SimpleDateFormat("MMMM dd")
+                    if(context.getString(R.string.lang_check) == "ru")
+                        dateFormat = SimpleDateFormat("d MMMM")
                     val date = Date(longTime)
                     dateFormat.format(date)
                 } else {
                     var dateFormat = SimpleDateFormat("MMMM dd, yyyy")
+                    if(context.getString(R.string.lang_check) == "ru")
+                        dateFormat = SimpleDateFormat("dd MMMM, yyyy")
                     val date = Date(longTime)
                     dateFormat.format(date)
                 }
@@ -82,7 +85,7 @@ object DateHelper {
             SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS"),
             SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss"))
 
-    fun tryParseDate(strDate: String?): Date {
+    private fun tryParseDate(strDate: String?): Date {
         if (strDate == null || strDate.isEmpty())
             return Date()
         for (format in supported) {

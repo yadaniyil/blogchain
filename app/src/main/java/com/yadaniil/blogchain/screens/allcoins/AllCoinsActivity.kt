@@ -1,6 +1,7 @@
 package com.yadaniil.blogchain.screens.allcoins
 
 import android.os.Bundle
+import android.os.Handler
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -16,6 +17,7 @@ import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
 import com.yadaniil.blogchain.screens.base.BaseActivity
 import com.yadaniil.blogchain.screens.base.CoinClickListener
 import com.yadaniil.blogchain.screens.base.CoinLongClickListener
+import com.yadaniil.blogchain.utils.DateHelper
 import com.yadaniil.blogchain.utils.ListHelper
 import com.yadaniil.blogchain.utils.Navigator
 import io.realm.RealmResults
@@ -24,6 +26,7 @@ import kotlinx.android.synthetic.main.no_items_filtered_layout.*
 import kotlinx.android.synthetic.main.no_items_layout.*
 import org.jetbrains.anko.onClick
 import org.jetbrains.anko.toast
+import java.util.*
 
 
 class AllCoinsActivity : BaseActivity(), AllCoinsView, CoinClickListener, CoinLongClickListener {
@@ -46,6 +49,7 @@ class AllCoinsActivity : BaseActivity(), AllCoinsView, CoinClickListener, CoinLo
         AllCoinsHelper.coins = presenter.getAllCoinsFromDb()
         AllCoinsHelper.presenter = presenter
         initCurrenciesList(AllCoinsHelper.coins)
+        initLastUpdateTime()
         presenter.downloadAndSaveAllCurrencies()
         initAdMobBanner()
     }
@@ -86,6 +90,18 @@ class AllCoinsActivity : BaseActivity(), AllCoinsView, CoinClickListener, CoinLo
     // endregion Activity
 
     // region Init
+    private fun initLastUpdateTime() {
+        presenter.updateLastCoinsUpdateTime()
+        val minute: Long = 60 * 1000
+        Timer().schedule(object : TimerTask() {
+            override fun run() {
+                runOnUiThread {
+                    presenter.updateLastCoinsUpdateTime()
+                }
+            }
+        }, 0L, minute)
+    }
+
     private fun initAdMobBanner() {
         MobileAds.initialize(this, getString(R.string.admob_app_id))
         val builder = AdRequest.Builder()
@@ -141,7 +157,7 @@ class AllCoinsActivity : BaseActivity(), AllCoinsView, CoinClickListener, CoinLo
 
     private fun initCurrenciesList(allCoins: RealmResults<CoinMarketCapCurrencyRealm>) {
         allCoinsAdapter = AllCoinsAdapter(allCoins, true, this,
-                presenter.getAllCryptoCompareCoinsFromDb(), this, this)
+                presenter.repo, this, this)
 
         currencies_recycler_view.layoutManager = LinearLayoutManager(this)
         currencies_recycler_view.adapter = allCoinsAdapter
@@ -195,6 +211,15 @@ class AllCoinsActivity : BaseActivity(), AllCoinsView, CoinClickListener, CoinLo
 
     override fun onCurrencyAddedToFavourite(currency: CoinMarketCapCurrencyRealm) =
             toast("${currency.symbol} ${getString(R.string.is_now_in_watchlist)}")
+
+    override fun showLastCoinsUpdateTime(lastCoinsUpdateTime: Long) {
+        val text = if (lastCoinsUpdateTime == 0L)
+            "${getString(R.string.last_update)}: ${getString(R.string.never)}"
+        else
+            "${getString(R.string.last_update)}: ${DateHelper.getTimeAgo(Date(lastCoinsUpdateTime), this)}"
+
+        last_update_time.text = text
+    }
 
     private fun updateList(coins: RealmResults<CoinMarketCapCurrencyRealm>) {
         initNoItemsLayout(coins)

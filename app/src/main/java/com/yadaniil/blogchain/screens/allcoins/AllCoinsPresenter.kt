@@ -11,6 +11,7 @@ import io.reactivex.schedulers.Schedulers
 import io.realm.RealmResults
 import io.realm.Sort
 import timber.log.Timber
+import java.util.*
 import javax.inject.Inject
 
 // CMC - CoinMarketCap
@@ -64,6 +65,8 @@ class AllCoinsPresenter : MvpPresenter<AllCoinsView>() {
                 .doOnComplete { viewState.stopToolbarLoading() }
                 .subscribe({ currenciesList ->
                     repo.saveCoinsToDb(currenciesList)
+                    repo.saveLastCoinsUpdateTime(Date().time)
+                    updateLastCoinsUpdateTime()
                 }, { error ->
                     viewState.showLoadingError()
                     viewState.stopToolbarLoading()
@@ -71,6 +74,10 @@ class AllCoinsPresenter : MvpPresenter<AllCoinsView>() {
                 }
                 )
     }
+
+    fun updateLastCoinsUpdateTime() =
+            viewState.showLastCoinsUpdateTime(repo.getLastCoinsUpdateTime())
+
 
     fun addCurrencyToFavourite(currency: CoinMarketCapCurrencyRealm) {
         repo.addCoinToFavourite(currency)

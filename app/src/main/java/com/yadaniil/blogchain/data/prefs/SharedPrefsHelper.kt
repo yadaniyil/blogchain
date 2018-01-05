@@ -10,4 +10,6 @@ interface SharedPrefsHelper {
     fun getLastShowChangelogVersion(): Int
     fun setLastShowChangelogVersion(versionCode: Int)
 
+    fun saveLastCoinsUpdateTime(lastUpdateTime: Long)
+    fun getLastCoinsUpdateTime(): Long
 }

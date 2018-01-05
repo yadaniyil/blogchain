@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.yadaniil.blogchain.R
+import com.yadaniil.blogchain.data.Repository
 import com.yadaniil.blogchain.screens.base.CoinClickListener
 import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
 import com.yadaniil.blogchain.data.db.models.CryptoCompareCurrencyRealm
@@ -17,7 +18,7 @@ import io.realm.RealmResults
  */
 
 class WatchlistAdapter(data: RealmResults<CoinMarketCapCurrencyRealm>, autoUpdate: Boolean,
-                       private var context: Context, val ccList: MutableList<CryptoCompareCurrencyRealm>,
+                       private var context: Context, val repo: Repository,
                        var onClick: CoinClickListener, var onLongClick: CoinLongClickListener)
     : RealmRecyclerViewAdapter<CoinMarketCapCurrencyRealm, ListHelper.CoinViewHolder>(data, autoUpdate) {
 
@@ -33,7 +34,7 @@ class WatchlistAdapter(data: RealmResults<CoinMarketCapCurrencyRealm>, autoUpdat
 
     override fun onBindViewHolder(holder: ListHelper.CoinViewHolder?, position: Int) {
         val currencyRealm = getItem(position)
-        ListHelper.bindCurrency(holder!!, currencyRealm!!, ccList, context,
+        ListHelper.bindCurrency(holder!!, currencyRealm!!, repo, context,
                 onClick, onLongClick, true)
     }
 

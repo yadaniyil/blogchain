@@ -74,7 +74,7 @@ class FindFavouriteFragment : MvpAppCompatFragment(), ListHelper.OnCoinClickList
             }
         }
 
-        findCoinAdapter = FindCoinAdapter(allFavouriteCoins, true, this, presenter.getCcCoins(), activity!!)
+        findCoinAdapter = FindCoinAdapter(allFavouriteCoins, true, this, presenter.repo, activity!!)
         favourites_recycler_view.layoutManager = LinearLayoutManager(activity)
         favourites_recycler_view.adapter = findCoinAdapter
         favourites_recycler_view.setHasFixedSize(true)

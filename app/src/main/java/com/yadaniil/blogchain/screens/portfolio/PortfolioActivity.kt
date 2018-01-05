@@ -67,7 +67,7 @@ class PortfolioActivity : BaseActivity(), PortfolioView, PortfolioAdapter.OnClic
 
     private fun initPortfolioList() {
         portfolioAdapter = PortfolioAdapter(portfolios!!, true,
-                this, presenter.getAllCcCoin(), this, this)
+                this, presenter.repo, this, this)
         watchlist_recycler_view.layoutManager = LinearLayoutManager(this)
         watchlist_recycler_view.adapter = portfolioAdapter
         watchlist_recycler_view.itemAnimator = null

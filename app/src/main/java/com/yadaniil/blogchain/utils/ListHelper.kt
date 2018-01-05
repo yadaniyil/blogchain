@@ -11,6 +11,7 @@ import android.widget.TextView
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import com.yadaniil.blogchain.R
+import com.yadaniil.blogchain.data.Repository
 import com.yadaniil.blogchain.screens.base.CoinClickListener
 import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
 import com.yadaniil.blogchain.data.db.models.CryptoCompareCurrencyRealm
@@ -47,7 +48,7 @@ object ListHelper {
     }
 
     fun bindCurrency(coinHolder: CoinViewHolder, currencyRealm: CoinMarketCapCurrencyRealm,
-                     ccList: MutableList<CryptoCompareCurrencyRealm>, context: Context,
+                     repo: Repository, context: Context,
                      onClick: CoinClickListener, onLongClick: CoinLongClickListener, removeRank: Boolean) {
         with(coinHolder) {
             if (removeRank) rank.visibility = View.GONE else rank.text = currencyRealm.rank.toString()
@@ -62,7 +63,7 @@ object ListHelper {
             initRatesChange(this, currencyRealm, context)
 
             if (currencyRealm.iconBytes == null) {
-                downloadAndSetIcon(icon, currencyRealm, ccList, context)
+                downloadAndSetIcon(icon, currencyRealm, repo, context)
             } else {
                 doAsync {
                     val bitmapIcon = BitmapFactory
@@ -76,31 +77,8 @@ object ListHelper {
     }
 
     fun downloadAndSetIcon(icon: ImageView, currencyRealm: CoinMarketCapCurrencyRealm?,
-                                   ccList: MutableList<CryptoCompareCurrencyRealm>, context: Context) {
-        val imageLink = CryptocurrencyHelper.getImageLinkForCurrency(currencyRealm!!, ccList)
-        if (imageLink.isEmpty()) {
-            icon.setImageResource(R.drawable.icon_ico)
-        } else {
-            Picasso.with(context)
-                    .load(Uri.parse(Endpoints.CRYPTO_COMPARE_URL + imageLink))
-                    .into(icon, object : Callback {
-                        override fun onSuccess() {
-                            // TODO Fix saving icons and restoring them in list
-//                            doAsync {
-//                                val bitmap = (icon.drawable as BitmapDrawable).bitmap
-//                                val stream = ByteArrayOutputStream()
-//                                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
-//                                val byteArray = stream.toByteArray()
-//                                presenter.saveCurrencyIcon(currencyRealm, byteArray)
-//                            }
-                        }
-
-                        override fun onError() {
-                            Timber.e("Error downloading icon")
-                        }
-                    })
-        }
-    }
+                           repo: Repository, context: Context) =
+            ImageLoader.loadCoinIcon(currencyRealm?.symbol ?: "", icon, context, repo)
 
     private fun initRatesChange(coinViewHolder: CoinViewHolder,
                                 currencyRealm: CoinMarketCapCurrencyRealm?, context: Context) {
@@ -153,11 +131,11 @@ object ListHelper {
     }
 
     fun bindFindCoin(holder: FindCoinHolder, currency: CoinMarketCapCurrencyRealm?,
-                     onClick: OnCoinClickListener, ccList: MutableList<CryptoCompareCurrencyRealm>, context: Context) {
+                     onClick: OnCoinClickListener, repo: Repository, context: Context) {
         holder.coinName.text = currency?.name
         holder.coinSymbol.text = currency?.symbol
         holder.itemRootLayout.onClick { onClick.onClick(holder, currency!!) }
-        downloadAndSetIcon(holder.coinIcon, currency, ccList, context)
+        downloadAndSetIcon(holder.coinIcon, currency, repo, context)
     }
     // endregion FindCoin
 
@@ -186,7 +164,7 @@ object ListHelper {
     }
 
     fun bindPortfolioItem(holder: PortfolioViewHolder, portfolioRealm: PortfolioRealm,
-                          context: Context, ccList: MutableList<CryptoCompareCurrencyRealm>,
+                          context: Context, repo: Repository,
                           onClick: PortfolioAdapter.OnClick, onLongClick: PortfolioAdapter.OnLongClick) {
         with(holder) {
             symbol.text = portfolioRealm.coin?.symbol
@@ -198,7 +176,7 @@ object ListHelper {
             itemRootLayout.onClick { onClick.onClick(holder, portfolioRealm) }
             itemRootLayout.onLongClick { onLongClick.onLongClick(holder, portfolioRealm); true }
 
-            downloadAndSetIcon(icon, portfolioRealm.coin, ccList, context)
+            downloadAndSetIcon(icon, portfolioRealm.coin, repo, context)
         }
     }
 

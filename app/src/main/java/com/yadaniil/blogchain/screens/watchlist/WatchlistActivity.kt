@@ -129,7 +129,7 @@ class WatchlistActivity : BaseActivity(), WatchlistView, CoinClickListener, Coin
 
     private fun setUpWatchlist(realmCurrencies: RealmResults<CoinMarketCapCurrencyRealm>) {
         watchlistAdapter = WatchlistAdapter(realmCurrencies, true, this,
-                presenter.getCcRealmCurrencies(), this, this)
+                presenter.repo, this, this)
         watchlist_recycler_view.layoutManager = LinearLayoutManager(this)
         watchlist_recycler_view.adapter = watchlistAdapter
         watchlist_recycler_view.itemAnimator = null

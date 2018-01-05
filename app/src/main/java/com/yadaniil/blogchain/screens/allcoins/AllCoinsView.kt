@@ -7,4 +7,5 @@ interface AllCoinsView : ToolbarLoadingView {
     fun showLoadingError()
     fun showLoading()
     fun onCurrencyAddedToFavourite(currency: CoinMarketCapCurrencyRealm)
+    fun showLastCoinsUpdateTime(lastCoinsUpdateTime: Long)
 }

@@ -4,7 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.yadaniil.blogchain.R
-import com.yadaniil.blogchain.data.db.models.CryptoCompareCurrencyRealm
+import com.yadaniil.blogchain.data.Repository
 import com.yadaniil.blogchain.data.db.models.PortfolioRealm
 import com.yadaniil.blogchain.utils.ListHelper
 import io.realm.RealmRecyclerViewAdapter
@@ -17,7 +17,7 @@ import io.realm.RealmResults
 
 class PortfolioAdapter(data: RealmResults<PortfolioRealm>, autoUpdate: Boolean,
                        private var context: Context,
-                       private val ccList: MutableList<CryptoCompareCurrencyRealm>,
+                       private val repo: Repository,
                        private val onClick: OnClick, private val onLongClick: OnLongClick)
     : RealmRecyclerViewAdapter<PortfolioRealm, ListHelper.PortfolioViewHolder>(data, autoUpdate) {
 
@@ -33,7 +33,7 @@ class PortfolioAdapter(data: RealmResults<PortfolioRealm>, autoUpdate: Boolean,
 
     override fun onBindViewHolder(holder: ListHelper.PortfolioViewHolder?, position: Int) {
         val currencyRealm = getItem(position)
-        ListHelper.bindPortfolioItem(holder!!, currencyRealm!!, context, ccList, onClick, onLongClick)
+        ListHelper.bindPortfolioItem(holder!!, currencyRealm!!, context, repo, onClick, onLongClick)
     }
 
     interface OnClick {

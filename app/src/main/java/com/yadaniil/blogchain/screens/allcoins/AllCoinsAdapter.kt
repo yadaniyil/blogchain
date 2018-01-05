@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
 import com.yadaniil.blogchain.R
+import com.yadaniil.blogchain.data.Repository
 import com.yadaniil.blogchain.screens.base.CoinClickListener
 import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
 import com.yadaniil.blogchain.data.db.models.CryptoCompareCurrencyRealm
@@ -20,7 +21,7 @@ import io.realm.RealmResults
  */
 
 class AllCoinsAdapter(data: RealmResults<CoinMarketCapCurrencyRealm>, autoUpdate: Boolean,
-                      private var context: Context, val ccList: MutableList<CryptoCompareCurrencyRealm>,
+                      private var context: Context, val repo: Repository,
                       var onClick: CoinClickListener, var onLongClick: CoinLongClickListener)
     : RealmRecyclerViewAdapter<CoinMarketCapCurrencyRealm, ListHelper.CoinViewHolder>(data, autoUpdate),
         FastScrollRecyclerView.SectionedAdapter {
@@ -44,7 +45,7 @@ class AllCoinsAdapter(data: RealmResults<CoinMarketCapCurrencyRealm>, autoUpdate
 
     override fun onBindViewHolder(holder: ListHelper.CoinViewHolder?, position: Int) {
         val currencyRealm = getItem(position)
-        ListHelper.bindCurrency(holder!!, currencyRealm!!, ccList, context,
+        ListHelper.bindCurrency(holder!!, currencyRealm!!, repo, context,
                 onClick, onLongClick, false)
     }
 }

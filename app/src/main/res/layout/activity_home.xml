@@ -6,35 +6,6 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/appBar"
-        android:orientation="vertical">
-
-        <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/swipe_refresh"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/home_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:fastScrollAutoHide="true"
-                android:paddingBottom="@dimen/quadra_dimen"
-                android:clipToPadding="false"
-                app:fastScrollAutoHideDelay="1500"
-                app:fastScrollPopupTextSize="36sp"
-                app:fastScrollPopupBackgroundSize="58dp"
-                app:fastScrollPopupBgColor="@color/colorPrimary"
-                app:fastScrollPopupTextColor="@android:color/primary_text_dark"
-                app:fastScrollThumbColor="@color/colorPrimary" />
-
-        </android.support.v4.widget.SwipeRefreshLayout>
-
-    </LinearLayout>
-
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appBar"
         app:elevation="0dp"
@@ -49,5 +20,32 @@
             android:background="?attr/colorPrimary" />
 
     </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/appBar">
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <include layout="@layout/item_home_portfolio_balance"/>
+                <include layout="@layout/item_home_coins"/>
+
+
+            </LinearLayout>
+
+
+        </android.support.v4.widget.NestedScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
 
 </RelativeLayout>

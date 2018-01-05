@@ -213,31 +213,6 @@ object ListHelper {
             (BigDecimal(portfolio.amountOfCoins) * BigDecimal(portfolio.coin?.priceBtc ?: 0.0))
     // endregion Portfolio
 
-    // region Home
-    class HomePortfolioHolder(view: View) : RecyclerView.ViewHolder(view) {
-        var totalAmount: TextView = view.find(R.id.total_amount)
-        var totalAmountBtc: TextView = view.find(R.id.total_amount_btc)
-    }
-
-    class HomeCoinsHolder(view: View) : RecyclerView.ViewHolder(view) {
-        var firstCoinIcon: ImageView = view.find(R.id.first_coin_icon)
-        var firstCoinName: TextView = view.find(R.id.first_coin_name)
-        var firstCoinPrice: TextView = view.find(R.id.first_coin_price)
-
-        var secondCoinIcon: ImageView = view.find(R.id.second_coin_icon)
-        var secondCoinName: TextView = view.find(R.id.second_coin_name)
-        var secondCoinPrice: TextView = view.find(R.id.second_coin_price)
-
-        var thirdCoinIcon: ImageView = view.find(R.id.third_coin_icon)
-        var thirdCoinName: TextView = view.find(R.id.third_coin_name)
-        var thirdCoinPrice: TextView = view.find(R.id.third_coin_price)
-
-        var forthCoinIcon: ImageView = view.find(R.id.forth_coin_icon)
-        var forthCoinName: TextView = view.find(R.id.forth_coin_name)
-        var forthCoinPrice: TextView = view.find(R.id.forth_coin_price)
-    }
-    // endregion Home
-
     // region News
     class NewsHolder(view: View) : RecyclerView.ViewHolder(view) {
         var title: TextView = view.find(R.id.news_header)

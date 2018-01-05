@@ -14,6 +14,7 @@
             card_view:cardCornerRadius="4dp"
             android:layout_margin="4dp"
             android:layout_weight="1"
+            android:id="@+id/first_coin_layout"
             android:background="?android:attr/selectableItemBackground"
             android:layout_width="0dp"
             android:layout_height="match_parent">
@@ -48,6 +49,7 @@
             card_view:cardCornerRadius="4dp"
             android:layout_margin="4dp"
             android:layout_weight="1"
+            android:id="@+id/second_coin_layout"
             android:background="?android:attr/selectableItemBackground"
             android:layout_width="0dp"
             android:layout_height="match_parent">
@@ -89,6 +91,7 @@
             card_view:cardCornerRadius="4dp"
             android:layout_margin="4dp"
             android:layout_weight="1"
+            android:id="@+id/third_coin_layout"
             android:background="?android:attr/selectableItemBackground"
             android:layout_width="0dp"
             android:layout_height="match_parent">
@@ -125,6 +128,7 @@
             android:layout_weight="1"
             android:background="?android:attr/selectableItemBackground"
             android:layout_width="0dp"
+            android:id="@+id/forth_coin_layout"
             android:layout_height="match_parent">
 
             <RelativeLayout

@@ -57,6 +57,7 @@ class HomePresenter : MvpPresenter<HomeView>() {
                 .doOnComplete { viewState.stopLoading() }
                 .subscribe({ zipRequest ->
                     repo.saveCoinsToDb(CoinMarketCapCurrencyRealm.convertApiResponseToRealmList(zipRequest.coins))
+                    repo.saveCmcGlobalData(zipRequest.globalData)
                     viewState.updateGlobalData(zipRequest.globalData)
                 }, { error ->
                     viewState.stopLoading()
@@ -82,5 +83,9 @@ class HomePresenter : MvpPresenter<HomeView>() {
             repo.setShowPortfolioAtHome(!isPortfolioShown)
 
         viewState.showOrHidePortfolio(repo.getShowPortfolioAtHome())
+    }
+
+    fun setSavedGlobalData() {
+        viewState.updateGlobalData(repo.getCmcGlobalData())
     }
 }

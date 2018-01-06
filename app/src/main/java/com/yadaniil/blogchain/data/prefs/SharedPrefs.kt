@@ -1,7 +1,9 @@
 package com.yadaniil.blogchain.data.prefs
 
 import android.content.SharedPreferences
+import com.google.gson.Gson
 import com.yadaniil.blogchain.Application
+import com.yadaniil.blogchain.data.api.models.CmcGlobalDataResponse
 import javax.inject.Inject
 
 /**
@@ -13,6 +15,7 @@ class SharedPrefs : SharedPrefsHelper {
     private val LAST_SHOW_CHANGELOG_VERSION = "last_show_changelog_version"
     private val LAST_COINS_UPDATE_TIME = "last_coins_update_time"
     private val SHOW_PORTFOLIO_AT_HOME = "show_portfolio_at_home"
+    private val CMC_GLOBAL_DATA = "cmc_global_data"
     // endregion Keys
 
     @Inject
@@ -32,6 +35,15 @@ class SharedPrefs : SharedPrefsHelper {
 
     override fun setShowPortfolioAtHome(showPortfolioAtHome: Boolean) = saveBoolean(SHOW_PORTFOLIO_AT_HOME, showPortfolioAtHome)
     override fun getShowPortfolioAtHome() = getBooleanByKey(SHOW_PORTFOLIO_AT_HOME, true)
+
+    override fun saveCmcGlobalData(data: CmcGlobalDataResponse?) = saveString(CMC_GLOBAL_DATA, Gson().toJson(data))
+    override fun getCmcGlobalData(): CmcGlobalDataResponse? {
+        val json = getStringByKey(CMC_GLOBAL_DATA)
+        return if (json.isEmpty())
+            null
+        else
+            Gson().fromJson<CmcGlobalDataResponse>(json, CmcGlobalDataResponse::class.java)
+    }
 
     // region General helping methods
     private fun saveString(key: String, value: String) = sharedPrefs.edit().putString(key, value).apply()

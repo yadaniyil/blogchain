@@ -53,7 +53,7 @@ class HomeActivity : BaseActivity(), HomeView {
     }
 
     private fun initGlobalDataAndPortfolio() {
-//        presenter.setSavedGlobalData()
+        presenter.setSavedGlobalData()
         presenter.showOrHidePortfolioBalance()
     }
 
@@ -139,7 +139,13 @@ class HomeActivity : BaseActivity(), HomeView {
 
     override fun showLoadingError() = toast(R.string.error)
 
-    override fun updateGlobalData(globalData: CmcGlobalDataResponse) {
+    override fun updateGlobalData(globalData: CmcGlobalDataResponse?) {
+        if(globalData == null) {
+            market_cap.text = "?"
+            daily_volume.text = "?"
+            btc_dominance.text = "?"
+            return
+        }
         val marketCapText = "$${AmountFormatter.formatFiatPrice(globalData.totalMarketCapUsd.toString())}"
         market_cap.text = marketCapText
 

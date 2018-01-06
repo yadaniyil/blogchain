@@ -1,5 +1,7 @@
 package com.yadaniil.blogchain.data.prefs
 
+import com.yadaniil.blogchain.data.api.models.CmcGlobalDataResponse
+
 
 /**
  * Created by danielyakovlev on 7/1/17.
@@ -15,4 +17,7 @@ interface SharedPrefsHelper {
 
     fun setShowPortfolioAtHome(showPortfolioAtHome: Boolean)
     fun getShowPortfolioAtHome(): Boolean
+
+    fun saveCmcGlobalData(data: CmcGlobalDataResponse?)
+    fun getCmcGlobalData(): CmcGlobalDataResponse?
 }

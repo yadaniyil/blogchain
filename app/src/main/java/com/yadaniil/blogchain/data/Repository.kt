@@ -34,16 +34,16 @@ class Repository @Inject constructor(private var appApiHelper: AppApiHelper,
             appDbHelper.getAllCoinsFiltered(text)
 
     override fun saveCoinsToDb(coins: List<CoinMarketCapCurrencyRealm>) =
-        appDbHelper.saveCoinsToDb(coins)
+            appDbHelper.saveCoinsToDb(coins)
 
     override fun getAllCryptoCompareCoinsFromDb(): RealmResults<CryptoCompareCurrencyRealm> =
             appDbHelper.getAllCryptoCompareCoinsFromDb()
 
     override fun saveCryptoCompareCoinsToDb(coins: List<CryptoCompareCurrencyRealm>) =
-        appDbHelper.saveCryptoCompareCoinsToDb(coins)
+            appDbHelper.saveCryptoCompareCoinsToDb(coins)
 
     override fun saveCryptoCompareCoinIcon(coin: CoinMarketCapCurrencyRealm, byteArray: ByteArray) =
-        appDbHelper.saveCryptoCompareCoinIcon(coin, byteArray)
+            appDbHelper.saveCryptoCompareCoinIcon(coin, byteArray)
 
     override fun addCoinToFavourite(coin: CoinMarketCapCurrencyRealm) =
             appDbHelper.addCoinToFavourite(coin)
@@ -61,7 +61,7 @@ class Repository @Inject constructor(private var appApiHelper: AppApiHelper,
 
     override fun addCoinToPortfolio(coin: CoinMarketCapCurrencyRealm, amountOfCoins: String,
                                     buyPriceOfCoin: String, storageType: String, storageName: String, description: String) =
-        appDbHelper.addCoinToPortfolio(coin, amountOfCoins, buyPriceOfCoin, storageType, storageName, description)
+            appDbHelper.addCoinToPortfolio(coin, amountOfCoins, buyPriceOfCoin, storageType, storageName, description)
 
     override fun getAllPortfolio() = appDbHelper.getAllPortfolio()
 
@@ -111,6 +111,7 @@ class Repository @Inject constructor(private var appApiHelper: AppApiHelper,
 
     // region SharedPrefs
     override fun getLastShowChangelogVersion() = sharedPrefs.getLastShowChangelogVersion()
+
     override fun setLastShowChangelogVersion(versionCode: Int)
             = sharedPrefs.setLastShowChangelogVersion(versionCode)
 
@@ -119,5 +120,9 @@ class Repository @Inject constructor(private var appApiHelper: AppApiHelper,
 
     override fun setShowPortfolioAtHome(showPortfolioAtHome: Boolean) = sharedPrefs.setShowPortfolioAtHome(showPortfolioAtHome)
     override fun getShowPortfolioAtHome() = sharedPrefs.getShowPortfolioAtHome()
+
+    override fun saveCmcGlobalData(data: CmcGlobalDataResponse?) = sharedPrefs.saveCmcGlobalData(data)
+    override fun getCmcGlobalData(): CmcGlobalDataResponse? = sharedPrefs.getCmcGlobalData()
+
     // endregion SharedPrefs
 }

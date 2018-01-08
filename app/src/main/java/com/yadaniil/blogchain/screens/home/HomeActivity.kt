@@ -5,7 +5,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import com.arellomobile.mvp.presenter.InjectPresenter
-import com.github.mikephil.charting.data.Entry
 import com.yadaniil.blogchain.R
 import com.yadaniil.blogchain.data.api.models.coinmarketcap.CmcGlobalDataResponse
 import com.yadaniil.blogchain.data.api.models.coinmarketcap.CmcMarketCapAndVolumeChartResponse
@@ -19,12 +18,7 @@ import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.layout_market_info.*
 import org.jetbrains.anko.toast
-import android.R.attr.entries
-import com.github.mikephil.charting.data.LineDataSet
-import com.github.mikephil.charting.data.LineData
-
-
-
+import com.yadaniil.blogchain.utils.charts.MarketCapChart
 
 
 /**
@@ -175,22 +169,10 @@ class HomeActivity : BaseActivity(), HomeView {
     }
 
     override fun updateMarketCapChart(data: CmcMarketCapAndVolumeChartResponse?) {
-        val entries: MutableList<Entry> = ArrayList()
         if(data?.marketCaps == null) {
             return
         }
 
-        (0 until data.marketCaps.size).forEach { i ->
-            entries.add(Entry(data.marketCaps[i][0].toFloat(), data.marketCaps[i][1].toFloat()))
-        }
-
-        chart.setScaleEnabled(false)
-        chart.isDoubleTapToZoomEnabled = false
-        chart.setPinchZoom(false)
-
-        val dataSet = LineDataSet(entries, "Label")
-        val lineData = LineData(dataSet)
-        chart.data = lineData
-        chart.invalidate()
+        MarketCapChart.initMarketCapChart(chart, data, this)
     }
 }

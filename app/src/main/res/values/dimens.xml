@@ -24,4 +24,5 @@
     <dimen name="bottom_bar_with_ad_height">110dp</dimen>
     <dimen name="fab_bottom_margin_with_ad">56dp</dimen>
     <dimen name="converter_item_height">60dp</dimen>
+    <dimen name="chart_marker_text_size">12sp</dimen>
 </resources>

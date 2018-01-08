@@ -3,7 +3,8 @@ package com.yadaniil.blogchain.data.prefs
 import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.yadaniil.blogchain.Application
-import com.yadaniil.blogchain.data.api.models.CmcGlobalDataResponse
+import com.yadaniil.blogchain.data.api.models.coinmarketcap.CmcGlobalDataResponse
+import com.yadaniil.blogchain.data.api.models.coinmarketcap.CmcMarketCapAndVolumeChartResponse
 import javax.inject.Inject
 
 /**
@@ -16,6 +17,7 @@ class SharedPrefs : SharedPrefsHelper {
     private val LAST_COINS_UPDATE_TIME = "last_coins_update_time"
     private val SHOW_PORTFOLIO_AT_HOME = "show_portfolio_at_home"
     private val CMC_GLOBAL_DATA = "cmc_global_data"
+    private val CMC_GLOBAL_DATA_CHARTS = "cmc_global_data_charts"
     // endregion Keys
 
     @Inject
@@ -43,6 +45,17 @@ class SharedPrefs : SharedPrefsHelper {
             null
         else
             Gson().fromJson<CmcGlobalDataResponse>(json, CmcGlobalDataResponse::class.java)
+    }
+
+    override fun saveCmcMarketCapAndVolumeChartData(data: CmcMarketCapAndVolumeChartResponse?)
+            = saveString(CMC_GLOBAL_DATA_CHARTS, Gson().toJson(data))
+
+    override fun getCmcMarketCapAndVolumeChartData(): CmcMarketCapAndVolumeChartResponse? {
+        val json = getStringByKey(CMC_GLOBAL_DATA_CHARTS)
+        return if (json.isEmpty())
+            null
+        else
+            Gson().fromJson<CmcMarketCapAndVolumeChartResponse>(json, CmcMarketCapAndVolumeChartResponse::class.java)
     }
 
     // region General helping methods

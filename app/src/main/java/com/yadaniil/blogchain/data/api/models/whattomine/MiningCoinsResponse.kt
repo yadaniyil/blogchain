@@ -1,4 +1,4 @@
-package com.yadaniil.blogchain.data.api.models
+package com.yadaniil.blogchain.data.api.models.whattomine
 
 import com.google.gson.annotations.SerializedName
 

@@ -11,7 +11,7 @@ import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.miguelcatalan.materialsearchview.MaterialSearchView
 import com.yadaniil.blogchain.R
-import com.yadaniil.blogchain.data.api.models.MiningCoin
+import com.yadaniil.blogchain.data.api.models.whattomine.MiningCoin
 import com.yalantis.filter.animator.FiltersListItemAnimator
 import kotlinx.android.synthetic.main.fragment_coins.*
 import kotlinx.android.synthetic.main.no_items_filtered_layout.*

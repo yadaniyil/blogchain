@@ -5,12 +5,13 @@ import com.arellomobile.mvp.MvpPresenter
 import com.yadaniil.blogchain.Application
 import com.yadaniil.blogchain.BuildConfig
 import com.yadaniil.blogchain.data.Repository
-import com.yadaniil.blogchain.data.api.models.CmcGlobalDataResponse
-import com.yadaniil.blogchain.data.api.models.TickerResponse
+import com.yadaniil.blogchain.data.api.models.coinmarketcap.CmcGlobalDataResponse
+import com.yadaniil.blogchain.data.api.models.coinmarketcap.CmcMarketCapAndVolumeChartResponse
+import com.yadaniil.blogchain.data.api.models.coinmarketcap.TickerResponse
 import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.functions.BiFunction
+import io.reactivex.functions.Function3
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 import javax.inject.Inject
@@ -39,14 +40,16 @@ class HomePresenter : MvpPresenter<HomeView>() {
         }
     }
 
-    class UpdateAllZipRequest(val coins: List<TickerResponse>, val globalData: CmcGlobalDataResponse)
+    class UpdateAllZipRequest(val coins: List<TickerResponse>,
+                              val globalData: CmcGlobalDataResponse,
+                              val chartsData: CmcMarketCapAndVolumeChartResponse)
 
     fun updateAll() {
         val updateAllZipRequest = Observable.zip(
-                updateCoins(), updateGlobalData(),
-                BiFunction<List<TickerResponse>, CmcGlobalDataResponse, UpdateAllZipRequest>
-                { list: List<TickerResponse>, cmcGlobalDataResponse: CmcGlobalDataResponse ->
-                    UpdateAllZipRequest(list, cmcGlobalDataResponse)
+                updateCoins(), updateGlobalData(), updateMarketCapAndVolumeCharts(),
+                Function3<List<TickerResponse>, CmcGlobalDataResponse, CmcMarketCapAndVolumeChartResponse, UpdateAllZipRequest> {
+                    tickers, cmcGlobalDataResponse, cmcChartsResponse ->
+                    UpdateAllZipRequest(tickers, cmcGlobalDataResponse, cmcChartsResponse)
                 }
         )
 
@@ -58,7 +61,9 @@ class HomePresenter : MvpPresenter<HomeView>() {
                 .subscribe({ zipRequest ->
                     repo.saveCoinsToDb(CoinMarketCapCurrencyRealm.convertApiResponseToRealmList(zipRequest.coins))
                     repo.saveCmcGlobalData(zipRequest.globalData)
+                    repo.saveCmcMarketCapAndVolumeChartData(zipRequest.chartsData)
                     viewState.updateGlobalData(zipRequest.globalData)
+                    viewState.updateMarketCapChart(zipRequest.chartsData)
                 }, { error ->
                     viewState.stopLoading()
                     viewState.showLoadingError()
@@ -78,6 +83,12 @@ class HomePresenter : MvpPresenter<HomeView>() {
                 .observeOn(AndroidSchedulers.mainThread())
     }
 
+    private fun updateMarketCapAndVolumeCharts(): Observable<CmcMarketCapAndVolumeChartResponse> {
+        return repo.downloadCmcMarketCapAndVolumeCharts()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+    }
+
     fun showOrHidePortfolioBalance(isPortfolioShown: Boolean? = null) {
         if(isPortfolioShown != null)
             repo.setShowPortfolioAtHome(!isPortfolioShown)
@@ -87,5 +98,9 @@ class HomePresenter : MvpPresenter<HomeView>() {
 
     fun setSavedGlobalData() {
         viewState.updateGlobalData(repo.getCmcGlobalData())
+    }
+
+    fun setSavedGlobalDataChart() {
+        viewState.updateMarketCapChart(repo.getCmcMarketCapAndVolumeChartData())
     }
 }

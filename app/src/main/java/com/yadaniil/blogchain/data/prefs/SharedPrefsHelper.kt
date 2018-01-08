@@ -1,6 +1,7 @@
 package com.yadaniil.blogchain.data.prefs
 
-import com.yadaniil.blogchain.data.api.models.CmcGlobalDataResponse
+import com.yadaniil.blogchain.data.api.models.coinmarketcap.CmcGlobalDataResponse
+import com.yadaniil.blogchain.data.api.models.coinmarketcap.CmcMarketCapAndVolumeChartResponse
 
 
 /**
@@ -20,4 +21,7 @@ interface SharedPrefsHelper {
 
     fun saveCmcGlobalData(data: CmcGlobalDataResponse?)
     fun getCmcGlobalData(): CmcGlobalDataResponse?
+
+    fun saveCmcMarketCapAndVolumeChartData(data: CmcMarketCapAndVolumeChartResponse?)
+    fun getCmcMarketCapAndVolumeChartData(): CmcMarketCapAndVolumeChartResponse?
 }

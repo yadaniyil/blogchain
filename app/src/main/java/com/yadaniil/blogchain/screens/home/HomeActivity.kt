@@ -5,21 +5,27 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import com.arellomobile.mvp.presenter.InjectPresenter
+import com.github.mikephil.charting.data.Entry
 import com.yadaniil.blogchain.R
-import com.yadaniil.blogchain.data.api.models.CmcGlobalDataResponse
+import com.yadaniil.blogchain.data.api.models.coinmarketcap.CmcGlobalDataResponse
+import com.yadaniil.blogchain.data.api.models.coinmarketcap.CmcMarketCapAndVolumeChartResponse
 import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
 import com.yadaniil.blogchain.data.db.models.PortfolioRealm
 import com.yadaniil.blogchain.screens.base.BaseActivity
 import com.yadaniil.blogchain.screens.portfolio.PortfolioHelper
 import com.yadaniil.blogchain.utils.AmountFormatter
-import com.yadaniil.blogchain.utils.ImageLoader
 import com.yadaniil.blogchain.utils.Navigator
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_home.*
-import kotlinx.android.synthetic.main.layout_cards_coins.*
 import kotlinx.android.synthetic.main.layout_market_info.*
-import org.jetbrains.anko.onClick
 import org.jetbrains.anko.toast
+import android.R.attr.entries
+import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.data.LineData
+
+
+
+
 
 /**
  * Created by danielyakovlev on 11/2/17.
@@ -42,8 +48,9 @@ class HomeActivity : BaseActivity(), HomeView {
         portfolios = presenter.getPortfolios()
 
         initTotalPortfolioBalance()
-        initCoins()
+//        initCoins()
         initGlobalDataAndPortfolio()
+        initMarketCapChart()
 
         swipe_refresh.setOnRefreshListener {
             presenter.updateAll()
@@ -77,39 +84,43 @@ class HomeActivity : BaseActivity(), HomeView {
         }
     }
 
-    private fun initCoins() {
-        updateCoins(coins)
-        coins.addChangeListener { coins ->
-            updateCoins(coins)
-        }
+    private fun initMarketCapChart() {
+        presenter.setSavedGlobalDataChart()
     }
 
-    private fun updateCoins(coins: RealmResults<CoinMarketCapCurrencyRealm>) {
-        ImageLoader.loadCoinIcon(coins[0].symbol ?: "", first_coin_icon,
-                this, presenter.repo)
-        ImageLoader.loadCoinIcon(coins[1].symbol ?: "", second_coin_icon,
-                this, presenter.repo)
-        ImageLoader.loadCoinIcon(coins[2].symbol ?: "", third_coin_icon,
-                this, presenter.repo)
-        ImageLoader.loadCoinIcon(coins[3].symbol ?: "", forth_coin_icon,
-                this, presenter.repo)
+//    private fun initCoins() {
+//        updateCoins(coins)
+//        coins.addChangeListener { coins ->
+//            updateCoins(coins)
+//        }
+//    }
 
-        first_coin_name.text = coins[0].name
-        first_coin_price.text = "$${AmountFormatter.formatFiatPrice(coins[0].priceUsd.toString())}"
-        first_coin_layout.onClick { openCoinPage(coins[0]) }
-
-        second_coin_name.text = coins[1].name
-        second_coin_price.text = "$${AmountFormatter.formatFiatPrice(coins[1].priceUsd.toString())}"
-        second_coin_layout.onClick { openCoinPage(coins[1]) }
-
-        third_coin_name.text = coins[2].name
-        third_coin_price.text = "$${AmountFormatter.formatFiatPrice(coins[2].priceUsd.toString())}"
-        third_coin_layout.onClick { openCoinPage(coins[2]) }
-
-        forth_coin_name.text = coins[3].name
-        forth_coin_price.text = "$${AmountFormatter.formatFiatPrice(coins[3].priceUsd.toString())}"
-        forth_coin_layout.onClick { openCoinPage(coins[3]) }
-    }
+//    private fun updateCoins(coins: RealmResults<CoinMarketCapCurrencyRealm>) {
+//        ImageLoader.loadCoinIcon(coins[0].symbol ?: "", first_coin_icon,
+//                this, presenter.repo)
+//        ImageLoader.loadCoinIcon(coins[1].symbol ?: "", second_coin_icon,
+//                this, presenter.repo)
+//        ImageLoader.loadCoinIcon(coins[2].symbol ?: "", third_coin_icon,
+//                this, presenter.repo)
+//        ImageLoader.loadCoinIcon(coins[3].symbol ?: "", forth_coin_icon,
+//                this, presenter.repo)
+//
+//        first_coin_name.text = coins[0].name
+//        first_coin_price.text = "$${AmountFormatter.formatFiatPrice(coins[0].priceUsd.toString())}"
+//        first_coin_layout.onClick { openCoinPage(coins[0]) }
+//
+//        second_coin_name.text = coins[1].name
+//        second_coin_price.text = "$${AmountFormatter.formatFiatPrice(coins[1].priceUsd.toString())}"
+//        second_coin_layout.onClick { openCoinPage(coins[1]) }
+//
+//        third_coin_name.text = coins[2].name
+//        third_coin_price.text = "$${AmountFormatter.formatFiatPrice(coins[2].priceUsd.toString())}"
+//        third_coin_layout.onClick { openCoinPage(coins[2]) }
+//
+//        forth_coin_name.text = coins[3].name
+//        forth_coin_price.text = "$${AmountFormatter.formatFiatPrice(coins[3].priceUsd.toString())}"
+//        forth_coin_layout.onClick { openCoinPage(coins[3]) }
+//    }
 
     private fun openCoinPage(currencyRealm: CoinMarketCapCurrencyRealm) {
         Navigator.toWebViewActivity("https://coinmarketcap.com/currencies/" + currencyRealm.id + "/",
@@ -161,5 +172,25 @@ class HomeActivity : BaseActivity(), HomeView {
             portfolios_balance_layout.visibility = View.VISIBLE
         else
             portfolios_balance_layout.visibility = View.GONE
+    }
+
+    override fun updateMarketCapChart(data: CmcMarketCapAndVolumeChartResponse?) {
+        val entries: MutableList<Entry> = ArrayList()
+        if(data?.marketCaps == null) {
+            return
+        }
+
+        (0 until data.marketCaps.size).forEach { i ->
+            entries.add(Entry(data.marketCaps[i][0].toFloat(), data.marketCaps[i][1].toFloat()))
+        }
+
+        chart.setScaleEnabled(false)
+        chart.isDoubleTapToZoomEnabled = false
+        chart.setPinchZoom(false)
+
+        val dataSet = LineDataSet(entries, "Label")
+        val lineData = LineData(dataSet)
+        chart.data = lineData
+        chart.invalidate()
     }
 }

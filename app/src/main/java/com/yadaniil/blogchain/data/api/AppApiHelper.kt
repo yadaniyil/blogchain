@@ -1,7 +1,12 @@
 package com.yadaniil.blogchain.data.api
 
 import com.yadaniil.blogchain.Application
-import com.yadaniil.blogchain.data.api.models.*
+import com.yadaniil.blogchain.data.api.models.coinmarketcap.CmcMarketCapAndVolumeChartResponse
+import com.yadaniil.blogchain.data.api.models.cryptocompare.CryptoCompareCurrenciesListResponse
+import com.yadaniil.blogchain.data.api.models.cryptocompare.MinersResponse
+import com.yadaniil.blogchain.data.api.models.whattomine.MiningCoinResponse
+import com.yadaniil.blogchain.data.api.models.whattomine.MiningCoinsResponse
+import com.yadaniil.blogchain.data.api.services.*
 import io.reactivex.Observable
 import javax.inject.Inject
 
@@ -9,12 +14,13 @@ import javax.inject.Inject
  * Created by danielyakovlev on 7/1/17.
  */
 class AppApiHelper : CoinMarketCapService, CryptoCompareService,
-        CryptoCompareMinService, WhatToMineService {
+        CryptoCompareMinService, WhatToMineService, CoinMarketCapGraphsService {
 
     @Inject lateinit var coinMarketCapService: CoinMarketCapService
     @Inject lateinit var cryptoCompareService: CryptoCompareService
     @Inject lateinit var cryptoCompareMinService: CryptoCompareMinService
     @Inject lateinit var whatToMineService: WhatToMineService
+    @Inject lateinit var coinMarketCapGraphsService: CoinMarketCapGraphsService
 
     init {
         Application.component?.inject(this)
@@ -49,4 +55,7 @@ class AppApiHelper : CoinMarketCapService, CryptoCompareService,
     }
 
     override fun getGlobalData(convertToCurrency: String?) = coinMarketCapService.getGlobalData(convertToCurrency)
+
+    override fun downloadCmcMarketCapAndVolumeCharts() = coinMarketCapGraphsService.downloadCmcMarketCapAndVolumeCharts()
+
 }

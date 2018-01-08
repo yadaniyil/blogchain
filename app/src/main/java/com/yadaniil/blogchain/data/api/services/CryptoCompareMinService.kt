@@ -1,6 +1,6 @@
-package com.yadaniil.blogchain.data.api
+package com.yadaniil.blogchain.data.api.services
 
-import com.yadaniil.blogchain.data.api.models.CryptoComparePriceMultiFullResponse
+import com.yadaniil.blogchain.data.api.models.cryptocompare.CryptoComparePriceMultiFullResponse
 import com.yadaniil.blogchain.utils.Endpoints
 import io.reactivex.Observable
 import retrofit2.http.Field

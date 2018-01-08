@@ -1,6 +1,6 @@
 package com.yadaniil.blogchain.screens.mining.fragments.miners
 
-import com.yadaniil.blogchain.data.api.models.Miner
+import com.yadaniil.blogchain.data.api.models.cryptocompare.Miner
 
 /**
  * Created by danielyakovlev on 9/20/17.

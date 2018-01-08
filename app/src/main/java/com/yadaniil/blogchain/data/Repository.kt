@@ -1,7 +1,13 @@
 package com.yadaniil.blogchain.data
 
 import com.yadaniil.blogchain.data.api.*
-import com.yadaniil.blogchain.data.api.models.*
+import com.yadaniil.blogchain.data.api.models.coinmarketcap.CmcGlobalDataResponse
+import com.yadaniil.blogchain.data.api.models.coinmarketcap.CmcMarketCapAndVolumeChartResponse
+import com.yadaniil.blogchain.data.api.models.coinmarketcap.TickerResponse
+import com.yadaniil.blogchain.data.api.models.cryptocompare.CryptoCompareCurrenciesListResponse
+import com.yadaniil.blogchain.data.api.models.cryptocompare.CryptoComparePriceMultiFullResponse
+import com.yadaniil.blogchain.data.api.models.whattomine.MiningCoinsResponse
+import com.yadaniil.blogchain.data.api.services.*
 import com.yadaniil.blogchain.data.db.AppDbHelper
 import com.yadaniil.blogchain.data.db.DbHelper
 import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
@@ -24,7 +30,7 @@ class Repository @Inject constructor(private var appApiHelper: AppApiHelper,
                                      private var appDbHelper: AppDbHelper,
                                      var sharedPrefs: SharedPrefs)
     : CoinMarketCapService, CryptoCompareService, CryptoCompareMinService, WhatToMineService,
-        DbHelper, SharedPrefsHelper {
+        DbHelper, SharedPrefsHelper, CoinMarketCapGraphsService {
 
     // region Db
     override fun getAllCoinsFromDb(): RealmResults<CoinMarketCapCurrencyRealm> =
@@ -107,6 +113,8 @@ class Repository @Inject constructor(private var appApiHelper: AppApiHelper,
             appApiHelper.getMiningCoinById(coinId, userHashrate, power, poolFeePercent, electricityCost, hardwareCost)
 
     override fun getGlobalData(convertToCurrency: String?) = appApiHelper.getGlobalData(convertToCurrency)
+
+    override fun downloadCmcMarketCapAndVolumeCharts() = appApiHelper.downloadCmcMarketCapAndVolumeCharts()
     // endregion Api
 
     // region SharedPrefs
@@ -124,5 +132,7 @@ class Repository @Inject constructor(private var appApiHelper: AppApiHelper,
     override fun saveCmcGlobalData(data: CmcGlobalDataResponse?) = sharedPrefs.saveCmcGlobalData(data)
     override fun getCmcGlobalData(): CmcGlobalDataResponse? = sharedPrefs.getCmcGlobalData()
 
+    override fun saveCmcMarketCapAndVolumeChartData(data: CmcMarketCapAndVolumeChartResponse?) = sharedPrefs.saveCmcMarketCapAndVolumeChartData(data)
+    override fun getCmcMarketCapAndVolumeChartData() = sharedPrefs.getCmcMarketCapAndVolumeChartData()
     // endregion SharedPrefs
 }

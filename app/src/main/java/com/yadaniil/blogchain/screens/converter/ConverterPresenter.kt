@@ -4,7 +4,7 @@ import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.yadaniil.blogchain.Application
 import com.yadaniil.blogchain.data.Repository
-import com.yadaniil.blogchain.data.api.models.TickerResponse
+import com.yadaniil.blogchain.data.api.models.coinmarketcap.TickerResponse
 import com.yadaniil.blogchain.utils.TickerParser
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers

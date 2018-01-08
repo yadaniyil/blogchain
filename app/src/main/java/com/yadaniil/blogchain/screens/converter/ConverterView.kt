@@ -1,7 +1,7 @@
 package com.yadaniil.blogchain.screens.converter
 
 import com.arellomobile.mvp.MvpView
-import com.yadaniil.blogchain.data.api.models.TickerResponse
+import com.yadaniil.blogchain.data.api.models.coinmarketcap.TickerResponse
 
 /**
  * Created by danielyakovlev on 11/15/17.

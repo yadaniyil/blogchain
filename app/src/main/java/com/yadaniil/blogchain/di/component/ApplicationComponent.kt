@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import com.yadaniil.blogchain.Application
 import com.yadaniil.blogchain.data.Repository
 import com.yadaniil.blogchain.data.api.*
+import com.yadaniil.blogchain.data.api.services.*
 import com.yadaniil.blogchain.data.db.AppDbHelper
 import com.yadaniil.blogchain.data.prefs.SharedPrefs
 import com.yadaniil.blogchain.di.module.ApplicationModule
@@ -58,6 +59,7 @@ interface ApplicationComponent {
     fun preferences(): SharedPreferences
     fun realm(): Realm
     fun coinMarketCapService(): CoinMarketCapService
+    fun coinMarketCapGraphsService(): CoinMarketCapGraphsService
     fun cryptoCompareService(): CryptoCompareService
     fun cryptoCompareMinService(): CryptoCompareMinService
     fun whatToMineService(): WhatToMineService

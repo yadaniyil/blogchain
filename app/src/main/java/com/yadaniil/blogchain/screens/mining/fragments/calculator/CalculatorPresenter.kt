@@ -4,9 +4,8 @@ import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.yadaniil.blogchain.Application
 import com.yadaniil.blogchain.data.Repository
-import com.yadaniil.blogchain.data.api.models.MiningCoin
-import com.yadaniil.blogchain.data.api.models.MiningCoinsResponse
-import com.yadaniil.blogchain.utils.CryptocurrencyHelper
+import com.yadaniil.blogchain.data.api.models.whattomine.MiningCoin
+import com.yadaniil.blogchain.data.api.models.whattomine.MiningCoinsResponse
 import com.yadaniil.blogchain.utils.CryptocurrencyHelper.getSymbolFromFullName
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers

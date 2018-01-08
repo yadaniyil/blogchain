@@ -9,7 +9,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.yadaniil.blogchain.R
-import com.yadaniil.blogchain.data.api.models.MiningCoin
+import com.yadaniil.blogchain.data.api.models.whattomine.MiningCoin
 import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
 import com.yadaniil.blogchain.data.db.models.CryptoCompareCurrencyRealm
 import com.yadaniil.blogchain.utils.AmountFormatter

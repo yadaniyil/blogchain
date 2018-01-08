@@ -38,7 +38,12 @@
                 android:orientation="vertical">
 
                 <include layout="@layout/layout_market_info"/>
-                <include layout="@layout/layout_cards_coins"/>
+                <!--<include layout="@layout/layout_cards_coins"/>-->
+
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp" />
 
             </LinearLayout>
 

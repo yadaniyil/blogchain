@@ -12,7 +12,7 @@ import android.view.*
 import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.yadaniil.blogchain.R
-import com.yadaniil.blogchain.data.api.models.Miner
+import com.yadaniil.blogchain.data.api.models.cryptocompare.Miner
 import com.yalantis.filter.adapter.FilterAdapter
 import com.yalantis.filter.listener.FilterListener
 import com.yalantis.filter.widget.Filter

@@ -5,10 +5,7 @@ import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import com.yadaniil.blogchain.data.api.CoinMarketCapService
-import com.yadaniil.blogchain.data.api.CryptoCompareService
-import com.yadaniil.blogchain.data.api.CryptoCompareMinService
-import com.yadaniil.blogchain.data.api.WhatToMineService
+import com.yadaniil.blogchain.data.api.services.*
 import com.yadaniil.blogchain.utils.Endpoints
 import dagger.Module
 import dagger.Provides
@@ -77,6 +74,14 @@ class NetModule {
         return builder.baseUrl(Endpoints.COIN_MARKET_CAP_URL)
                 .build()
                 .create(CoinMarketCapService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideCoinMarketCapGraphsService(builder: Retrofit.Builder): CoinMarketCapGraphsService {
+        return builder.baseUrl(Endpoints.COIN_MARKET_CAP_GRAPHS_URL)
+                .build()
+                .create(CoinMarketCapGraphsService::class.java)
     }
 
     @Provides

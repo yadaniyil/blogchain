@@ -1,7 +1,7 @@
 package com.yadaniil.blogchain.utils
 
 import com.google.gson.Gson
-import com.yadaniil.blogchain.data.api.models.TickerResponse
+import com.yadaniil.blogchain.data.api.models.coinmarketcap.TickerResponse
 import org.json.JSONArray
 import org.json.JSONObject
 

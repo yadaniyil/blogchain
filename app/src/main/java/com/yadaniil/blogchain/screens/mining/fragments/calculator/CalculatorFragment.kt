@@ -13,8 +13,8 @@ import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.google.android.gms.ads.AdRequest
 import com.yadaniil.blogchain.R
-import com.yadaniil.blogchain.data.api.models.MiningCoin
-import com.yadaniil.blogchain.data.api.models.MiningCoinResponse
+import com.yadaniil.blogchain.data.api.models.whattomine.MiningCoin
+import com.yadaniil.blogchain.data.api.models.whattomine.MiningCoinResponse
 import com.yadaniil.blogchain.utils.CryptocurrencyHelper
 import com.yadaniil.blogchain.utils.Endpoints
 import com.yadaniil.blogchain.utils.ImageLoader

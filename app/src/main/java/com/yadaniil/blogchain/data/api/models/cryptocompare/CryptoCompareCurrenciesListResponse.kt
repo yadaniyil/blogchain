@@ -1,4 +1,4 @@
-package com.yadaniil.blogchain.data.api.models
+package com.yadaniil.blogchain.data.api.models.cryptocompare
 
 import com.google.gson.annotations.SerializedName
 

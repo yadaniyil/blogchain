@@ -1,6 +1,6 @@
 package com.yadaniil.blogchain.data.db.models
 
-import com.yadaniil.blogchain.data.api.models.CryptoCompareCurrenciesListResponse
+import com.yadaniil.blogchain.data.api.models.cryptocompare.CryptoCompareCurrenciesListResponse
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 

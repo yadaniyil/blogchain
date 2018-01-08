@@ -1,6 +1,6 @@
 package com.yadaniil.blogchain.data.db.models
 
-import com.yadaniil.blogchain.data.api.models.TickerResponse
+import com.yadaniil.blogchain.data.api.models.coinmarketcap.TickerResponse
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 

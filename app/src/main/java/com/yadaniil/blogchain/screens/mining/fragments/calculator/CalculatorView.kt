@@ -1,8 +1,8 @@
 package com.yadaniil.blogchain.screens.mining.fragments.calculator
 
 import com.arellomobile.mvp.MvpView
-import com.yadaniil.blogchain.data.api.models.MiningCoin
-import com.yadaniil.blogchain.data.api.models.MiningCoinResponse
+import com.yadaniil.blogchain.data.api.models.whattomine.MiningCoin
+import com.yadaniil.blogchain.data.api.models.whattomine.MiningCoinResponse
 
 /**
  * Created by danielyakovlev on 9/29/17.

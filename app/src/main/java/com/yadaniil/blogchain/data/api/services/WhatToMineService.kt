@@ -1,8 +1,7 @@
-package com.yadaniil.blogchain.data.api
+package com.yadaniil.blogchain.data.api.services
 
-import com.yadaniil.blogchain.data.api.models.MiningCoin
-import com.yadaniil.blogchain.data.api.models.MiningCoinResponse
-import com.yadaniil.blogchain.data.api.models.MiningCoinsResponse
+import com.yadaniil.blogchain.data.api.models.whattomine.MiningCoinResponse
+import com.yadaniil.blogchain.data.api.models.whattomine.MiningCoinsResponse
 import com.yadaniil.blogchain.utils.Endpoints
 import io.reactivex.Observable
 import retrofit2.http.GET

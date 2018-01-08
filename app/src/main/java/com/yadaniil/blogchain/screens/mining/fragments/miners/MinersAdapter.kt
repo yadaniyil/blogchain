@@ -10,7 +10,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.yadaniil.blogchain.R
-import com.yadaniil.blogchain.data.api.models.Miner
+import com.yadaniil.blogchain.data.api.models.cryptocompare.Miner
 import com.yadaniil.blogchain.utils.Endpoints
 import com.yadaniil.blogchain.utils.ImageLoader
 import org.jetbrains.anko.find

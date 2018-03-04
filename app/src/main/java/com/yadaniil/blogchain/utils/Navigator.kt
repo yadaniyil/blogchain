@@ -4,6 +4,7 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import com.yadaniil.blogchain.screens.allcoins.AllCoinsActivity
 import com.yadaniil.blogchain.screens.converter.ConverterActivity
+import com.yadaniil.blogchain.screens.events.EventsActivity
 import com.yadaniil.blogchain.screens.findcurrency.FindCurrencyActivity
 import com.yadaniil.blogchain.screens.home.HomeActivity
 import com.yadaniil.blogchain.screens.mining.MiningActivity
@@ -25,7 +26,7 @@ object Navigator {
         activity.finish()
     }
 
-    fun toWatchlistActivity(activity: AppCompatActivity) {
+    fun toFavoritesActivity(activity: AppCompatActivity) {
         activity.startActivity<WatchlistActivity>()
         activity.finish()
     }
@@ -67,6 +68,11 @@ object Navigator {
 
     fun toWebViewActivity(url: String, toolbarTitle: String, activity: AppCompatActivity) {
         activity.startActivity<WebViewActivity>("url" to url, "title" to toolbarTitle)
+    }
+
+    fun toEventsActivity(activity: AppCompatActivity) {
+        activity.startActivity<EventsActivity>()
+        activity.finish()
     }
 
 }

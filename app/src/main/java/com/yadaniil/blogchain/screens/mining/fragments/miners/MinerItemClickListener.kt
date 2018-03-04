@@ -8,5 +8,5 @@ import com.yadaniil.blogchain.data.api.models.cryptocompare.Miner
 
 interface MinerItemClickListener {
 
-    fun onClick(holder: MinersAdapter.MinerViewHolder, tx: Miner)
+    fun onClick(holder: MinersAdapter.MinerViewHolder, miner: Miner)
 }

@@ -29,7 +29,6 @@ class NewsActivity : BaseActivity(), NewsView, OnNewsClick {
 
         initNewsList()
         val currentLanguage = getString(R.string.lang_check)
-        Timber.e("current language: " + currentLanguage)
 
         presenter.updateNews(currentLanguage)
         swipe_refresh.setOnRefreshListener {

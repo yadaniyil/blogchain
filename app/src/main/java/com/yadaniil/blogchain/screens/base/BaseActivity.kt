@@ -53,7 +53,7 @@ abstract class BaseActivity : MvpAppCompatActivity(), BaseView {
         }
 
         val marketInfo = BaseHelper.primaryItem(BaseHelper.DRAWER_ITEM_MARKET_INFO_ID,
-                R.string.drawer_item_market_info, R.drawable.icon_market_info, enabled = false) {}
+                R.string.drawer_item_statistics, R.drawable.icon_market_info, enabled = false) {}
 
         val converter = BaseHelper.primaryItem(BaseHelper.DRAWER_ITEM_CONVERTER_ID,
                 R.string.drawer_item_converter, R.drawable.icon_converter) {
@@ -61,10 +61,16 @@ abstract class BaseActivity : MvpAppCompatActivity(), BaseView {
             Handler().postDelayed({ Navigator.toConverterActivity(this) }, NAV_DRAWER_DELAY)
         }
 
-        val watchlist = BaseHelper.primaryItem(BaseHelper.DRAWER_ITEM_WATCHLIST_ID,
-                R.string.drawer_item_watchlist, R.drawable.ic_eye_24dp) {
-            BaseHelper.selectedDrawerItem = BaseHelper.DRAWER_ITEM_WATCHLIST_ID
-            Handler().postDelayed({ Navigator.toWatchlistActivity(this) }, NAV_DRAWER_DELAY)
+        val favorites = BaseHelper.primaryItem(BaseHelper.DRAWER_ITEM_FAVORITES_ID,
+                R.string.drawer_item_favorites, R.drawable.ic_star_nav_drawer_24dp) {
+            BaseHelper.selectedDrawerItem = BaseHelper.DRAWER_ITEM_FAVORITES_ID
+            Handler().postDelayed({ Navigator.toFavoritesActivity(this) }, NAV_DRAWER_DELAY)
+        }
+
+        val events = BaseHelper.primaryItem(BaseHelper.DRAWER_ITEM_EVENTS_ID,
+                R.string.drawer_item_events, R.drawable.ic_event_nav_drawer_24dp) {
+            BaseHelper.selectedDrawerItem = BaseHelper.DRAWER_ITEM_EVENTS_ID
+            Handler().postDelayed({ Navigator.toEventsActivity(this) }, NAV_DRAWER_DELAY)
         }
 
         val portfolio = BaseHelper.primaryItem(BaseHelper.DRAWER_ITEM_PORTFOLIO_ID,
@@ -113,8 +119,8 @@ abstract class BaseActivity : MvpAppCompatActivity(), BaseView {
                 .withToolbar(toolbar)
                 .withSelectedItem(BaseHelper.selectedDrawerItem)
                 .withActionBarDrawerToggle(true)
-                .addDrawerItems(home, news, allCoins, watchlist, portfolio, converter, exchanges, ico, mining, marketInfo,
-                        DividerDrawerItem(), settings, ad)
+                .addDrawerItems(home, news, allCoins, favorites, events, portfolio, converter,
+                        exchanges, ico, mining, marketInfo, DividerDrawerItem(), settings, ad)
                 .build()
 //        drawer.header.onLongClick { toast("To add google account activity") }
     }

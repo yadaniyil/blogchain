@@ -108,4 +108,12 @@ class NetModule {
                 .create(WhatToMineService::class.java)
     }
 
+    @Provides
+    @Singleton
+    fun provideCoindarService(builder: Retrofit.Builder): CoindarService {
+        return builder.baseUrl(Endpoints.COINDAR_URL)
+                .build()
+                .create(CoindarService::class.java)
+    }
+
 }

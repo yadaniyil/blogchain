@@ -7,6 +7,7 @@ import com.yadaniil.blogchain.data.Repository
 import com.yadaniil.blogchain.data.db.models.PortfolioRealm
 import com.yadaniil.blogchain.utils.CryptocurrencyHelper
 import com.yadaniil.blogchain.utils.CryptocurrencyHelper.getSymbolFromFullName
+import io.reactivex.rxkotlin.toObservable
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -24,7 +25,7 @@ class AddToPortfolioPresenter : MvpPresenter<AddToPortfolioView>() {
     }
 
     fun showCoins() {
-        repo.getAllCoinsFromDb().asObservable().subscribe({
+        repo.getAllCoinsFromDb().asFlowable().subscribe({
             viewState.showCoin(it)
         }, { error ->
             Timber.e(error.message)

@@ -54,7 +54,6 @@ class MinersFragment : MvpAppCompatFragment(), MinersView, MinerItemClickListene
         minerFilterNames = resources.getStringArray(R.array.miner_filters)
         initToolbar()
         retry_button.onClick { presenter.downloadMiners() }
-//        UiHelper.changeStatusBarColor(activity, R.color.colorPrimary)
         showMiners(emptyList())
         presenter.downloadMiners()
         showFilter()
@@ -79,7 +78,7 @@ class MinersFragment : MvpAppCompatFragment(), MinersView, MinerItemClickListene
         (activity as AppCompatActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
     }
 
-    override fun onClick(holder: MinersAdapter.MinerViewHolder, tx: Miner) {
+    override fun onClick(holder: MinersAdapter.MinerViewHolder, miner: Miner) {
 
     }
 

@@ -125,7 +125,7 @@ class AppDbHelper : DbHelper {
     override fun removeItemFromPortfolio(id: String) {
         realm.executeTransaction { realm ->
             realm.where(PortfolioRealm::class.java)
-                    .equalTo("id", id).findFirst().deleteFromRealm()
+                    .equalTo("id", id).findFirst()?.deleteFromRealm()
         }
     }
 

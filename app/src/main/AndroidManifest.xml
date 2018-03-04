@@ -49,7 +49,7 @@
 
         <activity
             android:name="com.yadaniil.blogchain.screens.watchlist.WatchlistActivity"
-            android:label="@string/drawer_item_watchlist"
+            android:label="@string/drawer_item_favorites"
             android:screenOrientation="portrait"
             android:theme="@style/GreyActivity"/>
 
@@ -85,6 +85,11 @@
         <activity
             android:name="com.yadaniil.blogchain.screens.news.WebViewActivity"
             android:label="@string/news"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name="com.yadaniil.blogchain.screens.events.EventsActivity"
+            android:label="@string/drawer_item_events"
             android:screenOrientation="portrait" />
 
     </application>

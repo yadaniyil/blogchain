@@ -154,10 +154,10 @@ class ConverterActivity : BaseActivity(), ConverterView {
 
         if (coin == null && fiat == null) {
             // Default is crypto
-            topCurrencySymbol.text = allCoins[0].symbol
-            topCurrencyName.text = allCoins[0].name
+            topCurrencySymbol.text = allCoins[0]?.symbol
+            topCurrencyName.text = allCoins[0]?.name
             ListHelper.downloadAndSetIcon(topCurrencyIcon, allCoins[0], presenter.repo, this)
-            topCurrency = ConverterCryptoCurrency(allCoins[0].symbol ?: "", allCoins[0]?.id ?: "")
+            topCurrency = ConverterCryptoCurrency(allCoins[0]?.symbol ?: "", allCoins[0]?.id ?: "")
         } else if (coin != null && fiat == null) {
             // Crypto
             topCurrencySymbol.text = coin.symbol

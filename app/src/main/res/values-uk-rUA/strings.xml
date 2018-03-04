@@ -18,7 +18,7 @@
     <string name="all_selected">Обрано усе</string>
     <string name="unexpected_error">Упс</string>
     <string name="miners">Майнери</string>
-    <string name="drawer_item_market_info">Інформація про маркет</string>
+    <string name="drawer_item_statistics">Статистика</string>
     <string name="drawer_item_converter">Конвертер</string>
     <string name="difficulty_item">Складність:</string>
     <string name="profitability_item">Профітність:</string>
@@ -95,7 +95,7 @@
     <string name="year">Рік</string>
     <string name="error">Помилка</string>
     <string name="drawer_item_ad">Не чіпай!</string>
-    <string name="drawer_item_watchlist">Улюблені</string>
+    <string name="drawer_item_favorites">Обрані</string>
     <string name="is_now_in_watchlist">тепер в улюблених</string>
     <string name="pick_favourite_coin">Вибери улюблену монету</string>
     <string name="drawer_item_home">Додому</string>
@@ -173,4 +173,9 @@
     <string name="hours_ago">годин тому</string>
     <string name="yesterday">Учора</string>
     <string name="lang_check">ua</string>
+    <string name="last_update">Останнє оновлення</string>
+    <string name="never">Ніколи</string>
+    <string name="show_hide_portfolio">Показати/скрити портфоліо</string>
+    <string name="btc_dominance">BTC Домінування</string>
+    <string name="drawer_item_events">Події</string>
 </resources>

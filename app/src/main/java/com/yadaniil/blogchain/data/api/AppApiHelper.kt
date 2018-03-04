@@ -1,6 +1,7 @@
 package com.yadaniil.blogchain.data.api
 
 import com.yadaniil.blogchain.Application
+import com.yadaniil.blogchain.data.api.models.coindar.CoindarEventResponse
 import com.yadaniil.blogchain.data.api.models.coinmarketcap.CmcMarketCapAndVolumeChartResponse
 import com.yadaniil.blogchain.data.api.models.cryptocompare.CryptoCompareCurrenciesListResponse
 import com.yadaniil.blogchain.data.api.models.cryptocompare.MinersResponse
@@ -14,13 +15,15 @@ import javax.inject.Inject
  * Created by danielyakovlev on 7/1/17.
  */
 class AppApiHelper : CoinMarketCapService, CryptoCompareService,
-        CryptoCompareMinService, WhatToMineService, CoinMarketCapGraphsService {
+        CryptoCompareMinService, WhatToMineService, CoinMarketCapGraphsService
+        , CoindarService {
 
     @Inject lateinit var coinMarketCapService: CoinMarketCapService
     @Inject lateinit var cryptoCompareService: CryptoCompareService
     @Inject lateinit var cryptoCompareMinService: CryptoCompareMinService
     @Inject lateinit var whatToMineService: WhatToMineService
     @Inject lateinit var coinMarketCapGraphsService: CoinMarketCapGraphsService
+    @Inject lateinit var coindarService: CoindarService
 
     init {
         Application.component?.inject(this)
@@ -58,4 +61,5 @@ class AppApiHelper : CoinMarketCapService, CryptoCompareService,
 
     override fun downloadCmcMarketCapAndVolumeCharts() = coinMarketCapGraphsService.downloadCmcMarketCapAndVolumeCharts()
 
+    override fun downloadAllEvents() = coindarService.downloadAllEvents()
 }

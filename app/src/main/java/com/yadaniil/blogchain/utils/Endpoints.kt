@@ -14,6 +14,8 @@ class Endpoints {
         val CRYPTO_COMPARE_MIN_URL = "https://min-api.cryptocompare.com/"
 
         val WHAT_TO_MINE_URL = "https://whattomine.com/"
+
+        val COINDAR_URL = "https://coindar.org/api/v1/"
         // endregion Base URLs
 
         // region Paths
@@ -27,6 +29,12 @@ class Endpoints {
 
         const val WHAT_TO_MINE_GPU_COINS_ENDPOINT = "coins.json"
         const val WHAT_TO_MINE_ASIC_COINS_ENDPOINT = "asic.json"
+
+
+
+        const val COINDAR_LAST_EVENTS_ENDPOINT = "lastEvents"
+        const val COINDAR_COIN_EVENTS_ENDPOINT = "coinEvents"
+        const val COINDAR_EVENTS_ENDPOINT = "events"
         // endregion Paths
 
         // region Other

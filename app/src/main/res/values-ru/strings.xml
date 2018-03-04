@@ -17,7 +17,7 @@
     <string name="all_selected">Выбрано всё</string>
     <string name="unexpected_error">Упс</string>
     <string name="miners">Майнеры</string>
-    <string name="drawer_item_market_info">Информация о маркете</string>
+    <string name="drawer_item_statistics">Статистика</string>
     <string name="drawer_item_converter">Конвертер</string>
     <string name="difficulty_item">Сложность:</string>
     <string name="profitability_item">Профитность:</string>
@@ -95,7 +95,7 @@
     <string name="dollars_for_kwh">$/кВт⋅ч</string>
     <string name="remove_options">Удалить опции</string>
     <string name="drawer_item_ad">Не трогай!</string>
-    <string name="drawer_item_watchlist">Любимые</string>
+    <string name="drawer_item_favorites">Избранные</string>
     <string name="is_now_in_watchlist">теперь в любимых</string>
     <string name="pick_favourite_coin">Выбери любимую монету</string>
     <string name="drawer_item_home">Домой</string>
@@ -174,4 +174,9 @@
     <string name="hours_ago">часов назад</string>
     <string name="yesterday">Вчера</string>
     <string name="lang_check">ru</string>
+    <string name="last_update">Последнее обновление</string>
+    <string name="never">Никогда</string>
+    <string name="show_hide_portfolio">Показать/спрятать портфолио</string>
+    <string name="btc_dominance">BTC Доминирование</string>
+    <string name="drawer_item_events">События</string>
 </resources>

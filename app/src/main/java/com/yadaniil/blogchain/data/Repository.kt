@@ -1,6 +1,7 @@
 package com.yadaniil.blogchain.data
 
 import com.yadaniil.blogchain.data.api.*
+import com.yadaniil.blogchain.data.api.models.coindar.CoindarEventResponse
 import com.yadaniil.blogchain.data.api.models.coinmarketcap.CmcGlobalDataResponse
 import com.yadaniil.blogchain.data.api.models.coinmarketcap.CmcMarketCapAndVolumeChartResponse
 import com.yadaniil.blogchain.data.api.models.coinmarketcap.TickerResponse
@@ -30,7 +31,7 @@ class Repository @Inject constructor(private var appApiHelper: AppApiHelper,
                                      private var appDbHelper: AppDbHelper,
                                      var sharedPrefs: SharedPrefs)
     : CoinMarketCapService, CryptoCompareService, CryptoCompareMinService, WhatToMineService,
-        DbHelper, SharedPrefsHelper, CoinMarketCapGraphsService {
+        DbHelper, SharedPrefsHelper, CoinMarketCapGraphsService, CoindarService {
 
     // region Db
     override fun getAllCoinsFromDb(): RealmResults<CoinMarketCapCurrencyRealm> =
@@ -115,6 +116,8 @@ class Repository @Inject constructor(private var appApiHelper: AppApiHelper,
     override fun getGlobalData(convertToCurrency: String?) = appApiHelper.getGlobalData(convertToCurrency)
 
     override fun downloadCmcMarketCapAndVolumeCharts() = appApiHelper.downloadCmcMarketCapAndVolumeCharts()
+
+    override fun downloadAllEvents() = appApiHelper.downloadAllEvents()
     // endregion Api
 
     // region SharedPrefs

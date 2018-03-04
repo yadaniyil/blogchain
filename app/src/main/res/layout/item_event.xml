@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:id="@+id/event_item_layout"
+    android:background="?android:attr/selectableItemBackground"
+    android:padding="@dimen/half_standard_dimen"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="70dp"
+            android:id="@+id/coin_icon"/>
+
+        <TextView
+            android:id="@+id/item_currency_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:singleLine="true"
+            android:textSize="@dimen/currency_item_symbol_text_size" />
+
+        <TextView
+            android:id="@+id/item_currency_symbol"
+            android:layout_width="match_parent"
+            android:gravity="center_horizontal"
+            android:singleLine="true"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/currency_item_name_text_size" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/half_standard_dimen"
+        android:paddingEnd="@dimen/half_standard_dimen"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:id="@+id/event_title"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:text="Hard Fork: Fucking bitcoin (FTC))))))))))))))))))vqejrnvowerivehvhevhjhvjvhbvhebevhnheveveveh"
+            android:layout_height="wrap_content" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="@dimen/half_standard_dimen">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="6dp"
+                android:textColor="@color/white"
+                android:text="Exchange"
+                android:id="@+id/event_type"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tomorrow"
+                android:padding="6dp"
+                android:textColor="@color/white"
+                android:layout_marginStart="@dimen/standard_dimen"
+                android:id="@+id/event_date"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

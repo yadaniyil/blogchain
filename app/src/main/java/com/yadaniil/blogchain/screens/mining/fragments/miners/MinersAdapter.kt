@@ -23,7 +23,8 @@ import kotlin.properties.Delegates
  * Created by danielyakovlev on 9/20/17.
  */
 
-class MinersAdapter(context: Context, minerClickListener: MinerItemClickListener, private val filterTags: List<MinerFilterTag>)
+class MinersAdapter(context: Context, minerClickListener: MinerItemClickListener,
+                    private val filterTags: List<MinerFilterTag>)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var miners: MutableList<Miner>? = ArrayList()

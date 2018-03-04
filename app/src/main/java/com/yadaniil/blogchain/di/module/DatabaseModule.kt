@@ -9,6 +9,7 @@ import dagger.Module
 import dagger.Provides
 import io.realm.Realm
 import io.realm.RealmConfiguration
+import timber.log.Timber
 import javax.inject.Singleton
 
 @Module
@@ -17,6 +18,7 @@ class DatabaseModule {
     @Provides
     @Singleton
     fun provideRealm(context: Context): Realm {
+        Timber.d("Creating realm thread: " + Thread.currentThread().name)
         Realm.init(context)
         val realmConfig = RealmConfiguration.Builder()
 //                .schemaVersion(3) // Must be bumped when the schema changes

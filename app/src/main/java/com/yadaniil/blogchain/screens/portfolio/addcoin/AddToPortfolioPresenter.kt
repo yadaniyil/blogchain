@@ -4,10 +4,9 @@ import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.yadaniil.blogchain.Application
 import com.yadaniil.blogchain.data.Repository
-import com.yadaniil.blogchain.data.db.models.PortfolioRealm
+import com.yadaniil.blogchain.data.db.models.realm.PortfolioRealm
 import com.yadaniil.blogchain.utils.CryptocurrencyHelper
 import com.yadaniil.blogchain.utils.CryptocurrencyHelper.getSymbolFromFullName
-import io.reactivex.rxkotlin.toObservable
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -47,11 +46,6 @@ class AddToPortfolioPresenter : MvpPresenter<AddToPortfolioView>() {
         else
             repo.addCoinToPortfolio(coin!!, amountOfCoins, buyPriceOfCoin, storageType, storageName, description)
     }
-
-//    fun editPortfolio(portfolio: PortfolioRealm, coin: CoinMarketCapCurrencyRealm,
-//                      amountOfCoins: String, buyPriceOfCoin: String, storageType: String,
-//                      storageName: String)
-//            = repo.editPortfolio(portfolio, coin, amountOfCoins, buyPriceOfCoin, storageType, storageName)
 
     fun getSinglePortfolio(portfolioId: String) = repo.getSinglePortfolio(portfolioId)
     fun removeItemFromPortfolio(id: String?) = repo.removeItemFromPortfolio(id ?: "")

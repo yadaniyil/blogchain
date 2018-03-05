@@ -6,8 +6,7 @@ import android.view.ViewGroup
 import com.yadaniil.blogchain.R
 import com.yadaniil.blogchain.data.Repository
 import com.yadaniil.blogchain.screens.base.CoinClickListener
-import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
-import com.yadaniil.blogchain.data.db.models.CryptoCompareCurrencyRealm
+import com.yadaniil.blogchain.data.db.models.realm.CoinEntity
 import com.yadaniil.blogchain.screens.base.CoinLongClickListener
 import com.yadaniil.blogchain.utils.ListHelper
 import io.realm.RealmRecyclerViewAdapter
@@ -17,26 +16,25 @@ import io.realm.RealmResults
  * Created by danielyakovlev on 10/31/17.
  */
 
-class WatchlistAdapter(data: RealmResults<CoinMarketCapCurrencyRealm>, autoUpdate: Boolean,
+class WatchlistAdapter(data: RealmResults<CoinEntity>, autoUpdate: Boolean,
                        private var context: Context, val repo: Repository,
                        var onClick: CoinClickListener, var onLongClick: CoinLongClickListener)
-    : RealmRecyclerViewAdapter<CoinMarketCapCurrencyRealm, ListHelper.CoinViewHolder>(data, autoUpdate) {
+    : RealmRecyclerViewAdapter<CoinEntity, ListHelper.CoinViewHolder>(data, autoUpdate) {
 
     init {
         setHasStableIds(true)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ListHelper.CoinViewHolder {
-        val itemView = LayoutInflater.from(parent?.context)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListHelper.CoinViewHolder {
+        val itemView = LayoutInflater.from(parent.context)
                 .inflate(R.layout.item_currency, parent, false)
         return ListHelper.CoinViewHolder(itemView)
     }
 
-    override fun onBindViewHolder(holder: ListHelper.CoinViewHolder?, position: Int) {
+    override fun onBindViewHolder(holder: ListHelper.CoinViewHolder, position: Int) {
         val currencyRealm = getItem(position)
-        ListHelper.bindCurrency(holder!!, currencyRealm!!, repo, context,
+        ListHelper.bindCoinListItem(holder, currencyRealm!!, repo, context,
                 onClick, onLongClick, true)
     }
-
 
 }

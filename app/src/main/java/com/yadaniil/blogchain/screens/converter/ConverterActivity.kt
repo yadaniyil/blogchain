@@ -10,8 +10,8 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.jakewharton.rxbinding2.widget.RxTextView
 import com.yadaniil.blogchain.R
 import com.yadaniil.blogchain.data.api.models.coinmarketcap.TickerResponse
-import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
-import com.yadaniil.blogchain.data.db.models.CryptoCompareCurrencyRealm
+import com.yadaniil.blogchain.data.db.models.realm.CoinEntity
+import com.yadaniil.blogchain.data.db.models.realm.CryptoCompareCurrencyRealm
 import com.yadaniil.blogchain.screens.base.BaseActivity
 import com.yadaniil.blogchain.screens.findcurrency.FindCurrencyActivity
 import com.yadaniil.blogchain.screens.findcurrency.fiat.listitems.FiatCurrencyItem
@@ -35,7 +35,7 @@ class ConverterActivity : BaseActivity(), ConverterView {
     @InjectPresenter
     lateinit var presenter: ConverterPresenter
 
-    private lateinit var allCoins: RealmResults<CoinMarketCapCurrencyRealm>
+    private lateinit var allCoins: RealmResults<CoinEntity>
     private lateinit var allCcCoins: RealmResults<CryptoCompareCurrencyRealm>
 
     private lateinit var allFiatCurrencies: List<FiatCurrencyItem>
@@ -147,7 +147,7 @@ class ConverterActivity : BaseActivity(), ConverterView {
                 }
     }
 
-    private fun initTopCurrency(coin: CoinMarketCapCurrencyRealm? = null, fiat: FiatCurrencyItem? = null) {
+    private fun initTopCurrency(coin: CoinEntity? = null, fiat: FiatCurrencyItem? = null) {
         val topCurrencySymbol = top_currency.find<TextView>(R.id.currency_symbol)
         val topCurrencyName = top_currency.find<TextView>(R.id.currency_name)
         val topCurrencyIcon = top_currency.find<ImageView>(R.id.currency_icon)
@@ -175,7 +175,7 @@ class ConverterActivity : BaseActivity(), ConverterView {
         top_currency.onClick { Navigator.toFindCurrencyActivity(this, PICK_TOP_CONVERT_CURRENCY) }
     }
 
-    private fun initBottomCurrency(coin: CoinMarketCapCurrencyRealm? = null, fiat: FiatCurrencyItem? = null) {
+    private fun initBottomCurrency(coin: CoinEntity? = null, fiat: FiatCurrencyItem? = null) {
         val bottomCurrencySymbol = bottom_currency.find<TextView>(R.id.currency_symbol)
         val bottomCurrencyName = bottom_currency.find<TextView>(R.id.currency_name)
         val bottomCurrencyIcon = bottom_currency.find<ImageView>(R.id.currency_icon)

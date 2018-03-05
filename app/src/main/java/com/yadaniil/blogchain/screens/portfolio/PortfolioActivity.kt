@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.yadaniil.blogchain.R
-import com.yadaniil.blogchain.data.db.models.PortfolioRealm
+import com.yadaniil.blogchain.data.db.models.realm.PortfolioRealm
 import com.yadaniil.blogchain.screens.base.BaseActivity
 import com.yadaniil.blogchain.utils.ListHelper
 import com.yadaniil.blogchain.utils.Navigator

@@ -11,7 +11,7 @@ import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.miguelcatalan.materialsearchview.MaterialSearchView
 import com.yadaniil.blogchain.R
-import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
+import com.yadaniil.blogchain.data.db.models.realm.CoinEntity
 import com.yadaniil.blogchain.screens.findcurrency.FindCurrencyActivity.Companion.PICKED_COIN_SYMBOL
 import com.yadaniil.blogchain.screens.findcurrency.crypto.FindCoinAdapter
 import com.yadaniil.blogchain.utils.ListHelper
@@ -37,7 +37,7 @@ class FindFavouriteFragment : MvpAppCompatFragment(), ListHelper.OnCoinClickList
     private lateinit var findCoinAdapter: FindCoinAdapter
     private lateinit var searchView: MaterialSearchView
 
-    private lateinit var allFavouriteCoins: RealmResults<CoinMarketCapCurrencyRealm>
+    private lateinit var allFavouriteCoins: RealmResults<CoinEntity>
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -80,7 +80,7 @@ class FindFavouriteFragment : MvpAppCompatFragment(), ListHelper.OnCoinClickList
         favourites_recycler_view.setHasFixedSize(true)
     }
 
-    override fun onClick(holder: ListHelper.FindCoinHolder?, currencyRealm: CoinMarketCapCurrencyRealm) {
+    override fun onClick(holder: ListHelper.FindCoinHolder?, currencyRealm: CoinEntity) {
         val returnIntent = Intent()
         returnIntent.putExtra(PICKED_COIN_SYMBOL, currencyRealm.symbol)
         activity!!.setResult(Activity.RESULT_OK, returnIntent)

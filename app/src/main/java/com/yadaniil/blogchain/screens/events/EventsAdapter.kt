@@ -35,7 +35,7 @@ class EventsAdapter(context: Context, onClickListener: EventClickListener, val r
         this.clickListener = onClickListener
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val currentHolder = holder as EventViewHolder
         val currentEvent = events!![position]
 
@@ -57,8 +57,8 @@ class EventsAdapter(context: Context, onClickListener: EventClickListener, val r
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder {
-        val v = LayoutInflater.from(parent?.context).inflate(R.layout.item_event, parent, false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.item_event, parent, false)
         return EventViewHolder(v)
     }
 

@@ -13,7 +13,7 @@ import com.miguelcatalan.materialsearchview.MaterialSearchView
 import com.yadaniil.blogchain.R
 import com.yadaniil.blogchain.screens.base.BaseActivity
 import com.yadaniil.blogchain.screens.base.CoinClickListener
-import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
+import com.yadaniil.blogchain.data.db.models.realm.CoinEntity
 import com.yadaniil.blogchain.screens.base.CoinLongClickListener
 import com.yadaniil.blogchain.screens.findcurrency.FindCurrencyActivity
 import com.yadaniil.blogchain.utils.ListHelper
@@ -33,7 +33,7 @@ class WatchlistActivity : BaseActivity(), WatchlistView, CoinClickListener, Coin
 
     @InjectPresenter
     lateinit var presenter: WatchlistPresenter
-    private var allFavourites: RealmResults<CoinMarketCapCurrencyRealm>? = null
+    private var allFavourites: RealmResults<CoinEntity>? = null
 
     private lateinit var watchlistAdapter: WatchlistAdapter
     private lateinit var listDivider: RecyclerView.ItemDecoration
@@ -127,7 +127,7 @@ class WatchlistActivity : BaseActivity(), WatchlistView, CoinClickListener, Coin
         }
     }
 
-    private fun setUpWatchlist(realmCurrencies: RealmResults<CoinMarketCapCurrencyRealm>) {
+    private fun setUpWatchlist(realmCurrencies: RealmResults<CoinEntity>) {
         watchlistAdapter = WatchlistAdapter(realmCurrencies, true, this,
                 presenter.repo, this, this)
         watchlist_recycler_view.layoutManager = LinearLayoutManager(this)
@@ -162,12 +162,12 @@ class WatchlistActivity : BaseActivity(), WatchlistView, CoinClickListener, Coin
             swipe_refresh.isRefreshing = false
     }
 
-    override fun onClick(holder: ListHelper.CoinViewHolder, currencyRealm: CoinMarketCapCurrencyRealm) {
+    override fun onClick(holder: ListHelper.CoinViewHolder, currencyRealm: CoinEntity) {
         Navigator.toWebViewActivity("https://coinmarketcap.com/currencies/" + currencyRealm.id + "/",
                 currencyRealm.name ?: "", this)
     }
 
-    override fun onLongClick(holder: ListHelper.CoinViewHolder, currencyRealm: CoinMarketCapCurrencyRealm) {
+    override fun onLongClick(holder: ListHelper.CoinViewHolder, currencyRealm: CoinEntity) {
         alert {
             title(R.string.remove_from_favourite_question)
             message("${currencyRealm.name} (${currencyRealm.symbol})")
@@ -178,7 +178,7 @@ class WatchlistActivity : BaseActivity(), WatchlistView, CoinClickListener, Coin
 
     override fun getLayout() = R.layout.activity_watchlist
 
-    private fun updateList(favourites: RealmResults<CoinMarketCapCurrencyRealm>) {
+    private fun updateList(favourites: RealmResults<CoinEntity>) {
         watchlistAdapter.updateData(favourites)
     }
 

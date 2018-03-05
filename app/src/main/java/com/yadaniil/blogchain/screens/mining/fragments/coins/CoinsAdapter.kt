@@ -10,8 +10,8 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.yadaniil.blogchain.R
 import com.yadaniil.blogchain.data.api.models.whattomine.MiningCoin
-import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
-import com.yadaniil.blogchain.data.db.models.CryptoCompareCurrencyRealm
+import com.yadaniil.blogchain.data.db.models.realm.CoinEntity
+import com.yadaniil.blogchain.data.db.models.realm.CryptoCompareCurrencyRealm
 import com.yadaniil.blogchain.utils.AmountFormatter
 import com.yadaniil.blogchain.utils.CryptocurrencyHelper
 import com.yadaniil.blogchain.utils.Endpoints
@@ -26,7 +26,7 @@ import kotlin.properties.Delegates
  */
 
 class CoinsAdapter(context: Context, coinClickListener: CoinItemClickListener,
-                   private val currencies: List<CoinMarketCapCurrencyRealm>,
+                   private val currencies: List<CoinEntity>,
                    private val ccCurrencies: List<CryptoCompareCurrencyRealm>)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -39,7 +39,7 @@ class CoinsAdapter(context: Context, coinClickListener: CoinItemClickListener,
         this.clickListener = coinClickListener
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val currentHolder = holder as CoinViewHolder
         val coin = coins!![position]
         val cmcCurrency = currencies.find { it.symbol == coin.tag }
@@ -63,13 +63,13 @@ class CoinsAdapter(context: Context, coinClickListener: CoinItemClickListener,
         }
     }
 
-    private fun getPriceInUsd(coin: MiningCoin, btc: CoinMarketCapCurrencyRealm?): String {
+    private fun getPriceInUsd(coin: MiningCoin, btc: CoinEntity?): String {
         return "$${AmountFormatter.formatFiatPrice(BigDecimal(coin.btcRevenue24)
                 .multiply(BigDecimal(btc?.priceUsd ?: 0.0)))}"
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder {
-        val v = LayoutInflater.from(parent?.context)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val v = LayoutInflater.from(parent.context)
                 .inflate(R.layout.item_mining_coin_list, parent, false)
         return CoinViewHolder(v)
     }

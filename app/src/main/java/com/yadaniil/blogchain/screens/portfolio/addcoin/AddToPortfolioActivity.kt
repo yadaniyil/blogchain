@@ -10,8 +10,8 @@ import android.widget.ArrayAdapter
 import com.arellomobile.mvp.MvpAppCompatActivity
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.yadaniil.blogchain.R
-import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
-import com.yadaniil.blogchain.data.db.models.PortfolioRealm
+import com.yadaniil.blogchain.data.db.models.realm.CoinEntity
+import com.yadaniil.blogchain.data.db.models.realm.PortfolioRealm
 import com.yadaniil.blogchain.utils.CryptocurrencyHelper
 import com.yadaniil.blogchain.utils.CryptocurrencyHelper.getSymbolFromFullName
 import com.yadaniil.blogchain.utils.Endpoints
@@ -145,7 +145,7 @@ class AddToPortfolioActivity : MvpAppCompatActivity(), AddToPortfolioView {
         // The item selection for coin spinner is located in showCoin method
     }
 
-    override fun showCoin(coins: List<CoinMarketCapCurrencyRealm>) {
+    override fun showCoin(coins: List<CoinEntity>) {
         val coinsForDisplay = coins.map { "${it.name} (${it.symbol})" }
         val adapter = ArrayAdapter(this,
                 android.R.layout.simple_spinner_dropdown_item, coinsForDisplay)

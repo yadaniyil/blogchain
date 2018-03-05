@@ -69,7 +69,7 @@ class EventsActivity : BaseActivity(), EventsView, EventClickListener {
 //            override fun onQueryTextSubmit(query: String?) = true
 //
 //            override fun onQueryTextChange(newText: String?): Boolean {
-//                updateList(presenter.getFavouriteCoinsFiltered(newText ?: ""))
+//                updateList(viewModel.getFavouriteCoinsFiltered(newText ?: ""))
 //                return true
 //            }
 //        })

@@ -14,20 +14,14 @@ import javax.inject.Inject
 /**
  * Created by danielyakovlev on 7/1/17.
  */
-class AppApiHelper : CoinMarketCapService, CryptoCompareService,
-        CryptoCompareMinService, WhatToMineService, CoinMarketCapGraphsService
-        , CoindarService {
-
-    @Inject lateinit var coinMarketCapService: CoinMarketCapService
-    @Inject lateinit var cryptoCompareService: CryptoCompareService
-    @Inject lateinit var cryptoCompareMinService: CryptoCompareMinService
-    @Inject lateinit var whatToMineService: WhatToMineService
-    @Inject lateinit var coinMarketCapGraphsService: CoinMarketCapGraphsService
-    @Inject lateinit var coindarService: CoindarService
-
-    init {
-        Application.component?.inject(this)
-    }
+class AppApiHelper(private val coinMarketCapService: CoinMarketCapService,
+                   private val cryptoCompareService: CryptoCompareService,
+                   private val cryptoCompareMinService: CryptoCompareMinService,
+                   private val whatToMineService: WhatToMineService,
+                   private val coinMarketCapGraphsService: CoinMarketCapGraphsService,
+                   private val coindarService: CoindarService)
+    : CoinMarketCapService, CryptoCompareService, CryptoCompareMinService,
+        WhatToMineService, CoinMarketCapGraphsService, CoindarService {
 
     override fun getAllCoins(convertToCurrency: String?, limit: String?) =
             coinMarketCapService.getAllCoins(convertToCurrency, limit)

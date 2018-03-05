@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.yadaniil.blogchain.R
 import com.yadaniil.blogchain.data.Repository
-import com.yadaniil.blogchain.data.db.models.PortfolioRealm
+import com.yadaniil.blogchain.data.db.models.realm.PortfolioRealm
 import com.yadaniil.blogchain.utils.ListHelper
 import io.realm.RealmRecyclerViewAdapter
 import io.realm.RealmResults
@@ -25,15 +25,15 @@ class PortfolioAdapter(data: RealmResults<PortfolioRealm>, autoUpdate: Boolean,
         setHasStableIds(true)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ListHelper.PortfolioViewHolder {
-        val itemView = LayoutInflater.from(parent?.context)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListHelper.PortfolioViewHolder {
+        val itemView = LayoutInflater.from(parent.context)
                 .inflate(R.layout.item_portfolio, parent, false)
         return ListHelper.PortfolioViewHolder(itemView)
     }
 
-    override fun onBindViewHolder(holder: ListHelper.PortfolioViewHolder?, position: Int) {
+    override fun onBindViewHolder(holder: ListHelper.PortfolioViewHolder, position: Int) {
         val currencyRealm = getItem(position)
-        ListHelper.bindPortfolioItem(holder!!, currencyRealm!!, context, repo, onClick, onLongClick)
+        ListHelper.bindPortfolioItem(holder, currencyRealm!!, context, repo, onClick, onLongClick)
     }
 
     interface OnClick {

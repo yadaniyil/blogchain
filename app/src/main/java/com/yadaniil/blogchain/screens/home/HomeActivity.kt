@@ -8,8 +8,8 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.yadaniil.blogchain.R
 import com.yadaniil.blogchain.data.api.models.coinmarketcap.CmcGlobalDataResponse
 import com.yadaniil.blogchain.data.api.models.coinmarketcap.CmcMarketCapAndVolumeChartResponse
-import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
-import com.yadaniil.blogchain.data.db.models.PortfolioRealm
+import com.yadaniil.blogchain.data.db.models.realm.CoinEntity
+import com.yadaniil.blogchain.data.db.models.realm.PortfolioRealm
 import com.yadaniil.blogchain.screens.base.BaseActivity
 import com.yadaniil.blogchain.screens.portfolio.PortfolioHelper
 import com.yadaniil.blogchain.utils.AmountFormatter
@@ -31,7 +31,7 @@ class HomeActivity : BaseActivity(), HomeView {
     lateinit var presenter: HomePresenter
 
     private lateinit var portfolios: RealmResults<PortfolioRealm>
-    private lateinit var coins: RealmResults<CoinMarketCapCurrencyRealm>
+    private lateinit var coins: RealmResults<CoinEntity>
 
     override fun getLayout() = R.layout.activity_home
 
@@ -89,15 +89,15 @@ class HomeActivity : BaseActivity(), HomeView {
 //        }
 //    }
 
-//    private fun updateCoins(coins: RealmResults<CoinMarketCapCurrencyRealm>) {
+//    private fun updateCoins(coins: RealmResults<CoinEntity>) {
 //        ImageLoader.loadCoinIcon(coins[0].symbol ?: "", first_coin_icon,
-//                this, presenter.repo)
+//                this, viewModel.repo)
 //        ImageLoader.loadCoinIcon(coins[1].symbol ?: "", second_coin_icon,
-//                this, presenter.repo)
+//                this, viewModel.repo)
 //        ImageLoader.loadCoinIcon(coins[2].symbol ?: "", third_coin_icon,
-//                this, presenter.repo)
+//                this, viewModel.repo)
 //        ImageLoader.loadCoinIcon(coins[3].symbol ?: "", forth_coin_icon,
-//                this, presenter.repo)
+//                this, viewModel.repo)
 //
 //        first_coin_name.text = coins[0].name
 //        first_coin_price.text = "$${AmountFormatter.formatFiatPrice(coins[0].priceUsd.toString())}"
@@ -116,7 +116,7 @@ class HomeActivity : BaseActivity(), HomeView {
 //        forth_coin_layout.onClick { openCoinPage(coins[3]) }
 //    }
 
-    private fun openCoinPage(currencyRealm: CoinMarketCapCurrencyRealm) {
+    private fun openCoinPage(currencyRealm: CoinEntity) {
         Navigator.toWebViewActivity("https://coinmarketcap.com/currencies/" + currencyRealm.id + "/",
                 currencyRealm.name ?: "", this)
     }

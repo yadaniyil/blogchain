@@ -2,12 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'realm-android'
-
-
-def STRING = 'String'
-def BUILD_TIME = 'BUILD_TIME'
-
+apply plugin: 'io.objectbox'
 apply plugin: 'io.fabric'
 
 repositories {
@@ -34,7 +29,7 @@ android {
         }
     }
     compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion '27.0.2'
+    buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId "com.yadaniil.blogchain"
         minSdkVersion rootProject.ext.minSdkVersion
@@ -43,7 +38,6 @@ android {
         versionCode 4
         versionName "0.4.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        buildConfigField STRING, BUILD_TIME, "\"${rootProject.ext.buildTime}\""
         manifestPlaceholders = [ fabricApiKey:fabricProperties['apiKey']]
     }
     buildTypes {
@@ -125,9 +119,6 @@ dependencies {
     // For retrofit ResponseBody
     compile 'com.squareup.retrofit2:converter-scalars:2.2.0'
 
-    // Adapters for realm
-    compile 'io.realm:android-adapters:2.0.0'
-
     // Navigation drawer
     compile('com.mikepenz:materialdrawer:5.9.3@aar') {
         transitive = true
@@ -139,14 +130,6 @@ dependencies {
     // FlowUp will analyze the app
     compile 'io.flowup:android-sdk:1.0.0'
     testCompile 'io.flowup:android-sdk-no-op:1.0.0'
-
-    // Moxy is MVP library
-    compile 'com.arello-mobile:moxy:1.5.3'
-    annotationProcessor 'com.arello-mobile:moxy-compiler:1.5.3'
-    compile 'com.arello-mobile:moxy-android:1.5.3'
-    compile 'com.arello-mobile:moxy-app-compat:1.5.3'
-    kapt 'com.arello-mobile:moxy-compiler:1.5.3'
-    compile 'com.android.support:multidex:1.0.2'
 
     // SearchView
     compile 'com.miguelcatalan:materialsearchview:1.4.0'
@@ -189,6 +172,27 @@ dependencies {
     compile 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0'
 
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
+
+    // Kotlin coroutines
+    compile 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.22.2'
+
+    // Google Architecture Components
+    // ViewModel and LiveData
+    implementation "android.arch.lifecycle:extensions:1.1.0"
+    annotationProcessor "android.arch.lifecycle:compiler:1.1.0"
+
+    // Paging
+//    implementation "android.arch.paging:runtime:1.0.0-alpha6"
+
+    // Test helpers for LiveData
+    testImplementation "android.arch.core:core-testing:1.1.0"
+
+    // ReactiveStreams support for LiveData
+    implementation "android.arch.lifecycle:reactivestreams:1.1.0"
+
+    // DI and view model helper
+    compile "org.koin:koin-android-architecture:0.8.2"
+
 }
 
 kapt {

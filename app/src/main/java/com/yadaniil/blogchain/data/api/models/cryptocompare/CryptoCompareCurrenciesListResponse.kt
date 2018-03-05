@@ -18,6 +18,7 @@ class CryptoCompareCurrenciesListResponse(
             @SerializedName("Url") val url: String,
             @SerializedName("ImageUrl") val imageUrl: String,
             @SerializedName("Name") val name: String,
+            @SerializedName("Symbol") val symbol: String,
             @SerializedName("CoinName") val coinName: String,
             @SerializedName("FullName") val fullName: String,
             @SerializedName("Algorithm") val algorithm: String,

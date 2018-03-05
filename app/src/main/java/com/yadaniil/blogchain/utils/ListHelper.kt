@@ -1,25 +1,18 @@
 package com.yadaniil.blogchain.utils
 
 import android.content.Context
-import android.graphics.BitmapFactory
-import android.net.Uri
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.squareup.picasso.Callback
-import com.squareup.picasso.Picasso
 import com.yadaniil.blogchain.R
-import com.yadaniil.blogchain.data.Repository
+import com.yadaniil.blogchain.data.db.models.CoinEntity
+import com.yadaniil.blogchain.data.db.models.PortfolioCoinEntity
 import com.yadaniil.blogchain.screens.base.CoinClickListener
-import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
-import com.yadaniil.blogchain.data.db.models.CryptoCompareCurrencyRealm
-import com.yadaniil.blogchain.data.db.models.PortfolioRealm
 import com.yadaniil.blogchain.screens.base.CoinLongClickListener
 import com.yadaniil.blogchain.screens.portfolio.PortfolioAdapter
 import org.jetbrains.anko.*
-import timber.log.Timber
 import java.math.BigDecimal
 
 /**
@@ -29,7 +22,7 @@ import java.math.BigDecimal
 object ListHelper {
 
     interface OnCoinClickListener {
-        fun onClick(holder: ListHelper.FindCoinHolder?, currencyRealm: CoinMarketCapCurrencyRealm)
+        fun onClick(holder: ListHelper.FindCoinHolder?, currencyRealm: CoinEntity)
     }
 
     // region Coin
@@ -44,44 +37,35 @@ object ListHelper {
         var weekChange: TextView = view.find(R.id.item_currency_week_change)
         var icon: ImageView = view.find(R.id.item_currency_icon)
         var rank: TextView = view.find(R.id.item_currency_rank)
-        var data: CoinMarketCapCurrencyRealm? = null
+        var data: CoinEntity? = null
     }
 
-    fun bindCurrency(coinHolder: CoinViewHolder, currencyRealm: CoinMarketCapCurrencyRealm,
-                     repo: Repository, context: Context,
-                     onClick: CoinClickListener, onLongClick: CoinLongClickListener, removeRank: Boolean) {
+    fun bindCoinListItem(coinHolder: CoinViewHolder, coinEntity: CoinEntity, context: Context,
+                         onClick: CoinClickListener, onLongClick: CoinLongClickListener, removeRank: Boolean) {
         with(coinHolder) {
-            if (removeRank) rank.visibility = View.GONE else rank.text = currencyRealm.rank.toString()
+            if (removeRank) rank.visibility = View.GONE else rank.text = coinEntity.rank.toString()
 
-            data = currencyRealm
-            symbol.text = currencyRealm.symbol
-            name.text = currencyRealm.name
-            usdRate.text = AmountFormatter.formatFiatPrice(BigDecimal(currencyRealm?.priceUsd).toString()) + " USD"
-            btcRate.text = AmountFormatter.formatCryptoPrice(BigDecimal(currencyRealm.priceBtc).toString()) + " BTC"
-            itemRootLayout.onClick { onClick.onClick(coinHolder, currencyRealm) }
-            itemRootLayout.onLongClick { onLongClick.onLongClick(coinHolder, currencyRealm); true }
-            initRatesChange(this, currencyRealm, context)
+            data = coinEntity
+            symbol.text = coinEntity.symbol
+            name.text = coinEntity.name
+            usdRate.text = "${AmountFormatter.formatFiatPrice(BigDecimal(coinEntity?.priceUsd).toString())} USD"
+            btcRate.text = "${AmountFormatter.formatCryptoPrice(BigDecimal(coinEntity.priceBtc).toString())} BTC"
+            itemRootLayout.onClick { onClick.onClick(coinHolder, coinEntity) }
+            itemRootLayout.onLongClick { onLongClick.onLongClick(coinHolder, coinEntity); true }
+            initRatesChange(this, coinEntity, context)
 
-            if (currencyRealm.iconBytes == null) {
-                downloadAndSetIcon(icon, currencyRealm, repo, context)
+            if (coinEntity.iconBytes == null) {
+                ImageLoader.loadCoinIcon(coinEntity, icon, context)
             } else {
-                doAsync {
-                    val bitmapIcon = BitmapFactory
-                            .decodeStream(java.io.ByteArrayInputStream(currencyRealm.iconBytes))
-                    uiThread {
-                        icon.setImageBitmap(bitmapIcon)
-                    }
-                }
+//                val bitmapIcon = BitmapFactory
+//                        .decodeStream(java.io.ByteArrayInputStream(coinEntity.iconBytes))
+//                icon.setImageBitmap(bitmapIcon)
             }
         }
     }
 
-    fun downloadAndSetIcon(icon: ImageView, currencyRealm: CoinMarketCapCurrencyRealm?,
-                           repo: Repository, context: Context) =
-            ImageLoader.loadCoinIcon(currencyRealm?.symbol ?: "", icon, context, repo)
-
     private fun initRatesChange(coinViewHolder: CoinViewHolder,
-                                currencyRealm: CoinMarketCapCurrencyRealm?, context: Context) {
+                                currencyRealm: CoinEntity?, context: Context) {
         with(coinViewHolder) {
             hourChange.text = "${currencyRealm?.percentChange1h} %"
             dayChange.text = "${currencyRealm?.percentChange24h} %"
@@ -130,12 +114,12 @@ object ListHelper {
         var coinIcon: ImageView = view.find(R.id.coin_icon)
     }
 
-    fun bindFindCoin(holder: FindCoinHolder, currency: CoinMarketCapCurrencyRealm?,
-                     onClick: OnCoinClickListener, repo: Repository, context: Context) {
-        holder.coinName.text = currency?.name
-        holder.coinSymbol.text = currency?.symbol
-        holder.itemRootLayout.onClick { onClick.onClick(holder, currency!!) }
-        downloadAndSetIcon(holder.coinIcon, currency, repo, context)
+    fun bindFindCoin(holder: FindCoinHolder, coinEntity: CoinEntity?,
+                     onClick: OnCoinClickListener, context: Context) {
+        holder.coinName.text = coinEntity?.name
+        holder.coinSymbol.text = coinEntity?.symbol
+        holder.itemRootLayout.onClick { onClick.onClick(holder, coinEntity!!) }
+        ImageLoader.loadCoinIcon(coinEntity, holder.coinIcon, context)
     }
     // endregion FindCoin
 
@@ -163,30 +147,34 @@ object ListHelper {
         var icon: ImageView = view.find(R.id.item_currency_icon)
     }
 
-    fun bindPortfolioItem(holder: PortfolioViewHolder, portfolioRealm: PortfolioRealm,
-                          context: Context, repo: Repository,
-                          onClick: PortfolioAdapter.OnClick, onLongClick: PortfolioAdapter.OnLongClick) {
+    fun bindPortfolioItem(holder: PortfolioViewHolder, portfolioCoinEntity: PortfolioCoinEntity,
+                          context: Context, onClick: PortfolioAdapter.OnClick,
+                          onLongClick: PortfolioAdapter.OnLongClick) {
         with(holder) {
-            symbol.text = portfolioRealm.coin?.symbol
-            name.text = portfolioRealm.coin?.name
-            amountOfCoins.text = "${portfolioRealm.amountOfCoins} ${portfolioRealm.coin?.symbol}"
-            fiatBalance.text = "${AmountFormatter
-                    .formatFiatPrice(calculatePortfolioFiatSum(portfolioRealm))} ${context.getString(R.string.usd)}"
-            setPortfolioProfit(portfolioRealm, profitPercentage, context)
-            itemRootLayout.onClick { onClick.onClick(holder, portfolioRealm) }
-            itemRootLayout.onLongClick { onLongClick.onLongClick(holder, portfolioRealm); true }
+            symbol.text = portfolioCoinEntity.coin?.target?.symbol
+            name.text = portfolioCoinEntity.coin?.target?.name
+            val amountOfCoinsString = "${portfolioCoinEntity.amountOfCoins} " +
+                    "${portfolioCoinEntity.coin?.target?.symbol}"
+            amountOfCoins.text = amountOfCoinsString
+            val fiatBalanceString = "${AmountFormatter
+                    .formatFiatPrice(calculatePortfolioFiatSum(portfolioCoinEntity))} " +
+                    context.getString(R.string.usd)
+            fiatBalance.text = fiatBalanceString
+            setPortfolioProfit(portfolioCoinEntity, profitPercentage, context)
+            itemRootLayout.onClick { onClick.onClick(holder, portfolioCoinEntity) }
+            itemRootLayout.onLongClick { onLongClick.onLongClick(holder, portfolioCoinEntity); true }
 
-            downloadAndSetIcon(icon, portfolioRealm.coin, repo, context)
+            ImageLoader.loadCoinIcon(portfolioCoinEntity.coin?.target, holder.icon, context)
         }
     }
 
-    private fun setPortfolioProfit(portfolioRealm: PortfolioRealm, profitPercentage: TextView, context: Context) {
+    private fun setPortfolioProfit(portfolioCoinEntity: PortfolioCoinEntity, profitPercentage: TextView, context: Context) {
         // Setting value
-        if (portfolioRealm.buyPriceInFiat.isNullOrBlank())
+        if (portfolioCoinEntity.buyPriceInFiat.isBlank())
             profitPercentage.text = "?"
         else
-            profitPercentage.text = calculateProfit(portfolioRealm.coin?.priceUsd,
-                    portfolioRealm.buyPriceInFiat?.toDoubleOrNull())
+            profitPercentage.text = calculateProfit(portfolioCoinEntity.coin?.target?.priceUsd,
+                    portfolioCoinEntity.buyPriceInFiat.toDoubleOrNull())
 
         // Setting color
         if (profitPercentage.text.startsWith("-"))
@@ -206,11 +194,13 @@ object ListHelper {
         return AmountFormatter.formatFiatPrice(result.toString())
     }
 
-    fun calculatePortfolioFiatSum(portfolio: PortfolioRealm) =
-            (BigDecimal(portfolio.amountOfCoins) * BigDecimal(portfolio.coin?.priceUsd ?: 0.0))
+    fun calculatePortfolioFiatSum(portfolioCoinEntity: PortfolioCoinEntity) =
+            (BigDecimal(portfolioCoinEntity.amountOfCoins) *
+                    BigDecimal(portfolioCoinEntity.coin?.target?.priceUsd ?: 0.0))
 
-    fun calculatePortfolioBtcSum(portfolio: PortfolioRealm) =
-            (BigDecimal(portfolio.amountOfCoins) * BigDecimal(portfolio.coin?.priceBtc ?: 0.0))
+    fun calculatePortfolioBtcSum(portfolioCoinEntity: PortfolioCoinEntity) =
+            (BigDecimal(portfolioCoinEntity.amountOfCoins) *
+                    BigDecimal(portfolioCoinEntity.coin?.target?.priceBtc ?: 0.0))
     // endregion Portfolio
 
     // region News

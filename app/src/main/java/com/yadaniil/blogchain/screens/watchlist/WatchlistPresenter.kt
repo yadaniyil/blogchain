@@ -4,8 +4,8 @@ import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.yadaniil.blogchain.Application
 import com.yadaniil.blogchain.data.Repository
-import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
-import com.yadaniil.blogchain.data.db.models.CryptoCompareCurrencyRealm
+import com.yadaniil.blogchain.data.db.models.realm.CoinEntity
+import com.yadaniil.blogchain.data.db.models.realm.CryptoCompareCurrencyRealm
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import io.realm.RealmResults
@@ -25,10 +25,10 @@ class WatchlistPresenter : MvpPresenter<WatchlistView>() {
         Application.component?.inject(this)
     }
 
-    fun getRealmCurrenciesFavourite(): RealmResults<CoinMarketCapCurrencyRealm>
+    fun getRealmCurrenciesFavourite(): RealmResults<CoinEntity>
             = repo.getAllFavouriteCoins()
 
-    fun getAllRealmCurrencies(): RealmResults<CoinMarketCapCurrencyRealm>
+    fun getAllRealmCurrencies(): RealmResults<CoinEntity>
             = repo.getAllCoinsFromDb()
 
     fun getCcRealmCurrencies(): RealmResults<CryptoCompareCurrencyRealm>
@@ -44,7 +44,7 @@ class WatchlistPresenter : MvpPresenter<WatchlistView>() {
     fun downloadAndSaveAllCurrencies() {
         repo.getAllCoins(limit = "0")
                 .subscribeOn(Schedulers.io())
-                .map { CoinMarketCapCurrencyRealm.convertApiResponseToRealmList(it) }
+                .map { CoinEntity.convertApiResponseToRealmList(it) }
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe {
                     viewState.showToolbarLoading()
@@ -59,7 +59,7 @@ class WatchlistPresenter : MvpPresenter<WatchlistView>() {
                 })
     }
 
-    fun removeCoinFromFavourites(currencyRealm: CoinMarketCapCurrencyRealm) {
+    fun removeCoinFromFavourites(currencyRealm: CoinEntity) {
         repo.removeCoinFromFavourites(currencyRealm)
     }
 }

@@ -2,7 +2,7 @@ package com.yadaniil.blogchain.screens.base
 
 import android.os.Bundle
 import android.os.Handler
-import com.arellomobile.mvp.MvpAppCompatActivity
+import android.support.v7.app.AppCompatActivity
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.InterstitialAd
@@ -18,7 +18,7 @@ import org.jetbrains.anko.toast
 import timber.log.Timber
 
 
-abstract class BaseActivity : MvpAppCompatActivity(), BaseView {
+abstract class BaseActivity : AppCompatActivity() {
 
     private lateinit var interstitialAd: InterstitialAd
     lateinit var drawer: Drawer

@@ -26,22 +26,22 @@ class NewsAdapter(private val context: Context,
 
     private val items: MutableList<NewsModel> = ArrayList()
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ListHelper.NewsHolder {
-        val view =  LayoutInflater.from(parent?.context)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListHelper.NewsHolder {
+        val view =  LayoutInflater.from(parent.context)
                 .inflate(R.layout.item_news, parent, false)
         return ListHelper.NewsHolder(view)
     }
 
-    override fun onBindViewHolder(holder: ListHelper.NewsHolder?, position: Int) {
+    override fun onBindViewHolder(holder: ListHelper.NewsHolder, position: Int) {
         val item = items[position]
-        holder?.title?.text = item.title
-        holder?.sourceName?.text = item.sourceName
-        holder?.pubDate?.text = DateHelper.getTimeAgo(item.publishDate, context)
-        holder?.rootView?.onClick { onNewsClick.onClick(holder, item) }
+        holder.title.text = item.title
+        holder.sourceName.text = item.sourceName
+        holder.pubDate.text = DateHelper.getTimeAgo(item.publishDate, context)
+        holder.rootView.onClick { onNewsClick.onClick(holder, item) }
         if(item.imageLink.isEmpty())
             setDrawableTitleImage(item, holder)
         else
-            ImageLoader.load(item.imageLink, holder?.image!!, context)
+            ImageLoader.load(item.imageLink, holder.image, context)
     }
 
     private fun setDrawableTitleImage(item: NewsModel, holder: ListHelper.NewsHolder?) {

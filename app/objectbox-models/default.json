@@ -1,0 +1,195 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:6613063779140588803",
+      "lastPropertyId": "9:1145011029195396276",
+      "name": "PortfolioCoinEntity",
+      "properties": [
+        {
+          "id": "1:7860810072823463613",
+          "name": "id"
+        },
+        {
+          "id": "2:5223277361078027421",
+          "name": "createdAt"
+        },
+        {
+          "id": "3:9111735152942228978",
+          "name": "buyDate"
+        },
+        {
+          "id": "4:7950718010291888405",
+          "name": "amountOfCoins"
+        },
+        {
+          "id": "5:6032924329203391091",
+          "name": "buyPriceInFiat"
+        },
+        {
+          "id": "6:2625626559272996057",
+          "name": "storageType"
+        },
+        {
+          "id": "7:839042717013552281",
+          "name": "storageName"
+        },
+        {
+          "id": "8:6368829696251775532",
+          "name": "description"
+        },
+        {
+          "id": "9:1145011029195396276",
+          "indexId": "1:1886282791442502714",
+          "name": "coinId"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "2:16092187445022033",
+      "lastPropertyId": "31:2877489642412841655",
+      "name": "CoinEntity",
+      "properties": [
+        {
+          "id": "1:4835833823024253050",
+          "name": "id"
+        },
+        {
+          "id": "2:42170560929776172",
+          "name": "name"
+        },
+        {
+          "id": "3:1181389987836555169",
+          "name": "symbol"
+        },
+        {
+          "id": "4:1277836042138029333",
+          "name": "rank"
+        },
+        {
+          "id": "5:8732042219492213837",
+          "name": "priceUsd"
+        },
+        {
+          "id": "6:3284369185769735050",
+          "name": "priceBtc"
+        },
+        {
+          "id": "7:166826619803056610",
+          "name": "volume24hUsd"
+        },
+        {
+          "id": "8:2159688932347298720",
+          "name": "marketCapUsd"
+        },
+        {
+          "id": "9:5592957013759315765",
+          "name": "availableSupply"
+        },
+        {
+          "id": "10:8654049520105067885",
+          "name": "totalSupply"
+        },
+        {
+          "id": "11:8527416249503830916",
+          "name": "percentChange1h"
+        },
+        {
+          "id": "12:8423235819459929160",
+          "name": "percentChange24h"
+        },
+        {
+          "id": "13:8814671571447305796",
+          "name": "percentChange7d"
+        },
+        {
+          "id": "14:4915531034067003083",
+          "name": "lastUpdated"
+        },
+        {
+          "id": "15:5119320468625965354",
+          "name": "iconBytes"
+        },
+        {
+          "id": "16:4695930112694299337",
+          "name": "isFavourite"
+        },
+        {
+          "id": "17:3016324551048015427",
+          "name": "priceFiatAnalogue"
+        },
+        {
+          "id": "18:72188142041398134",
+          "name": "volume24hFiatAnalogue"
+        },
+        {
+          "id": "19:824457765312080016",
+          "name": "marketCapFiatAnalogue"
+        },
+        {
+          "id": "20:6448756300990076478",
+          "name": "cmcUrl"
+        },
+        {
+          "id": "21:5436713031487477552",
+          "name": "cmcImageUrl"
+        },
+        {
+          "id": "22:1618677910036683494",
+          "name": "cmcName"
+        },
+        {
+          "id": "23:7284746189939805802",
+          "name": "cmcCoinName"
+        },
+        {
+          "id": "24:884740164318407423",
+          "name": "cmcFullName"
+        },
+        {
+          "id": "25:913259964466622968",
+          "name": "algorithm"
+        },
+        {
+          "id": "26:8906595201560558440",
+          "name": "proofType"
+        },
+        {
+          "id": "27:8979989716261182888",
+          "name": "fullyPremined"
+        },
+        {
+          "id": "28:1240271829743780746",
+          "name": "totalCoinSupply"
+        },
+        {
+          "id": "29:2098128376026660729",
+          "name": "preminedValue"
+        },
+        {
+          "id": "30:7859430408066346897",
+          "name": "totalCoinsFreeFloat"
+        },
+        {
+          "id": "31:2877489642412841655",
+          "name": "sortOrder"
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "2:16092187445022033",
+  "lastIndexId": "1:1886282791442502714",
+  "lastRelationId": "0:0",
+  "lastSequenceId": "0:0",
+  "modelVersion": 4,
+  "modelVersionParserMinimum": 4,
+  "retiredEntityUids": [],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [],
+  "retiredRelationUids": [],
+  "version": 1
+}

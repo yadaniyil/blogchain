@@ -1,133 +1,98 @@
 package com.yadaniil.blogchain.data.db
 
-import com.yadaniil.blogchain.Application
-import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
-import com.yadaniil.blogchain.data.db.models.CryptoCompareCurrencyRealm
-import com.yadaniil.blogchain.data.db.models.PortfolioRealm
-import io.realm.*
-import javax.inject.Inject
+import com.yadaniil.blogchain.data.db.models.CoinEntity
+import com.yadaniil.blogchain.data.db.models.objectbox.CoinEntity_
+import com.yadaniil.blogchain.data.db.models.PortfolioCoinEntity
+import com.yadaniil.blogchain.data.db.models.objectbox.PortfolioCoinEntity_
+import io.objectbox.Box
+import io.objectbox.android.ObjectBoxLiveData
 
 /**
  * Created by danielyakovlev on 7/1/17.
  */
-class AppDbHelper : DbHelper {
+class AppDbHelper(private val coinBox: Box<CoinEntity>,
+                  private val portfolioCoinBox: Box<PortfolioCoinEntity>) : DbHelper {
 
-    @Inject lateinit var realm: Realm
+    override fun getAllCoinsFromDb(): List<CoinEntity> = coinBox.all
 
-    init {
-        Application.component?.inject(this)
-    }
+    override fun getAllCoinsFromDbLiveData(): ObjectBoxLiveData<CoinEntity> =
+            ObjectBoxLiveData(coinBox.query().order(CoinEntity_.rank).build())
 
-    // region Coins
-    override fun getAllCoinsFromDb(): RealmResults<CoinMarketCapCurrencyRealm> =
-            realm.where(CoinMarketCapCurrencyRealm::class.java).findAllSortedAsync("rank")
+    override fun getAllCoinsFiltered(text: String): List<CoinEntity> = coinBox.query()
+            .contains(CoinEntity_.symbol, text)
+            .or()
+            .contains(CoinEntity_.name, text)
+            .order(CoinEntity_.rank)
+            .build().find()
 
-    override fun getCoinFromDb(symbol: String): CoinMarketCapCurrencyRealm? =
-            realm.where(CoinMarketCapCurrencyRealm::class.java)
-                    .equalTo("symbol", symbol, Case.INSENSITIVE).findFirst()
-
-    override fun getAllCoinsFiltered(text: String): RealmResults<CoinMarketCapCurrencyRealm> =
-            realm.where(CoinMarketCapCurrencyRealm::class.java)
-                    .beginGroup()
-                    .contains("name", text, Case.INSENSITIVE)
+    override fun getAllCoinsFilteredLiveData(text: String): ObjectBoxLiveData<CoinEntity> =
+            ObjectBoxLiveData(coinBox.query()
+                    .contains(CoinEntity_.symbol, text)
                     .or()
-                    .contains("symbol", text, Case.INSENSITIVE)
-                    .endGroup()
-                    .findAllSortedAsync("rank")
+                    .contains(CoinEntity_.name, text)
+                    .order(CoinEntity_.rank)
+                    .build())
 
-    override fun getAllCoinsSorted(fieldName: String, sortOrder: Sort): RealmResults<CoinMarketCapCurrencyRealm> =
-            realm.where(CoinMarketCapCurrencyRealm::class.java).findAllSortedAsync(fieldName, sortOrder)
+    override fun getAllCoinsSorted(fieldName: String, isDescending: Boolean): List<CoinEntity> =
+            if (isDescending) coinBox.query().order(CoinEntity_.name).build().find()
+            else coinBox.query().orderDesc(CoinEntity_.name).build().find()
 
-    override fun saveCoinsToDb(coins: List<CoinMarketCapCurrencyRealm>) {
-        // For saving isFavourite currency
-        for(currency in coins) {
-            val oldCopy = realm.where(CoinMarketCapCurrencyRealm::class.java)
-                    .equalTo("id", currency.id).findFirst()
-            if (oldCopy != null) {
-                currency.isFavourite = oldCopy.isFavourite
-            }
-        }
 
-        realm.executeTransactionAsync { realm -> realm.copyToRealmOrUpdate(coins) }
+    override fun getAllCoinsSortedLiveData(fieldName: String, isDescending: Boolean)
+            : ObjectBoxLiveData<CoinEntity> = ObjectBoxLiveData(
+            if (isDescending) coinBox.query().order(CoinEntity_.name).build()
+            else coinBox.query().orderDesc(CoinEntity_.name).build())
+
+    override fun saveCoinsToDb(coins: List<CoinEntity>) = coinBox.put(coins)
+
+    override fun getCoinFromDb(symbol: String): CoinEntity? = coinBox.query()
+            .equal(CoinEntity_.symbol, symbol).build().findFirst()
+
+    override fun addCoinToFavourite(coin: CoinEntity) {
+        coin.isFavourite = true
+        coinBox.put(coin)
     }
 
-    override fun addCoinToFavourite(coin: CoinMarketCapCurrencyRealm) {
-        realm.executeTransaction { coin.isFavourite = true }
+    override fun removeCoinFromFavourites(coin: CoinEntity) {
+        coin.isFavourite = false
+        coinBox.put(coin)
     }
 
-    override fun removeCoinFromFavourites(coin: CoinMarketCapCurrencyRealm) {
-        realm.executeTransaction { coin.isFavourite = false }
+    override fun getAllFavouriteCoins(): List<CoinEntity> =
+            coinBox.query().equal(CoinEntity_.isFavourite, true).build().find()
+
+    override fun getAllFavouriteCoinsLiveData(): ObjectBoxLiveData<CoinEntity> =
+            ObjectBoxLiveData(coinBox.query().equal(CoinEntity_.isFavourite, true).build())
+
+    override fun getFavouriteCoinsFiltered(text: String): List<CoinEntity> =
+            coinBox.query()
+                    .equal(CoinEntity_.isFavourite, true)
+                    .and()
+                    .contains(CoinEntity_.symbol, text).or().contains(CoinEntity_.name, text)
+                    .build().find()
+
+    override fun getFavouriteCoinsFilteredLiveData(text: String): ObjectBoxLiveData<CoinEntity> =
+            ObjectBoxLiveData(coinBox.query()
+                    .equal(CoinEntity_.isFavourite, true)
+                    .and()
+                    .contains(CoinEntity_.symbol, text).or().contains(CoinEntity_.name, text)
+                    .build())
+
+    override fun savePortfolioCoin(portfolioCoinEntity: PortfolioCoinEntity) {
+        portfolioCoinBox.put(portfolioCoinEntity)
     }
 
-    override fun getAllFavouriteCoins(): RealmResults<CoinMarketCapCurrencyRealm> =
-            realm.where(CoinMarketCapCurrencyRealm::class.java)
-                    .equalTo("isFavourite", true).findAllAsync()
+    override fun getAllPortfolioCoins(): List<PortfolioCoinEntity> = portfolioCoinBox.all
 
-    override fun getFavouriteCoinsFiltered(text: String): RealmResults<CoinMarketCapCurrencyRealm> =
-            realm.where(CoinMarketCapCurrencyRealm::class.java)
-                    .equalTo("isFavourite", true)
-                    .beginGroup()
-                    .contains("name", text, Case.INSENSITIVE)
-                    .or()
-                    .contains("symbol", text, Case.INSENSITIVE)
-                    .endGroup()
-                    .findAllSortedAsync("rank")
+    override fun getAllPortfolioCoinsLiveData(): ObjectBoxLiveData<PortfolioCoinEntity> =
+            ObjectBoxLiveData(portfolioCoinBox.query().build())
 
-    // endregion Coins
+    override fun getSinglePortfolioCoin(portfolioCoinEntityId: Long): PortfolioCoinEntity? =
+            portfolioCoinBox.query().equal(PortfolioCoinEntity_.__ID_PROPERTY,
+                    portfolioCoinEntityId).build().findFirst()
 
-    // region CryptoCompare
-    override fun getAllCryptoCompareCoinsFromDb(): RealmResults<CryptoCompareCurrencyRealm> =
-            realm.where(CryptoCompareCurrencyRealm::class.java).findAllSortedAsync("sortOrder")
-
-    override fun saveCryptoCompareCoinsToDb(coins: List<CryptoCompareCurrencyRealm>) {
-        realm.executeTransactionAsync { realm -> realm.copyToRealmOrUpdate(coins) }
+    override fun removePortfolioCoin(portfolioCoinEntityId: Long) {
+        portfolioCoinBox.query().equal(PortfolioCoinEntity_.__ID_PROPERTY,
+                portfolioCoinEntityId).build().remove()
     }
-
-    override fun saveCryptoCompareCoinIcon(coin: CoinMarketCapCurrencyRealm, byteArray: ByteArray) {
-        realm.executeTransactionAsync { coin.iconBytes = byteArray }
-    }
-    // endregion CryptoCompare
-
-    // region Portfolio
-    override fun addCoinToPortfolio(coin: CoinMarketCapCurrencyRealm, amountOfCoins: String,
-                                    buyPriceOfCoin: String, storageType: String, storageName: String, description: String) {
-        realm.executeTransaction { realm ->
-            val portfolioItem = PortfolioRealm(amountOfCoins = amountOfCoins,
-                    buyPriceInFiat = buyPriceOfCoin,
-                    storageType = storageType,
-                    storageName = storageName,
-                    coin = coin,
-                    description = description)
-            realm.copyToRealmOrUpdate(portfolioItem)
-        }
-    }
-
-    override fun getAllPortfolio(): RealmResults<PortfolioRealm> {
-        return realm.where(PortfolioRealm::class.java).findAllAsync()
-    }
-
-    override fun getSinglePortfolio(portfolioId: String): PortfolioRealm? =
-        realm.where(PortfolioRealm::class.java).equalTo("id", portfolioId).findFirst()
-
-    override fun editPortfolio(portfolioItem: PortfolioRealm, coin: CoinMarketCapCurrencyRealm,
-                               amountOfCoins: String, buyPriceOfCoin: String,
-                               storageType: String, storageName: String, description: String) {
-        realm.executeTransaction { realm ->
-            portfolioItem.coin = coin
-            portfolioItem.amountOfCoins = amountOfCoins
-            portfolioItem.buyPriceInFiat = buyPriceOfCoin
-            portfolioItem.storageType = storageType
-            portfolioItem.storageName = storageName
-            portfolioItem.description = description
-        }
-    }
-
-    override fun removeItemFromPortfolio(id: String) {
-        realm.executeTransaction { realm ->
-            realm.where(PortfolioRealm::class.java)
-                    .equalTo("id", id).findFirst()?.deleteFromRealm()
-        }
-    }
-
-    // endregion Portfolio
 }

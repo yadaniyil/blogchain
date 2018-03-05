@@ -1,16 +1,20 @@
 buildscript {
     ext.kotlin_version = '1.2.30'
+    ext.objectboxVersion = '1.4.1'
     repositories {
         maven { url 'https://maven.google.com' }
-        jcenter()
+        maven { url "http://objectbox.net/beta-repo/" }
         maven { url 'https://maven.fabric.io/public' }
+        maven { url  "https://dl.bintray.com/ekito/koin" }
+        jcenter()
+        google()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.0-alpha04'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
+        classpath "io.objectbox:objectbox-gradle-plugin:$objectboxVersion"
 
-        classpath "io.realm:realm-gradle-plugin:4.2.0"
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
         classpath 'com.google.gms:google-services:3.1.0'
@@ -20,9 +24,11 @@ buildscript {
 
 allprojects {
     repositories {
-        jcenter()
         maven { url 'https://maven.google.com' }
         maven { url "https://jitpack.io" }
+        maven { url "http://objectbox.net/beta-repo/" }
+        google()
+        jcenter()
         mavenCentral()
     }
 }
@@ -31,7 +37,7 @@ ext{
 
     buildToolsVersion = '27.0.2'
     compileSdkVersion = 27
-    targetSdkVersion = 26
+    targetSdkVersion = 27
     minSdkVersion = 18
 
     supportLibVersion = '27.0.2'
@@ -78,8 +84,6 @@ ext{
 
     //picasso
     picasso = "com.squareup.picasso:picasso:$picassoVersion"
-
-    buildTime = new Date().format("yyyy-MM-dd'T'HH:mm'Z'", TimeZone.getTimeZone("UTC"))
 }
 
 

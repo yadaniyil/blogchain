@@ -1,6 +1,6 @@
 package com.yadaniil.blogchain.screens.base
 
-import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
+import com.yadaniil.blogchain.data.db.models.CoinEntity
 import com.yadaniil.blogchain.utils.ListHelper
 
 /**
@@ -8,5 +8,5 @@ import com.yadaniil.blogchain.utils.ListHelper
  */
 
 interface CoinClickListener {
-    fun onClick(holder: ListHelper.CoinViewHolder, currencyRealm: CoinMarketCapCurrencyRealm)
+    fun onClick(holder: ListHelper.CoinViewHolder, coinEntity: CoinEntity)
 }

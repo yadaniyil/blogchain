@@ -8,7 +8,7 @@ import com.yadaniil.blogchain.data.Repository
 import com.yadaniil.blogchain.data.api.models.coinmarketcap.CmcGlobalDataResponse
 import com.yadaniil.blogchain.data.api.models.coinmarketcap.CmcMarketCapAndVolumeChartResponse
 import com.yadaniil.blogchain.data.api.models.coinmarketcap.TickerResponse
-import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
+import com.yadaniil.blogchain.data.db.models.realm.CoinEntity
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Function3
@@ -59,7 +59,7 @@ class HomePresenter : MvpPresenter<HomeView>() {
                 .doOnSubscribe { viewState.showLoading() }
                 .doOnComplete { viewState.stopLoading() }
                 .subscribe({ zipRequest ->
-                    repo.saveCoinsToDb(CoinMarketCapCurrencyRealm.convertApiResponseToRealmList(zipRequest.coins))
+                    repo.saveCoinsToDb(CoinEntity.convertApiResponseToRealmList(zipRequest.coins))
                     repo.saveCmcGlobalData(zipRequest.globalData)
                     repo.saveCmcMarketCapAndVolumeChartData(zipRequest.chartsData)
                     viewState.updateGlobalData(zipRequest.globalData)

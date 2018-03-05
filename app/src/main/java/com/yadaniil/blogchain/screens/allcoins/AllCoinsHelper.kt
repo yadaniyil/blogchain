@@ -6,9 +6,7 @@ import android.view.View
 import android.widget.RadioGroup
 import android.widget.TextView
 import com.yadaniil.blogchain.R
-import com.yadaniil.blogchain.data.db.models.CoinMarketCapCurrencyRealm
-import io.realm.RealmResults
-import io.realm.Sort
+import com.yadaniil.blogchain.data.db.models.CoinEntity
 import org.jetbrains.anko.find
 
 /**
@@ -17,8 +15,8 @@ import org.jetbrains.anko.find
 
 object AllCoinsHelper {
 
-    lateinit var coins: RealmResults<CoinMarketCapCurrencyRealm>
-    lateinit var presenter: AllCoinsPresenter
+    lateinit var coins: List<CoinEntity>
+    lateinit var viewModel: AllCoinsViewModel
 
     // region CoinSorter
     private val FILTER_MARKET_CAP = 0
@@ -102,26 +100,26 @@ object AllCoinsHelper {
     }
 
     private fun sortByFilter(filter: Int, descending: Boolean,
-                             currencies: RealmResults<CoinMarketCapCurrencyRealm>)
-            : RealmResults<CoinMarketCapCurrencyRealm> {
+                             currencies: List<CoinEntity>)
+            : List<CoinEntity> {
         return if (descending) {
             when (filter) {
-                FILTER_MARKET_CAP -> presenter.getAllCoinsSorted("marketCapUsd", Sort.DESCENDING)
-                FILTER_COIN_PRICE -> presenter.getAllCoinsSorted("priceUsd", Sort.DESCENDING)
-                FILTER_ALPHABETICAL -> presenter.getAllCoinsSorted("name", Sort.ASCENDING)
-                FILTER_VOLUME_24H -> presenter.getAllCoinsSorted("volume24hUsd", Sort.DESCENDING)
-                FILTER_WINNERS_24H -> presenter.getAllCoinsSorted("percentChange24h", Sort.DESCENDING)
-                FILTER_LOSERS_24H -> presenter.getAllCoinsSorted("percentChange24h", Sort.ASCENDING)
+                FILTER_MARKET_CAP -> viewModel.getAllCoinsSorted("marketCapUsd", true)
+                FILTER_COIN_PRICE -> viewModel.getAllCoinsSorted("priceUsd", true)
+                FILTER_ALPHABETICAL -> viewModel.getAllCoinsSorted("name", false)
+                FILTER_VOLUME_24H -> viewModel.getAllCoinsSorted("volume24hUsd", true)
+                FILTER_WINNERS_24H -> viewModel.getAllCoinsSorted("percentChange24h", true)
+                FILTER_LOSERS_24H -> viewModel.getAllCoinsSorted("percentChange24h", false)
                 else -> currencies
             }
         } else {
             when (filter) {
-                FILTER_MARKET_CAP -> presenter.getAllCoinsSorted("marketCapUsd", Sort.ASCENDING)
-                FILTER_COIN_PRICE -> presenter.getAllCoinsSorted("priceUsd", Sort.ASCENDING)
-                FILTER_ALPHABETICAL -> presenter.getAllCoinsSorted("name", Sort.DESCENDING)
-                FILTER_VOLUME_24H -> presenter.getAllCoinsSorted("volume24hUsd", Sort.ASCENDING)
-                FILTER_WINNERS_24H -> presenter.getAllCoinsSorted("percentChange24h", Sort.DESCENDING)
-                FILTER_LOSERS_24H -> presenter.getAllCoinsSorted("percentChange24h", Sort.ASCENDING)
+                FILTER_MARKET_CAP -> viewModel.getAllCoinsSorted("marketCapUsd", false)
+                FILTER_COIN_PRICE -> viewModel.getAllCoinsSorted("priceUsd", false)
+                FILTER_ALPHABETICAL -> viewModel.getAllCoinsSorted("name", true)
+                FILTER_VOLUME_24H -> viewModel.getAllCoinsSorted("volume24hUsd", false)
+                FILTER_WINNERS_24H -> viewModel.getAllCoinsSorted("percentChange24h", true)
+                FILTER_LOSERS_24H -> viewModel.getAllCoinsSorted("percentChange24h", false)
                 else -> currencies
             }
         }

@@ -36,7 +36,7 @@ class MinersAdapter(context: Context, minerClickListener: MinerItemClickListener
         this.clickListener = minerClickListener
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val currentHolder = holder as MinerViewHolder
         val currentMiner = miners!![position]
 
@@ -86,7 +86,7 @@ class MinersAdapter(context: Context, minerClickListener: MinerItemClickListener
                     "," + valueWithoutComma.last() + " MH/s"
         }
 
-        return hashSpeed + " H/s"
+        return "$hashSpeed H/s"
     }
 
     private fun findMinerEquipmentColor(currentMiner: Miner): Int {
@@ -97,8 +97,8 @@ class MinersAdapter(context: Context, minerClickListener: MinerItemClickListener
         return filterTags.find { it.getText() == currentMiner.algorithm }?.getColor() ?: 0
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder {
-        val v = LayoutInflater.from(parent?.context).inflate(R.layout.item_miner_list, parent, false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.item_miner_list, parent, false)
         return MinerViewHolder(v)
     }
 

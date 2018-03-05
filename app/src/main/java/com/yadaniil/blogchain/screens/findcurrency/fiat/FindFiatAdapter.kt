@@ -6,9 +6,6 @@ import android.view.ViewGroup
 import android.view.LayoutInflater
 import android.view.View
 import com.yadaniil.blogchain.R
-import com.yadaniil.blogchain.screens.findcurrency.fiat.listitems.FiatCurrencyItem
-import com.yadaniil.blogchain.screens.findcurrency.fiat.listitems.FiatHeaderItem
-import com.yadaniil.blogchain.screens.findcurrency.fiat.listitems.FiatListItem
 import com.yadaniil.blogchain.utils.ListHelper
 import org.jetbrains.anko.onClick
 
@@ -30,7 +27,7 @@ class FindFiatAdapter(private val items: MutableList<FiatListItem>, private val 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val itemView: View
-        return if (viewType === TYPE_HEADER) {
+        return if (viewType == TYPE_HEADER) {
             itemView = LayoutInflater.from(parent.context)
                     .inflate(R.layout.item_find_fiat_header, parent, false)
             ListHelper.FiatHeaderHolder(itemView)

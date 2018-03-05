@@ -27,11 +27,13 @@ object ImageLoader {
 
 
     fun loadCoinIcon(coinEntity: CoinEntity?, imageView: ImageView, context: Context,
-                     loadIfNoSuchCoin: String? = null) {
+                     loadIfNoSuchCoin: String? = null, drawableIntRes: Int? = null) {
         val imageLink = coinEntity?.ccImageUrl ?: ""
         if (imageLink.isEmpty() && loadIfNoSuchCoin != null)
             load(loadIfNoSuchCoin, imageView, context)
-        else if(imageLink.isEmpty() && loadIfNoSuchCoin == null)
+        else if (imageLink.isEmpty() && drawableIntRes != null)
+            imageView.setImageResource(drawableIntRes)
+        else if (imageLink.isEmpty() && loadIfNoSuchCoin == null)
             imageView.setImageResource(R.drawable.icon_ico)
         else {
             load(Endpoints.CRYPTO_COMPARE_URL + imageLink, imageView, context)

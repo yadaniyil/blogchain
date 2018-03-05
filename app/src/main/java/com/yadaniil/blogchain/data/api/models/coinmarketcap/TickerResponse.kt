@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
  * Created by danielyakovlev on 7/2/17.
  */
 class TickerResponse(
-        @SerializedName("id") var id: String? = "",
+        @SerializedName("id") var id: String = "",
         @SerializedName("name") var name: String = "",
         @SerializedName("symbol") var symbol: String = "",
         @SerializedName("rank") var rank: Int = 0,

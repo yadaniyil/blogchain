@@ -180,7 +180,7 @@ class AllCoinsActivity : BaseActivity(), CoinClickListener, CoinLongClickListene
 
     override fun onClick(holder: ListHelper.CoinViewHolder, coinEntity: CoinEntity) {
         Navigator.toWebViewActivity("https://coinmarketcap.com/currencies/"
-                + coinEntity.id + "/", coinEntity.name, this)
+                + coinEntity.cmcId + "/", coinEntity.name, this)
     }
 
     override fun onLongClick(holder: ListHelper.CoinViewHolder, coinEntity: CoinEntity) {

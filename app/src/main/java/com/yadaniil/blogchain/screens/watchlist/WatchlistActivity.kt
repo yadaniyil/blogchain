@@ -1,5 +1,6 @@
 package com.yadaniil.blogchain.screens.watchlist
 
+import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
@@ -8,32 +9,29 @@ import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import com.arellomobile.mvp.presenter.InjectPresenter
 import com.miguelcatalan.materialsearchview.MaterialSearchView
 import com.yadaniil.blogchain.R
+import com.yadaniil.blogchain.data.db.models.CoinEntity
 import com.yadaniil.blogchain.screens.base.BaseActivity
 import com.yadaniil.blogchain.screens.base.CoinClickListener
-import com.yadaniil.blogchain.data.db.models.realm.CoinEntity
 import com.yadaniil.blogchain.screens.base.CoinLongClickListener
 import com.yadaniil.blogchain.screens.findcurrency.FindCurrencyActivity
 import com.yadaniil.blogchain.utils.ListHelper
 import com.yadaniil.blogchain.utils.Navigator
-import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_watchlist.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.onClick
 import org.jetbrains.anko.toast
+import org.koin.android.architecture.ext.viewModel
 
 
 /**
  * Created by danielyakovlev on 10/31/17.
  */
 
-class WatchlistActivity : BaseActivity(), WatchlistView, CoinClickListener, CoinLongClickListener {
+class WatchlistActivity : BaseActivity(), CoinClickListener, CoinLongClickListener {
 
-    @InjectPresenter
-    lateinit var presenter: WatchlistPresenter
-    private var allFavourites: RealmResults<CoinEntity>? = null
+    private val viewModel by viewModel<WatchlistViewModel>()
 
     private lateinit var watchlistAdapter: WatchlistAdapter
     private lateinit var listDivider: RecyclerView.ItemDecoration
@@ -42,13 +40,11 @@ class WatchlistActivity : BaseActivity(), WatchlistView, CoinClickListener, Coin
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         listDivider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
-        allFavourites = presenter.getRealmCurrenciesFavourite()
         initSwipeRefresh()
         initFab()
         initSearchView()
-        initNoFavouritesView()
-        setUpWatchlist(allFavourites!!)
-        presenter.downloadAndSaveAllCurrencies()
+        setUpWatchlist()
+        viewModel.downloadAndSaveAllCurrencies()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -69,8 +65,8 @@ class WatchlistActivity : BaseActivity(), WatchlistView, CoinClickListener, Coin
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == PICK_FAVOURITE_COIN_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-                presenter.addCoinToFavourite(data?.extras?.getString(FindCurrencyActivity.PICKED_COIN_SYMBOL))
-                presenter.downloadAndSaveAllCurrencies()
+                viewModel.addCoinToFavourite(data?.extras?.getString(FindCurrencyActivity.PICKED_COIN_SYMBOL))
+                viewModel.downloadAndSaveAllCurrencies()
             }
         }
     }
@@ -90,22 +86,10 @@ class WatchlistActivity : BaseActivity(), WatchlistView, CoinClickListener, Coin
             override fun onQueryTextSubmit(query: String?) = true
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                updateList(presenter.getFavouriteCoinsFiltered(newText ?: ""))
+                updateList(viewModel.getFavouriteCoinsFiltered(newText ?: ""))
                 return true
             }
         })
-    }
-
-    private fun initNoFavouritesView() {
-        allFavourites?.addChangeListener { favourites ->
-            if(favourites.isEmpty()) {
-                no_items_text_view.visibility = View.VISIBLE
-                swipe_refresh.visibility = View.GONE
-            } else {
-                no_items_text_view.visibility = View.GONE
-                swipe_refresh.visibility = View.VISIBLE
-            }
-        }
     }
 
     private fun initFab() {
@@ -123,13 +107,12 @@ class WatchlistActivity : BaseActivity(), WatchlistView, CoinClickListener, Coin
     private fun initSwipeRefresh() {
         swipe_refresh.setColorSchemeColors(resources.getColor(R.color.colorAccent))
         swipe_refresh.setOnRefreshListener {
-            presenter.downloadAndSaveAllCurrencies()
+            viewModel.downloadAndSaveAllCurrencies()
         }
     }
 
-    private fun setUpWatchlist(realmCurrencies: RealmResults<CoinEntity>) {
-        watchlistAdapter = WatchlistAdapter(realmCurrencies, true, this,
-                presenter.repo, this, this)
+    private fun setUpWatchlist() {
+        watchlistAdapter = WatchlistAdapter(this, this, this)
         watchlist_recycler_view.layoutManager = LinearLayoutManager(this)
         watchlist_recycler_view.adapter = watchlistAdapter
         watchlist_recycler_view.itemAnimator = null
@@ -148,37 +131,50 @@ class WatchlistActivity : BaseActivity(), WatchlistView, CoinClickListener, Coin
                 }
             }
         })
+
+        viewModel.getFavouriteCoinsLiveData().observe(this, Observer {
+            it?.let {
+                if (it.isEmpty()) {
+                    no_items_text_view.visibility = View.VISIBLE
+                    swipe_refresh.visibility = View.GONE
+                } else {
+                    no_items_text_view.visibility = View.GONE
+                    swipe_refresh.visibility = View.VISIBLE
+                }
+            }
+        })
     }
     // endregion Init
 
     // region View
-    override fun showToolbarLoading() = smooth_progress_bar.progressiveStart()
-    override fun stopToolbarLoading() = smooth_progress_bar.progressiveStop()
+    fun showToolbarLoading() = smooth_progress_bar.progressiveStart()
 
-    override fun showLoadingError() = toast(R.string.error)
+    fun stopToolbarLoading() = smooth_progress_bar.progressiveStop()
 
-    override fun hideSwipeRefreshLoading() {
-        if(swipe_refresh.isRefreshing)
+    fun showLoadingError() = toast(R.string.error)
+
+    fun hideSwipeRefreshLoading() {
+        if (swipe_refresh.isRefreshing)
             swipe_refresh.isRefreshing = false
     }
 
-    override fun onClick(holder: ListHelper.CoinViewHolder, currencyRealm: CoinEntity) {
-        Navigator.toWebViewActivity("https://coinmarketcap.com/currencies/" + currencyRealm.id + "/",
-                currencyRealm.name ?: "", this)
+    override fun onClick(holder: ListHelper.CoinViewHolder, coinEntity: CoinEntity) {
+        Navigator.toWebViewActivity("https://coinmarketcap.com/currencies/" + coinEntity.cmcId + "/",
+                coinEntity.name ?: "", this)
     }
 
-    override fun onLongClick(holder: ListHelper.CoinViewHolder, currencyRealm: CoinEntity) {
+    override fun onLongClick(holder: ListHelper.CoinViewHolder, coinEntity: CoinEntity) {
         alert {
             title(R.string.remove_from_favourite_question)
-            message("${currencyRealm.name} (${currencyRealm.symbol})")
-            yesButton { presenter.removeCoinFromFavourites(currencyRealm) }
+            message("${coinEntity.name} (${coinEntity.symbol})")
+            yesButton { viewModel.removeCoinFromFavourites(coinEntity) }
             cancelButton()
         }.show()
     }
 
     override fun getLayout() = R.layout.activity_watchlist
 
-    private fun updateList(favourites: RealmResults<CoinEntity>) {
+    private fun updateList(favourites: List<CoinEntity>) {
         watchlistAdapter.updateData(favourites)
     }
 

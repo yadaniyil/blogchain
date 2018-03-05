@@ -1,8 +1,6 @@
 package com.yadaniil.blogchain.screens.mining.fragments.calculator
 
-import com.arellomobile.mvp.InjectViewState
-import com.arellomobile.mvp.MvpPresenter
-import com.yadaniil.blogchain.Application
+import android.arch.lifecycle.ViewModel
 import com.yadaniil.blogchain.data.Repository
 import com.yadaniil.blogchain.data.api.models.whattomine.MiningCoin
 import com.yadaniil.blogchain.data.api.models.whattomine.MiningCoinsResponse
@@ -12,26 +10,20 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
-import javax.inject.Inject
 
 /**
  * Created by danielyakovlev on 9/29/17.
  */
 
 
-@InjectViewState
-class CalculatorPresenter : MvpPresenter<CalculatorView>() {
-
-    init {
-        Application.component?.inject(this)
-    }
-
-    @Inject lateinit var repo: Repository
+class CalculatorViewModel(private val repo: Repository) : ViewModel() {
 
     private var downloadedCoins: MutableList<MiningCoin> = ArrayList()
 
     fun downloadMiningCoins() {
-        val allCoinsZipRequest =  Observable.zip(repo.getAllGpuMiningCoins(), repo.getAllAsicMiningCoins(),
+        val allCoinsZipRequest = Observable.zip(
+                repo.getAllGpuMiningCoins(),
+                repo.getAllAsicMiningCoins(),
                 BiFunction<MiningCoinsResponse, MiningCoinsResponse, List<MiningCoin>> { gpus, asics ->
                     val gpuCoins = addNameAndEquipmentTypeToCoins(gpus, "GPU")
                     val asicCoins = addNameAndEquipmentTypeToCoins(asics, "ASIC")
@@ -46,12 +38,12 @@ class CalculatorPresenter : MvpPresenter<CalculatorView>() {
         allCoinsZipRequest
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { viewState.showLoading() }
+//                .doOnSubscribe { viewState.showLoading() }
                 .subscribe({ allCoins ->
                     Timber.e("All coins size: " + allCoins.size)
-                    viewState.initCalculatorView(allCoins)
+//                    viewState.initCalculatorView(allCoins)
                 }, { error ->
-                    viewState.showError()
+                    //                    viewState.showError()
                     Timber.e(error.message)
                 })
     }
@@ -86,11 +78,11 @@ class CalculatorPresenter : MvpPresenter<CalculatorView>() {
         repo.getMiningCoinById(coinId.toString(), hashrate, power, poolFeePercent, cost)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { viewState.showTableLoading() }
+//                .doOnSubscribe { viewState.showTableLoading() }
                 .subscribe({ coin ->
-                    viewState.showTable(coin)
+                    //                    viewState.showTable(coin)
                 }, { error ->
-                    viewState.showTableError()
+                    //                    viewState.showTableError()
                     Timber.e(error.message)
                 })
     }

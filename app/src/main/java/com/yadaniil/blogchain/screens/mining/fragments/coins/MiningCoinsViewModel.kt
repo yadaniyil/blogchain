@@ -1,8 +1,6 @@
 package com.yadaniil.blogchain.screens.mining.fragments.coins
 
-import com.arellomobile.mvp.InjectViewState
-import com.arellomobile.mvp.MvpPresenter
-import com.yadaniil.blogchain.Application
+import android.arch.lifecycle.ViewModel
 import com.yadaniil.blogchain.data.Repository
 import com.yadaniil.blogchain.data.api.models.whattomine.MiningCoin
 import com.yadaniil.blogchain.data.api.models.whattomine.MiningCoinsResponse
@@ -11,21 +9,14 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
-import javax.inject.Inject
 
 /**
  * Created by danielyakovlev on 9/28/17.
  */
 
 
-@InjectViewState
-class CoinsPresenter : MvpPresenter<CoinsView>() {
+class MiningCoinsViewModel(private val repo: Repository) : ViewModel() {
 
-    init {
-        Application.component?.inject(this)
-    }
-
-    @Inject lateinit var repo: Repository
     private var downloadedCoins: MutableList<MiningCoin> = ArrayList()
 
     fun downloadMiningCoins() {
@@ -41,12 +32,12 @@ class CoinsPresenter : MvpPresenter<CoinsView>() {
         allCoinsZipRequest
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { viewState.showLoading() }
+//                .doOnSubscribe { viewState.showLoading() }
                 .subscribe({ allCoins ->
                     Timber.e("All coins size: " + allCoins.size)
-                    viewState.showCoins(allCoins)
+//                    viewState.showCoins(allCoins)
                 }, { error ->
-                    viewState.showError()
+//                    viewState.showError()
                     Timber.e(error.message)
                 })
     }
@@ -68,5 +59,4 @@ class CoinsPresenter : MvpPresenter<CoinsView>() {
     }
 
     fun getAllCmcCurrencies() = repo.getAllCoinsFromDb()
-    fun getAllCcCurrencies() = repo.getAllCryptoCompareCoinsFromDb()
 }

@@ -7,16 +7,15 @@ import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.*
-import com.arellomobile.mvp.MvpAppCompatFragment
-import com.arellomobile.mvp.presenter.InjectPresenter
 import com.miguelcatalan.materialsearchview.MaterialSearchView
 import com.yadaniil.blogchain.R
 import com.yadaniil.blogchain.data.api.models.whattomine.MiningCoin
 import com.yalantis.filter.animator.FiltersListItemAnimator
-import kotlinx.android.synthetic.main.fragment_coins.*
+import kotlinx.android.synthetic.main.fragment_mining_coins.*
 import kotlinx.android.synthetic.main.no_items_filtered_layout.*
 import kotlinx.android.synthetic.main.no_items_layout.*
 import org.jetbrains.anko.onClick
+import org.koin.android.architecture.ext.viewModel
 import kotlin.properties.Delegates
 
 /**
@@ -24,15 +23,16 @@ import kotlin.properties.Delegates
  */
 
 
-class CoinsFragment : MvpAppCompatFragment(), CoinsView, CoinItemClickListener {
+class CoinsFragment : Fragment(), CoinItemClickListener {
 
-    @InjectPresenter lateinit var presenter: CoinsPresenter
-    private var coinsAdapter by Delegates.notNull<CoinsAdapter>()
+    private val viewModel by viewModel<MiningCoinsViewModel>()
+    private var coinsAdapter by Delegates.notNull<MiningCoinsAdapter>()
     private lateinit var listDivider: RecyclerView.ItemDecoration
     private lateinit var drawerAction: () -> Unit
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val rootView = inflater.inflate(R.layout.fragment_coins, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+        val rootView = inflater.inflate(R.layout.fragment_mining_coins, container, false)
         setHasOptionsMenu(true)
         return rootView
     }
@@ -43,8 +43,8 @@ class CoinsFragment : MvpAppCompatFragment(), CoinsView, CoinItemClickListener {
         initToolbar()
         initSearchView()
         showCoins(emptyList())
-        retry_button.onClick { presenter.downloadMiningCoins() }
-        presenter.downloadMiningCoins()
+        retry_button.onClick { viewModel.downloadMiningCoins() }
+        viewModel.downloadMiningCoins()
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -89,18 +89,18 @@ class CoinsFragment : MvpAppCompatFragment(), CoinsView, CoinItemClickListener {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                showCoins(presenter.getFilteredCoins(newText ?: ""))
+                showCoins(viewModel.getFilteredCoins(newText ?: ""))
                 return true
             }
 
         })
     }
 
-    override fun onClick(holder: CoinsAdapter.CoinViewHolder, coin: MiningCoin) {
+    override fun onClick(holder: MiningCoinsAdapter.CoinViewHolder, coin: MiningCoin) {
 
     }
 
-    override fun showLoading() {
+    fun showLoading() {
         downloading_label.visibility = View.VISIBLE
         progress_bar.visibility = View.VISIBLE
 
@@ -109,7 +109,7 @@ class CoinsFragment : MvpAppCompatFragment(), CoinsView, CoinItemClickListener {
         retry_button.visibility = View.GONE
     }
 
-    override fun showError() {
+    private fun showError() {
         downloading_label.visibility = View.GONE
         progress_bar.visibility = View.GONE
 
@@ -118,9 +118,9 @@ class CoinsFragment : MvpAppCompatFragment(), CoinsView, CoinItemClickListener {
         retry_button.visibility = View.VISIBLE
     }
 
-    override fun showCoins(coins: List<MiningCoin>) {
-        coinsAdapter = CoinsAdapter(activity!!, this,
-                presenter.getAllCmcCurrencies(), presenter.getAllCcCurrencies())
+    fun showCoins(coins: List<MiningCoin>) {
+        coinsAdapter = MiningCoinsAdapter(activity!!, this,
+                viewModel.getAllCmcCurrencies())
         coins_list.layoutManager = LinearLayoutManager(activity)
         coins_list.adapter = coinsAdapter
         coins_list.setHasFixedSize(true)

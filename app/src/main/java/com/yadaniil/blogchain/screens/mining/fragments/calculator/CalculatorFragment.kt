@@ -9,15 +9,11 @@ import android.support.v7.app.AppCompatActivity
 import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import com.arellomobile.mvp.MvpAppCompatFragment
-import com.arellomobile.mvp.presenter.InjectPresenter
 import com.google.android.gms.ads.AdRequest
 import com.yadaniil.blogchain.R
 import com.yadaniil.blogchain.data.api.models.whattomine.MiningCoin
 import com.yadaniil.blogchain.data.api.models.whattomine.MiningCoinResponse
 import com.yadaniil.blogchain.utils.CryptocurrencyHelper
-import com.yadaniil.blogchain.utils.Endpoints
-import com.yadaniil.blogchain.utils.ImageLoader
 import com.yadaniil.blogchain.utils.UiHelper
 import kotlinx.android.synthetic.main.fragment_calculator.*
 import kotlinx.android.synthetic.main.no_items_layout.*
@@ -26,15 +22,16 @@ import org.jetbrains.anko.enabled
 import org.jetbrains.anko.onClick
 import org.jetbrains.anko.textChangedListener
 import org.jetbrains.anko.toast
+import org.koin.android.architecture.ext.viewModel
 import java.math.BigDecimal
 
 /**
  * Created by danielyakovlev on 9/29/17.
  */
 
-class CalculatorFragment : MvpAppCompatFragment(), CalculatorView {
+class CalculatorFragment : Fragment() {
 
-    @InjectPresenter lateinit var presenter: CalculatorPresenter
+    private val viewModel by viewModel<CalculatorViewModel>()
     private lateinit var drawerAction: () -> Unit
 
     // region Fragment
@@ -49,8 +46,8 @@ class CalculatorFragment : MvpAppCompatFragment(), CalculatorView {
         super.onViewCreated(view, savedInstanceState)
         initToolbar()
         initAdMobBanner()
-        presenter.downloadMiningCoins()
-        retry_button.onClick { presenter.downloadMiningCoins() }
+        viewModel.downloadMiningCoins()
+        retry_button.onClick { viewModel.downloadMiningCoins() }
         initDisabledCalculateButton()
         initMoreOptionsButton()
         poll_fee_edit_text.textChangedListener {
@@ -99,7 +96,7 @@ class CalculatorFragment : MvpAppCompatFragment(), CalculatorView {
     }
 
     // region View
-    override fun initCalculatorView(coins: List<MiningCoin>) {
+    fun initCalculatorView(coins: List<MiningCoin>) {
         calculator_view.visibility = View.VISIBLE
         no_items_layout.visibility = View.GONE
 
@@ -122,7 +119,7 @@ class CalculatorFragment : MvpAppCompatFragment(), CalculatorView {
         calculate_button.enabled = true
         calculate_button.background.colorFilter = null
         calculate_button.onClick {
-            presenter.calculateTable(
+            viewModel.calculateTable(
                     mining_coin_spinner.selectedItem.toString(),
                     hashrate_edit_text.text.toString(),
                     power_edit_text.text.toString(),
@@ -143,12 +140,14 @@ class CalculatorFragment : MvpAppCompatFragment(), CalculatorView {
                             0f, 0f, 0))
         }
 
-        val coinSymbol = CryptocurrencyHelper.getSymbolFromFullName(mining_coin_spinner.selectedItem.toString())
-        ImageLoader.loadCoinIcon(coinSymbol, coin_icon, context!!, presenter.repo, Endpoints.NICEHASH_ICON)
+        val coinSymbol = CryptocurrencyHelper.getSymbolFromFullName(
+                mining_coin_spinner.selectedItem.toString())
+
+//        ImageLoader.loadCoinIcon(coinSymbol, coin_icon, context!!, presenter.repo, Endpoints.NICEHASH_ICON)
     }
 
     private fun changeHashrateExponent() {
-        val exponent = presenter.getHashrateExponentForCoin(mining_coin_spinner.selectedItem.toString())
+        val exponent = viewModel.getHashrateExponentForCoin(mining_coin_spinner.selectedItem.toString())
         hashrate_exponent_value.text = exponent
     }
 
@@ -167,7 +166,7 @@ class CalculatorFragment : MvpAppCompatFragment(), CalculatorView {
         }
     }
 
-    override fun showLoading() {
+    fun showLoading() {
         no_items_layout.visibility = View.VISIBLE
         downloading_label.visibility = View.VISIBLE
         progress_bar.visibility = View.VISIBLE
@@ -178,7 +177,7 @@ class CalculatorFragment : MvpAppCompatFragment(), CalculatorView {
         calculator_view.visibility = View.GONE
     }
 
-    override fun showError() {
+    fun showError() {
         no_items_layout.visibility = View.VISIBLE
         downloading_label.visibility = View.GONE
         progress_bar.visibility = View.GONE
@@ -189,18 +188,18 @@ class CalculatorFragment : MvpAppCompatFragment(), CalculatorView {
         calculator_view.visibility = View.GONE
     }
 
-    override fun showTableLoading() {
+    fun showTableLoading() {
         table_loading_progress_bar.visibility = View.VISIBLE
         calculated_table.visibility = View.GONE
     }
 
-    override fun showTableError() {
+    fun showTableError() {
         table_loading_progress_bar.visibility = View.GONE
         calculated_table.visibility = View.GONE
         activity?.toast(R.string.error)
     }
 
-    override fun showTable(coin: MiningCoinResponse) {
+    fun showTable(coin: MiningCoinResponse) {
         table_loading_progress_bar.visibility = View.GONE
         calculated_table.visibility = View.VISIBLE
         val isProfitNegative = coin.profit.startsWith("-")

@@ -19,6 +19,7 @@ object CoinMapper {
             val ccCoin = ccCoins.find { it.symbol == it.symbol }
             val oldEntity = allCoinsFromDb.find { it.symbol == it.symbol }
             val updatedEntity = oldEntity?.copy(
+                    cmcId = it.id,
                     name = it.name,
                     symbol = it.symbol,
                     rank = it.rank,

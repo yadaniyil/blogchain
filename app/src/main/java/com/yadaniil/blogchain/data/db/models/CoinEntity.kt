@@ -12,6 +12,7 @@ data class CoinEntity(
         @Id var id: Long = 0,
 
         // CoinMarkeyCap fields
+        var cmcId: String = "",
         var name: String = "",
         var symbol: String = "",
         var rank: Int = 0,

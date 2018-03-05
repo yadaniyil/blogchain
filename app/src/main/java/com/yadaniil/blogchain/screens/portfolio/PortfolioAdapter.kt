@@ -1,29 +1,25 @@
 package com.yadaniil.blogchain.screens.portfolio
 
 import android.content.Context
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.yadaniil.blogchain.R
-import com.yadaniil.blogchain.data.Repository
-import com.yadaniil.blogchain.data.db.models.realm.PortfolioRealm
+import com.yadaniil.blogchain.data.db.models.PortfolioCoinEntity
 import com.yadaniil.blogchain.utils.ListHelper
-import io.realm.RealmRecyclerViewAdapter
-import io.realm.RealmResults
 
 /**
  * Created by danielyakovlev on 11/3/17.
  */
 
 
-class PortfolioAdapter(data: RealmResults<PortfolioRealm>, autoUpdate: Boolean,
-                       private var context: Context,
-                       private val repo: Repository,
+class PortfolioAdapter(private var context: Context,
                        private val onClick: OnClick, private val onLongClick: OnLongClick)
-    : RealmRecyclerViewAdapter<PortfolioRealm, ListHelper.PortfolioViewHolder>(data, autoUpdate) {
+    : RecyclerView.Adapter<ListHelper.PortfolioViewHolder>() {
 
-    init {
-        setHasStableIds(true)
-    }
+    private val items: MutableList<PortfolioCoinEntity> = ArrayList()
+
+    override fun getItemCount() = items.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListHelper.PortfolioViewHolder {
         val itemView = LayoutInflater.from(parent.context)
@@ -32,15 +28,20 @@ class PortfolioAdapter(data: RealmResults<PortfolioRealm>, autoUpdate: Boolean,
     }
 
     override fun onBindViewHolder(holder: ListHelper.PortfolioViewHolder, position: Int) {
-        val currencyRealm = getItem(position)
-        ListHelper.bindPortfolioItem(holder, currencyRealm!!, context, repo, onClick, onLongClick)
+        val currencyRealm = items[position]
+        ListHelper.bindPortfolioItem(holder, currencyRealm, context, onClick, onLongClick)
     }
 
     interface OnClick {
-        fun onClick(holder: ListHelper.PortfolioViewHolder, portfolioItem: PortfolioRealm)
+        fun onClick(holder: ListHelper.PortfolioViewHolder, portfolioCoinEntity: PortfolioCoinEntity)
     }
 
     interface OnLongClick {
-        fun onLongClick(holder: ListHelper.PortfolioViewHolder, portfolioItem: PortfolioRealm)
+        fun onLongClick(holder: ListHelper.PortfolioViewHolder, portfolioCoinEntity: PortfolioCoinEntity)
+    }
+
+    fun setItems(portfolioCoinEntities: List<PortfolioCoinEntity>) {
+        items.clear()
+        items.addAll(portfolioCoinEntities)
     }
 }

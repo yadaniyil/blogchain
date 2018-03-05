@@ -4,42 +4,40 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import com.arellomobile.mvp.presenter.InjectPresenter
 import com.yadaniil.blogchain.R
 import com.yadaniil.blogchain.data.api.models.coinmarketcap.CmcGlobalDataResponse
 import com.yadaniil.blogchain.data.api.models.coinmarketcap.CmcMarketCapAndVolumeChartResponse
-import com.yadaniil.blogchain.data.db.models.realm.CoinEntity
-import com.yadaniil.blogchain.data.db.models.realm.PortfolioRealm
+import com.yadaniil.blogchain.data.db.models.CoinEntity
+import com.yadaniil.blogchain.data.db.models.PortfolioCoinEntity
 import com.yadaniil.blogchain.screens.base.BaseActivity
 import com.yadaniil.blogchain.screens.portfolio.PortfolioHelper
 import com.yadaniil.blogchain.utils.AmountFormatter
 import com.yadaniil.blogchain.utils.Navigator
-import io.realm.RealmResults
+import com.yadaniil.blogchain.utils.charts.MarketCapChart
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.layout_market_info.*
 import org.jetbrains.anko.toast
-import com.yadaniil.blogchain.utils.charts.MarketCapChart
+import org.koin.android.architecture.ext.viewModel
 
 
 /**
  * Created by danielyakovlev on 11/2/17.
  */
 
-class HomeActivity : BaseActivity(), HomeView {
+class HomeActivity : BaseActivity() {
 
-    @InjectPresenter
-    lateinit var presenter: HomePresenter
+    private val viewModel by viewModel<HomeViewModel>()
 
-    private lateinit var portfolios: RealmResults<PortfolioRealm>
-    private lateinit var coins: RealmResults<CoinEntity>
+    private lateinit var portfolios: List<PortfolioCoinEntity>
+    private lateinit var coins: List<CoinEntity>
 
     override fun getLayout() = R.layout.activity_home
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        coins = presenter.getAllCoins()
-        portfolios = presenter.getPortfolios()
+        coins = viewModel.getAllCoins()
+        portfolios = viewModel.getPortfolios()
 
         initTotalPortfolioBalance()
 //        initCoins()
@@ -47,15 +45,15 @@ class HomeActivity : BaseActivity(), HomeView {
         initMarketCapChart()
 
         swipe_refresh.setOnRefreshListener {
-            presenter.updateAll()
+            viewModel.updateAll()
         }
-        presenter.showChangelogDialog()
-        presenter.updateAll()
+        viewModel.showChangelogDialog()
+        viewModel.updateAll()
     }
 
     private fun initGlobalDataAndPortfolio() {
-        presenter.setSavedGlobalData()
-        presenter.showOrHidePortfolioBalance()
+        viewModel.setSavedGlobalData()
+        viewModel.showOrHidePortfolioBalance()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -65,7 +63,7 @@ class HomeActivity : BaseActivity(), HomeView {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if (item?.itemId == R.id.action_hide_portfolio) {
-            presenter.showOrHidePortfolioBalance(portfolios_balance_layout.visibility == View.VISIBLE)
+            viewModel.showOrHidePortfolioBalance(portfolios_balance_layout.visibility == View.VISIBLE)
         }
 
         return super.onOptionsItemSelected(item)
@@ -73,13 +71,10 @@ class HomeActivity : BaseActivity(), HomeView {
 
     private fun initTotalPortfolioBalance() {
         updatePortfolio(portfolios)
-        portfolios.addChangeListener { portfolios ->
-            updatePortfolio(portfolios)
-        }
     }
 
     private fun initMarketCapChart() {
-        presenter.setSavedGlobalDataChart()
+        viewModel.setSavedGlobalDataChart()
     }
 
 //    private fun initCoins() {
@@ -116,15 +111,15 @@ class HomeActivity : BaseActivity(), HomeView {
 //        forth_coin_layout.onClick { openCoinPage(coins[3]) }
 //    }
 
-    private fun openCoinPage(currencyRealm: CoinEntity) {
-        Navigator.toWebViewActivity("https://coinmarketcap.com/currencies/" + currencyRealm.id + "/",
-                currencyRealm.name ?: "", this)
+    private fun openCoinPage(coinEntity: CoinEntity) {
+        Navigator.toWebViewActivity("https://coinmarketcap.com/currencies/"
+                + coinEntity.cmcId + "/", coinEntity.name, this)
     }
 
-    private fun updatePortfolio(portfolios: RealmResults<PortfolioRealm>) =
+    private fun updatePortfolio(portfolios: List<PortfolioCoinEntity>) =
             PortfolioHelper.updateTotalFiatBalance(portfolios, portfolios_balance)
 
-    override fun showChangelogDialog() {
+    fun showChangelogDialog() {
         val fm = supportFragmentManager
         val ft = fm.beginTransaction()
         val prev = fm.findFragmentByTag("changelogdialog")
@@ -134,17 +129,17 @@ class HomeActivity : BaseActivity(), HomeView {
         ChangelogDialog().show(ft, "changelogdialog")
     }
 
-    override fun showLoading() {
+    fun showLoading() {
         swipe_refresh.isRefreshing = true
     }
 
-    override fun stopLoading() {
+    fun stopLoading() {
         swipe_refresh.isRefreshing = false
     }
 
-    override fun showLoadingError() = toast(R.string.error)
+    fun showLoadingError() = toast(R.string.error)
 
-    override fun updateGlobalData(globalData: CmcGlobalDataResponse?) {
+    fun updateGlobalData(globalData: CmcGlobalDataResponse?) {
         if(globalData == null) {
             market_cap.text = "?"
             daily_volume.text = "?"
@@ -161,14 +156,14 @@ class HomeActivity : BaseActivity(), HomeView {
         btc_dominance.text = btcDominanceText
     }
 
-    override fun showOrHidePortfolio(toShow: Boolean) {
+    fun showOrHidePortfolio(toShow: Boolean) {
         if(toShow)
             portfolios_balance_layout.visibility = View.VISIBLE
         else
             portfolios_balance_layout.visibility = View.GONE
     }
 
-    override fun updateMarketCapChart(data: CmcMarketCapAndVolumeChartResponse?) {
+    fun updateMarketCapChart(data: CmcMarketCapAndVolumeChartResponse?) {
         if(data?.marketCaps == null) {
             return
         }

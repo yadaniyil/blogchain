@@ -8,31 +8,33 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.view.*
-import com.arellomobile.mvp.MvpAppCompatFragment
-import com.arellomobile.mvp.presenter.InjectPresenter
+import android.view.LayoutInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import com.yadaniil.blogchain.R
 import com.yadaniil.blogchain.data.api.models.cryptocompare.Miner
 import com.yalantis.filter.adapter.FilterAdapter
+import com.yalantis.filter.animator.FiltersListItemAnimator
 import com.yalantis.filter.listener.FilterListener
 import com.yalantis.filter.widget.Filter
 import com.yalantis.filter.widget.FilterItem
 import kotlinx.android.synthetic.main.fragment_miners.*
-import org.jetbrains.anko.find
-import kotlin.properties.Delegates
-import com.yalantis.filter.animator.FiltersListItemAnimator
 import kotlinx.android.synthetic.main.no_items_layout.*
+import org.jetbrains.anko.find
 import org.jetbrains.anko.onClick
+import org.koin.android.architecture.ext.viewModel
 import timber.log.Timber
+import kotlin.properties.Delegates
 
 
 /**
  * Created by danielyakovlev on 9/20/17.
  */
 
-class MinersFragment : MvpAppCompatFragment(), MinersView, MinerItemClickListener {
+class MinersFragment : Fragment(), MinerItemClickListener {
 
-    @InjectPresenter lateinit var presenter: MinersPresenter
+    private val viewModel by viewModel<MinersViewModel>()
     private var minersAdapter by Delegates.notNull<MinersAdapter>()
     private lateinit var drawerAction: () -> Unit
 
@@ -53,9 +55,9 @@ class MinersFragment : MvpAppCompatFragment(), MinersView, MinerItemClickListene
         minerFilterColors = resources.getIntArray(R.array.miner_filter_colors)
         minerFilterNames = resources.getStringArray(R.array.miner_filters)
         initToolbar()
-        retry_button.onClick { presenter.downloadMiners() }
+        retry_button.onClick { viewModel.downloadMiners() }
         showMiners(emptyList())
-        presenter.downloadMiners()
+        viewModel.downloadMiners()
         showFilter()
     }
 
@@ -100,7 +102,7 @@ class MinersFragment : MvpAppCompatFragment(), MinersView, MinerItemClickListene
 
     private val filterListener = object : FilterListener<MinerFilterTag> {
         override fun onFiltersSelected(filters: ArrayList<MinerFilterTag>) {
-            val newMiners = presenter.findMinersByTags(filters)
+            val newMiners = viewModel.findMinersByTags(filters)
             try {
                 minersAdapter.setData(newMiners)
             } catch (e: IllegalStateException) {
@@ -110,7 +112,7 @@ class MinersFragment : MvpAppCompatFragment(), MinersView, MinerItemClickListene
         }
         override fun onNothingSelected() {
             try {
-                minersAdapter.setData(presenter.downloadedMiners)
+                minersAdapter.setData(viewModel.downloadedMiners)
                 minersAdapter.notifyDataSetChanged()
             } catch (e: IllegalStateException) {
                 // This will toggle once in onCreate, so we don't show any error
@@ -149,7 +151,7 @@ class MinersFragment : MvpAppCompatFragment(), MinersView, MinerItemClickListene
     // endregion Filtering
 
     // region View
-    override fun showError() {
+    fun showError() {
         downloading_label.visibility = View.GONE
         progress_bar.visibility = View.GONE
 
@@ -158,7 +160,7 @@ class MinersFragment : MvpAppCompatFragment(), MinersView, MinerItemClickListene
         retry_button.visibility = View.VISIBLE
     }
 
-    override fun showLoading() {
+    fun showLoading() {
         downloading_label.visibility = View.VISIBLE
         progress_bar.visibility = View.VISIBLE
 
@@ -167,7 +169,7 @@ class MinersFragment : MvpAppCompatFragment(), MinersView, MinerItemClickListene
         retry_button.visibility = View.GONE
     }
 
-    override fun showMiners(miners: List<Miner>) {
+    fun showMiners(miners: List<Miner>) {
         minersAdapter = MinersAdapter(activity!!, this, getFilterTags())
         miners_list.layoutManager = LinearLayoutManager(activity)
         miners_list.adapter = minersAdapter

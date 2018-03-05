@@ -3,33 +3,28 @@ package com.yadaniil.blogchain.screens.findcurrency.fiat
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.arellomobile.mvp.MvpAppCompatFragment
-import com.arellomobile.mvp.presenter.InjectPresenter
 import com.miguelcatalan.materialsearchview.MaterialSearchView
 import com.yadaniil.blogchain.R
 import com.yadaniil.blogchain.screens.findcurrency.FindCurrencyActivity
 import com.yadaniil.blogchain.screens.findcurrency.events.InitFiatSearchViewEvent
-import com.yadaniil.blogchain.screens.findcurrency.fiat.listitems.FiatCurrencyItem
-import com.yadaniil.blogchain.screens.findcurrency.fiat.listitems.FiatHeaderItem
-import com.yadaniil.blogchain.screens.findcurrency.fiat.listitems.FiatListItem
 import com.yadaniil.blogchain.utils.ListHelper
 import kotlinx.android.synthetic.main.fragment_find_fiat.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import org.koin.android.architecture.ext.viewModel
 import timber.log.Timber
 
 /**
  * Created by danielyakovlev on 11/15/17.
  */
 
-class FindFiatFragment : MvpAppCompatFragment(), FindFiatAdapter.FiatOnClick, FindFiatView {
-
-    @InjectPresenter lateinit var presenter: FindFiatPresenter
+class FindFiatFragment : Fragment(), FindFiatAdapter.FiatOnClick {
 
     private lateinit var findFiatAdapter: FindFiatAdapter
     private lateinit var searchView: MaterialSearchView

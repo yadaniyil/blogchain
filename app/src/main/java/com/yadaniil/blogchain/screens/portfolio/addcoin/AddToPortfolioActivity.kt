@@ -1,35 +1,34 @@
 package com.yadaniil.blogchain.screens.portfolio.addcoin
 
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import com.arellomobile.mvp.MvpAppCompatActivity
-import com.arellomobile.mvp.presenter.InjectPresenter
 import com.yadaniil.blogchain.R
-import com.yadaniil.blogchain.data.db.models.realm.CoinEntity
-import com.yadaniil.blogchain.data.db.models.realm.PortfolioRealm
+import com.yadaniil.blogchain.data.db.models.CoinEntity
+import com.yadaniil.blogchain.data.db.models.PortfolioCoinEntity
 import com.yadaniil.blogchain.utils.CryptocurrencyHelper
 import com.yadaniil.blogchain.utils.CryptocurrencyHelper.getSymbolFromFullName
-import com.yadaniil.blogchain.utils.Endpoints
 import com.yadaniil.blogchain.utils.ImageLoader
 import com.yadaniil.blogchain.utils.UiHelper
 import kotlinx.android.synthetic.main.activity_add_to_portfolio.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.onClick
 import org.jetbrains.anko.toast
+import org.koin.android.architecture.ext.viewModel
 
 /**
  * Created by danielyakovlev on 11/3/17.
  */
 
-class AddToPortfolioActivity : MvpAppCompatActivity(), AddToPortfolioView {
+class AddToPortfolioActivity : AppCompatActivity() {
 
-    @InjectPresenter lateinit var presenter: AddToPortfolioPresenter
-    private var portfolioToEdit: PortfolioRealm? = null
+    private val viewModel by viewModel<AddToPortfolioViewModel>()
+    private var portfolioToEdit: PortfolioCoinEntity? = null
     private var removePortfolioMenuItem: MenuItem? = null
 
     // region Activity
@@ -37,10 +36,10 @@ class AddToPortfolioActivity : MvpAppCompatActivity(), AddToPortfolioView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_to_portfolio)
 
-        val portfolioId = intent.extras.getString("id")
-        portfolioToEdit = presenter.getSinglePortfolio(portfolioId)
+        val portfolioId = intent.extras.getLong("portfolioCoinEntityId")
+        portfolioToEdit = viewModel.getSinglePortfolio(portfolioId)
         initToolbar()
-        presenter.showCoins()
+        viewModel.showCoins()
         UiHelper.addCryptocurrencyInputFilter(amount_edit_text)
         UiHelper.addFiatInputFilter(buy_price_edit_text)
         initStorageType()
@@ -67,7 +66,7 @@ class AddToPortfolioActivity : MvpAppCompatActivity(), AddToPortfolioView {
                     || amount_edit_text.text.toString() == ".") {
                 toast(R.string.amount_of_coins_should_not_be_empty)
             } else {
-                presenter.addCoinToPortfolio(
+                viewModel.addCoinToPortfolio(
                         CryptocurrencyHelper.getSymbolFromFullName(coin_spinner.selectedItem.toString()),
                         amount_edit_text.text.toString(),
                         buy_price_edit_text.text.toString(),
@@ -82,7 +81,7 @@ class AddToPortfolioActivity : MvpAppCompatActivity(), AddToPortfolioView {
         R.id.action_remove_portfolio -> {
             alert(R.string.remove_from_portfolio_question) {
                 yesButton {
-                    presenter.removeItemFromPortfolio(portfolioToEdit?.id)
+                    viewModel.removeItemFromPortfolio(portfolioToEdit?.id)
                     finish()
                 }
                 cancelButton()
@@ -145,7 +144,7 @@ class AddToPortfolioActivity : MvpAppCompatActivity(), AddToPortfolioView {
         // The item selection for coin spinner is located in showCoin method
     }
 
-    override fun showCoin(coins: List<CoinEntity>) {
+    fun showCoin(coins: List<CoinEntity>) {
         val coinsForDisplay = coins.map { "${it.name} (${it.symbol})" }
         val adapter = ArrayAdapter(this,
                 android.R.layout.simple_spinner_dropdown_item, coinsForDisplay)
@@ -164,7 +163,8 @@ class AddToPortfolioActivity : MvpAppCompatActivity(), AddToPortfolioView {
         if (portfolioToEdit != null) {
             (0 until coin_spinner.count).forEach {
                 if (coin_spinner.getItemAtPosition(it).toString() ==
-                        "${portfolioToEdit?.coin?.name} (${portfolioToEdit?.coin?.symbol})") {
+                        "${portfolioToEdit?.coin?.target?.name} " +
+                        "(${portfolioToEdit?.coin?.target?.symbol})") {
                     coin_spinner.setSelection(it)
                     return@forEach
                 }
@@ -179,11 +179,7 @@ class AddToPortfolioActivity : MvpAppCompatActivity(), AddToPortfolioView {
                             0f, 0f, 0))
         }
 
-        val imageLink = presenter.getLinkForCoinImage(coin_spinner.selectedItem.toString())
-        if (imageLink.isBlank()) {
-            coin_icon.setImageResource(R.drawable.icon_ico)
-        } else {
-            ImageLoader.load(Endpoints.CRYPTO_COMPARE_URL + imageLink, coin_icon, this)
-        }
+        ImageLoader.loadCoinIcon(viewModel.getCoin(coin_spinner.selectedItem.toString()),
+                coin_icon, this, drawableIntRes = R.drawable.icon_ico)
     }
 }

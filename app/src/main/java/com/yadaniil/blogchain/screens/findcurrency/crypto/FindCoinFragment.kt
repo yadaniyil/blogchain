@@ -3,40 +3,39 @@ package com.yadaniil.blogchain.screens.findcurrency.crypto
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.arellomobile.mvp.MvpAppCompatFragment
-import com.arellomobile.mvp.presenter.InjectPresenter
 import com.miguelcatalan.materialsearchview.MaterialSearchView
 import com.yadaniil.blogchain.R
-import com.yadaniil.blogchain.data.db.models.realm.CoinEntity
+import com.yadaniil.blogchain.data.db.models.CoinEntity
 import com.yadaniil.blogchain.screens.findcurrency.FindCurrencyActivity.Companion.PICKED_COIN_SYMBOL
 import com.yadaniil.blogchain.screens.findcurrency.events.InitCoinsSearchViewEvent
 import com.yadaniil.blogchain.utils.ListHelper
-import io.realm.RealmResults
 import kotlinx.android.synthetic.main.fragment_find_cryptocurrencies.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import org.koin.android.architecture.ext.viewModel
 import timber.log.Timber
 
 /**
  * Created by danielyakovlev on 11/15/17.
  */
 
-class FindCoinFragment : MvpAppCompatFragment(), ListHelper.OnCoinClickListener, FindCoinView {
+class FindCoinFragment : Fragment(), ListHelper.OnCoinClickListener {
 
-    @InjectPresenter lateinit var presenter: FindCoinPresenter
+    private val viewModel by viewModel<FindCoinViewModel>()
 
     private lateinit var findCoinAdapter: FindCoinAdapter
     private lateinit var searchView: MaterialSearchView
-    private lateinit var allCoins: RealmResults<CoinEntity>
+    private lateinit var allCoins: List<CoinEntity>
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        allCoins = presenter.getAllCoins()
+        allCoins = viewModel.getAllCoins()
         initCoinList()
     }
 
@@ -67,14 +66,14 @@ class FindCoinFragment : MvpAppCompatFragment(), ListHelper.OnCoinClickListener,
             override fun onQueryTextSubmit(query: String?) = true
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                findCoinAdapter.updateData(presenter.getAllCoinsFiltered(newText ?: ""))
+                findCoinAdapter.updateData(viewModel.getAllCoinsFiltered(newText ?: ""))
                 return true
             }
         })
     }
 
     private fun initCoinList() {
-        findCoinAdapter = FindCoinAdapter(allCoins, true, this, presenter.repo, activity!!)
+        findCoinAdapter = FindCoinAdapter(this, activity!!)
         currencies_recycler_view.layoutManager = LinearLayoutManager(activity)
         currencies_recycler_view.adapter = findCoinAdapter
         currencies_recycler_view.setHasFixedSize(true)

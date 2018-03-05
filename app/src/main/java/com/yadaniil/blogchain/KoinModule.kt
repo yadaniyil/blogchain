@@ -10,10 +10,22 @@ import com.yadaniil.blogchain.data.api.AppApiHelper
 import com.yadaniil.blogchain.data.api.services.*
 import com.yadaniil.blogchain.data.db.AppDbHelper
 import com.yadaniil.blogchain.data.db.models.CoinEntity
-import com.yadaniil.blogchain.data.db.models.objectbox.MyObjectBox
+import com.yadaniil.blogchain.data.db.models.MyObjectBox
 import com.yadaniil.blogchain.data.db.models.PortfolioCoinEntity
 import com.yadaniil.blogchain.data.prefs.SharedPrefs
 import com.yadaniil.blogchain.screens.allcoins.AllCoinsViewModel
+import com.yadaniil.blogchain.screens.converter.ConverterViewModel
+import com.yadaniil.blogchain.screens.events.EventsViewModel
+import com.yadaniil.blogchain.screens.findcurrency.crypto.FindCoinViewModel
+import com.yadaniil.blogchain.screens.findcurrency.favourite.FindFavouriteViewModel
+import com.yadaniil.blogchain.screens.home.HomeViewModel
+import com.yadaniil.blogchain.screens.mining.fragments.calculator.CalculatorViewModel
+import com.yadaniil.blogchain.screens.mining.fragments.coins.MiningCoinsViewModel
+import com.yadaniil.blogchain.screens.mining.fragments.miners.MinersViewModel
+import com.yadaniil.blogchain.screens.news.NewsViewModel
+import com.yadaniil.blogchain.screens.portfolio.PortfolioViewModel
+import com.yadaniil.blogchain.screens.portfolio.addcoin.AddToPortfolioViewModel
+import com.yadaniil.blogchain.screens.watchlist.WatchlistViewModel
 import com.yadaniil.blogchain.utils.Endpoints
 import io.objectbox.BoxStore
 import okhttp3.Cache
@@ -54,6 +66,18 @@ val dbModule = applicationContext {
 
 val viewModelModule = applicationContext {
         viewModel { AllCoinsViewModel(get()) }
+        viewModel { ConverterViewModel(get()) }
+        viewModel { EventsViewModel(get()) }
+        viewModel { FindCoinViewModel(get()) }
+        viewModel { FindFavouriteViewModel(get()) }
+        viewModel { HomeViewModel(get()) }
+        viewModel { CalculatorViewModel(get()) }
+        viewModel { MiningCoinsViewModel(get()) }
+        viewModel { MinersViewModel(get()) }
+        viewModel { NewsViewModel(get()) }
+        viewModel { AddToPortfolioViewModel(get()) }
+        viewModel { PortfolioViewModel(get()) }
+        viewModel { WatchlistViewModel(get()) }
 }
 
 val netModule = applicationContext {

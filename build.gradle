@@ -44,7 +44,7 @@ ext{
     rxJavaVersion = '2.0.1'
     rxKotlinVersion = '2.0.3'
     timberVersion = '4.6.0'
-    daggerVersion = '2.+'
+//    daggerVersion = '2.+'
     retrofitVersion = '2.3.0'
     okHttpVersion = '3.9.1'
     picassoVersion = '2.5.2'
@@ -69,10 +69,10 @@ ext{
 //    crashlytics = "com.crashlytics.sdk.android:crashlytics:$crashlyticsVersion@aar"
 
     //dagger
-    dagger = "com.google.dagger:dagger-android:$daggerVersion"
-    daggerSupport = "com.google.dagger:dagger-android-support:$daggerVersion" // if you use the support libraries
-    daggerAnnotation = "com.google.dagger:dagger-android-processor:$daggerVersion" //for annotationProcessor
-    daggerApt = "com.google.dagger:dagger-compiler:$daggerVersion"
+//    dagger = "com.google.dagger:dagger-android:$daggerVersion"
+//    daggerSupport = "com.google.dagger:dagger-android-support:$daggerVersion" // if you use the support libraries
+//    daggerAnnotation = "com.google.dagger:dagger-android-processor:$daggerVersion" //for annotationProcessor
+//    daggerApt = "com.google.dagger:dagger-compiler:$daggerVersion"
 
     //net
     retrofit = "com.squareup.retrofit2:retrofit:$retrofitVersion"

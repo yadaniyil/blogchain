@@ -6,23 +6,21 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
-import com.arellomobile.mvp.presenter.InjectPresenter
-import com.miguelcatalan.materialsearchview.MaterialSearchView
 import com.yadaniil.blogchain.R
 import com.yadaniil.blogchain.data.api.models.coindar.CoindarEventResponse
 import com.yadaniil.blogchain.screens.base.BaseActivity
 import com.yadaniil.blogchain.utils.Navigator
 import kotlinx.android.synthetic.main.activity_events.*
 import org.jetbrains.anko.toast
+import org.koin.android.architecture.ext.viewModel
 
 /**
  * Created by danielyakovlev on 1/8/18.
  */
 
-class EventsActivity : BaseActivity(), EventsView, EventClickListener {
+class EventsActivity : BaseActivity(), EventClickListener {
 
-    @InjectPresenter
-    lateinit var presenter: EventsPresenter
+    private val viewModel by viewModel<EventsViewModel>()
 
     private lateinit var eventsAdapter: EventsAdapter
     private lateinit var listDivider: RecyclerView.ItemDecoration
@@ -36,7 +34,7 @@ class EventsActivity : BaseActivity(), EventsView, EventClickListener {
 //        initSearchView()
         listDivider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         setUpEventsList()
-        presenter.downloadAllEvents()
+        viewModel.downloadAllEvents()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -76,7 +74,7 @@ class EventsActivity : BaseActivity(), EventsView, EventClickListener {
 //    }
 
     private fun setUpEventsList() {
-        eventsAdapter = EventsAdapter(this, this, presenter.repo)
+        eventsAdapter = EventsAdapter(this, this, viewModel.getAllCoins())
         events_recycler_view.layoutManager = LinearLayoutManager(this)
         events_recycler_view.adapter = eventsAdapter
         events_recycler_view.itemAnimator = null
@@ -85,19 +83,19 @@ class EventsActivity : BaseActivity(), EventsView, EventClickListener {
         events_recycler_view.addItemDecoration(listDivider)
     }
 
-    override fun showLoading() {
+    private fun showLoading() {
         swipe_refresh.isRefreshing = true
     }
 
-    override fun stopLoading() {
+    private fun stopLoading() {
         swipe_refresh.isRefreshing = false
     }
 
-    override fun showEvents(events: MutableList<CoindarEventResponse>) {
+    private fun showEvents(events: MutableList<CoindarEventResponse>) {
         eventsAdapter.setData(events)
     }
 
-    override fun showLoadingError() = toast(R.string.error)
+    private fun showLoadingError() = toast(R.string.error)
 
     override fun onClick(holder: EventsAdapter.EventViewHolder, event: CoindarEventResponse) {
         Navigator.toWebViewActivity(event.proof, event.caption, this)

@@ -10,9 +10,8 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.yadaniil.blogchain.R
-import com.yadaniil.blogchain.data.Repository
 import com.yadaniil.blogchain.data.api.models.coindar.CoindarEventResponse
-import com.yadaniil.blogchain.utils.Endpoints
+import com.yadaniil.blogchain.data.db.models.CoinEntity
 import com.yadaniil.blogchain.utils.ImageLoader
 import org.jetbrains.anko.find
 import org.jetbrains.anko.onClick
@@ -23,7 +22,8 @@ import kotlin.properties.Delegates
  */
 
 
-class EventsAdapter(context: Context, onClickListener: EventClickListener, val repo: Repository)
+class EventsAdapter(context: Context, onClickListener: EventClickListener,
+                    private val coins: List<CoinEntity>)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var events: MutableList<CoindarEventResponse>? = ArrayList()
@@ -44,7 +44,8 @@ class EventsAdapter(context: Context, onClickListener: EventClickListener, val r
         holder.currencyName.text = currentEvent.coinName
         holder.currencyTicker.text = currentEvent.coinSymbol
 
-        ImageLoader.loadCoinIcon(currentEvent.coinSymbol, holder.currencyIcon, context, repo)
+        val coin = coins.find { it.symbol == currentEvent.coinSymbol }
+        ImageLoader.loadCoinIcon(coin, holder.currencyIcon, context)
 
         holder.eventDate.text = currentEvent.startDate
         val drawableForEquipmentType = GradientDrawable()

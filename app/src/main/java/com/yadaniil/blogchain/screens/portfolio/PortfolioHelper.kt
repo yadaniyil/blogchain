@@ -1,10 +1,9 @@
 package com.yadaniil.blogchain.screens.portfolio
 
 import android.widget.TextView
-import com.yadaniil.blogchain.data.db.models.realm.PortfolioRealm
+import com.yadaniil.blogchain.data.db.models.PortfolioCoinEntity
 import com.yadaniil.blogchain.utils.AmountFormatter
 import com.yadaniil.blogchain.utils.ListHelper
-import io.realm.RealmResults
 import java.math.BigDecimal
 
 /**
@@ -13,7 +12,7 @@ import java.math.BigDecimal
 
 object PortfolioHelper {
 
-    fun updateTotalFiatBalance(portfolios: RealmResults<PortfolioRealm>?,
+    fun updateTotalFiatBalance(portfolios: List<PortfolioCoinEntity>?,
                                fiatAmount: TextView, btcAmount: TextView) {
         if(portfolios == null || portfolios.isEmpty()) {
             fiatAmount.text = "0 USD"
@@ -31,7 +30,7 @@ object PortfolioHelper {
         }
     }
 
-    fun updateTotalFiatBalance(portfolios: RealmResults<PortfolioRealm>?,
+    fun updateTotalFiatBalance(portfolios: List<PortfolioCoinEntity>?,
                                amount: TextView) {
         if(portfolios == null || portfolios.isEmpty()) {
             amount.text = "0 USD (0 BTC)"

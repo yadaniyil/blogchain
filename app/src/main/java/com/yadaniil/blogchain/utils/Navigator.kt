@@ -46,8 +46,8 @@ object Navigator {
         activity.finish()
     }
 
-    fun toAddCoinToPortfolioActivity(activity: AppCompatActivity, id: String = "") {
-        activity.startActivity<AddToPortfolioActivity>("id" to id)
+    fun toAddCoinToPortfolioActivity(activity: AppCompatActivity, portfolioCoinEntityId: Long) {
+        activity.startActivity<AddToPortfolioActivity>("portfolioCoinEntityId" to portfolioCoinEntityId)
     }
 
     fun toConverterActivity(activity: AppCompatActivity) {

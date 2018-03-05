@@ -10,11 +10,8 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.yadaniil.blogchain.R
 import com.yadaniil.blogchain.data.api.models.whattomine.MiningCoin
-import com.yadaniil.blogchain.data.db.models.realm.CoinEntity
-import com.yadaniil.blogchain.data.db.models.realm.CryptoCompareCurrencyRealm
+import com.yadaniil.blogchain.data.db.models.CoinEntity
 import com.yadaniil.blogchain.utils.AmountFormatter
-import com.yadaniil.blogchain.utils.CryptocurrencyHelper
-import com.yadaniil.blogchain.utils.Endpoints
 import com.yadaniil.blogchain.utils.ImageLoader
 import org.jetbrains.anko.find
 import org.jetbrains.anko.onClick
@@ -25,9 +22,8 @@ import kotlin.properties.Delegates
  * Created by danielyakovlev on 9/28/17.
  */
 
-class CoinsAdapter(context: Context, coinClickListener: CoinItemClickListener,
-                   private val currencies: List<CoinEntity>,
-                   private val ccCurrencies: List<CryptoCompareCurrencyRealm>)
+class MiningCoinsAdapter(context: Context, coinClickListener: CoinItemClickListener,
+                         private val currencies: List<CoinEntity>)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var coins: MutableList<MiningCoin>? = ArrayList()
@@ -52,11 +48,8 @@ class CoinsAdapter(context: Context, coinClickListener: CoinItemClickListener,
         currentHolder.profitability.text = coin.profitability24.toString() + "%"
         currentHolder.equipmentType.text = coin.equipmentType
 
-        val iconLink = CryptocurrencyHelper.getImageLinkForCurrency(cmcCurrency, ccCurrencies)
-        if (iconLink.isNotEmpty())
-            ImageLoader.load(Endpoints.CRYPTO_COMPARE_URL + iconLink, currentHolder.icon, context)
-        else
-            currentHolder.icon.setImageResource(R.drawable.icon_ico)
+        ImageLoader.loadCoinIcon(cmcCurrency, currentHolder.icon, context,
+                drawableIntRes = R.drawable.icon_ico)
 
         holder.itemLayout.onClick {
             clickListener.onClick(currentHolder, coin)

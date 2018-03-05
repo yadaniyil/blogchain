@@ -1,6 +1,6 @@
 package com.yadaniil.blogchain
 
-import com.yadaniil.blogchain.screens.mining.fragments.calculator.CalculatorPresenter
+import com.yadaniil.blogchain.screens.mining.fragments.calculator.CalculatorViewModel
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -21,7 +21,7 @@ class HashrateExponentTest {
 
     @Test
     fun hashrateExponent_isCorrect() {
-        val calculatorPresenter = CalculatorPresenter()
+        val calculatorPresenter = CalculatorViewModel()
         // Bitcoin
         assertEquals("Gh/s", calculatorPresenter.calculateHashrateExponent("10620217936458838842"))
 

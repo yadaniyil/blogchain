@@ -8,5 +8,5 @@ import com.yadaniil.blogchain.data.api.models.whattomine.MiningCoin
 
 
 interface CoinItemClickListener {
-    fun onClick(holder: CoinsAdapter.CoinViewHolder, coin: MiningCoin)
+    fun onClick(holder: MiningCoinsAdapter.CoinViewHolder, coin: MiningCoin)
 }

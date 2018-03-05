@@ -6,22 +6,23 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
-import com.arellomobile.mvp.presenter.InjectPresenter
 import com.jakewharton.rxbinding2.widget.RxTextView
 import com.yadaniil.blogchain.R
 import com.yadaniil.blogchain.data.api.models.coinmarketcap.TickerResponse
-import com.yadaniil.blogchain.data.db.models.realm.CoinEntity
-import com.yadaniil.blogchain.data.db.models.realm.CryptoCompareCurrencyRealm
+import com.yadaniil.blogchain.data.db.models.CoinEntity
 import com.yadaniil.blogchain.screens.base.BaseActivity
 import com.yadaniil.blogchain.screens.findcurrency.FindCurrencyActivity
-import com.yadaniil.blogchain.screens.findcurrency.fiat.listitems.FiatCurrencyItem
+import com.yadaniil.blogchain.screens.findcurrency.fiat.FiatCurrencyItem
 import com.yadaniil.blogchain.utils.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_converter.*
-import org.jetbrains.anko.*
+import org.jetbrains.anko.find
+import org.jetbrains.anko.image
+import org.jetbrains.anko.onClick
+import org.jetbrains.anko.toast
+import org.koin.android.architecture.ext.viewModel
 import timber.log.Timber
 import java.math.BigDecimal
 
@@ -30,13 +31,11 @@ import java.math.BigDecimal
  * Created by danielyakovlev on 11/15/17.
  */
 
-class ConverterActivity : BaseActivity(), ConverterView {
+class ConverterActivity : BaseActivity() {
 
-    @InjectPresenter
-    lateinit var presenter: ConverterPresenter
+    private val viewModel by viewModel<ConverterViewModel>()
 
-    private lateinit var allCoins: RealmResults<CoinEntity>
-    private lateinit var allCcCoins: RealmResults<CryptoCompareCurrencyRealm>
+    private lateinit var allCoins: List<CoinEntity>
 
     private lateinit var allFiatCurrencies: List<FiatCurrencyItem>
 
@@ -56,8 +55,7 @@ class ConverterActivity : BaseActivity(), ConverterView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        allCoins = presenter.getAllCoins()
-        allCcCoins = presenter.getAllCcCoins()
+        allCoins = viewModel.getAllCoins()
         allFiatCurrencies = FiatCurrenciesHelper.getAll(this)
         initTopCurrency()
         initBottomCurrency()
@@ -76,7 +74,7 @@ class ConverterActivity : BaseActivity(), ConverterView {
                 if (fiat != null) {
                     initTopCurrency(fiat = fiat)
                 } else {
-                    val coin = presenter.getCoin(symbol)
+                    val coin = viewModel.getCoin(symbol)
                     initTopCurrency(coin = coin)
                 }
             }
@@ -87,7 +85,7 @@ class ConverterActivity : BaseActivity(), ConverterView {
                 if (fiat != null) {
                     initBottomCurrency(fiat = fiat)
                 } else {
-                    val coin = presenter.getCoin(symbol)
+                    val coin = viewModel.getCoin(symbol)
                     initBottomCurrency(coin = coin)
                 }
             }
@@ -154,16 +152,16 @@ class ConverterActivity : BaseActivity(), ConverterView {
 
         if (coin == null && fiat == null) {
             // Default is crypto
-            topCurrencySymbol.text = allCoins[0]?.symbol
-            topCurrencyName.text = allCoins[0]?.name
-            ListHelper.downloadAndSetIcon(topCurrencyIcon, allCoins[0], presenter.repo, this)
-            topCurrency = ConverterCryptoCurrency(allCoins[0]?.symbol ?: "", allCoins[0]?.id ?: "")
+            topCurrencySymbol.text = allCoins[0].symbol
+            topCurrencyName.text = allCoins[0].name
+            ImageLoader.loadCoinIcon(allCoins.first(), topCurrencyIcon, this)
+            topCurrency = ConverterCryptoCurrency(allCoins[0].symbol, allCoins[0].cmcId)
         } else if (coin != null && fiat == null) {
             // Crypto
             topCurrencySymbol.text = coin.symbol
             topCurrencyName.text = coin.name
-            ListHelper.downloadAndSetIcon(topCurrencyIcon, coin, presenter.repo, this)
-            topCurrency = ConverterCryptoCurrency(coin.symbol ?: "", coin.id ?: "")
+            ImageLoader.loadCoinIcon(coin, topCurrencyIcon, this)
+            topCurrency = ConverterCryptoCurrency(coin.symbol, coin.cmcId)
         } else if (coin == null && fiat != null) {
             // Fiat
             topCurrencySymbol.text = fiat.symbol
@@ -190,8 +188,8 @@ class ConverterActivity : BaseActivity(), ConverterView {
             // Crypto
             bottomCurrencySymbol.text = coin.symbol
             bottomCurrencyName.text = coin.name
-            ListHelper.downloadAndSetIcon(bottomCurrencyIcon, coin, presenter.repo, this)
-            bottomCurrency = ConverterCryptoCurrency(coin.symbol ?: "", coin?.id ?: "")
+            ImageLoader.loadCoinIcon(coin, bottomCurrencyIcon, this)
+            bottomCurrency = ConverterCryptoCurrency(coin.symbol, coin.cmcId)
         } else if (coin == null && fiat != null) {
             // Fiat
             bottomCurrencySymbol.text = fiat.symbol
@@ -236,13 +234,13 @@ class ConverterActivity : BaseActivity(), ConverterView {
 
     private fun updateTicker() {
         if (topCurrency.isCrypto()) {
-            presenter.cryptToAnyConversion(
-                    (topCurrency as ConverterCryptoCurrency).id, bottomCurrency.symbol)
+            viewModel.cryptToAnyConversion(
+                    (topCurrency as ConverterCryptoCurrency).cmcId, bottomCurrency.symbol)
         } else if (topCurrency.isFiat() && bottomCurrency.isCrypto()) {
-            presenter.fiatToCryptoConversion(
-                    (bottomCurrency as ConverterCryptoCurrency).id, topCurrency.symbol)
+            viewModel.fiatToCryptoConversion(
+                    (bottomCurrency as ConverterCryptoCurrency).cmcId, topCurrency.symbol)
         } else if (topCurrency.isFiat() && bottomCurrency.isFiat()) {
-            presenter.fiatToFiatConversion(topCurrency.symbol, bottomCurrency.symbol)
+            viewModel.fiatToFiatConversion(topCurrency.symbol, bottomCurrency.symbol)
         }
 
         try {
@@ -368,12 +366,12 @@ class ConverterActivity : BaseActivity(), ConverterView {
     // region View
     override fun getLayout() = R.layout.activity_converter
 
-    override fun proceedCryptToAnyConversion(ticker: TickerResponse) {
+    private fun proceedCryptToAnyConversion(ticker: TickerResponse) {
         this.ticker = ticker
         performTopToBottomConversion()
     }
 
-    override fun proceedFiatToFiatConversion(tickers: List<TickerResponse>) {
+    private fun proceedFiatToFiatConversion(tickers: List<TickerResponse>) {
         if (tickers.size != 2) {
             toast(R.string.error)
             return
@@ -384,22 +382,22 @@ class ConverterActivity : BaseActivity(), ConverterView {
         performTopToBottomConversion()
     }
 
-    override fun startToolbarLoading() {
+    private fun startToolbarLoading() {
         swipe_refresh.isRefreshing = true
     }
 
-    override fun stopToolbarLoading() {
+    private fun stopToolbarLoading() {
         swipe_refresh.isRefreshing = false
     }
 
-    override fun disableAmountFields() {
+    private fun disableAmountFields() {
         top_amount.isEnabled = false
         top_amount.isFocusable = false
         bottom_amount.isEnabled = false
         bottom_amount.isFocusable = false
     }
 
-    override fun enableAmountFields() {
+    private fun enableAmountFields() {
         top_amount.isEnabled = true
         bottom_amount.isEnabled = true
         top_amount.isFocusableInTouchMode = true

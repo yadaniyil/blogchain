@@ -50,7 +50,7 @@
     },
     {
       "id": "2:16092187445022033",
-      "lastPropertyId": "37:5538158237150580038",
+      "lastPropertyId": "31:2877489642412841655",
       "name": "CoinEntity",
       "properties": [
         {
@@ -130,6 +130,26 @@
           "name": "marketCapFiatAnalogue"
         },
         {
+          "id": "20:6448756300990076478",
+          "name": "cmcUrl"
+        },
+        {
+          "id": "21:5436713031487477552",
+          "name": "cmcImageUrl"
+        },
+        {
+          "id": "22:1618677910036683494",
+          "name": "cmcName"
+        },
+        {
+          "id": "23:7284746189939805802",
+          "name": "cmcCoinName"
+        },
+        {
+          "id": "24:884740164318407423",
+          "name": "cmcFullName"
+        },
+        {
           "id": "25:913259964466622968",
           "name": "algorithm"
         },
@@ -156,30 +176,6 @@
         {
           "id": "31:2877489642412841655",
           "name": "sortOrder"
-        },
-        {
-          "id": "32:1415361598493591375",
-          "name": "cmcId"
-        },
-        {
-          "id": "33:7722785893024502653",
-          "name": "ccUrl"
-        },
-        {
-          "id": "34:3614173931060068556",
-          "name": "ccImageUrl"
-        },
-        {
-          "id": "35:7780788543189685679",
-          "name": "ccName"
-        },
-        {
-          "id": "36:8121654791127335366",
-          "name": "ccCoinName"
-        },
-        {
-          "id": "37:5538158237150580038",
-          "name": "ccFullName"
         }
       ],
       "relations": []
@@ -193,13 +189,7 @@
   "modelVersionParserMinimum": 4,
   "retiredEntityUids": [],
   "retiredIndexUids": [],
-  "retiredPropertyUids": [
-    6448756300990076478,
-    5436713031487477552,
-    1618677910036683494,
-    7284746189939805802,
-    884740164318407423
-  ],
+  "retiredPropertyUids": [],
   "retiredRelationUids": [],
   "version": 1
 }

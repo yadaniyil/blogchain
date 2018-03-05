@@ -1,12 +1,9 @@
 package com.yadaniil.blogchain.screens.findcurrency
 
 import android.os.Bundle
-import android.support.design.widget.TabLayout
-import android.support.v4.view.ViewPager
+import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import com.arellomobile.mvp.MvpAppCompatActivity
-import com.arellomobile.mvp.presenter.InjectPresenter
 import com.jakewharton.rxbinding2.support.v4.view.RxViewPager
 import com.yadaniil.blogchain.R
 import com.yadaniil.blogchain.screens.findcurrency.events.InitCoinsSearchViewEvent
@@ -21,10 +18,8 @@ import org.greenrobot.eventbus.EventBus
  * Created by danielyakovlev on 11/2/17.
  */
 
-class FindCurrencyActivity : MvpAppCompatActivity(), FindCurrencyView {
+class FindCurrencyActivity : AppCompatActivity() {
 
-    @InjectPresenter
-    lateinit var presenter: FindCurrencyPresenter
     private var findPurposeRequestCode: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {

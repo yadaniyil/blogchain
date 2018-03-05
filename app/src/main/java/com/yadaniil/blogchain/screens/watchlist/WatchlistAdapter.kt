@@ -1,29 +1,26 @@
 package com.yadaniil.blogchain.screens.watchlist
 
 import android.content.Context
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.yadaniil.blogchain.R
-import com.yadaniil.blogchain.data.Repository
+import com.yadaniil.blogchain.data.db.models.CoinEntity
 import com.yadaniil.blogchain.screens.base.CoinClickListener
-import com.yadaniil.blogchain.data.db.models.realm.CoinEntity
 import com.yadaniil.blogchain.screens.base.CoinLongClickListener
 import com.yadaniil.blogchain.utils.ListHelper
-import io.realm.RealmRecyclerViewAdapter
-import io.realm.RealmResults
 
 /**
  * Created by danielyakovlev on 10/31/17.
  */
 
-class WatchlistAdapter(data: RealmResults<CoinEntity>, autoUpdate: Boolean,
-                       private var context: Context, val repo: Repository,
-                       var onClick: CoinClickListener, var onLongClick: CoinLongClickListener)
-    : RealmRecyclerViewAdapter<CoinEntity, ListHelper.CoinViewHolder>(data, autoUpdate) {
+class WatchlistAdapter(private var context: Context, var onClick: CoinClickListener,
+                       var onLongClick: CoinLongClickListener)
+    : RecyclerView.Adapter<ListHelper.CoinViewHolder>() {
 
-    init {
-        setHasStableIds(true)
-    }
+    private val coins: MutableList<CoinEntity> = ArrayList()
+
+    override fun getItemCount() = coins.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListHelper.CoinViewHolder {
         val itemView = LayoutInflater.from(parent.context)
@@ -32,9 +29,13 @@ class WatchlistAdapter(data: RealmResults<CoinEntity>, autoUpdate: Boolean,
     }
 
     override fun onBindViewHolder(holder: ListHelper.CoinViewHolder, position: Int) {
-        val currencyRealm = getItem(position)
-        ListHelper.bindCoinListItem(holder, currencyRealm!!, repo, context,
-                onClick, onLongClick, true)
+        val currencyRealm = coins[position]
+        ListHelper.bindCoinListItem(holder, currencyRealm, context, onClick, onLongClick, true)
+    }
+
+    fun updateData(newCoins: List<CoinEntity>) {
+        coins.clear()
+        coins.addAll(newCoins)
     }
 
 }

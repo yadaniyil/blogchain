@@ -1,9 +1,9 @@
 package com.yadaniil.blogchain.data.db
 
 import com.yadaniil.blogchain.data.db.models.CoinEntity
-import com.yadaniil.blogchain.data.db.models.objectbox.CoinEntity_
+import com.yadaniil.blogchain.data.db.models.CoinEntity_
 import com.yadaniil.blogchain.data.db.models.PortfolioCoinEntity
-import com.yadaniil.blogchain.data.db.models.objectbox.PortfolioCoinEntity_
+import com.yadaniil.blogchain.data.db.models.PortfolioCoinEntity_
 import io.objectbox.Box
 import io.objectbox.android.ObjectBoxLiveData
 

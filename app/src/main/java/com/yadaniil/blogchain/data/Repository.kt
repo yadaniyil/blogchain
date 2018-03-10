@@ -33,7 +33,7 @@ class Repository(private var api: AppApiHelper,
     override fun getAllCoinsFromDbLiveData(): ObjectBoxLiveData<CoinEntity> = db.getAllCoinsFromDbLiveData()
 
     override fun getAllCoinsFiltered(text: String): List<CoinEntity> = db.getAllCoinsFiltered(text)
-    override fun getAllCoinsFilteredLiveData(text: String): ObjectBoxLiveData<CoinEntity> = getAllCoinsFilteredLiveData(text)
+    override fun getAllCoinsFilteredLiveData(text: String): ObjectBoxLiveData<CoinEntity> = db.getAllCoinsFilteredLiveData(text)
 
     override fun getAllCoinsSorted(fieldName: String, isDescending: Boolean): List<CoinEntity> =
             db.getAllCoinsSorted(fieldName, isDescending)
@@ -41,8 +41,10 @@ class Repository(private var api: AppApiHelper,
     override fun getAllCoinsSortedLiveData(fieldName: String, isDescending: Boolean) =
             db.getAllCoinsSortedLiveData(fieldName, isDescending)
 
-    override fun saveCoinsToDb(coins: List<CoinEntity>) {
-        db.saveCoinsToDb(coins)
+    override fun saveCoinsToDb(coins: List<CoinEntity>) = db.saveCoinsToDb(coins)
+
+    override fun saveCoinsToDbAsync(coins: List<CoinEntity>, onCoinsSaved: () -> Unit) {
+        db.saveCoinsToDbAsync(coins) { onCoinsSaved() }
     }
 
     override fun getCoinFromDb(symbol: String): CoinEntity? = db.getCoinFromDb(symbol)

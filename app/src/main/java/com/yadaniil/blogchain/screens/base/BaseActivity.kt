@@ -14,6 +14,7 @@ import com.mikepenz.materialdrawer.AccountHeaderBuilder
 import com.mikepenz.materialdrawer.Drawer
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem
 import com.yadaniil.blogchain.utils.Navigator
+import kotlinx.android.synthetic.main.appbar_with_search_and_update_time.*
 import org.jetbrains.anko.toast
 import timber.log.Timber
 

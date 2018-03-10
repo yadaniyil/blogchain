@@ -5,12 +5,14 @@ import com.yadaniil.blogchain.data.db.models.CoinEntity_
 import com.yadaniil.blogchain.data.db.models.PortfolioCoinEntity
 import com.yadaniil.blogchain.data.db.models.PortfolioCoinEntity_
 import io.objectbox.Box
+import io.objectbox.BoxStore
 import io.objectbox.android.ObjectBoxLiveData
 
 /**
  * Created by danielyakovlev on 7/1/17.
  */
-class AppDbHelper(private val coinBox: Box<CoinEntity>,
+class AppDbHelper(private val boxStore: BoxStore,
+                  private val coinBox: Box<CoinEntity>,
                   private val portfolioCoinBox: Box<PortfolioCoinEntity>) : DbHelper {
 
     override fun getAllCoinsFromDb(): List<CoinEntity> = coinBox.all
@@ -44,6 +46,14 @@ class AppDbHelper(private val coinBox: Box<CoinEntity>,
             else coinBox.query().orderDesc(CoinEntity_.name).build())
 
     override fun saveCoinsToDb(coins: List<CoinEntity>) = coinBox.put(coins)
+
+    override fun saveCoinsToDbAsync(coins: List<CoinEntity>, onCoinsSaved: () -> Unit) {
+        boxStore.runInTxAsync({
+            coinBox.put(coins)
+        }, { void: Void?, throwable: Throwable? ->
+            onCoinsSaved()
+        })
+    }
 
     override fun getCoinFromDb(symbol: String): CoinEntity? = coinBox.query()
             .equal(CoinEntity_.symbol, symbol).build().findFirst()

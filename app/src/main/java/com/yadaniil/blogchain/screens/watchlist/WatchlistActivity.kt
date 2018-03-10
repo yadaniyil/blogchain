@@ -20,8 +20,10 @@ import com.yadaniil.blogchain.utils.ListHelper
 import com.yadaniil.blogchain.utils.Navigator
 import kotlinx.android.synthetic.main.activity_watchlist.*
 import org.jetbrains.anko.alert
-import org.jetbrains.anko.onClick
+import org.jetbrains.anko.cancelButton
+import org.jetbrains.anko.sdk25.listeners.onClick
 import org.jetbrains.anko.toast
+import org.jetbrains.anko.yesButton
 import org.koin.android.architecture.ext.viewModel
 
 
@@ -165,10 +167,10 @@ class WatchlistActivity : BaseActivity(), CoinClickListener, CoinLongClickListen
 
     override fun onLongClick(holder: ListHelper.CoinViewHolder, coinEntity: CoinEntity) {
         alert {
-            title(R.string.remove_from_favourite_question)
-            message("${coinEntity.name} (${coinEntity.symbol})")
+            title = getString(R.string.remove_from_favourite_question)
+            message = "${coinEntity.name} (${coinEntity.symbol})"
             yesButton { viewModel.removeCoinFromFavourites(coinEntity) }
-            cancelButton()
+            cancelButton {}
         }.show()
     }
 

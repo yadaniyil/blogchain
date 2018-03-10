@@ -41,7 +41,7 @@ class AllCoinsAdapter(private var onClick: CoinClickListener,
     }
 
     fun setCoins(coins: List<CoinEntity>) {
-        data.clear()
-        data.addAll(coins)
+        data = coins.toMutableList()
+        notifyDataSetChanged()
     }
 }

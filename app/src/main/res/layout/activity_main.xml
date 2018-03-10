@@ -7,66 +7,13 @@
     android:layout_height="match_parent"
     tools:context=".screens.allcoins.AllCoinsActivity">
 
+    <include layout="@layout/appbar_with_search_and_update_time"/>
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/appBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
-
-        <FrameLayout
-            android:id="@+id/toolbar_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_scrollFlags="scroll|enterAlways">
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary" />
-
-            <com.miguelcatalan.materialsearchview.MaterialSearchView
-                android:id="@+id/search_view"
-                style="@style/DarkMaterialSearchView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </FrameLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/half_standard_dimen"
-            android:paddingStart="@dimen/half_standard_dimen"
-            android:paddingEnd="@dimen/half_standard_dimen"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:id="@+id/last_update_time"
-            android:text="Last update: 3 minutes ago"/>
-
-        <fr.castorflex.android.smoothprogressbar.SmoothProgressBar
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/smooth_progress_bar"
-            android:layout_width="match_parent"
-            android:layout_height="3dp"
-            android:indeterminate="true"
-            app:spb_color="@color/colorAccent"
-            app:spb_mirror_mode="true"
-            app:spb_progressiveStart_activated="false"
-            app:spb_progressiveStart_speed="4.0"
-            app:spb_progressiveStop_speed="4.0"
-            app:spb_reversed="true"
-            app:spb_sections_count="2"
-            app:spb_speed="4.0"
-            app:spb_stroke_separator_length="4dp"
-            app:spb_stroke_width="4dp" />
-
-    </android.support.design.widget.AppBarLayout>
-
+    <!--To hide toolbar on scroll-->
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:id="@+id/all_coins_container"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:orientation="vertical">
 
@@ -91,19 +38,10 @@
 
         </android.support.v4.widget.SwipeRefreshLayout>
 
-        <include layout="@layout/no_items_layout"/>
+        <include layout="@layout/loading_error_layout"/>
+        <include layout="@layout/progress_bar_loading_layout"/>
         <include layout="@layout/no_items_filtered_layout"/>
 
     </FrameLayout>
-
-    <com.google.android.gms.ads.AdView
-        xmlns:ads="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/adView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center_horizontal"
-        ads:adSize="BANNER"
-        ads:adUnitId="@string/banner_currencies_list">
-    </com.google.android.gms.ads.AdView>
 
 </android.support.design.widget.CoordinatorLayout>

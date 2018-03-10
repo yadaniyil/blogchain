@@ -6,9 +6,12 @@ import com.crashlytics.android.Crashlytics
 import com.yadaniil.blogchain.screens.base.BaseHelper
 import com.yadaniil.blogchain.utils.Navigator
 import io.fabric.sdk.android.Fabric
+import org.koin.android.architecture.ext.viewModel
 
 
 class SplashActivity : AppCompatActivity() {
+
+    private val viewModel by viewModel<SplashViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -16,6 +19,6 @@ class SplashActivity : AppCompatActivity() {
 
         // To select tab in nav drawer
         BaseHelper.selectedDrawerItem = BaseHelper.DRAWER_ITEM_ALL_COINS_ID
-        Navigator.toAllCoinsActivity(this)
+        viewModel.loadAllCoins { Navigator.toAllCoinsActivity(this) }
     }
 }

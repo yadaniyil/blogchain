@@ -1,7 +1,9 @@
 package com.yadaniil.blogchain.utils
 
+import com.yadaniil.blogchain.data.api.models.coinmarketcap.TickerResponse
+import com.yadaniil.blogchain.data.api.models.cryptocompare.CryptoCompareCurrenciesListResponse
 import com.yadaniil.blogchain.data.db.models.CoinEntity
-import com.yadaniil.blogchain.screens.allcoins.AllCoinsViewModel
+import timber.log.Timber
 
 /**
  * Created by danielyakovlev on 3/5/18.
@@ -9,50 +11,99 @@ import com.yadaniil.blogchain.screens.allcoins.AllCoinsViewModel
 
 object CoinMapper {
 
-    fun mapCoins(fullUpdateResponse: AllCoinsViewModel.FullUpdateResponse,
+    fun mapCoins(fullUpdateResponse: Pair<CryptoCompareCurrenciesListResponse, List<TickerResponse>>,
                  allCoinsFromDb: List<CoinEntity>): List<CoinEntity> {
-        val ccCoins = fullUpdateResponse.ccAllCoinsResponse.data?.values?.toList() ?: emptyList()
-        val cmcCoins = fullUpdateResponse.cmcAllCoinsResponse
+        val cryptoCompareCoins = fullUpdateResponse.first.data?.values?.toList() ?: emptyList()
+        val coinMarketCapCoins = fullUpdateResponse.second
         val coinEntities: MutableList<CoinEntity> = ArrayList()
 
-        cmcCoins.forEach {
-            val ccCoin = ccCoins.find { it.symbol == it.symbol }
-            val oldEntity = allCoinsFromDb.find { it.symbol == it.symbol }
-            val updatedEntity = oldEntity?.copy(
-                    cmcId = it.id,
-                    name = it.name,
-                    symbol = it.symbol,
-                    rank = it.rank,
-                    priceUsd = it.priceUsd.toDouble(),
-                    priceBtc = it.priceBtc.toDouble(),
-                    volume24hUsd = it.volume24hUsd.toDouble(),
-                    marketCapUsd = it.marketCapUsd.toDouble(),
-                    availableSupply = it.availableSupply.toDouble(),
-                    totalSupply = it.totalSupply.toDouble(),
-                    percentChange1h = it.percentChange1h.toDouble(),
-                    percentChange24h = it.percentChange24h.toDouble(),
-                    percentChange7d = it.percentChange7d.toDouble(),
-                    lastUpdated = it.lastUpdated,
-                    iconBytes = null,
-                    isFavourite = oldEntity?.isFavourite ?: false,
-                    priceFiatAnalogue = it.priceFiatAnalogue.toDouble(),
-                    volume24hFiatAnalogue = it.dayVolumeFiatAnalogue.toDouble(),
-                    marketCapFiatAnalogue = it.marketCapFiatAnalogue.toDouble(),
-                    ccUrl = ccCoin?.url ?: "",
-                    ccImageUrl = ccCoin?.imageUrl ?: "",
-                    ccName = ccCoin?.name ?: "",
-                    ccCoinName = ccCoin?.coinName ?: "",
-                    ccFullName = ccCoin?.fullName ?: "",
-                    algorithm = ccCoin?.algorithm ?: "",
-                    proofType = ccCoin?.proofType ?: "",
-                    fullyPremined = ccCoin?.fullyPremined ?: "",
-                    totalCoinSupply = ccCoin?.totalCoinSupply ?: "",
-                    preminedValue = ccCoin?.preminedValue ?: "",
-                    totalCoinsFreeFloat = ccCoin?.totalCoinsFreeFloat ?: "",
-                    sortOrder = ccCoin?.sortOrder ?: 0)
+        for (coin in coinMarketCapCoins) {
+            try {
+                val ccCoin = cryptoCompareCoins.find { it.symbol == coin.symbol }
+                val oldEntity = allCoinsFromDb.find { it.symbol == coin.symbol }
+                var updatedEntity: CoinEntity
+                if (oldEntity == null) {
+                    updatedEntity = CoinEntity(
+                            cmcId = coin.id,
+                            name = coin.name,
+                            symbol = coin.symbol,
+                            rank = coin.rank,
+                            priceUsd = toSafeDouble(coin.priceUsd),
+                            priceBtc = toSafeDouble(coin.priceBtc),
+                            volume24hUsd = toSafeDouble(coin.volume24hUsd),
+                            marketCapUsd = toSafeDouble(coin.marketCapUsd),
+                            availableSupply = toSafeDouble(coin.availableSupply),
+                            totalSupply = toSafeDouble(coin.totalSupply),
+                            maxSupply = toSafeDouble(coin.maxSupply),
+                            percentChange1h = toSafeDouble(coin.percentChange1h),
+                            percentChange24h = toSafeDouble(coin.percentChange24h),
+                            percentChange7d = toSafeDouble(coin.percentChange7d),
+                            lastUpdated = coin.lastUpdated,
+                            iconBytes = null,
+                            isFavourite = oldEntity?.isFavourite ?: false,
+                            priceFiatAnalogue = toSafeDouble(coin.priceFiatAnalogue),
+                            volume24hFiatAnalogue = toSafeDouble(coin.dayVolumeFiatAnalogue),
+                            marketCapFiatAnalogue = toSafeDouble(coin.marketCapFiatAnalogue),
+                            ccUrl = ccCoin?.url ?: "",
+                            ccImageUrl = ccCoin?.imageUrl ?: "",
+                            ccName = ccCoin?.name ?: "",
+                            ccCoinName = ccCoin?.coinName ?: "",
+                            ccFullName = ccCoin?.fullName ?: "",
+                            algorithm = ccCoin?.algorithm ?: "",
+                            proofType = ccCoin?.proofType ?: "",
+                            fullyPremined = ccCoin?.fullyPremined ?: "",
+                            totalCoinSupply = ccCoin?.totalCoinSupply ?: "",
+                            preminedValue = ccCoin?.preminedValue ?: "",
+                            totalCoinsFreeFloat = ccCoin?.totalCoinsFreeFloat ?: "",
+                            sortOrder = ccCoin?.sortOrder ?: 0)
+                } else {
+                    updatedEntity = oldEntity.copy(
+                            cmcId = coin.id,
+                            name = coin.name,
+                            symbol = coin.symbol,
+                            rank = coin.rank,
+                            priceUsd = toSafeDouble(coin.priceUsd),
+                            priceBtc = toSafeDouble(coin.priceBtc),
+                            volume24hUsd = toSafeDouble(coin.volume24hUsd),
+                            marketCapUsd = toSafeDouble(coin.marketCapUsd),
+                            availableSupply = toSafeDouble(coin.availableSupply),
+                            totalSupply = toSafeDouble(coin.totalSupply),
+                            maxSupply = toSafeDouble(coin.maxSupply),
+                            percentChange1h = toSafeDouble(coin.percentChange1h),
+                            percentChange24h = toSafeDouble(coin.percentChange24h),
+                            percentChange7d = toSafeDouble(coin.percentChange7d),
+                            lastUpdated = coin.lastUpdated,
+                            iconBytes = null,
+                            priceFiatAnalogue = toSafeDouble(coin.priceFiatAnalogue),
+                            volume24hFiatAnalogue = toSafeDouble(coin.dayVolumeFiatAnalogue),
+                            marketCapFiatAnalogue = toSafeDouble(coin.marketCapFiatAnalogue),
+                            ccUrl = ccCoin?.url ?: "",
+                            ccImageUrl = ccCoin?.imageUrl ?: "",
+                            ccName = ccCoin?.name ?: "",
+                            ccCoinName = ccCoin?.coinName ?: "",
+                            ccFullName = ccCoin?.fullName ?: "",
+                            algorithm = ccCoin?.algorithm ?: "",
+                            proofType = ccCoin?.proofType ?: "",
+                            fullyPremined = ccCoin?.fullyPremined ?: "",
+                            totalCoinSupply = ccCoin?.totalCoinSupply ?: "",
+                            preminedValue = ccCoin?.preminedValue ?: "",
+                            totalCoinsFreeFloat = ccCoin?.totalCoinsFreeFloat ?: "",
+                            sortOrder = ccCoin?.sortOrder ?: 0)
 
-            updatedEntity?.let { coinEntities.add(it) }
+                }
+                coinEntities.add(updatedEntity)
+            } catch (e: Exception) {
+                Timber.e(e.message)
+            }
         }
         return coinEntities
     }
+
+    private fun toSafeDouble(string: String) = try {
+        string.toDouble()
+    } catch (e: Exception) {
+        0.0
+    }
+
+
 }

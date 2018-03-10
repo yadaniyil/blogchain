@@ -15,7 +15,7 @@ import org.jetbrains.anko.find
 
 object AllCoinsHelper {
 
-    lateinit var coins: List<CoinEntity>
+    var coins: List<CoinEntity> = emptyList()
     lateinit var viewModel: AllCoinsViewModel
 
     // region CoinSorter

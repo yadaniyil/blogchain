@@ -12,9 +12,10 @@ import com.yadaniil.blogchain.R
 import com.yadaniil.blogchain.data.api.models.whattomine.MiningCoin
 import com.yalantis.filter.animator.FiltersListItemAnimator
 import kotlinx.android.synthetic.main.fragment_mining_coins.*
+import kotlinx.android.synthetic.main.loading_error_layout.*
 import kotlinx.android.synthetic.main.no_items_filtered_layout.*
-import kotlinx.android.synthetic.main.no_items_layout.*
-import org.jetbrains.anko.onClick
+import kotlinx.android.synthetic.main.progress_bar_loading_layout.*
+import org.jetbrains.anko.sdk25.listeners.onClick
 import org.koin.android.architecture.ext.viewModel
 import kotlin.properties.Delegates
 
@@ -131,16 +132,16 @@ class CoinsFragment : Fragment(), CoinItemClickListener {
             override fun onChanged() {
                 if(coinsAdapter.itemCount > 0) {
                     coins_list.visibility = View.VISIBLE
-                    no_items_layout.visibility = View.GONE
+                    loading_error_layout.visibility = View.GONE
                     no_items_filtered_layout.visibility = View.GONE
                 } else {
                     if(search_view.isSearchOpen) {
-                        no_items_layout.visibility = View.GONE
+                        loading_error_layout.visibility = View.GONE
                         coins_list.visibility = View.GONE
                         no_items_filtered_layout.visibility = View.VISIBLE
                     } else {
                         no_items_filtered_layout.visibility = View.GONE
-                        no_items_layout.visibility = View.VISIBLE
+                        loading_error_layout.visibility = View.VISIBLE
                         coins_list.visibility = View.GONE
                     }
                 }

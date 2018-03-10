@@ -21,10 +21,10 @@ class PortfolioViewModel(private val repo: Repository) : ViewModel() {
                 .observeOn(AndroidSchedulers.mainThread())
 //                .doOnSubscribe {
 //                    viewState.showToolbarLoading()
-//                    viewState.hideSwipeRefreshLoading() }
+//                    viewState.stopSwipeRefreshLoading() }
 //                .doOnComplete { viewState.stopToolbarLoading() }
                 .subscribe({ currenciesList ->
-//                    repo.saveCoinsToDb(currenciesList)
+//                    repo.saveCoinsToDbAsync(currenciesList)
                 }, { error ->
 //                    viewState.showLoadingError()
 //                    viewState.stopToolbarLoading()

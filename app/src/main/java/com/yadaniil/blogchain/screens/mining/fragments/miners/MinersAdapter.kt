@@ -14,7 +14,7 @@ import com.yadaniil.blogchain.data.api.models.cryptocompare.Miner
 import com.yadaniil.blogchain.utils.Endpoints
 import com.yadaniil.blogchain.utils.ImageLoader
 import org.jetbrains.anko.find
-import org.jetbrains.anko.onClick
+import org.jetbrains.anko.sdk25.listeners.onClick
 import java.util.*
 import kotlin.properties.Delegates
 

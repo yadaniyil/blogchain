@@ -1,33 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/no_items_layout"
+    android:id="@+id/loading_error_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginEnd="@dimen/double_dimen"
     android:layout_marginStart="@dimen/double_dimen"
     android:gravity="center"
-    android:visibility="gone"
     android:orientation="vertical"
     android:padding="@dimen/double_dimen">
-
-    <ProgressBar
-        android:id="@+id/progress_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:id="@+id/downloading_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/standard_dimen"
-        android:text="@string/downloading_blockchain" />
 
     <ImageView
         android:id="@+id/error_image"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:src="@drawable/ic_no_connectivity"
-        android:visibility="gone" />
+        android:src="@drawable/ic_no_connectivity" />
 
     <TextView
         android:id="@+id/error_message"
@@ -35,8 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/double_dimen"
         android:text="@string/something_went_wrong"
-        android:textSize="@dimen/text_size_normal"
-        android:visibility="gone" />
+        android:textSize="@dimen/text_size_normal" />
 
     <Button
         android:id="@+id/retry_button"
@@ -45,7 +30,6 @@
         android:layout_marginTop="@dimen/standard_dimen"
         android:background="@null"
         android:text="@string/retry"
-        android:textColor="@color/colorAccent"
-        android:visibility="gone" />
+        android:textColor="@color/colorAccent" />
 
 </LinearLayout>

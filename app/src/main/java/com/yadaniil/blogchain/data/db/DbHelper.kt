@@ -20,6 +20,7 @@ interface DbHelper {
     fun getAllCoinsSortedLiveData(fieldName: String, isDescending: Boolean): ObjectBoxLiveData<CoinEntity>
 
     fun saveCoinsToDb(coins: List<CoinEntity>)
+    fun saveCoinsToDbAsync(coins: List<CoinEntity>, onCoinsSaved: () -> Unit)
     fun getCoinFromDb(symbol: String): CoinEntity?
 
     fun addCoinToFavourite(coin: CoinEntity)

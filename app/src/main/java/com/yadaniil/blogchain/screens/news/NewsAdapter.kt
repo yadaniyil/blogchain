@@ -11,7 +11,7 @@ import com.yadaniil.blogchain.data.api.models.NewsModel
 import com.yadaniil.blogchain.utils.DateHelper
 import com.yadaniil.blogchain.utils.ImageLoader
 import com.yadaniil.blogchain.utils.ListHelper
-import org.jetbrains.anko.onClick
+import org.jetbrains.anko.sdk25.listeners.onClick
 import com.amulyakhare.textdrawable.TextDrawable
 import com.amulyakhare.textdrawable.util.ColorGenerator
 

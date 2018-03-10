@@ -20,7 +20,7 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_converter.*
 import org.jetbrains.anko.find
 import org.jetbrains.anko.image
-import org.jetbrains.anko.onClick
+import org.jetbrains.anko.sdk25.listeners.onClick
 import org.jetbrains.anko.toast
 import org.koin.android.architecture.ext.viewModel
 import timber.log.Timber

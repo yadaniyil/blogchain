@@ -50,7 +50,7 @@
     },
     {
       "id": "2:16092187445022033",
-      "lastPropertyId": "37:5538158237150580038",
+      "lastPropertyId": "38:8376216495754616828",
       "name": "CoinEntity",
       "properties": [
         {
@@ -180,6 +180,10 @@
         {
           "id": "37:5538158237150580038",
           "name": "ccFullName"
+        },
+        {
+          "id": "38:8376216495754616828",
+          "name": "maxSupply"
         }
       ],
       "relations": []

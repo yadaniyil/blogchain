@@ -32,7 +32,7 @@ class WatchlistViewModel(private val repo: Repository) : ViewModel() {
 //                    viewState.hideSwipeRefreshLoading() }
 //                .doOnComplete { viewState.stopToolbarLoading() }
                 .subscribe({ currenciesList ->
-//                    repo.saveCoinsToDb(currenciesList)
+//                    repo.saveCoinsToDbAsync(currenciesList)
                 }, { error ->
 //                    viewState.showLoadingError()
 //                    viewState.stopToolbarLoading()

@@ -17,8 +17,10 @@ import com.yadaniil.blogchain.utils.ImageLoader
 import com.yadaniil.blogchain.utils.UiHelper
 import kotlinx.android.synthetic.main.activity_add_to_portfolio.*
 import org.jetbrains.anko.alert
-import org.jetbrains.anko.onClick
+import org.jetbrains.anko.cancelButton
+import org.jetbrains.anko.sdk25.listeners.onClick
 import org.jetbrains.anko.toast
+import org.jetbrains.anko.yesButton
 import org.koin.android.architecture.ext.viewModel
 
 /**
@@ -84,7 +86,7 @@ class AddToPortfolioActivity : AppCompatActivity() {
                     viewModel.removeItemFromPortfolio(portfolioToEdit?.id)
                     finish()
                 }
-                cancelButton()
+                cancelButton { }
             }.show()
 
             true

@@ -72,14 +72,6 @@ dependencies {
     //timber
     compile rootProject.ext.timber
 
-    //di
-//    compile rootProject.ext.dagger
-//    kapt rootProject.ext.daggerApt
-
-    //compile rootProject.ext.daggerSupport
-
-    //annotationProcessor rootProject.ext.daggerAnnotation
-
     //rx
     compile rootProject.ext.rxJava
     compile rootProject.ext.rxAndroid
@@ -105,7 +97,9 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     // anko
-    compile 'org.jetbrains.anko:anko-sdk15:0.9.1'
+    compile 'org.jetbrains.anko:anko-sdk25:0.10.4'
+    compile 'org.jetbrains.anko:anko-sdk25-listeners:0.10.4'
+    compile 'org.jetbrains.anko:anko-design:0.10.4'
 
     // Material EditText
     compile 'com.rengwuxian.materialedittext:library:2.1.4'

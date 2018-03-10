@@ -68,12 +68,6 @@ ext{
     //crashlytics
 //    crashlytics = "com.crashlytics.sdk.android:crashlytics:$crashlyticsVersion@aar"
 
-    //dagger
-//    dagger = "com.google.dagger:dagger-android:$daggerVersion"
-//    daggerSupport = "com.google.dagger:dagger-android-support:$daggerVersion" // if you use the support libraries
-//    daggerAnnotation = "com.google.dagger:dagger-android-processor:$daggerVersion" //for annotationProcessor
-//    daggerApt = "com.google.dagger:dagger-compiler:$daggerVersion"
-
     //net
     retrofit = "com.squareup.retrofit2:retrofit:$retrofitVersion"
     okHttp = "com.squareup.okhttp3:okhttp:$okHttpVersion"

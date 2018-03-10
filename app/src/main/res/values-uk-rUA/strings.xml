@@ -178,4 +178,6 @@
     <string name="show_hide_portfolio">Показати/скрити портфоліо</string>
     <string name="btc_dominance">BTC Домінування</string>
     <string name="drawer_item_events">Події</string>
+    <string name="undo">Відміна</string>
+    <string name="update_error">Помилка оновлення</string>
 </resources>

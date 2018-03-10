@@ -48,7 +48,7 @@ class HomeViewModel(private val repo: Repository) : ViewModel() {
 //                .doOnSubscribe { viewState.showLoading() }
 //                .doOnComplete { viewState.stopLoading() }
                 .subscribe({ zipRequest ->
-//                    repo.saveCoinsToDb(CoinEntity.convertApiResponseToRealmList(zipRequest.coins))
+//                    repo.saveCoinsToDbAsync(CoinEntity.convertApiResponseToRealmList(zipRequest.coins))
                     repo.saveCmcGlobalData(zipRequest.globalData)
                     repo.saveCmcMarketCapAndVolumeChartData(zipRequest.chartsData)
 //                    viewState.updateGlobalData(zipRequest.globalData)

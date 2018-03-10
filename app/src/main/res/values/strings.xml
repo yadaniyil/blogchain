@@ -140,6 +140,8 @@
     <string name="show_hide_portfolio">Hide/show portfolio</string>
     <string name="btc_dominance">BTC Dominance</string>
     <string name="drawer_item_events">Events</string>
+    <string name="update_error">Update error</string>
+    <string name="undo">Undo</string>
 
     <string-array name="miner_filters">
         <item>All categories</item>

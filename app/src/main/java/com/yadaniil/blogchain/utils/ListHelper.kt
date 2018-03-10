@@ -13,6 +13,8 @@ import com.yadaniil.blogchain.screens.base.CoinClickListener
 import com.yadaniil.blogchain.screens.base.CoinLongClickListener
 import com.yadaniil.blogchain.screens.portfolio.PortfolioAdapter
 import org.jetbrains.anko.*
+import org.jetbrains.anko.sdk25.listeners.onClick
+import org.jetbrains.anko.sdk25.listeners.onLongClick
 import java.math.BigDecimal
 
 /**

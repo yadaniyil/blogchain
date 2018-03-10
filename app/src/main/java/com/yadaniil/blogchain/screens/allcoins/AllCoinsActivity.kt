@@ -2,14 +2,11 @@ package com.yadaniil.blogchain.screens.allcoins
 
 import android.arch.lifecycle.Observer
 import android.os.Bundle
+import android.os.Handler
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.MobileAds
 import com.miguelcatalan.materialsearchview.MaterialSearchView
 import com.yadaniil.blogchain.R
 import com.yadaniil.blogchain.data.db.models.CoinEntity
@@ -19,38 +16,40 @@ import com.yadaniil.blogchain.screens.base.CoinLongClickListener
 import com.yadaniil.blogchain.utils.DateHelper
 import com.yadaniil.blogchain.utils.ListHelper
 import com.yadaniil.blogchain.utils.Navigator
-import io.objectbox.android.ObjectBoxLiveData
+import com.yadaniil.blogchain.utils.visible
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.appbar_with_search_and_update_time.*
+import kotlinx.android.synthetic.main.loading_error_layout.*
 import kotlinx.android.synthetic.main.no_items_filtered_layout.*
-import kotlinx.android.synthetic.main.no_items_layout.*
-import org.jetbrains.anko.onClick
-import org.jetbrains.anko.toast
+import kotlinx.android.synthetic.main.progress_bar_loading_layout.*
+import org.jetbrains.anko.design.longSnackbar
+import org.jetbrains.anko.find
+import org.jetbrains.anko.sdk25.listeners.onClick
 import org.koin.android.architecture.ext.viewModel
 import java.util.*
 
-
+// TODO Search view
+// TODO reactive last update
+// TODO Sorting
+// TODO Fix updating coins. PAC remained on third rank after cmc shifted it down
 class AllCoinsActivity : BaseActivity(), CoinClickListener, CoinLongClickListener {
 
     private val viewModel by viewModel<AllCoinsViewModel>()
-
     private var sortMenuItem: MenuItem? = null
 
-//    private lateinit var listDivider: RecyclerView.ItemDecoration
     private lateinit var allCoinsAdapter: AllCoinsAdapter
 
-    // region Activity
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        listDivider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         initSearchView()
         initRetryRefreshButton()
         initSwipeRefresh()
         initCurrenciesList()
         initLastUpdateTime()
-        updateList(viewModel.getAllCoinsFromDbLiveData())
 
-        viewModel.downloadAndSaveAllCurrencies()
-        initAdMobBanner()
+        observeViewState()
+        observeSnackbar()
+        viewModel.downloadAndSaveAllCurrencies(runSwipeToRefresh = true)
     }
 
     override fun onBackPressed() {
@@ -77,37 +76,22 @@ class AllCoinsActivity : BaseActivity(), CoinClickListener, CoinLongClickListene
 //                    allCoinsAdapter,
 //                    { colorSortButtonToWhite() },
 //                    { colorSortButtonToAccent() },
-//                    { updateList(AllCoinsHelper.coins) })
+//                    { observeAllCoins(AllCoinsHelper.coins) })
         }
 
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        currencies_recycler_view.adapter = null
-    }
-    // endregion Activity
-
     // region Init
     private fun initLastUpdateTime() {
-//        viewModel.updateLastCoinsUpdateTime()
-//        val minute: Long = 60 * 1000
-//        Timer().schedule(object : TimerTask() {
-//            override fun run() {
-//                runOnUiThread {
-//                    viewModel.updateLastCoinsUpdateTime()
-//                }
-//            }
-//        }, 0L, minute)
-    }
-
-    private fun initAdMobBanner() {
-        MobileAds.initialize(this, getString(R.string.admob_app_id))
-        val builder = AdRequest.Builder()
-                .addTestDevice(getString(R.string.admob_test_device))
-                .build()
-        adView.loadAd(builder)
+        val minute: Long = 60 * 1000
+        Timer().schedule(object : TimerTask() {
+            override fun run() {
+                runOnUiThread {
+                    showLastCoinsUpdateTime(viewModel.getLastCoinsUpdateTime())
+                }
+            }
+        }, 0L, minute)
     }
 
     private fun initSearchView() {
@@ -115,9 +99,18 @@ class AllCoinsActivity : BaseActivity(), CoinClickListener, CoinLongClickListene
             override fun onQueryTextSubmit(query: String?) = true
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                updateList(viewModel.getAllCoinsFilteredLiveData(newText ?: ""))
-
+                observeCoins(newText ?: "")
                 return true
+            }
+        })
+
+        search_view.setOnSearchViewListener(object : MaterialSearchView.SearchViewListener {
+            override fun onSearchViewClosed() {
+                observeCoins()
+            }
+
+            override fun onSearchViewShown() {
+                observeCoins()
             }
         })
     }
@@ -137,45 +130,90 @@ class AllCoinsActivity : BaseActivity(), CoinClickListener, CoinLongClickListene
 
     private fun initCurrenciesList() {
         allCoinsAdapter = AllCoinsAdapter(this, this, this)
-
         currencies_recycler_view.layoutManager = LinearLayoutManager(this)
         currencies_recycler_view.adapter = allCoinsAdapter
-        currencies_recycler_view.itemAnimator = null
-        currencies_recycler_view.setHasFixedSize(true)
-        currencies_recycler_view.setItemViewCacheSize(200)
-        currencies_recycler_view.isDrawingCacheEnabled = true
-        currencies_recycler_view.drawingCacheQuality = View.DRAWING_CACHE_QUALITY_AUTO
-//        currencies_recycler_view.removeItemDecoration(listDivider)
         currencies_recycler_view.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
+        if (AllCoinsHelper.coins.isNotEmpty()) allCoinsAdapter.setCoins(AllCoinsHelper.coins)
     }
     // endregion Init
 
     // region View
     override fun getLayout() = R.layout.activity_main
 
-    fun showToolbarLoading() = smooth_progress_bar.progressiveStart()
-    fun stopToolbarLoading() = smooth_progress_bar.progressiveStop()
-    fun showLoadingError() {
-        downloading_label.visibility = View.GONE
-        progress_bar.visibility = View.GONE
-
-        error_image.visibility = View.VISIBLE
-        error_message.visibility = View.VISIBLE
-        retry_button.visibility = View.VISIBLE
+    private fun observeViewState() {
+        viewModel.viewState.observe(this, Observer {
+            it?.let {
+                when (it) {
+                    is ProgressBarLoadingViewState -> showProgressBarLoading()
+                    is LoadingErrorViewState -> showLoadingError()
+                    is SwipeRefreshLoadingViewState -> showSwipeRefreshLoading()
+                    is StopSwipeRefreshLoadingViewState -> stopSwipeRefreshLoading()
+                    is CoinsShowingViewState -> showCoinsList()
+                }
+            }
+        })
     }
 
-    fun showLoading() {
-        downloading_label.visibility = View.VISIBLE
-        progress_bar.visibility = View.VISIBLE
-
-        error_image.visibility = View.GONE
-        error_message.visibility = View.GONE
-        retry_button.visibility = View.GONE
+    private fun observeSnackbar() {
+        viewModel.snackbarMessage.observe(this, Observer {
+            it?.let {
+                when (it) {
+                    R.string.update_error -> {
+                        longSnackbar(find(R.id.all_coins_container), it, R.string.retry, {
+                            viewModel.downloadAndSaveAllCurrencies(runSwipeToRefresh = true)
+                        }).show()
+                    }
+                }
+            }
+        })
     }
 
-    fun hideSwipeRefreshLoading() {
+    private fun observeCoins(searchQuery: String? = null) {
+        viewModel.getCoinsLiveData(searchQuery).removeObservers(this)
+        viewModel.getCoinsLiveData(searchQuery).observe(this, Observer {
+            it?.let { allCoinsAdapter.setCoins(it) }
+        })
+    }
+
+    private fun showProgressBarLoading() {
+        stopSwipeRefreshLoading()
+        swipe_refresh.visible = false
+        no_items_filtered_layout.visible = false
+        loading_error_layout.visible = false
+
+        progress_bar_loading_layout.visible = true
+    }
+
+    private fun showLoadingError() {
+        stopSwipeRefreshLoading()
+        swipe_refresh.visible = false
+        progress_bar_loading_layout.visible = false
+        no_items_filtered_layout.visible = false
+
+        loading_error_layout.visible = true
+    }
+
+    private fun showSwipeRefreshLoading() {
+        progress_bar_loading_layout.visible = false
+        no_items_filtered_layout.visible = false
+        loading_error_layout.visible = false
+
+        swipe_refresh.visible = true
+        swipe_refresh.isRefreshing = true
+    }
+
+    private fun showCoinsList() {
+        progress_bar_loading_layout.visible = false
+        no_items_filtered_layout.visible = false
+        loading_error_layout.visible = false
+
+        swipe_refresh.visible = true
+    }
+
+    private fun stopSwipeRefreshLoading() {
+        // 200 ms delay is used to escape swipe to refresh lags due to huge list update (1500+ items)
         if (swipe_refresh.isRefreshing)
-            swipe_refresh.isRefreshing = false
+            Handler().postDelayed({ swipe_refresh.isRefreshing = false }, 200)
     }
 
     override fun onClick(holder: ListHelper.CoinViewHolder, coinEntity: CoinEntity) {
@@ -184,11 +222,8 @@ class AllCoinsActivity : BaseActivity(), CoinClickListener, CoinLongClickListene
     }
 
     override fun onLongClick(holder: ListHelper.CoinViewHolder, coinEntity: CoinEntity) {
-        toast("Not implemented")
-    }
 
-    fun onCurrencyAddedToFavourite(currency: CoinEntity) =
-            toast("${currency.symbol} ${getString(R.string.is_now_in_watchlist)}")
+    }
 
     fun showLastCoinsUpdateTime(lastCoinsUpdateTime: Long) {
         val text = if (lastCoinsUpdateTime == 0L)
@@ -197,30 +232,6 @@ class AllCoinsActivity : BaseActivity(), CoinClickListener, CoinLongClickListene
             "${getString(R.string.last_update)}: ${DateHelper.getTimeAgo(Date(lastCoinsUpdateTime), this)}"
 
         last_update_time.text = text
-    }
-
-    private fun updateList(coins: ObjectBoxLiveData<CoinEntity>) {
-        coins.observe(this, Observer {
-            it?.let {
-                if (it.isNotEmpty()) {
-                    no_items_layout.visibility = View.GONE
-                    swipe_refresh.visibility = View.VISIBLE
-                    no_items_filtered_layout.visibility = View.GONE
-                } else {
-                    if (search_view.isSearchOpen) {
-                        no_items_layout.visibility = View.GONE
-                        swipe_refresh.visibility = View.GONE
-                        no_items_filtered_layout.visibility = View.VISIBLE
-                    } else {
-                        no_items_filtered_layout.visibility = View.GONE
-                        no_items_layout.visibility = View.VISIBLE
-                        swipe_refresh.visibility = View.GONE
-                    }
-                }
-                allCoinsAdapter.setCoins(it)
-            }
-        })
-
     }
 
     private fun colorSortButtonToWhite() {

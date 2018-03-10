@@ -39,7 +39,7 @@
         android:id="@+id/coins_list">
     </android.support.v7.widget.RecyclerView>
 
-    <include layout="@layout/no_items_layout"/>
+    <include layout="@layout/loading_error_layout"/>
     <include layout="@layout/no_items_filtered_layout"/>
 
 </LinearLayout>

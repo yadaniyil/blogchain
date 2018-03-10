@@ -20,9 +20,10 @@ import com.yalantis.filter.listener.FilterListener
 import com.yalantis.filter.widget.Filter
 import com.yalantis.filter.widget.FilterItem
 import kotlinx.android.synthetic.main.fragment_miners.*
-import kotlinx.android.synthetic.main.no_items_layout.*
+import kotlinx.android.synthetic.main.loading_error_layout.*
+import kotlinx.android.synthetic.main.progress_bar_loading_layout.*
 import org.jetbrains.anko.find
-import org.jetbrains.anko.onClick
+import org.jetbrains.anko.sdk25.listeners.onClick
 import org.koin.android.architecture.ext.viewModel
 import timber.log.Timber
 import kotlin.properties.Delegates
@@ -181,11 +182,11 @@ class MinersFragment : Fragment(), MinerItemClickListener {
                 if(minersAdapter.itemCount > 0) {
                     miners_list.visibility = View.VISIBLE
                     activity?.find<Filter<MinerFilterTag>>(R.id.filter)?.visibility = View.VISIBLE
-                    no_items_layout.visibility = View.GONE
+                    loading_error_layout.visibility = View.GONE
                 } else {
                     miners_list.visibility = View.GONE
                     activity?.find<Filter<MinerFilterTag>>(R.id.filter)?.visibility = View.INVISIBLE
-                    no_items_layout.visibility = View.VISIBLE
+                    loading_error_layout.visibility = View.VISIBLE
                 }
             }
         })

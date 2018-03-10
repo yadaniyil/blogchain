@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.AppBarLayout
+    android:id="@+id/appBar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:theme="@style/AppTheme.AppBarOverlay"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <FrameLayout
+        android:id="@+id/toolbar_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_scrollFlags="scroll|enterAlways">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary" />
+
+        <com.miguelcatalan.materialsearchview.MaterialSearchView
+            android:id="@+id/search_view"
+            style="@style/DarkMaterialSearchView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </FrameLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/half_standard_dimen"
+        android:paddingStart="@dimen/half_standard_dimen"
+        android:paddingEnd="@dimen/half_standard_dimen"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:id="@+id/last_update_time"
+        android:text="Last update: Never"/>
+</android.support.design.widget.AppBarLayout>

@@ -16,11 +16,11 @@ import com.yadaniil.blogchain.data.api.models.whattomine.MiningCoinResponse
 import com.yadaniil.blogchain.utils.CryptocurrencyHelper
 import com.yadaniil.blogchain.utils.UiHelper
 import kotlinx.android.synthetic.main.fragment_calculator.*
-import kotlinx.android.synthetic.main.no_items_layout.*
+import kotlinx.android.synthetic.main.loading_error_layout.*
 import kotlinx.android.synthetic.main.profit_table.*
-import org.jetbrains.anko.enabled
-import org.jetbrains.anko.onClick
-import org.jetbrains.anko.textChangedListener
+import kotlinx.android.synthetic.main.progress_bar_loading_layout.*
+import org.jetbrains.anko.sdk25.listeners.textChangedListener
+import org.jetbrains.anko.sdk25.listeners.onClick
 import org.jetbrains.anko.toast
 import org.koin.android.architecture.ext.viewModel
 import java.math.BigDecimal
@@ -98,7 +98,7 @@ class CalculatorFragment : Fragment() {
     // region View
     fun initCalculatorView(coins: List<MiningCoin>) {
         calculator_view.visibility = View.VISIBLE
-        no_items_layout.visibility = View.GONE
+        loading_error_layout.visibility = View.GONE
 
         val coinsForDisplay = coins.map { "${it.name} (${it.tag})" }
         val adapter = ArrayAdapter(activity,
@@ -116,7 +116,7 @@ class CalculatorFragment : Fragment() {
     }
 
     private fun initActiveCalculateButton() {
-        calculate_button.enabled = true
+        calculate_button.isEnabled = true
         calculate_button.background.colorFilter = null
         calculate_button.onClick {
             viewModel.calculateTable(
@@ -129,7 +129,7 @@ class CalculatorFragment : Fragment() {
     }
 
     private fun initDisabledCalculateButton() {
-        calculate_button.enabled = false
+        calculate_button.isEnabled = false
         calculate_button.background.setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_IN)
     }
 
@@ -167,7 +167,7 @@ class CalculatorFragment : Fragment() {
     }
 
     fun showLoading() {
-        no_items_layout.visibility = View.VISIBLE
+        loading_error_layout.visibility = View.VISIBLE
         downloading_label.visibility = View.VISIBLE
         progress_bar.visibility = View.VISIBLE
 
@@ -178,7 +178,7 @@ class CalculatorFragment : Fragment() {
     }
 
     fun showError() {
-        no_items_layout.visibility = View.VISIBLE
+        loading_error_layout.visibility = View.VISIBLE
         downloading_label.visibility = View.GONE
         progress_bar.visibility = View.GONE
 

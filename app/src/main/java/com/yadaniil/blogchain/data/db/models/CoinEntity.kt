@@ -22,6 +22,7 @@ data class CoinEntity(
         var marketCapUsd: Double = 0.0,
         var availableSupply: Double = 0.0,
         var totalSupply: Double = 0.0,
+        var maxSupply: Double = 0.0,
         var percentChange1h: Double = 0.0,
         var percentChange24h: Double = 0.0,
         var percentChange7d: Double = 0.0,

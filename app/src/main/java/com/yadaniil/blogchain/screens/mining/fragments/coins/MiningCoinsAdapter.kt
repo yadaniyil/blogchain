@@ -14,7 +14,7 @@ import com.yadaniil.blogchain.data.db.models.CoinEntity
 import com.yadaniil.blogchain.utils.AmountFormatter
 import com.yadaniil.blogchain.utils.ImageLoader
 import org.jetbrains.anko.find
-import org.jetbrains.anko.onClick
+import org.jetbrains.anko.sdk25.listeners.onClick
 import java.math.BigDecimal
 import kotlin.properties.Delegates
 

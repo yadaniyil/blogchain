@@ -25,6 +25,7 @@ import com.yadaniil.blogchain.screens.mining.fragments.miners.MinersViewModel
 import com.yadaniil.blogchain.screens.news.NewsViewModel
 import com.yadaniil.blogchain.screens.portfolio.PortfolioViewModel
 import com.yadaniil.blogchain.screens.portfolio.addcoin.AddToPortfolioViewModel
+import com.yadaniil.blogchain.screens.splash.SplashViewModel
 import com.yadaniil.blogchain.screens.watchlist.WatchlistViewModel
 import com.yadaniil.blogchain.utils.Endpoints
 import io.objectbox.BoxStore
@@ -57,6 +58,7 @@ val dbModule = applicationContext {
     bean { SharedPrefs(get()) }
     bean {
         AppDbHelper(
+                get(),
                 get<BoxStore>().boxFor(CoinEntity::class.java),
                 get<BoxStore>().boxFor(PortfolioCoinEntity::class.java)
         )
@@ -65,6 +67,7 @@ val dbModule = applicationContext {
 }
 
 val viewModelModule = applicationContext {
+        viewModel { SplashViewModel(get()) }
         viewModel { AllCoinsViewModel(get()) }
         viewModel { ConverterViewModel(get()) }
         viewModel { EventsViewModel(get()) }

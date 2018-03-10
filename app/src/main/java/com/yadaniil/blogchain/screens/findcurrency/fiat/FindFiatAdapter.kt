@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import com.yadaniil.blogchain.R
 import com.yadaniil.blogchain.utils.ListHelper
-import org.jetbrains.anko.onClick
+import org.jetbrains.anko.sdk25.listeners.onClick
 
 
 /**

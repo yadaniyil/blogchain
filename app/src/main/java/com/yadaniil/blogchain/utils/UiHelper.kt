@@ -3,6 +3,7 @@ package com.yadaniil.blogchain.utils
 import android.content.Context
 import android.os.Build
 import android.support.v4.app.FragmentActivity
+import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import com.rengwuxian.materialedittext.MaterialEditText
@@ -40,3 +41,9 @@ object UiHelper {
         editText.filters = arrayOf(AmountInputFilter(20, 8))
     }
 }
+
+var View.visible: Boolean
+    get() = visibility == View.VISIBLE
+    set(value) {
+        visibility = if(value) View.VISIBLE else View.GONE
+    }
